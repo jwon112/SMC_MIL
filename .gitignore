@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+**/.DS_Store
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebooks
+notebooks/
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Project specific
+results/
+*.h5
+*.pt
+*.pth
+*.ckpt
+*.checkpoint
+*.log
+*.csv
+!dataset_csv/*.csv
+!presets/*.csv
+!splits/**/*.csv
+!heatmaps/process_lists/*.csv
+
+# Data directories (uncomment if you don't want to track data)
+# data/
+# datasets/
+# slides/
+# masks/
+# patches/
+# stitches/
+# features/
