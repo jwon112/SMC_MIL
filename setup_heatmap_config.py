@@ -109,6 +109,8 @@ def create_config_file(config_path, data_dir, ckpt_path, process_list_path,
             'blur': False,
             'use_center_shift': True,
             'use_roi': False,
+            # 기본적으로 조직 영역만 자동 crop 하도록 설정
+            'auto_tissue_roi': True,
             'calc_heatmap': True,
             'binarize': False,
             'binary_thresh': -1,

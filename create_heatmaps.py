@@ -209,11 +209,14 @@ if __name__ == '__main__':
         os.makedirs(r_slide_save_dir, exist_ok=True)
 
         if heatmap_args.use_roi:
+            # 사용자가 CSV에서 직접 지정한 ROI(x1, x2, y1, y2)를 사용하는 경우
             x1, x2 = process_stack.loc[i, 'x1'], process_stack.loc[i, 'x2']
             y1, y2 = process_stack.loc[i, 'y1'], process_stack.loc[i, 'y2']
             top_left = (int(x1), int(y1))
             bot_right = (int(x2), int(y2))
         else:
+            # 기본값: 전체 슬라이드를 대상으로 하고, 필요 시 이후 단계에서
+            # auto_tissue_roi 옵션을 통해 조직 영역으로 자동 crop
             top_left = None
             bot_right = None
         
@@ -263,6 +266,31 @@ if __name__ == '__main__':
         print('Initializing WSI object')
         wsi_object = initialize_wsi(slide_path, seg_mask_path=mask_file, seg_params=seg_params, filter_params=filter_params)
         print('Done!')
+
+        # auto_tissue_roi 옵션이 켜져 있고, (수동 ROI가 없는 경우에만)
+        # 조직 contour의 bounding box를 사용해 ROI를 자동으로 설정
+        if getattr(heatmap_args, 'auto_tissue_roi', False) and (top_left is None or bot_right is None):
+            if wsi_object.contours_tissue is not None and len(wsi_object.contours_tissue) > 0:
+                all_coords = []
+                for contour in wsi_object.contours_tissue:
+                    # contour shape: (N, 1, 2) 또는 (N, 2)
+                    if len(contour.shape) == 3:
+                        coords = contour.reshape(-1, 2)
+                    else:
+                        coords = contour
+                    all_coords.append(coords)
+
+                all_coords = np.vstack(all_coords)
+                min_coords = all_coords.min(axis=0).astype(int)
+                max_coords = all_coords.max(axis=0).astype(int)
+
+                # 약간의 여백(5%)을 추가하여 crop 영역이 너무 타이트하지 않도록 함
+                margin = ((max_coords - min_coords) * 0.05).astype(int)
+                top_left = tuple((min_coords - margin).clip(0))
+                bot_right = tuple((max_coords + margin))
+
+                print(f'Auto-calculated tissue bounding box: top_left={top_left}, bot_right={bot_right}')
+                print(f'Tissue region size: {bot_right[0] - top_left[0]} x {bot_right[1] - top_left[1]}')
 
         wsi_ref_downsample = wsi_object.level_downsamples[patch_args.patch_level]
 

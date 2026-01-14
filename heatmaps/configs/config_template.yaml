@@ -62,6 +62,9 @@ heatmap_arguments:
   use_center_shift: true
   # whether to only compute heatmap for ROI specified by x1, x2, y1, y2
   use_roi: false 
+  # whether to automatically crop heatmap to the tissue bounding box (ignores background glass);
+  # only used when use_roi is false
+  auto_tissue_roi: false
   # whether to calculate heatmap with specified overlap (by default, coarse heatmap without overlap is always calculated)
   calc_heatmap: true
   # whether to binarize attention scores

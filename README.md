@@ -28,6 +28,32 @@ CLAM <img src="docs/clam-logo.png" width="280px" align="right" />
 
 **2021년 3월 1일 업데이트**: README가 기본적으로 새로운 더 빠른 파이프라인을 사용하도록 업데이트되었습니다. 여전히 이전 파이프라인을 사용하려면 [이전 파이프라인 가이드](docs/README_old.md)를 참조하세요. 조직 패치를 저장하므로 훨씬 느리고 많은 저장 공간을 차지하지만 특성 임베딩 대신 원본 이미지 패치로 작업해야 하는 경우 여전히 유용할 수 있습니다.
 
+## 이 리포지터리의 로컬 변경 사항
+
+이 저장소는 원본 CLAM 코드베이스를 그대로 가져온 뒤, 다음과 같은 **호환성/편의성 중심 수정**을 추가로 적용한 버전입니다.
+
+- **훈련 및 환경 호환성**
+  - **NumPy 2.0 대응**: `utils/core_utils.py`의 `EarlyStopping`에서 `np.Inf` → `np.inf`로 수정해 NumPy 2.0 환경에서 학습이 중단되지 않도록 했습니다.
+  - **DataLoader shared memory 에러 방지**: `utils/utils.py`의 `get_split_loader` 및 히트맵용 `compute_from_patches` 내부에서 PyTorch `DataLoader`의 `num_workers`를 GPU일 때 `0`으로 설정해 `/dev/shm` 부족으로 인한 `Bus error`를 방지했습니다.
+
+- **CAMELYON16 실험 설정 관련 수정**
+  - **task_3_camelyon16_binary / task_4_camelyon16_multiclass**에서 `main.py`가 `--data_root_dir` 아래에 또 한 번 하드코딩된 `camelyon16_features`를 붙이던 동작을 제거하고, 사용자가 넘긴 `--data_root_dir`를 그대로 feature 디렉토리로 사용하도록 변경했습니다.  
+    - 예: `--data_root_dir ./data/features` → 내부에서 추가 조인 없이 바로 `./data/features`를 사용.
+
+- **히트맵/시각화 파이프라인 개선**
+  - **자동 설정 스크립트 추가**: `setup_heatmap_config.py`를 새로 작성해,  
+    - WSI 디렉토리 스캔 → `heatmaps/process_lists/*.csv` 생성,  
+    - 훈련된 체크포인트 탐색 → `heatmaps/configs/*.yaml` 자동 생성,  
+    - 사용자가 최소한의 인자만으로 `create_heatmaps.py`를 실행할 수 있도록 했습니다.
+  - **조직 영역만 crop하는 옵션 추가**:
+    - `heatmaps/configs/config_template.yaml` 및 생성 스크립트에 `auto_tissue_roi` 옵션을 추가했습니다.  
+    - `use_roi=False`일 때, `create_heatmaps.py`가 `wsi_object.contours_tissue`의 bounding box를 자동 계산해 **유리 배경을 제외한 조직 영역만을 대상으로 heatmap을 생성**합니다.
+  - **대형 슬라이드/히트맵 처리 안정화**:
+    - 히트맵 생성 시 DataLoader `num_workers=0` 적용으로 메모리 사용을 줄이고,  
+    - attention 점수 → percentile 변환 부분을 NumPy 2.0/SciPy와 호환되도록 벡터화해 대형 슬라이드에서도 안정적으로 동작하도록 수정했습니다.
+
+원본 CLAM 사용법(설치, 패칭, 특성 추출, 학습/평가, 히트맵 시각화 등)은 아래 설명과 동일하게 유지되며, 위 변경 사항들은 주로 **실제 연구 환경(SMC/ABMIL 세팅)에서의 안정성·편의성 향상**을 위한 패치입니다.
+
 ## 설치:
 시작하는 방법에 대한 자세한 지침은 [설치 가이드](docs/INSTALLATION.md)를 참조하세요.
 
