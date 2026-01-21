@@ -14,7 +14,7 @@ from tqdm import tqdm
 import numpy as np
 
 from utils.file_utils import save_hdf5
-from dataset_modules.dataset_h5 import Dataset_All_Bags, Whole_Slide_Bag, get_eval_transforms
+from dataset_modules.dataset_h5 import Dataset_All_Bags, Whole_Slide_Bag
 from models import get_encoder
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
