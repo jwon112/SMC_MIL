@@ -83,10 +83,14 @@ class Whole_Slide_Bag_FP(Dataset):
 	def __getitem__(self, idx):
 		with h5py.File(self.file_path,'r') as hdf5_file:
 			coord = hdf5_file['coords'][idx]
-		img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
-
-		img = self.roi_transforms(img)
-		return {'img': img, 'coord': coord}
+		
+		# 원본 PIL 이미지 (blur 계산용)
+		img_pil = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
+		
+		# encoder 입력용 tensor
+		img_tensor = self.roi_transforms(img_pil)
+		
+		return {'img': img_tensor, 'coord': coord, 'img_pil': img_pil}
 
 class Dataset_All_Bags(Dataset):
 

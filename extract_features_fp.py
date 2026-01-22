@@ -18,15 +18,19 @@ import numpy as np
 from utils.file_utils import save_hdf5
 from dataset_modules.dataset_h5 import Dataset_All_Bags, Whole_Slide_Bag_FP
 from models import get_encoder
+from utils.blur_utils import blur_score_laplacian
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
-def compute_w_loader(output_path, loader, model, verbose = 0):
+def compute_w_loader(output_path, loader, model, verbose = 0, blur_mode='none', blur_thr=None, blur_downsample=2):
 	"""
 	args:
 		output_path: directory to save computed features (.h5 file)
 		model: pytorch model
 		verbose: level of feedback
+		blur_mode: 'none' or 'drop' - blur filtering mode
+		blur_thr: blur threshold (patches with score < threshold will be dropped)
+		blur_downsample: downsample factor for blur computation
 	"""
 	if verbose > 0:
 		print(f'processing a total of {len(loader)} batches'.format(len(loader)))
@@ -36,8 +40,27 @@ def compute_w_loader(output_path, loader, model, verbose = 0):
 		with torch.inference_mode():	
 			batch = data['img']
 			coords = data['coord'].numpy().astype(np.int32)
+			img_pils = data['img_pil']  # PIL images for blur computation
+
+			# Blur filtering (drop mode)
+			if blur_mode == 'drop' and blur_thr is not None:
+				blur_scores = []
+				for pil in img_pils:
+					score = blur_score_laplacian(pil, downsample=blur_downsample)
+					blur_scores.append(score)
+
+				blur_scores = np.array(blur_scores, dtype=np.float32)
+				keep_mask = blur_scores >= blur_thr
+				
+				# Skip batch if all patches are blurry
+				if keep_mask.sum() == 0:
+					continue
+
+				# Filter out blurry patches
+				batch = batch[keep_mask]
+				coords = coords[keep_mask]
+
 			batch = batch.to(device, non_blocking=True)
-			
 			features = model(batch)
 			features = features.cpu().numpy().astype(np.float32)
 
@@ -58,6 +81,12 @@ parser.add_argument('--model_name', type=str, default='resnet50_trunc', choices=
 parser.add_argument('--batch_size', type=int, default=256)
 parser.add_argument('--no_auto_skip', default=False, action='store_true')
 parser.add_argument('--target_patch_size', type=int, default=224)
+parser.add_argument('--blur_mode', type=str, default='none', choices=['none', 'drop'],
+					help='Blur filtering mode: none (no filtering) or drop (remove blurry patches)')
+parser.add_argument('--blur_thr', type=float, default=None,
+					help='Blur threshold. Patches with blur score < threshold will be dropped (only used when --blur_mode=drop)')
+parser.add_argument('--blur_downsample', type=int, default=2,
+					help='Downsample factor for blur computation (default: 2)')
 args = parser.parse_args()
 
 
@@ -102,7 +131,15 @@ if __name__ == '__main__':
 									 img_transforms=img_transforms)
 
 		loader = DataLoader(dataset=dataset, batch_size=args.batch_size, **loader_kwargs)
-		output_file_path = compute_w_loader(output_path, loader = loader, model = model, verbose = 1)
+		output_file_path = compute_w_loader(
+			output_path, 
+			loader=loader, 
+			model=model, 
+			verbose=1,
+			blur_mode=args.blur_mode,
+			blur_thr=args.blur_thr,
+			blur_downsample=args.blur_downsample
+		)
 
 		time_elapsed = time.time() - time_start
 		print('\ncomputing features for {} took {} s'.format(output_file_path, time_elapsed))
