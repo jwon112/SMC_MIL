@@ -22,6 +22,22 @@ from utils.blur_utils import blur_score_laplacian
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
+def custom_collate_fn(batch):
+	"""Custom collate function to handle PIL Images."""
+	from torch.utils.data._utils.collate import default_collate
+	
+	# Separate PIL images from other data
+	img_pils = [item['img_pil'] for item in batch]
+	
+	# Use default collate for the rest
+	other_data = [{'img': item['img'], 'coord': item['coord']} for item in batch]
+	collated = default_collate(other_data)
+	
+	# Add PIL images as a list (not collated)
+	collated['img_pil'] = img_pils
+	
+	return collated
+
 def compute_w_loader(output_path, loader, model, verbose = 0, blur_mode='none', blur_thr=None, blur_downsample=2):
 	"""
 	args:
@@ -130,7 +146,8 @@ if __name__ == '__main__':
 							   		 wsi=wsi, 
 									 img_transforms=img_transforms)
 
-		loader = DataLoader(dataset=dataset, batch_size=args.batch_size, **loader_kwargs)
+		# Use custom collate function to handle PIL Images (dataset always returns img_pil)
+		loader = DataLoader(dataset=dataset, batch_size=args.batch_size, collate_fn=custom_collate_fn, **loader_kwargs)
 		output_file_path = compute_w_loader(
 			output_path, 
 			loader=loader, 
