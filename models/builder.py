@@ -9,6 +9,8 @@ from huggingface_hub import hf_hub_download
 
 # UNI 체크포인트 저장 경로
 UNI_CKPT_DIR = os.path.join(os.path.dirname(__file__), '..', 'assets', 'ckpts', 'uni')
+UNI2_H_CKPT_DIR = os.path.join(os.path.dirname(__file__), '..', 'assets', 'ckpts', 'uni2_h')
+UNI2_L_CKPT_DIR = os.path.join(os.path.dirname(__file__), '..', 'assets', 'ckpts', 'uni2_l')
 
 def has_CONCH():
     HAS_CONCH = False
@@ -27,7 +29,7 @@ def has_CONCH():
     return HAS_CONCH, CONCH_CKPT_PATH
 
 def get_UNI_ckpt_path():
-    """UNI 체크포인트 경로 반환. 없으면 HuggingFace에서 자동 다운로드."""
+    """UNI v1 체크포인트 경로 반환. 없으면 HuggingFace에서 자동 다운로드."""
     # 환경변수가 설정되어 있으면 우선 사용
     if 'UNI_CKPT_PATH' in os.environ:
         return os.environ['UNI_CKPT_PATH']
@@ -37,13 +39,47 @@ def get_UNI_ckpt_path():
     ckpt_path = os.path.join(UNI_CKPT_DIR, 'pytorch_model.bin')
     
     if not os.path.exists(ckpt_path):
-        print('UNI checkpoint not found. Downloading from HuggingFace...')
+        print('UNI v1 checkpoint not found. Downloading from HuggingFace...')
         hf_hub_download(
             repo_id="MahmoodLab/UNI",
             filename="pytorch_model.bin",
             local_dir=UNI_CKPT_DIR
         )
-        print(f'UNI checkpoint downloaded to {ckpt_path}')
+        print(f'UNI v1 checkpoint downloaded to {ckpt_path}')
+    
+    return ckpt_path
+
+def get_UNI2_ckpt_path(variant='h'):
+    """UNI v2 체크포인트 경로 반환. 없으면 HuggingFace에서 자동 다운로드.
+    
+    Args:
+        variant: 'h' for ViT-H (larger, better), 'l' for ViT-L (same size as v1)
+    """
+    if variant == 'h':
+        ckpt_dir = UNI2_H_CKPT_DIR
+        repo_id = "MahmoodLab/UNI2-h"
+        env_var = 'UNI2_H_CKPT_PATH'
+    else:
+        ckpt_dir = UNI2_L_CKPT_DIR
+        repo_id = "MahmoodLab/UNI2-l"
+        env_var = 'UNI2_L_CKPT_PATH'
+    
+    # 환경변수가 설정되어 있으면 우선 사용
+    if env_var in os.environ:
+        return os.environ[env_var]
+    
+    # 없으면 자동 다운로드
+    os.makedirs(ckpt_dir, exist_ok=True)
+    ckpt_path = os.path.join(ckpt_dir, 'pytorch_model.bin')
+    
+    if not os.path.exists(ckpt_path):
+        print(f'UNI v2-{variant} checkpoint not found. Downloading from HuggingFace...')
+        hf_hub_download(
+            repo_id=repo_id,
+            filename="pytorch_model.bin",
+            local_dir=ckpt_dir
+        )
+        print(f'UNI v2-{variant} checkpoint downloaded to {ckpt_path}')
     
     return ckpt_path
         
@@ -60,6 +96,26 @@ def get_encoder(model_name, target_img_size=224):
                             num_classes=0, 
                             dynamic_img_size=True)
         model.load_state_dict(torch.load(uni_ckpt_path, map_location="cpu"), strict=True)
+    elif model_name == 'uni_v2':
+        # UNI v2 ViT-H (default, better performance)
+        uni2_ckpt_path = get_UNI2_ckpt_path(variant='h')
+        model = timm.create_model("vit_huge_patch14_224",
+                            img_size=224,
+                            patch_size=14,
+                            init_values=1e-5, 
+                            num_classes=0, 
+                            dynamic_img_size=True)
+        model.load_state_dict(torch.load(uni2_ckpt_path, map_location="cpu"), strict=True)
+    elif model_name == 'uni_v2_l':
+        # UNI v2 ViT-L (same size as v1, faster)
+        uni2_ckpt_path = get_UNI2_ckpt_path(variant='l')
+        model = timm.create_model("vit_large_patch16_224",
+                            img_size=224,
+                            patch_size=16,
+                            init_values=1e-5, 
+                            num_classes=0, 
+                            dynamic_img_size=True)
+        model.load_state_dict(torch.load(uni2_ckpt_path, map_location="cpu"), strict=True)
     elif model_name == 'conch_v1':
         HAS_CONCH, CONCH_CKPT_PATH = has_CONCH()
         assert HAS_CONCH, 'CONCH is not available'
