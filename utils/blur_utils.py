@@ -81,25 +81,123 @@ def profile_blur_scores(
     # CLAM process_list_autogen.csv는 보통 "slide_id" 혹은 "slide" 컬럼을 가짐
     slide_ids = df["slide_id"].astype(str).tolist() if "slide_id" in df.columns else df["slide"].astype(str).tolist()
 
+    print(f"\n{'='*60}")
+    print("Configuration Check")
+    print(f"{'='*60}")
+    print(f"CSV file: {csv_path}")
+    print(f"Total slides in CSV: {len(slide_ids)}")
+    print(f"Slide directory: {data_slide_dir}")
+    print(f"H5 directory: {os.path.join(data_h5_dir, 'patches')}")
+    print(f"Slide extension: {slide_ext}")
+    print(f"{'='*60}\n")
+
     rows = []
-    for sid in tqdm(slide_ids):
+    missing_slide_files = []
+    missing_h5_files = []
+    empty_coords = []
+    processed_slides = []
+    
+    for sid in tqdm(slide_ids, desc="Processing slides"):
         slide_path = os.path.join(data_slide_dir, sid + slide_ext)
         h5_path = os.path.join(data_h5_dir, "patches", sid + ".h5")
-        if not (os.path.exists(slide_path) and os.path.exists(h5_path)):
+        
+        # 1단계: 슬라이드 파일 확인
+        if not os.path.exists(slide_path):
+            missing_slide_files.append((sid, slide_path))
             continue
-        scores = sample_blur_scores(
-            slide_path, h5_path, patch_level=patch_level, patch_size=patch_size,
-            max_patches=max_patches_per_slide
-        )
-        for s in scores:
-            rows.append({"slide_id": sid, "blur_score": s})
+        
+        # 2단계: H5 파일 확인
+        if not os.path.exists(h5_path):
+            missing_h5_files.append((sid, h5_path))
+            continue
+        
+        # 3단계: H5 파일 내부 좌표 확인
+        try:
+            with h5py.File(h5_path, "r") as f:
+                if "coords" not in f:
+                    empty_coords.append((sid, "no 'coords' dataset"))
+                    continue
+                coords = f["coords"][:]
+                if len(coords) == 0:
+                    empty_coords.append((sid, "empty coords"))
+                    continue
+        except Exception as e:
+            empty_coords.append((sid, f"error reading H5: {e}"))
+            continue
+        
+        # 4단계: blur score 계산
+        try:
+            scores = sample_blur_scores(
+                slide_path, h5_path, patch_level=patch_level, patch_size=patch_size,
+                max_patches=max_patches_per_slide
+            )
+            if len(scores) == 0:
+                empty_coords.append((sid, "sample_blur_scores returned empty"))
+                continue
+            
+            processed_slides.append(sid)
+            for s in scores:
+                rows.append({"slide_id": sid, "blur_score": s})
+        except Exception as e:
+            print(f"\nERROR processing {sid}: {e}")
+            continue
+
+    # 상세한 진단 결과 출력
+    print(f"\n{'='*60}")
+    print("Processing Summary")
+    print(f"{'='*60}")
+    print(f"✓ Successfully processed: {len(processed_slides)} slides")
+    print(f"✗ Missing slide files: {len(missing_slide_files)}")
+    print(f"✗ Missing H5 files: {len(missing_h5_files)}")
+    print(f"✗ Empty/invalid H5 files: {len(empty_coords)}")
+    print(f"✓ Total blur scores calculated: {len(rows)}")
+    
+    if len(rows) == 0:
+        print(f"\n{'='*60}")
+        print("ERROR: No blur scores were calculated!")
+        print(f"{'='*60}")
+        
+        if missing_slide_files:
+            print(f"\n❌ Missing slide files (first 5 examples):")
+            for sid, path in missing_slide_files[:5]:
+                print(f"   - {sid}")
+                print(f"     Expected: {path}")
+            if len(missing_slide_files) > 5:
+                print(f"   ... and {len(missing_slide_files) - 5} more")
+        
+        if missing_h5_files:
+            print(f"\n❌ Missing H5 files (first 5 examples):")
+            for sid, path in missing_h5_files[:5]:
+                print(f"   - {sid}")
+                print(f"     Expected: {path}")
+            if len(missing_h5_files) > 5:
+                print(f"   ... and {len(missing_h5_files) - 5} more")
+        
+        if empty_coords:
+            print(f"\n❌ Empty/invalid H5 files (first 5 examples):")
+            for sid, reason in empty_coords[:5]:
+                print(f"   - {sid}: {reason}")
+            if len(empty_coords) > 5:
+                print(f"   ... and {len(empty_coords) - 5} more")
+        
+        print(f"\n{'='*60}")
+        print("Troubleshooting Steps:")
+        print(f"{'='*60}")
+        print(f"1. Check if slide files exist:")
+        print(f"   ls {data_slide_dir}/*{slide_ext} | head")
+        print(f"2. Check if H5 files exist:")
+        print(f"   ls {os.path.join(data_h5_dir, 'patches')}/*.h5 | head")
+        print(f"3. Verify slide IDs in CSV match file names (without extension)")
+        print(f"4. Check if H5 files contain 'coords' dataset with data")
+        print(f"{'='*60}")
+        return
 
     out = pd.DataFrame(rows)
     out.to_csv(out_csv, index=False)
-    print("Saved:", out_csv)
-    print("\n" + "="*60)
+    print(f"\n✓ Saved: {out_csv}")
+    print(f"\n{'='*60}")
     print("Blur Score Statistics")
-    print("="*60)
+    print(f"{'='*60}")
     print(out["blur_score"].describe(percentiles=[.01,.05,.1,.25,.5,.75,.9,.95,.99]))
     print("\nRecommended blur threshold values:")
     print(f"  5th percentile: {out['blur_score'].quantile(0.05):.2f}")
