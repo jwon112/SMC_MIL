@@ -59,23 +59,27 @@ def create_barplot(df, metric, output_path, title_suffix=''):
     values = df[metric].values
     stds = df[f'{metric}_std'].values if f'{metric}_std' in df.columns else None
     
-    # 막대 그래프
+    # 막대 그래프 (error bar 제거 - 숫자와 겹침 방지)
     bars = plt.bar(range(len(experiments)), values, 
-                        yerr=stds if stds is not None else None,
-                        capsize=5, alpha=0.7, edgecolor='black')
+                        alpha=0.7, edgecolor='black', linewidth=1.5)
     
-    # 막대 위에 수치값 표시
+    # 막대 위에 수치값 표시 (error bar 위로 충분히 올림)
     for i, (bar, val) in enumerate(zip(bars, values)):
         height = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width()/2., height,
+        # error bar가 있다면 그 위로, 없다면 막대 위에 여유있게
+        y_offset = stds[i] * 1.2 if stds is not None and not np.isnan(stds[i]) else height * 0.05
+        text_y = height + y_offset
+        
+        plt.text(bar.get_x() + bar.get_width()/2., text_y,
                 f'{val:.4f}',
-                ha='center', va='bottom', fontsize=10, fontweight='bold')
+                ha='center', va='bottom', fontsize=11, fontweight='bold')
     
     plt.xlabel('Experiment', fontsize=12, fontweight='bold')
     plt.ylabel(metric.replace('_', ' ').title(), fontsize=12, fontweight='bold')
     plt.title(f'{metric.replace("_", " ").title()} Comparison{title_suffix}', 
               fontsize=14, fontweight='bold')
-    plt.xticks(range(len(experiments)), experiments, rotation=45, ha='right')
+    # 실험명 가로로 배치
+    plt.xticks(range(len(experiments)), experiments, rotation=0, ha='center')
     plt.grid(axis='y', alpha=0.3, linestyle='--')
     plt.tight_layout()
     
