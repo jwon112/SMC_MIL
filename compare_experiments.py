@@ -65,9 +65,12 @@ def create_barplot(df, metric, output_path, title_suffix=''):
                      '#aec7e8', '#ffbb78']
     colors = [color_palette[i % len(color_palette)] for i in range(len(experiments))]
     
-    # 막대 그래프 (error bar 제거 - 숫자와 겹침 방지)
-    bars = plt.bar(range(len(experiments)), values, 
-                        color=colors, alpha=0.8, edgecolor='black', linewidth=1.5)
+    # 막대 그래프 (각 막대를 개별적으로 그려서 색상 확실히 적용)
+    bars = []
+    for i, (val, color) in enumerate(zip(values, colors)):
+        bar = plt.bar(i, val, color=color, alpha=0.8, 
+                     edgecolor='black', linewidth=1.5)
+        bars.extend(bar)
     
     # 막대 위에 수치값 표시 (error bar 위로 충분히 올림)
     for i, (bar, val) in enumerate(zip(bars, values)):
