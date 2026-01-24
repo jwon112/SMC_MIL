@@ -50,8 +50,14 @@ def compute_w_loader(output_path, loader, model, verbose = 0, blur_mode='none', 
 	"""
 	if verbose > 0:
 		print(f'processing a total of {len(loader)} batches'.format(len(loader)))
+		if blur_mode == 'drop' and blur_thr is not None:
+			print(f'Blur filtering enabled: threshold = {blur_thr}')
 
 	mode = 'w'
+	total_patches = 0
+	total_dropped = 0
+	skipped_batches = 0
+	
 	for count, data in enumerate(tqdm(loader)):
 		with torch.inference_mode():	
 			batch = data['img']
@@ -68,11 +74,22 @@ def compute_w_loader(output_path, loader, model, verbose = 0, blur_mode='none', 
 				blur_scores = np.array(blur_scores, dtype=np.float32)
 				keep_mask = blur_scores >= blur_thr
 				
+				original_count = len(blur_scores)
+				dropped_count = (~keep_mask).sum()
+				total_patches += original_count
+				total_dropped += dropped_count
+				
 				# Skip batch if all patches are blurry
 				if keep_mask.sum() == 0:
+					skipped_batches += 1
+					if verbose > 0 and count % 10 == 0:
+						tqdm.write(f"  Batch {count}: All patches dropped (blurry)")
 					continue
 
 				# Filter out blurry patches
+				if dropped_count > 0 and verbose > 0 and count % 10 == 0:
+					tqdm.write(f"  Batch {count}: Dropped {dropped_count}/{original_count} blurry patches")
+				
 				batch = batch[keep_mask]
 				coords = coords[keep_mask]
 
@@ -83,6 +100,17 @@ def compute_w_loader(output_path, loader, model, verbose = 0, blur_mode='none', 
 			asset_dict = {'features': features, 'coords': coords}
 			save_hdf5(output_path, asset_dict, attr_dict= None, mode=mode)
 			mode = 'a'
+	
+	# Print blur filtering statistics
+	if blur_mode == 'drop' and blur_thr is not None and verbose > 0:
+		print(f"\n{'='*60}")
+		print("Blur Filtering Statistics")
+		print(f"{'='*60}")
+		print(f"Total patches processed: {total_patches}")
+		print(f"Total patches dropped: {total_dropped} ({100*total_dropped/max(total_patches,1):.2f}%)")
+		print(f"Total patches kept: {total_patches - total_dropped} ({100*(total_patches-total_dropped)/max(total_patches,1):.2f}%)")
+		print(f"Skipped batches (all blurry): {skipped_batches}")
+		print(f"{'='*60}")
 	
 	return output_path
 
