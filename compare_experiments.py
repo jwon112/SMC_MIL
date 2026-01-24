@@ -59,8 +59,11 @@ def create_barplot(df, metric, output_path, title_suffix=''):
     values = df[metric].values
     stds = df[f'{metric}_std'].values if f'{metric}_std' in df.columns else None
     
-    # 실험마다 다른 색상 지정
-    colors = plt.cm.Set3(np.linspace(0, 1, len(experiments)))  # Set3 팔레트 사용
+    # 실험마다 다른 색상 지정 (더 명확한 색상 팔레트)
+    color_palette = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', 
+                     '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf',
+                     '#aec7e8', '#ffbb78']
+    colors = [color_palette[i % len(color_palette)] for i in range(len(experiments))]
     
     # 막대 그래프 (error bar 제거 - 숫자와 겹침 방지)
     bars = plt.bar(range(len(experiments)), values, 
