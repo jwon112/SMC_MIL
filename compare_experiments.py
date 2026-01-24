@@ -59,9 +59,12 @@ def create_barplot(df, metric, output_path, title_suffix=''):
     values = df[metric].values
     stds = df[f'{metric}_std'].values if f'{metric}_std' in df.columns else None
     
+    # 실험마다 다른 색상 지정
+    colors = plt.cm.Set3(np.linspace(0, 1, len(experiments)))  # Set3 팔레트 사용
+    
     # 막대 그래프 (error bar 제거 - 숫자와 겹침 방지)
     bars = plt.bar(range(len(experiments)), values, 
-                        alpha=0.7, edgecolor='black', linewidth=1.5)
+                        color=colors, alpha=0.8, edgecolor='black', linewidth=1.5)
     
     # 막대 위에 수치값 표시 (error bar 위로 충분히 올림)
     for i, (bar, val) in enumerate(zip(bars, values)):
