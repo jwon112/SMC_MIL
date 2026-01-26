@@ -92,13 +92,13 @@ def get_CONCH_v1_5_ckpt_path():
     
     # 없으면 자동 다운로드
     os.makedirs(CONCH_V1_5_CKPT_DIR, exist_ok=True)
-    ckpt_path = os.path.join(CONCH_V1_5_CKPT_DIR, 'pytorch_model.bin')
+    ckpt_path = os.path.join(CONCH_V1_5_CKPT_DIR, 'pytorch_model_vision.bin')
     
     if not os.path.exists(ckpt_path):
         print('CONCH v1.5 checkpoint not found. Downloading from HuggingFace...')
         hf_hub_download(
             repo_id="MahmoodLab/conchv1_5",
-            filename="pytorch_model.bin",
+            filename="pytorch_model_vision.bin",
             local_dir=CONCH_V1_5_CKPT_DIR
         )
         print(f'CONCH v1.5 checkpoint downloaded to {ckpt_path}')
