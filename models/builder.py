@@ -145,26 +145,15 @@ def get_encoder(model_name, target_img_size=224):
         model, _ = create_model_from_pretrained("conch_ViT-B-16", CONCH_CKPT_PATH)
         model.forward = partial(model.encode_image, proj_contrast=False, normalize=False)
     elif model_name == 'conch_v1_5':
-        # CONCH v1.5는 ViT-L/16 모델, CONCH v1과 유사한 방식으로 로드
-        try:
-            from conch.open_clip_custom import create_model_from_pretrained
-        except ImportError:
-            raise ImportError("Please install conch package (e.g. 'pip install git+https://github.com/Mahmoodlab/CONCH.git') to use CONCH v1.5")
-        
-        # CONCH v1.5 체크포인트 경로 가져오기 (자동 다운로드 포함)
+        # CONCH v1.5는 ViT-L/16 모델, timm으로 직접 로드
         conch_v1_5_ckpt_path = get_CONCH_v1_5_ckpt_path()
-        
-        # CONCH v1.5는 ViT-L/16 모델 (CONCH v1은 ViT-B/16)
-        # HuggingFace hub에서 직접 로드 시도
-        try:
-            # HuggingFace hub에서 직접 로드
-            model, _ = create_model_from_pretrained("conch_ViT-L-16", f"hf_hub:MahmoodLab/conchv1_5")
-        except Exception as e:
-            # 실패하면 로컬 체크포인트 사용
-            print(f"Failed to load from HuggingFace hub, trying local checkpoint: {e}")
-            model, _ = create_model_from_pretrained("conch_ViT-L-16", conch_v1_5_ckpt_path)
-        
-        model.forward = partial(model.encode_image, proj_contrast=False, normalize=False)
+        model = timm.create_model("vit_large_patch16_224",
+                            img_size=448,
+                            patch_size=16,
+                            init_values=1e-5, 
+                            num_classes=0, 
+                            dynamic_img_size=True)
+        model.load_state_dict(torch.load(conch_v1_5_ckpt_path, map_location="cpu"), strict=True)
         assert target_img_size == 448, 'CONCH v1.5 is used with 448x448 input size'
     else:
         raise NotImplementedError('model {} not implemented'.format(model_name))
