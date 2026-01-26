@@ -153,7 +153,15 @@ def get_encoder(model_name, target_img_size=224):
                             init_values=1e-5, 
                             num_classes=0, 
                             dynamic_img_size=True)
-        model.load_state_dict(torch.load(conch_v1_5_ckpt_path, map_location="cpu"), strict=True)
+        # CONCH v1.5 체크포인트는 'trunk.' 접두사가 있으므로 제거
+        checkpoint = torch.load(conch_v1_5_ckpt_path, map_location="cpu")
+        # 'trunk.' 접두사 제거 및 vision 관련 키만 필터링
+        state_dict = {}
+        for key, value in checkpoint.items():
+            if key.startswith('trunk.'):
+                new_key = key[6:]  # 'trunk.' 제거 (6글자)
+                state_dict[new_key] = value
+        model.load_state_dict(state_dict, strict=True)
         assert target_img_size == 448, 'CONCH v1.5 is used with 448x448 input size'
     else:
         raise NotImplementedError('model {} not implemented'.format(model_name))
