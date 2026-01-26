@@ -11,6 +11,7 @@ from huggingface_hub import hf_hub_download
 UNI_CKPT_DIR = os.path.join(os.path.dirname(__file__), '..', 'assets', 'ckpts', 'uni')
 UNI2_H_CKPT_DIR = os.path.join(os.path.dirname(__file__), '..', 'assets', 'ckpts', 'uni2_h')
 UNI2_L_CKPT_DIR = os.path.join(os.path.dirname(__file__), '..', 'assets', 'ckpts', 'uni2_l')
+CONCH_V1_5_CKPT_DIR = os.path.join(os.path.dirname(__file__), '..', 'assets', 'ckpts', 'conch_v1_5')
 
 def has_CONCH():
     HAS_CONCH = False
@@ -82,6 +83,27 @@ def get_UNI2_ckpt_path(variant='h'):
         print(f'UNI v2-{variant} checkpoint downloaded to {ckpt_path}')
     
     return ckpt_path
+
+def get_CONCH_v1_5_ckpt_path():
+    """CONCH v1.5 체크포인트 경로 반환. 없으면 HuggingFace에서 자동 다운로드."""
+    # 환경변수가 설정되어 있으면 우선 사용
+    if 'CONCH_V1_5_CKPT_PATH' in os.environ:
+        return os.environ['CONCH_V1_5_CKPT_PATH']
+    
+    # 없으면 자동 다운로드
+    os.makedirs(CONCH_V1_5_CKPT_DIR, exist_ok=True)
+    ckpt_path = os.path.join(CONCH_V1_5_CKPT_DIR, 'pytorch_model.bin')
+    
+    if not os.path.exists(ckpt_path):
+        print('CONCH v1.5 checkpoint not found. Downloading from HuggingFace...')
+        hf_hub_download(
+            repo_id="MahmoodLab/conchv1_5",
+            filename="pytorch_model.bin",
+            local_dir=CONCH_V1_5_CKPT_DIR
+        )
+        print(f'CONCH v1.5 checkpoint downloaded to {ckpt_path}')
+    
+    return ckpt_path
         
 def get_encoder(model_name, target_img_size=224):
     print('loading model checkpoint')
@@ -123,13 +145,27 @@ def get_encoder(model_name, target_img_size=224):
         model, _ = create_model_from_pretrained("conch_ViT-B-16", CONCH_CKPT_PATH)
         model.forward = partial(model.encode_image, proj_contrast=False, normalize=False)
     elif model_name == 'conch_v1_5':
+        # CONCH v1.5는 ViT-L/16 모델, CONCH v1과 유사한 방식으로 로드
         try:
-            from transformers import AutoModel
+            from conch.open_clip_custom import create_model_from_pretrained
         except ImportError:
-            raise ImportError("Please install huggingface transformers (e.g. 'pip install transformers') to use CONCH v1.5")
-        titan = AutoModel.from_pretrained('MahmoodLab/TITAN', trust_remote_code=True)
-        model, _ = titan.return_conch()
-        assert target_img_size == 448, 'TITAN is used with 448x448 CONCH v1.5 features'
+            raise ImportError("Please install conch package (e.g. 'pip install git+https://github.com/Mahmoodlab/CONCH.git') to use CONCH v1.5")
+        
+        # CONCH v1.5 체크포인트 경로 가져오기 (자동 다운로드 포함)
+        conch_v1_5_ckpt_path = get_CONCH_v1_5_ckpt_path()
+        
+        # CONCH v1.5는 ViT-L/16 모델 (CONCH v1은 ViT-B/16)
+        # HuggingFace hub에서 직접 로드 시도
+        try:
+            # HuggingFace hub에서 직접 로드
+            model, _ = create_model_from_pretrained("conch_ViT-L-16", f"hf_hub:MahmoodLab/conchv1_5")
+        except Exception as e:
+            # 실패하면 로컬 체크포인트 사용
+            print(f"Failed to load from HuggingFace hub, trying local checkpoint: {e}")
+            model, _ = create_model_from_pretrained("conch_ViT-L-16", conch_v1_5_ckpt_path)
+        
+        model.forward = partial(model.encode_image, proj_contrast=False, normalize=False)
+        assert target_img_size == 448, 'CONCH v1.5 is used with 448x448 input size'
     else:
         raise NotImplementedError('model {} not implemented'.format(model_name))
     
