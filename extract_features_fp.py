@@ -167,6 +167,11 @@ if __name__ == '__main__':
 			print('skipped {}'.format(slide_id))
 			continue 
 
+		# H5 패치 파일이 없으면 건너뛰기
+		if not os.path.exists(h5_file_path):
+			print('WARNING: H5 file not found: {}. Skipping...'.format(h5_file_path))
+			continue
+
 		output_path = os.path.join(args.feat_dir, 'h5_files', bag_name)
 		time_start = time.time()
 		wsi = openslide.open_slide(slide_file_path)
