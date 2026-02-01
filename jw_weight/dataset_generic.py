@@ -324,31 +324,6 @@ class Generic_MIL_Dataset(Generic_WSI_Classification_Dataset):
 	def load_from_h5(self, toggle):
 		self.use_h5 = toggle
 
-	def filter_slides_by_available_files(self, verbose=True):
-		"""Remove slides that do not have a feature file (pt or h5) so train/val/test skip them."""
-		subdir = 'h5_files' if self.use_h5 else 'pt_files'
-		ext = 'h5' if self.use_h5 else 'pt'
-		keep = []
-		for idx in range(len(self.slide_data)):
-			slide_id = self.slide_data['slide_id'].iloc[idx]
-			if type(self.data_dir) == dict:
-				source = self.slide_data['source'].iloc[idx]
-				data_dir = self.data_dir[source]
-			else:
-				data_dir = self.data_dir
-			if not data_dir:
-				keep.append(True)
-				continue
-			full_path = os.path.join(data_dir, subdir, '{}.{}'.format(slide_id, ext))
-			keep.append(os.path.isfile(full_path))
-		keep = np.array(keep)
-		dropped = (~keep).sum()
-		if dropped > 0 and verbose:
-			missing_ids = self.slide_data['slide_id'][~keep].tolist()
-			print('Dropping {} slide(s) with missing feature file: {}'.format(dropped, missing_ids[:10] if len(missing_ids) > 10 else missing_ids))
-		self.slide_data = self.slide_data.loc[keep].reset_index(drop=True)
-		self.cls_ids_prep()
-
 	def __getitem__(self, idx):
 		slide_id = self.slide_data['slide_id'][idx]
 		label = self.slide_data['label'][idx]
@@ -372,9 +347,18 @@ class Generic_MIL_Dataset(Generic_WSI_Classification_Dataset):
 			with h5py.File(full_path,'r') as hdf5_file:
 				features = hdf5_file['features'][:]
 				coords = hdf5_file['coords'][:]
+				if 'weights' in hdf5_file:
+					weights = hdf5_file['weights'][:]
+				else:
+					weights = None
 
 			features = torch.from_numpy(features)
-			return features, label, coords
+
+			if weights is not None:
+				weights = torch.from_numpy(weights).float()
+
+			return features, label, coords, weights
+
 
 
 class Generic_Split(Generic_MIL_Dataset):
@@ -390,5 +374,3 @@ class Generic_Split(Generic_MIL_Dataset):
 	def __len__(self):
 		return len(self.slide_data)
 		
-
-

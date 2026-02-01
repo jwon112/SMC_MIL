@@ -207,6 +207,9 @@ elif args.task == 'task_4_camelyon16_multiclass':
         
 else:
     raise NotImplementedError
+
+# drop slides that have no feature file (e.g. skipped during extraction)
+dataset.filter_slides_by_available_files()
     
 if not os.path.isdir(args.results_dir):
     os.mkdir(args.results_dir)
