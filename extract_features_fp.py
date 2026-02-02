@@ -44,14 +44,16 @@ def compute_w_loader(output_path, loader, model, verbose = 0, blur_mode='none', 
 		output_path: directory to save computed features (.h5 file)
 		model: pytorch model
 		verbose: level of feedback
-		blur_mode: 'none' or 'drop' - blur filtering mode
-		blur_thr: blur threshold (patches with score < threshold will be dropped)
+		blur_mode: 'none', 'drop', or 'maqw' - blur mode (maqw: save Laplacian scores for M-AQW, no dropping)
+		blur_thr: blur threshold (patches with score < threshold will be dropped; used only when blur_mode='drop')
 		blur_downsample: downsample factor for blur computation
 	"""
 	if verbose > 0:
 		print(f'processing a total of {len(loader)} batches'.format(len(loader)))
 		if blur_mode == 'drop' and blur_thr is not None:
 			print(f'Blur filtering enabled: threshold = {blur_thr}')
+		if blur_mode == 'maqw':
+			print('M-AQW mode: saving Laplacian scores (no patch dropping)')
 
 	mode = 'w'
 	total_patches = 0
@@ -64,7 +66,8 @@ def compute_w_loader(output_path, loader, model, verbose = 0, blur_mode='none', 
 			coords = data['coord'].numpy().astype(np.int32)
 			img_pils = data['img_pil']  # PIL images for blur computation
 
-			# Blur filtering (drop mode)
+			# Blur: drop mode (filter) or maqw mode (save Laplacian scores only)
+			laplacian_scores_batch = None
 			if blur_mode == 'drop' and blur_thr is not None:
 				blur_scores = []
 				for pil in img_pils:
@@ -92,12 +95,20 @@ def compute_w_loader(output_path, loader, model, verbose = 0, blur_mode='none', 
 				
 				batch = batch[keep_mask]
 				coords = coords[keep_mask]
+			elif blur_mode == 'maqw':
+				blur_scores = []
+				for pil in img_pils:
+					score = blur_score_laplacian(pil, downsample=blur_downsample)
+					blur_scores.append(score)
+				laplacian_scores_batch = np.array(blur_scores, dtype=np.float32)
 
 			batch = batch.to(device, non_blocking=True)
 			features = model(batch)
 			features = features.cpu().numpy().astype(np.float32)
 
 			asset_dict = {'features': features, 'coords': coords}
+			if laplacian_scores_batch is not None:
+				asset_dict['laplacian_scores'] = laplacian_scores_batch
 			save_hdf5(output_path, asset_dict, attr_dict= None, mode=mode)
 			mode = 'a'
 	
@@ -125,8 +136,8 @@ parser.add_argument('--model_name', type=str, default='resnet50_trunc', choices=
 parser.add_argument('--batch_size', type=int, default=256)
 parser.add_argument('--no_auto_skip', default=False, action='store_true')
 parser.add_argument('--target_patch_size', type=int, default=224)
-parser.add_argument('--blur_mode', type=str, default='none', choices=['none', 'drop'],
-					help='Blur filtering mode: none (no filtering) or drop (remove blurry patches)')
+parser.add_argument('--blur_mode', type=str, default='none', choices=['none', 'drop', 'maqw'],
+					help='Blur mode: none, drop (remove blurry patches), or maqw (save Laplacian scores for M-AQW)')
 parser.add_argument('--blur_thr', type=float, default=None,
 					help='Blur threshold. Patches with blur score < threshold will be dropped (only used when --blur_mode=drop)')
 parser.add_argument('--blur_downsample', type=int, default=2,

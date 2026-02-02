@@ -110,6 +110,8 @@ parser.add_argument('--subtyping', action='store_true', default=False,
 parser.add_argument('--bag_weight', type=float, default=0.7,
                     help='clam: weight coefficient for bag-level loss (default: 0.7)')
 parser.add_argument('--B', type=int, default=8, help='numbr of positive/negative patches to sample for clam')
+parser.add_argument('--use_maqw', action='store_true', default=False,
+                    help='enable M-AQW (Meta-Parametric Asymmetric Quality-Aware Weighting); requires H5 features with laplacian_scores')
 args = parser.parse_args()
 device=torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -210,6 +212,10 @@ else:
 
 # drop slides that have no feature file (e.g. skipped during extraction)
 dataset.filter_slides_by_available_files()
+
+if args.use_maqw:
+    dataset.load_from_h5(True)
+    assert args.model_type in ['clam_sb', 'clam_mb'], 'M-AQW is only supported with CLAM models (clam_sb or clam_mb)'
     
 if not os.path.isdir(args.results_dir):
     os.mkdir(args.results_dir)
@@ -227,6 +233,8 @@ print('split_dir: ', args.split_dir)
 assert os.path.isdir(args.split_dir)
 
 settings.update({'split_dir': args.split_dir})
+if args.use_maqw:
+    settings.update({'use_maqw': True})
 
 
 with open(args.results_dir + '/experiment_{}.txt'.format(args.exp_code), 'w') as f:

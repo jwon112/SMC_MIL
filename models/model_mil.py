@@ -14,7 +14,7 @@ class MIL_fc(nn.Module):
         self.classifier=  nn.Linear(size[1], n_classes)
         self.top_k=top_k
 
-    def forward(self, h, return_features=False):
+    def forward(self, h, return_features=False, **kwargs):
         h = self.fc(h)
         logits  = self.classifier(h) # K x 2
         
@@ -44,7 +44,7 @@ class MIL_fc_mc(nn.Module):
         self.n_classes = n_classes
         assert self.top_k == 1
     
-    def forward(self, h, return_features=False):       
+    def forward(self, h, return_features=False, **kwargs):       
         h = self.fc(h)
         logits = self.classifiers(h)
 

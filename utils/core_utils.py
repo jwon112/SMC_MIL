@@ -136,6 +136,9 @@ def train(datasets, cur, args):
         if args.subtyping:
             model_dict.update({'subtyping': True})
         
+        if getattr(args, 'use_maqw', False):
+            model_dict.update({'use_maqw': True})
+        
         if args.B > 0:
             model_dict.update({'k_sample': args.B})
         
@@ -234,9 +237,16 @@ def train_loop_clam(epoch, model, loader, optimizer, n_classes, bag_weight, writ
     inst_count = 0
 
     print('\n')
-    for batch_idx, (data, label) in enumerate(loader):
+    for batch_idx, batch in enumerate(loader):
+        if len(batch) == 4:
+            data, label, coords, laplacian_scores = batch
+        else:
+            data, label = batch[0], batch[1]
+            laplacian_scores = None
         data, label = data.to(device), label.to(device)
-        logits, Y_prob, Y_hat, _, instance_dict = model(data, label=label, instance_eval=True)
+        if laplacian_scores is not None:
+            laplacian_scores = laplacian_scores.to(device, non_blocking=True)
+        logits, Y_prob, Y_hat, _, instance_dict = model(data, label=label, instance_eval=True, laplacian_scores=laplacian_scores)
 
         acc_logger.log(Y_hat, label)
         loss = loss_fn(logits, label)
@@ -297,10 +307,16 @@ def train_loop(epoch, model, loader, optimizer, n_classes, writer = None, loss_f
     train_error = 0.
 
     print('\n')
-    for batch_idx, (data, label) in enumerate(loader):
+    for batch_idx, batch in enumerate(loader):
+        if len(batch) == 4:
+            data, label, coords, laplacian_scores = batch
+        else:
+            data, label = batch[0], batch[1]
+            laplacian_scores = None
         data, label = data.to(device), label.to(device)
-
-        logits, Y_prob, Y_hat, _, _ = model(data)
+        if laplacian_scores is not None:
+            laplacian_scores = laplacian_scores.to(device, non_blocking=True)
+        logits, Y_prob, Y_hat, _, _ = model(data, laplacian_scores=laplacian_scores)
         
         acc_logger.log(Y_hat, label)
         loss = loss_fn(logits, label)
@@ -408,9 +424,16 @@ def validate_clam(cur, epoch, model, loader, n_classes, early_stopping = None, w
     labels = np.zeros(len(loader))
     sample_size = model.k_sample
     with torch.inference_mode():
-        for batch_idx, (data, label) in enumerate(loader):
-            data, label = data.to(device), label.to(device)      
-            logits, Y_prob, Y_hat, _, instance_dict = model(data, label=label, instance_eval=True)
+        for batch_idx, batch in enumerate(loader):
+            if len(batch) == 4:
+                data, label, coords, laplacian_scores = batch
+            else:
+                data, label = batch[0], batch[1]
+                laplacian_scores = None
+            data, label = data.to(device), label.to(device)
+            if laplacian_scores is not None:
+                laplacian_scores = laplacian_scores.to(device, non_blocking=True)
+            logits, Y_prob, Y_hat, _, instance_dict = model(data, label=label, instance_eval=True, laplacian_scores=laplacian_scores)
             acc_logger.log(Y_hat, label)
             
             loss = loss_fn(logits, label)
@@ -495,11 +518,18 @@ def summary(model, loader, n_classes):
     slide_ids = loader.dataset.slide_data['slide_id']
     patient_results = {}
 
-    for batch_idx, (data, label) in enumerate(loader):
+    for batch_idx, batch in enumerate(loader):
+        if len(batch) == 4:
+            data, label, coords, laplacian_scores = batch
+        else:
+            data, label = batch[0], batch[1]
+            laplacian_scores = None
         data, label = data.to(device), label.to(device)
+        if laplacian_scores is not None:
+            laplacian_scores = laplacian_scores.to(device, non_blocking=True)
         slide_id = slide_ids.iloc[batch_idx]
         with torch.inference_mode():
-            logits, Y_prob, Y_hat, _, _ = model(data)
+            logits, Y_prob, Y_hat, _, _ = model(data, laplacian_scores=laplacian_scores)
 
         acc_logger.log(Y_hat, label)
         probs = Y_prob.cpu().numpy()

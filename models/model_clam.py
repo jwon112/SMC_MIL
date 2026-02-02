@@ -4,6 +4,8 @@ import torch.nn.functional as F
 import numpy as np
 import pdb
 
+from models.maqw import M_AQW
+
 """
 Attention Network without Gating (2 fc layers)
 args:
@@ -76,10 +78,15 @@ args:
 """
 class CLAM_SB(nn.Module):
     def __init__(self, gate = True, size_arg = "small", dropout = 0., k_sample=8, n_classes=2,
-        instance_loss_fn=nn.CrossEntropyLoss(), subtyping=False, embed_dim=1024):
+        instance_loss_fn=nn.CrossEntropyLoss(), subtyping=False, embed_dim=1024, use_maqw=False):
         super().__init__()
         self.size_dict = {"small": [embed_dim, 512, 256], "big": [embed_dim, 512, 384]}
         size = self.size_dict[size_arg]
+        self.use_maqw = use_maqw
+        if use_maqw:
+            self.maqw_module = M_AQW(meta_input_dim=16, meta_hidden=32)
+        else:
+            self.maqw_module = None
         fc = [nn.Linear(size[0], size[1]), nn.ReLU(), nn.Dropout(dropout)]
         if gate:
             attention_net = Attn_Net_Gated(L = size[1], D = size[2], dropout = dropout, n_classes = 1)
@@ -135,7 +142,9 @@ class CLAM_SB(nn.Module):
         instance_loss = self.instance_loss_fn(logits, p_targets)
         return instance_loss, p_preds, p_targets
 
-    def forward(self, h, label=None, instance_eval=False, return_features=False, attention_only=False):
+    def forward(self, h, label=None, instance_eval=False, return_features=False, attention_only=False, laplacian_scores=None):
+        if self.maqw_module is not None and laplacian_scores is not None:
+            h = self.maqw_module(h, laplacian_scores)
         A, h = self.attention_net(h)  # NxK        
         A = torch.transpose(A, 1, 0)  # KxN
         if attention_only:
@@ -182,10 +191,15 @@ class CLAM_SB(nn.Module):
 
 class CLAM_MB(CLAM_SB):
     def __init__(self, gate = True, size_arg = "small", dropout = 0., k_sample=8, n_classes=2,
-        instance_loss_fn=nn.CrossEntropyLoss(), subtyping=False, embed_dim=1024):
+        instance_loss_fn=nn.CrossEntropyLoss(), subtyping=False, embed_dim=1024, use_maqw=False):
         nn.Module.__init__(self)
         self.size_dict = {"small": [embed_dim, 512, 256], "big": [embed_dim, 512, 384]}
         size = self.size_dict[size_arg]
+        self.use_maqw = use_maqw
+        if use_maqw:
+            self.maqw_module = M_AQW(meta_input_dim=16, meta_hidden=32)
+        else:
+            self.maqw_module = None
         fc = [nn.Linear(size[0], size[1]), nn.ReLU(), nn.Dropout(dropout)]
         if gate:
             attention_net = Attn_Net_Gated(L = size[1], D = size[2], dropout = dropout, n_classes = n_classes)
@@ -202,7 +216,9 @@ class CLAM_MB(CLAM_SB):
         self.n_classes = n_classes
         self.subtyping = subtyping
 
-    def forward(self, h, label=None, instance_eval=False, return_features=False, attention_only=False):
+    def forward(self, h, label=None, instance_eval=False, return_features=False, attention_only=False, laplacian_scores=None):
+        if self.maqw_module is not None and laplacian_scores is not None:
+            h = self.maqw_module(h, laplacian_scores)
         A, h = self.attention_net(h)  # NxK        
         A = torch.transpose(A, 1, 0)  # KxN
         if attention_only:

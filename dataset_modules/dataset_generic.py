@@ -192,7 +192,7 @@ class Generic_WSI_Classification_Dataset(Dataset):
 		if len(split) > 0:
 			mask = self.slide_data['slide_id'].isin(split.tolist())
 			df_slice = self.slide_data[mask].reset_index(drop=True)
-			split = Generic_Split(df_slice, data_dir=self.data_dir, num_classes=self.num_classes)
+			split = Generic_Split(df_slice, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5)
 		else:
 			split = None
 		
@@ -208,7 +208,7 @@ class Generic_WSI_Classification_Dataset(Dataset):
 		if len(split) > 0:
 			mask = self.slide_data['slide_id'].isin(merged_split)
 			df_slice = self.slide_data[mask].reset_index(drop=True)
-			split = Generic_Split(df_slice, data_dir=self.data_dir, num_classes=self.num_classes)
+			split = Generic_Split(df_slice, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5)
 		else:
 			split = None
 		
@@ -221,21 +221,21 @@ class Generic_WSI_Classification_Dataset(Dataset):
 		if from_id:
 			if len(self.train_ids) > 0:
 				train_data = self.slide_data.loc[self.train_ids].reset_index(drop=True)
-				train_split = Generic_Split(train_data, data_dir=self.data_dir, num_classes=self.num_classes)
+				train_split = Generic_Split(train_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5)
 
 			else:
 				train_split = None
 			
 			if len(self.val_ids) > 0:
 				val_data = self.slide_data.loc[self.val_ids].reset_index(drop=True)
-				val_split = Generic_Split(val_data, data_dir=self.data_dir, num_classes=self.num_classes)
+				val_split = Generic_Split(val_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5)
 
 			else:
 				val_split = None
 			
 			if len(self.test_ids) > 0:
 				test_data = self.slide_data.loc[self.test_ids].reset_index(drop=True)
-				test_split = Generic_Split(test_data, data_dir=self.data_dir, num_classes=self.num_classes)
+				test_split = Generic_Split(test_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5)
 			
 			else:
 				test_split = None
@@ -372,14 +372,17 @@ class Generic_MIL_Dataset(Generic_WSI_Classification_Dataset):
 			with h5py.File(full_path,'r') as hdf5_file:
 				features = hdf5_file['features'][:]
 				coords = hdf5_file['coords'][:]
+				laplacian_scores = None
+				if 'laplacian_scores' in hdf5_file:
+					laplacian_scores = torch.from_numpy(hdf5_file['laplacian_scores'][:].astype(np.float32))
 
 			features = torch.from_numpy(features)
-			return features, label, coords
+			return features, label, coords, laplacian_scores
 
 
 class Generic_Split(Generic_MIL_Dataset):
-	def __init__(self, slide_data, data_dir=None, num_classes=2):
-		self.use_h5 = False
+	def __init__(self, slide_data, data_dir=None, num_classes=2, use_h5=False):
+		self.use_h5 = use_h5
 		self.slide_data = slide_data
 		self.data_dir = data_dir
 		self.num_classes = num_classes
