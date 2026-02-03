@@ -2,6 +2,7 @@ import numpy as np
 import torch
 from utils.utils import *
 import os
+import csv
 from dataset_modules.dataset_generic import save_splits
 from models.model_mil import MIL_fc, MIL_fc_mc
 from models.model_clam import CLAM_MB, CLAM_SB
@@ -204,10 +205,10 @@ def train(datasets, cur, args):
     else:
         torch.save(model.state_dict(), os.path.join(args.results_dir, "s_{}_checkpoint.pt".format(cur)))
 
-    _, val_error, val_auc, _= summary(model, val_loader, args.n_classes)
+    _, val_error, val_auc, _= summary(model, val_loader, args.n_classes, results_dir=args.results_dir, split_name='val')
     print('Val error: {:.4f}, ROC AUC: {:.4f}'.format(val_error, val_auc))
 
-    results_dict, test_error, test_auc, acc_logger = summary(model, test_loader, args.n_classes)
+    results_dict, test_error, test_auc, acc_logger = summary(model, test_loader, args.n_classes, results_dir=args.results_dir, split_name='test')
     print('Test error: {:.4f}, ROC AUC: {:.4f}'.format(test_error, test_auc))
 
     for i in range(args.n_classes):
@@ -361,11 +362,20 @@ def validate(cur, epoch, model, loader, n_classes, early_stopping = None, writer
     prob = np.zeros((len(loader), n_classes))
     labels = np.zeros(len(loader))
 
-    with torch.no_grad():
-        for batch_idx, (data, label) in enumerate(loader):
-            data, label = data.to(device, non_blocking=True), label.to(device, non_blocking=True)
+    maqw_logs = {"tau_L": [], "k_L": [], "tau_R": [], "k_R": [], "w_mean": []}
 
-            logits, Y_prob, Y_hat, _, _ = model(data)
+    with torch.no_grad():
+        for batch_idx, batch in enumerate(loader):
+            if len(batch) == 4:
+                data, label, coords, laplacian_scores = batch
+            else:
+                data, label = batch[0], batch[1]
+                laplacian_scores = None
+            data, label = data.to(device, non_blocking=True), label.to(device, non_blocking=True)
+            if laplacian_scores is not None:
+                laplacian_scores = laplacian_scores.to(device, non_blocking=True)
+
+            logits, Y_prob, Y_hat, _, results_dict = model(data, laplacian_scores=laplacian_scores)
 
             acc_logger.log(Y_hat, label)
             
@@ -377,6 +387,14 @@ def validate(cur, epoch, model, loader, n_classes, early_stopping = None, writer
             val_loss += loss.item()
             error = calculate_error(Y_hat, label)
             val_error += error
+
+            maqw = results_dict.get('maqw', None) if isinstance(results_dict, dict) else None
+            if maqw is not None:
+                maqw_logs["tau_L"].append(float(maqw["tau_L"].detach().cpu()))
+                maqw_logs["k_L"].append(float(maqw["k_L"].detach().cpu()))
+                maqw_logs["tau_R"].append(float(maqw["tau_R"].detach().cpu()))
+                maqw_logs["k_R"].append(float(maqw["k_R"].detach().cpu()))
+                maqw_logs["w_mean"].append(float(maqw["w_mean"].detach().cpu()))
             
 
     val_error /= len(loader)
@@ -393,6 +411,12 @@ def validate(cur, epoch, model, loader, n_classes, early_stopping = None, writer
         writer.add_scalar('val/loss', val_loss, epoch)
         writer.add_scalar('val/auc', auc, epoch)
         writer.add_scalar('val/error', val_error, epoch)
+        if len(maqw_logs["tau_L"]) > 0:
+            writer.add_histogram('maqw/val/tau_L', np.array(maqw_logs["tau_L"]), epoch)
+            writer.add_histogram('maqw/val/k_L', np.array(maqw_logs["k_L"]), epoch)
+            writer.add_histogram('maqw/val/tau_R', np.array(maqw_logs["tau_R"]), epoch)
+            writer.add_histogram('maqw/val/k_R', np.array(maqw_logs["k_R"]), epoch)
+            writer.add_scalar('maqw/val/w_mean_mean', float(np.mean(maqw_logs["w_mean"])), epoch)
 
     print('\nVal Set, val_loss: {:.4f}, val_error: {:.4f}, auc: {:.4f}'.format(val_loss, val_error, auc))
     for i in range(n_classes):
@@ -423,6 +447,10 @@ def validate_clam(cur, epoch, model, loader, n_classes, early_stopping = None, w
     prob = np.zeros((len(loader), n_classes))
     labels = np.zeros(len(loader))
     sample_size = model.k_sample
+    maqw_logs = {
+        "tau_L": [], "k_L": [], "tau_R": [], "k_R": [],
+        "w_mean": [], "w_lt_0p1": [], "w_gt_0p9": []
+    }
     with torch.inference_mode():
         for batch_idx, batch in enumerate(loader):
             if len(batch) == 4:
@@ -433,21 +461,21 @@ def validate_clam(cur, epoch, model, loader, n_classes, early_stopping = None, w
             data, label = data.to(device), label.to(device)
             if laplacian_scores is not None:
                 laplacian_scores = laplacian_scores.to(device, non_blocking=True)
-            logits, Y_prob, Y_hat, _, instance_dict = model(data, label=label, instance_eval=True, laplacian_scores=laplacian_scores)
+            logits, Y_prob, Y_hat, _, results_dict = model(data, label=label, instance_eval=True, laplacian_scores=laplacian_scores)
             acc_logger.log(Y_hat, label)
             
             loss = loss_fn(logits, label)
 
             val_loss += loss.item()
 
-            instance_loss = instance_dict['instance_loss']
+            instance_loss = results_dict['instance_loss']
             
             inst_count+=1
             instance_loss_value = instance_loss.item()
             val_inst_loss += instance_loss_value
 
-            inst_preds = instance_dict['inst_preds']
-            inst_labels = instance_dict['inst_labels']
+            inst_preds = results_dict['inst_preds']
+            inst_labels = results_dict['inst_labels']
             inst_logger.log_batch(inst_preds, inst_labels)
 
             prob[batch_idx] = Y_prob.cpu().numpy()
@@ -455,6 +483,16 @@ def validate_clam(cur, epoch, model, loader, n_classes, early_stopping = None, w
             
             error = calculate_error(Y_hat, label)
             val_error += error
+
+            maqw = results_dict.get('maqw', None) if isinstance(results_dict, dict) else None
+            if maqw is not None:
+                maqw_logs["tau_L"].append(float(maqw["tau_L"].detach().cpu()))
+                maqw_logs["k_L"].append(float(maqw["k_L"].detach().cpu()))
+                maqw_logs["tau_R"].append(float(maqw["tau_R"].detach().cpu()))
+                maqw_logs["k_R"].append(float(maqw["k_R"].detach().cpu()))
+                maqw_logs["w_mean"].append(float(maqw["w_mean"].detach().cpu()))
+                maqw_logs["w_lt_0p1"].append(float(maqw["w_lt_0p1"].detach().cpu()))
+                maqw_logs["w_gt_0p9"].append(float(maqw["w_gt_0p9"].detach().cpu()))
 
     val_error /= len(loader)
     val_loss /= len(loader)
@@ -486,6 +524,18 @@ def validate_clam(cur, epoch, model, loader, n_classes, early_stopping = None, w
         writer.add_scalar('val/auc', auc, epoch)
         writer.add_scalar('val/error', val_error, epoch)
         writer.add_scalar('val/inst_loss', val_inst_loss, epoch)
+        if len(maqw_logs["tau_L"]) > 0:
+            writer.add_histogram('maqw/val/tau_L', np.array(maqw_logs["tau_L"]), epoch)
+            writer.add_histogram('maqw/val/k_L', np.array(maqw_logs["k_L"]), epoch)
+            writer.add_histogram('maqw/val/tau_R', np.array(maqw_logs["tau_R"]), epoch)
+            writer.add_histogram('maqw/val/k_R', np.array(maqw_logs["k_R"]), epoch)
+            writer.add_scalar('maqw/val/tau_L_mean', float(np.mean(maqw_logs["tau_L"])), epoch)
+            writer.add_scalar('maqw/val/tau_R_mean', float(np.mean(maqw_logs["tau_R"])), epoch)
+            writer.add_scalar('maqw/val/k_L_mean', float(np.mean(maqw_logs["k_L"])), epoch)
+            writer.add_scalar('maqw/val/k_R_mean', float(np.mean(maqw_logs["k_R"])), epoch)
+            writer.add_scalar('maqw/val/w_mean_mean', float(np.mean(maqw_logs["w_mean"])), epoch)
+            writer.add_scalar('maqw/val/w_lt_0p1_mean', float(np.mean(maqw_logs["w_lt_0p1"])), epoch)
+            writer.add_scalar('maqw/val/w_gt_0p9_mean', float(np.mean(maqw_logs["w_gt_0p9"])), epoch)
 
 
     for i in range(n_classes):
@@ -506,7 +556,7 @@ def validate_clam(cur, epoch, model, loader, n_classes, early_stopping = None, w
 
     return False
 
-def summary(model, loader, n_classes):
+def summary(model, loader, n_classes, results_dir=None, split_name='test'):
     acc_logger = Accuracy_Logger(n_classes=n_classes)
     model.eval()
     test_loss = 0.
@@ -517,6 +567,7 @@ def summary(model, loader, n_classes):
 
     slide_ids = loader.dataset.slide_data['slide_id']
     patient_results = {}
+    maqw_rows = []
 
     for batch_idx, batch in enumerate(loader):
         if len(batch) == 4:
@@ -529,7 +580,7 @@ def summary(model, loader, n_classes):
             laplacian_scores = laplacian_scores.to(device, non_blocking=True)
         slide_id = slide_ids.iloc[batch_idx]
         with torch.inference_mode():
-            logits, Y_prob, Y_hat, _, _ = model(data, laplacian_scores=laplacian_scores)
+            logits, Y_prob, Y_hat, _, results_dict = model(data, laplacian_scores=laplacian_scores)
 
         acc_logger.log(Y_hat, label)
         probs = Y_prob.cpu().numpy()
@@ -539,6 +590,29 @@ def summary(model, loader, n_classes):
         patient_results.update({slide_id: {'slide_id': np.array(slide_id), 'prob': probs, 'label': label.item()}})
         error = calculate_error(Y_hat, label)
         test_error += error
+
+        maqw = results_dict.get('maqw', None) if isinstance(results_dict, dict) else None
+        if maqw is not None:
+            row = {
+                "slide_id": str(slide_id),
+                "label": int(label.item()),
+                "Y_hat": int(Y_hat.item()) if hasattr(Y_hat, "item") else int(Y_hat),
+            }
+            # probs can be shape [C] or [1, C]
+            if probs.ndim == 1:
+                for c in range(probs.shape[0]):
+                    row[f"prob_{c}"] = float(probs[c])
+            else:
+                for c in range(probs.shape[1]):
+                    row[f"prob_{c}"] = float(probs[0, c])
+
+            for k in ["tau_L", "k_L", "tau_R", "k_R",
+                      "q_mean", "q_std", "q_min", "q_max", "q_p25", "q_p75",
+                      "w_mean", "w_std", "w_lt_0p1", "w_gt_0p9"]:
+                row[k] = float(maqw[k].detach().cpu())
+            row["q_hist10"] = ",".join([f"{v:.6f}" for v in maqw["q_hist10"].detach().cpu().numpy().tolist()])
+            row["w_hist10"] = ",".join([f"{v:.6f}" for v in maqw["w_hist10"].detach().cpu().numpy().tolist()])
+            maqw_rows.append(row)
 
     test_error /= len(loader)
 
@@ -557,5 +631,13 @@ def summary(model, loader, n_classes):
 
         auc = np.nanmean(np.array(aucs))
 
+
+    if results_dir is not None and len(maqw_rows) > 0:
+        out_path = os.path.join(results_dir, f"maqw_{split_name}_details.csv")
+        fieldnames = list(maqw_rows[0].keys())
+        with open(out_path, "w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=fieldnames)
+            w.writeheader()
+            w.writerows(maqw_rows)
 
     return patient_results, test_error, auc, acc_logger

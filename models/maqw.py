@@ -59,15 +59,27 @@ class M_AQW(nn.Module):
             nn.Linear(meta_hidden, 4),
         )
 
-    def forward(self, h: torch.Tensor, q: torch.Tensor) -> torch.Tensor:
+    @staticmethod
+    def _hist_10(x: torch.Tensor) -> torch.Tensor:
+        """10-bin histogram density over [0, 1] for logging."""
+        n = x.numel()
+        hist = torch.histc(x.view(-1), bins=10, min=0.0, max=1.0)
+        if n > 0:
+            hist = hist / n
+        return hist
+
+    def forward(self, h: torch.Tensor, q: torch.Tensor, return_debug: bool = False):
         """
         h: [N, D], q: [N].
         Returns h_out [N, D] = h * W(q).unsqueeze(1).
         """
         if q is None or q.numel() == 0:
+            if return_debug:
+                return h, None
             return h
         q_norm = _normalize_q(q)  # [N]
-        x = _slide_stats_and_histogram(q_norm).unsqueeze(0)  # [1, 16]
+        x_feat = _slide_stats_and_histogram(q_norm)  # [16]
+        x = x_feat.unsqueeze(0)  # [1, 16]
         raw = self.meta_mlp(x).squeeze(0)  # [4] -> (tau_L, k_L, tau_R, k_R)
         tau_L = torch.sigmoid(raw[0])
         k_L = F.softplus(raw[1]) + 0.1
@@ -79,4 +91,29 @@ class M_AQW(nn.Module):
         # W_right(q) = sigmoid(k_R * (tau_R - q_norm))
         w_right = torch.sigmoid(k_R * (tau_R - q_norm))
         w = w_left * w_right  # [N]
-        return h * w.unsqueeze(1)
+        h_out = h * w.unsqueeze(1)
+
+        if not return_debug:
+            return h_out
+
+        # logging-friendly summaries (keep tensors; caller can .detach().cpu())
+        w_flat = w.view(-1)
+        debug = {
+            "tau_L": tau_L,
+            "k_L": k_L,
+            "tau_R": tau_R,
+            "k_R": k_R,
+            "q_mean": q_norm.mean(),
+            "q_std": q_norm.std(),
+            "q_min": q_norm.min(),
+            "q_max": q_norm.max(),
+            "q_p25": torch.quantile(q_norm.float().view(-1), 0.25),
+            "q_p75": torch.quantile(q_norm.float().view(-1), 0.75),
+            "q_hist10": x_feat[6:16],  # same 10-bin hist used for Meta-MLP input
+            "w_mean": w_flat.mean(),
+            "w_std": w_flat.std(),
+            "w_lt_0p1": (w_flat < 0.1).float().mean(),
+            "w_gt_0p9": (w_flat > 0.9).float().mean(),
+            "w_hist10": self._hist_10(torch.clamp(w_flat, 0.0, 1.0)),
+        }
+        return h_out, debug

@@ -143,8 +143,9 @@ class CLAM_SB(nn.Module):
         return instance_loss, p_preds, p_targets
 
     def forward(self, h, label=None, instance_eval=False, return_features=False, attention_only=False, laplacian_scores=None):
+        maqw_debug = None
         if self.maqw_module is not None and laplacian_scores is not None:
-            h = self.maqw_module(h, laplacian_scores)
+            h, maqw_debug = self.maqw_module(h, laplacian_scores, return_debug=True)
         A, h = self.attention_net(h)  # NxK        
         A = torch.transpose(A, 1, 0)  # KxN
         if attention_only:
@@ -185,6 +186,8 @@ class CLAM_SB(nn.Module):
             'inst_preds': np.array(all_preds)}
         else:
             results_dict = {}
+        if maqw_debug is not None:
+            results_dict.update({'maqw': maqw_debug})
         if return_features:
             results_dict.update({'features': M})
         return logits, Y_prob, Y_hat, A_raw, results_dict
@@ -217,8 +220,9 @@ class CLAM_MB(CLAM_SB):
         self.subtyping = subtyping
 
     def forward(self, h, label=None, instance_eval=False, return_features=False, attention_only=False, laplacian_scores=None):
+        maqw_debug = None
         if self.maqw_module is not None and laplacian_scores is not None:
-            h = self.maqw_module(h, laplacian_scores)
+            h, maqw_debug = self.maqw_module(h, laplacian_scores, return_debug=True)
         A, h = self.attention_net(h)  # NxK        
         A = torch.transpose(A, 1, 0)  # KxN
         if attention_only:
@@ -263,6 +267,8 @@ class CLAM_MB(CLAM_SB):
             'inst_preds': np.array(all_preds)}
         else:
             results_dict = {}
+        if maqw_debug is not None:
+            results_dict.update({'maqw': maqw_debug})
         if return_features:
             results_dict.update({'features': M})
         return logits, Y_prob, Y_hat, A_raw, results_dict
