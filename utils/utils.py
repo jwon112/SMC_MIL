@@ -35,6 +35,11 @@ class SubsetSequentialSampler(Sampler):
 def collate_MIL(batch):
 	img = torch.cat([item[0] for item in batch], dim = 0)
 	label = torch.LongTensor([item[1] for item in batch])
+	if len(batch[0]) == 4:
+		# H5 path: (features, label, coords, laplacian_scores); batch_size=1 so single item
+		coords = batch[0][2]
+		laplacian_scores = batch[0][3]
+		return [img, label, coords, laplacian_scores]
 	return [img, label]
 
 def collate_features(batch):
