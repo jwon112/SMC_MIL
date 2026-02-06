@@ -418,6 +418,11 @@ def validate(cur, epoch, model, loader, n_classes, early_stopping = None, writer
             writer.add_histogram('maqw/val/k_R', np.array(maqw_logs["k_R"]), epoch)
             writer.add_scalar('maqw/val/w_mean_mean', float(np.mean(maqw_logs["w_mean"])), epoch)
 
+    if len(maqw_logs["tau_L"]) > 0:
+        print('M-AQW val: tau_L={:.4f}, k_L={:.4f}, tau_R={:.4f}, k_R={:.4f}, w_mean={:.4f}'.format(
+            float(np.mean(maqw_logs["tau_L"])), float(np.mean(maqw_logs["k_L"])),
+            float(np.mean(maqw_logs["tau_R"])), float(np.mean(maqw_logs["k_R"])),
+            float(np.mean(maqw_logs["w_mean"]))))
     print('\nVal Set, val_loss: {:.4f}, val_error: {:.4f}, auc: {:.4f}'.format(val_loss, val_error, auc))
     for i in range(n_classes):
         acc, correct, count = acc_logger.get_summary(i)
@@ -537,6 +542,12 @@ def validate_clam(cur, epoch, model, loader, n_classes, early_stopping = None, w
             writer.add_scalar('maqw/val/w_lt_0p1_mean', float(np.mean(maqw_logs["w_lt_0p1"])), epoch)
             writer.add_scalar('maqw/val/w_gt_0p9_mean', float(np.mean(maqw_logs["w_gt_0p9"])), epoch)
 
+    if len(maqw_logs["tau_L"]) > 0:
+        print('M-AQW val: tau_L={:.4f}, k_L={:.4f}, tau_R={:.4f}, k_R={:.4f}, w_mean={:.4f}, w_lt_0p1={:.4f}, w_gt_0p9={:.4f}'.format(
+            float(np.mean(maqw_logs["tau_L"])), float(np.mean(maqw_logs["k_L"])),
+            float(np.mean(maqw_logs["tau_R"])), float(np.mean(maqw_logs["k_R"])),
+            float(np.mean(maqw_logs["w_mean"])), float(np.mean(maqw_logs["w_lt_0p1"])),
+            float(np.mean(maqw_logs["w_gt_0p9"]))))
 
     for i in range(n_classes):
         acc, correct, count = acc_logger.get_summary(i)
