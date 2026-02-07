@@ -53,14 +53,17 @@ def get_simple_loader(dataset, batch_size=1, num_workers=1):
 	loader = DataLoader(dataset, batch_size=batch_size, sampler = sampler.SequentialSampler(dataset), collate_fn = collate_MIL, **kwargs)
 	return loader 
 
-def get_split_loader(split_dataset, training = False, testing = False, weighted = False):
+def get_split_loader(split_dataset, training = False, testing = False, weighted = False, train_sampler = None):
 	"""
-		return either the validation loader or training loader 
+		Return either the validation loader or training loader.
+		When train_sampler is provided (e.g. DistributedSampler for DDP), use it for training instead of RandomSampler.
 	"""
 	kwargs = {'num_workers': 0} if device.type == "cuda" else {}
 	if not testing:
 		if training:
-			if weighted:
+			if train_sampler is not None:
+				loader = DataLoader(split_dataset, batch_size=1, sampler=train_sampler, collate_fn=collate_MIL, **kwargs)
+			elif weighted:
 				weights = make_weights_for_balanced_classes_split(split_dataset)
 				loader = DataLoader(split_dataset, batch_size=1, sampler = WeightedRandomSampler(weights, len(weights)), collate_fn = collate_MIL, **kwargs)	
 			else:

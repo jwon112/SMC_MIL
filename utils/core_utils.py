@@ -49,18 +49,18 @@ class Accuracy_Logger(object):
 
 class EarlyStopping:
     """Early stops the training if validation loss doesn't improve after a given patience."""
-    def __init__(self, patience=20, stop_epoch=50, verbose=False):
+    def __init__(self, patience=20, stop_epoch=50, verbose=False, rank=0):
         """
         Args:
             patience (int): How long to wait after last time validation loss improved.
-                            Default: 20
             stop_epoch (int): Earliest epoch possible for stopping
-            verbose (bool): If True, prints a message for each validation loss improvement. 
-                            Default: False
+            verbose (bool): If True, prints a message for each validation loss improvement.
+            rank (int): In DDP, only rank 0 saves checkpoints. Default 0.
         """
         self.patience = patience
         self.stop_epoch = stop_epoch
         self.verbose = verbose
+        self.rank = rank
         self.counter = 0
         self.best_score = None
         self.early_stop = False
@@ -85,146 +85,180 @@ class EarlyStopping:
             self.counter = 0
 
     def save_checkpoint(self, val_loss, model, ckpt_name):
-        '''Saves model when validation loss decrease.'''
+        '''Saves model when validation loss decrease. DDP-safe: only rank 0 saves; saves model.module when wrapped.'''
+        if self.rank != 0:
+            self.val_loss_min = val_loss
+            return
         if self.verbose:
             print(f'Validation loss decreased ({self.val_loss_min:.6f} --> {val_loss:.6f}).  Saving model ...')
-        torch.save(model.state_dict(), ckpt_name)
+        state = model.module.state_dict() if hasattr(model, 'module') else model.state_dict()
+        torch.save(state, ckpt_name)
         self.val_loss_min = val_loss
 
-def train(datasets, cur, args):
-    """   
-        train for a single fold
+def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
     """
-    print('\nTraining Fold {}!'.format(cur))
+    Train for a single fold. When world_size > 1, uses DDP for training only (train loader sharded, val/test on all ranks).
+    """
+    # DDP: set device per process
+    if world_size > 1:
+        import utils.core_utils as _cu
+        from utils import utils as _utils
+        _cu.device = torch.device('cuda:{}'.format(local_rank))
+        _utils.device = _cu.device
+        device = _cu.device
+    else:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    if rank == 0:
+        print('\nTraining Fold {}!'.format(cur))
     writer_dir = os.path.join(args.results_dir, str(cur))
-    if not os.path.isdir(writer_dir):
-        os.mkdir(writer_dir)
-
-    if args.log_data:
-        from tensorboardX import SummaryWriter
-        writer = SummaryWriter(writer_dir, flush_secs=15)
-
+    if rank == 0:
+        if not os.path.isdir(writer_dir):
+            os.mkdir(writer_dir)
+        if args.log_data:
+            from tensorboardX import SummaryWriter
+            writer = SummaryWriter(writer_dir, flush_secs=15)
+        else:
+            writer = None
     else:
         writer = None
 
-    print('\nInit train/val/test splits...', end=' ')
+    if rank == 0:
+        print('\nInit train/val/test splits...', end=' ')
     train_split, val_split, test_split = datasets
-    save_splits(datasets, ['train', 'val', 'test'], os.path.join(args.results_dir, 'splits_{}.csv'.format(cur)))
-    print('Done!')
-    print("Training on {} samples".format(len(train_split)))
-    print("Validating on {} samples".format(len(val_split)))
-    print("Testing on {} samples".format(len(test_split)))
+    if rank == 0:
+        save_splits(datasets, ['train', 'val', 'test'], os.path.join(args.results_dir, 'splits_{}.csv'.format(cur)))
+        print('Done!')
+        print("Training on {} samples".format(len(train_split)))
+        print("Validating on {} samples".format(len(val_split)))
+        print("Testing on {} samples".format(len(test_split)))
 
-    print('\nInit loss function...', end=' ')
+    if rank == 0:
+        print('\nInit loss function...', end=' ')
     if args.bag_loss == 'svm':
         from topk.svm import SmoothTop1SVM
         loss_fn = SmoothTop1SVM(n_classes = args.n_classes)
         if device.type == 'cuda':
-            loss_fn = loss_fn.cuda()
+            loss_fn = loss_fn.to(device)
     else:
         loss_fn = nn.CrossEntropyLoss()
-    print('Done!')
-    
-    print('\nInit Model...', end=' ')
-    model_dict = {"dropout": args.drop_out, 
-                  'n_classes': args.n_classes, 
+    if rank == 0:
+        print('Done!')
+
+    if rank == 0:
+        print('\nInit Model...', end=' ')
+    model_dict = {"dropout": args.drop_out,
+                  'n_classes': args.n_classes,
                   "embed_dim": args.embed_dim}
-    
+
     if args.model_size is not None and args.model_type != 'mil':
         model_dict.update({"size_arg": args.model_size})
-    
+
     if args.model_type in ['clam_sb', 'clam_mb']:
         if args.subtyping:
             model_dict.update({'subtyping': True})
-        
         if getattr(args, 'use_maqw', False):
             model_dict.update({'use_maqw': True})
-        
         if args.B > 0:
             model_dict.update({'k_sample': args.B})
-        
         if args.inst_loss == 'svm':
             from topk.svm import SmoothTop1SVM
             instance_loss_fn = SmoothTop1SVM(n_classes = 2)
             if device.type == 'cuda':
-                instance_loss_fn = instance_loss_fn.cuda()
+                instance_loss_fn = instance_loss_fn.to(device)
         else:
             instance_loss_fn = nn.CrossEntropyLoss()
-        
         if args.model_type =='clam_sb':
             model = CLAM_SB(**model_dict, instance_loss_fn=instance_loss_fn)
         elif args.model_type == 'clam_mb':
             model = CLAM_MB(**model_dict, instance_loss_fn=instance_loss_fn)
         else:
             raise NotImplementedError
-    
-    else: # args.model_type == 'mil'
+    else:
         if args.n_classes > 2:
             model = MIL_fc_mc(**model_dict)
         else:
             model = MIL_fc(**model_dict)
-    
-    _ = model.to(device)
-    print('Done!')
-    print_network(model)
 
-    print('\nInit optimizer ...', end=' ')
+    model = model.to(device)
+    if world_size > 1:
+        model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[local_rank])
+    if rank == 0:
+        print('Done!')
+        print_network(model.module if hasattr(model, 'module') else model)
+
+    if rank == 0:
+        print('\nInit optimizer ...', end=' ')
     optimizer = get_optim(model, args)
-    print('Done!')
-    
-    print('\nInit Loaders...', end=' ')
-    train_loader = get_split_loader(train_split, training=True, testing = args.testing, weighted = args.weighted_sample)
-    val_loader = get_split_loader(val_split,  testing = args.testing)
-    test_loader = get_split_loader(test_split, testing = args.testing)
-    print('Done!')
+    if rank == 0:
+        print('Done!')
 
-    print('\nSetup EarlyStopping...', end=' ')
+    if rank == 0:
+        print('\nInit Loaders...', end=' ')
+    if world_size > 1:
+        from torch.utils.data.distributed import DistributedSampler
+        train_sampler = DistributedSampler(train_split, shuffle=True)
+        train_loader = get_split_loader(train_split, training=True, testing=args.testing, weighted=False, train_sampler=train_sampler)
+    else:
+        train_loader = get_split_loader(train_split, training=True, testing=args.testing, weighted=args.weighted_sample)
+    val_loader = get_split_loader(val_split, testing=args.testing)
+    test_loader = get_split_loader(test_split, testing=args.testing)
+    if rank == 0:
+        print('Done!')
+
+    if rank == 0:
+        print('\nSetup EarlyStopping...', end=' ')
     if args.early_stopping:
-        early_stopping = EarlyStopping(patience = 20, stop_epoch=50, verbose = True)
-
+        early_stopping = EarlyStopping(patience=20, stop_epoch=50, verbose=True, rank=rank)
     else:
         early_stopping = None
-    print('Done!')
+    if rank == 0:
+        print('Done!')
 
+    ckpt_path = os.path.join(args.results_dir, "s_{}_checkpoint.pt".format(cur))
     for epoch in range(args.max_epochs):
-        if args.model_type in ['clam_sb', 'clam_mb'] and not args.no_inst_cluster:     
+        if world_size > 1:
+            train_loader.sampler.set_epoch(epoch)
+        if args.model_type in ['clam_sb', 'clam_mb'] and not args.no_inst_cluster:
             train_loop_clam(epoch, model, train_loader, optimizer, args.n_classes, args.bag_weight, writer, loss_fn)
-            stop = validate_clam(cur, epoch, model, val_loader, args.n_classes, 
+            stop = validate_clam(cur, epoch, model, val_loader, args.n_classes,
                 early_stopping, writer, loss_fn, args.results_dir)
-        
         else:
             train_loop(epoch, model, train_loader, optimizer, args.n_classes, writer, loss_fn)
-            stop = validate(cur, epoch, model, val_loader, args.n_classes, 
+            stop = validate(cur, epoch, model, val_loader, args.n_classes,
                 early_stopping, writer, loss_fn, args.results_dir)
-        
-        if stop: 
+        if stop:
             break
 
-    if args.early_stopping:
-        model.load_state_dict(torch.load(os.path.join(args.results_dir, "s_{}_checkpoint.pt".format(cur))))
-    else:
-        torch.save(model.state_dict(), os.path.join(args.results_dir, "s_{}_checkpoint.pt".format(cur)))
+    # Save / load checkpoint; only rank 0 runs summary and writes files
+    if rank == 0:
+        if args.early_stopping:
+            state = torch.load(ckpt_path, map_location=device)
+            (model.module if hasattr(model, 'module') else model).load_state_dict(state)
+        else:
+            state = model.module.state_dict() if hasattr(model, 'module') else model.state_dict()
+            torch.save(state, ckpt_path)
 
-    _, val_error, val_auc, _= summary(model, val_loader, args.n_classes, results_dir=args.results_dir, split_name='val')
-    print('Val error: {:.4f}, ROC AUC: {:.4f}'.format(val_error, val_auc))
-
-    results_dict, test_error, test_auc, acc_logger = summary(model, test_loader, args.n_classes, results_dir=args.results_dir, split_name='test')
-    print('Test error: {:.4f}, ROC AUC: {:.4f}'.format(test_error, test_auc))
-
-    for i in range(args.n_classes):
-        acc, correct, count = acc_logger.get_summary(i)
-        print('class {}: acc {}, correct {}/{}'.format(i, acc, correct, count))
-
+        _, val_error, val_auc, _ = summary(model, val_loader, args.n_classes, results_dir=args.results_dir, split_name='val')
+        print('Val error: {:.4f}, ROC AUC: {:.4f}'.format(val_error, val_auc))
+        results_dict, test_error, test_auc, acc_logger = summary(model, test_loader, args.n_classes, results_dir=args.results_dir, split_name='test')
+        print('Test error: {:.4f}, ROC AUC: {:.4f}'.format(test_error, test_auc))
+        for i in range(args.n_classes):
+            acc, correct, count = acc_logger.get_summary(i)
+            print('class {}: acc {}, correct {}/{}'.format(i, acc, correct, count))
+            if writer:
+                writer.add_scalar('final/test_class_{}_acc'.format(i), acc, 0)
         if writer:
-            writer.add_scalar('final/test_class_{}_acc'.format(i), acc, 0)
+            writer.add_scalar('final/val_error', val_error, 0)
+            writer.add_scalar('final/val_auc', val_auc, 0)
+            writer.add_scalar('final/test_error', test_error, 0)
+            writer.add_scalar('final/test_auc', test_auc, 0)
+            writer.close()
+        return results_dict, test_auc, val_auc, 1 - test_error, 1 - val_error
 
-    if writer:
-        writer.add_scalar('final/val_error', val_error, 0)
-        writer.add_scalar('final/val_auc', val_auc, 0)
-        writer.add_scalar('final/test_error', test_error, 0)
-        writer.add_scalar('final/test_auc', test_auc, 0)
-        writer.close()
-    return results_dict, test_auc, val_auc, 1-test_error, 1-val_error 
+    if world_size > 1:
+        torch.distributed.barrier()
+    return None, 0.0, 0.0, 0.0, 0.0 
 
 
 def train_loop_clam(epoch, model, loader, optimizer, n_classes, bag_weight, writer = None, loss_fn = None):

@@ -38,20 +38,24 @@ def custom_collate_fn(batch):
 	
 	return collated
 
-def compute_w_loader(output_path, loader, model, verbose = 0, blur_mode='none', blur_thr=None, blur_downsample=2):
+def compute_w_loader(output_path, loader, model, verbose=0, blur_mode='none', blur_thr=None, blur_downsample=2, device=None, use_amp=False):
 	"""
 	args:
 		output_path: directory to save computed features (.h5 file)
 		model: pytorch model
 		verbose: level of feedback
-		blur_mode: 'none', 'drop', or 'maqw' - blur mode (maqw: save Laplacian scores for M-AQW, no dropping)
-		blur_thr: blur threshold (patches with score < threshold will be dropped; used only when blur_mode='drop')
+		blur_mode: 'none', 'drop', or 'maqw'
+		blur_thr: blur threshold (used only when blur_mode='drop')
 		blur_downsample: downsample factor for blur computation
+		device: torch device (default global)
+		use_amp: use mixed precision for faster GPU forward
 	"""
+	if device is None:
+		device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 	if verbose > 0:
-		print(f'processing a total of {len(loader)} batches'.format(len(loader)))
+		print('processing a total of {} batches'.format(len(loader)))
 		if blur_mode == 'drop' and blur_thr is not None:
-			print(f'Blur filtering enabled: threshold = {blur_thr}')
+			print('Blur filtering enabled: threshold = {}'.format(blur_thr))
 		if blur_mode == 'maqw':
 			print('M-AQW mode: saving Laplacian scores (no patch dropping)')
 
@@ -59,40 +63,32 @@ def compute_w_loader(output_path, loader, model, verbose = 0, blur_mode='none', 
 	total_patches = 0
 	total_dropped = 0
 	skipped_batches = 0
-	
+
 	for count, data in enumerate(tqdm(loader)):
-		with torch.inference_mode():	
+		with torch.inference_mode():
 			batch = data['img']
 			coords = data['coord'].numpy().astype(np.int32)
-			img_pils = data['img_pil']  # PIL images for blur computation
+			img_pils = data['img_pil']
 
-			# Blur: drop mode (filter) or maqw mode (save Laplacian scores only)
 			laplacian_scores_batch = None
 			if blur_mode == 'drop' and blur_thr is not None:
 				blur_scores = []
 				for pil in img_pils:
 					score = blur_score_laplacian(pil, downsample=blur_downsample)
 					blur_scores.append(score)
-
 				blur_scores = np.array(blur_scores, dtype=np.float32)
 				keep_mask = blur_scores >= blur_thr
-				
 				original_count = len(blur_scores)
 				dropped_count = (~keep_mask).sum()
 				total_patches += original_count
 				total_dropped += dropped_count
-				
-				# Skip batch if all patches are blurry
 				if keep_mask.sum() == 0:
 					skipped_batches += 1
 					if verbose > 0 and count % 10 == 0:
-						tqdm.write(f"  Batch {count}: All patches dropped (blurry)")
+						tqdm.write("  Batch {}: All patches dropped (blurry)".format(count))
 					continue
-
-				# Filter out blurry patches
 				if dropped_count > 0 and verbose > 0 and count % 10 == 0:
-					tqdm.write(f"  Batch {count}: Dropped {dropped_count}/{original_count} blurry patches")
-				
+					tqdm.write("  Batch {}: Dropped {}/{} blurry patches".format(count, dropped_count, original_count))
 				batch = batch[keep_mask]
 				coords = coords[keep_mask]
 			elif blur_mode == 'maqw':
@@ -103,8 +99,12 @@ def compute_w_loader(output_path, loader, model, verbose = 0, blur_mode='none', 
 				laplacian_scores_batch = np.array(blur_scores, dtype=np.float32)
 
 			batch = batch.to(device, non_blocking=True)
-			features = model(batch)
-			features = features.cpu().numpy().astype(np.float32)
+			if use_amp and device.type == 'cuda':
+				with torch.cuda.amp.autocast():
+					features = model(batch)
+			else:
+				features = model(batch)
+			features = features.cpu().float().numpy().astype(np.float32)
 
 			asset_dict = {'features': features, 'coords': coords}
 			if laplacian_scores_batch is not None:
@@ -126,7 +126,8 @@ def compute_w_loader(output_path, loader, model, verbose = 0, blur_mode='none', 
 	return output_path
 
 
-parser = argparse.ArgumentParser(description='Feature Extraction')
+parser = argparse.ArgumentParser(
+	description='Feature Extraction (from WSI). Multi-GPU: torchrun --nproc_per_node=N extract_features_fp.py ...')
 parser.add_argument('--data_h5_dir', type=str, default=None)
 parser.add_argument('--data_slide_dir', type=str, default=None)
 parser.add_argument('--slide_ext', type=str, default= '.svs')
@@ -142,77 +143,107 @@ parser.add_argument('--blur_thr', type=float, default=None,
 					help='Blur threshold. Patches with blur score < threshold will be dropped (only used when --blur_mode=drop)')
 parser.add_argument('--blur_downsample', type=int, default=2,
 					help='Downsample factor for blur computation (default: 2)')
+parser.add_argument('--num_workers', type=int, default=0,
+					help='DataLoader num_workers (default 0; increase may speed up but ensure OpenSlide/WSI is safe in multiprocessing)')
+parser.add_argument('--amp', action='store_true', default=False,
+					help='Use mixed precision (FP16) for faster GPU inference')
 args = parser.parse_args()
 
 
 if __name__ == '__main__':
-	print('initializing dataset')
+	# Multi-GPU: each process handles slides where index % world_size == rank
+	rank = int(os.environ.get('RANK', 0))
+	world_size = int(os.environ.get('WORLD_SIZE', 1))
+	local_rank = int(os.environ.get('LOCAL_RANK', 0))
+	if world_size > 1:
+		torch.distributed.init_process_group(backend='nccl')
+		device = torch.device('cuda:{}'.format(local_rank))
+	else:
+		device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+	if rank == 0:
+		print('initializing dataset')
 	csv_path = args.csv_path
 	if csv_path is None:
 		raise NotImplementedError
 
 	bags_dataset = Dataset_All_Bags(csv_path)
-	
-	os.makedirs(args.feat_dir, exist_ok=True)
-	os.makedirs(os.path.join(args.feat_dir, 'pt_files'), exist_ok=True)
-	os.makedirs(os.path.join(args.feat_dir, 'h5_files'), exist_ok=True)
+	total = len(bags_dataset)
+
+	if rank == 0:
+		os.makedirs(args.feat_dir, exist_ok=True)
+		os.makedirs(os.path.join(args.feat_dir, 'pt_files'), exist_ok=True)
+		os.makedirs(os.path.join(args.feat_dir, 'h5_files'), exist_ok=True)
+	if world_size > 1:
+		torch.distributed.barrier()
 	dest_files = os.listdir(os.path.join(args.feat_dir, 'pt_files'))
 
 	model, img_transforms = get_encoder(args.model_name, target_img_size=args.target_patch_size)
-			
 	_ = model.eval()
 	model = model.to(device)
-	total = len(bags_dataset)
 
-	loader_kwargs = {'num_workers': 0, 'pin_memory': True} if device.type == "cuda" else {}
+	# num_workers: overlap data loading with GPU; 0 avoids OpenSlide/WSI issues in multiprocessing
+	num_workers = args.num_workers if world_size == 1 else min(args.num_workers, 2)
+	loader_kwargs = {'num_workers': num_workers, 'pin_memory': True} if device.type == 'cuda' else {}
 
-	for bag_candidate_idx in tqdm(range(total)):
+	# Only this process's slide indices (multi-GPU)
+	indices = range(rank, total, world_size)
+	n_slides = len(indices)
+	if rank == 0 and world_size > 1:
+		print('Multi-GPU: {} processes, this process will handle {} slides'.format(world_size, n_slides))
+
+	for pos, bag_candidate_idx in enumerate(tqdm(indices, desc='slides', position=rank, leave=(rank == 0))):
 		slide_id = bags_dataset[bag_candidate_idx].split(args.slide_ext)[0]
-		bag_name = slide_id+'.h5'
+		bag_name = slide_id + '.h5'
 		h5_file_path = os.path.join(args.data_h5_dir, 'patches', bag_name)
-		slide_file_path = os.path.join(args.data_slide_dir, slide_id+args.slide_ext)
-		print('\nprogress: {}/{}'.format(bag_candidate_idx, total))
-		print(slide_id)
+		slide_file_path = os.path.join(args.data_slide_dir, slide_id + args.slide_ext)
+		if rank == 0 or world_size == 1:
+			print('\nprogress: {}/{} (slide {})'.format(pos + 1, n_slides, slide_id))
 
-		if not args.no_auto_skip and slide_id+'.pt' in dest_files:
-			print('skipped {}'.format(slide_id))
-			continue 
+		if not args.no_auto_skip and slide_id + '.pt' in dest_files:
+			if rank == 0 or world_size == 1:
+				print('skipped {}'.format(slide_id))
+			continue
 
-		# H5 패치 파일이 없으면 건너뛰기
 		if not os.path.exists(h5_file_path):
-			print('WARNING: H5 file not found: {}. Skipping...'.format(h5_file_path))
+			if rank == 0 or world_size == 1:
+				print('WARNING: H5 file not found: {}. Skipping...'.format(h5_file_path))
 			continue
 
 		output_path = os.path.join(args.feat_dir, 'h5_files', bag_name)
 		time_start = time.time()
 		wsi = openslide.open_slide(slide_file_path)
-		dataset = Whole_Slide_Bag_FP(file_path=h5_file_path, 
-							   		 wsi=wsi, 
-									 img_transforms=img_transforms)
-
-		# Use custom collate function to handle PIL Images (dataset always returns img_pil)
+		dataset = Whole_Slide_Bag_FP(file_path=h5_file_path, wsi=wsi, img_transforms=img_transforms)
 		loader = DataLoader(dataset=dataset, batch_size=args.batch_size, collate_fn=custom_collate_fn, **loader_kwargs)
 		output_file_path = compute_w_loader(
-			output_path, 
-			loader=loader, 
-			model=model, 
-			verbose=1,
+			output_path,
+			loader=loader,
+			model=model,
+			verbose=1 if (rank == 0 or world_size == 1) else 0,
 			blur_mode=args.blur_mode,
 			blur_thr=args.blur_thr,
-			blur_downsample=args.blur_downsample
+			blur_downsample=args.blur_downsample,
+			device=device,
+			use_amp=args.amp,
 		)
 
 		time_elapsed = time.time() - time_start
-		print('\ncomputing features for {} took {} s'.format(output_file_path, time_elapsed))
+		if rank == 0 or world_size == 1:
+			print('computing features for {} took {:.1f} s'.format(output_file_path, time_elapsed))
 
 		with h5py.File(output_file_path, "r") as file:
 			features = file['features'][:]
-			print('features size: ', features.shape)
-			print('coordinates size: ', file['coords'].shape)
+			if rank == 0 or world_size == 1:
+				print('features size: ', features.shape, 'coordinates size:', file['coords'].shape)
 
 		features = torch.from_numpy(features)
 		bag_base, _ = os.path.splitext(bag_name)
-		torch.save(features, os.path.join(args.feat_dir, 'pt_files', bag_base+'.pt'))
+		torch.save(features, os.path.join(args.feat_dir, 'pt_files', bag_base + '.pt'))
+
+	if world_size > 1:
+		torch.distributed.destroy_process_group()
+	if rank == 0:
+		print('Feature extraction done.')
 
 
 

@@ -118,7 +118,7 @@ def plot_boxplots(rows, out_dir, prefix='maqw'):
                 box_data.append(by_cluster[c])
                 positions.append(len(positions))
         if box_data:
-            bp = ax.boxplot(box_data, positions=positions, labels=clusters, patch_artist=True)
+            bp = ax.boxplot(box_data, positions=positions, tick_labels=clusters, patch_artist=True)
             for patch in bp['boxes']:
                 patch.set_facecolor('lightblue')
         ax.set_title(k)
@@ -141,11 +141,15 @@ def plot_scatter_tau(rows, out_dir, prefix='maqw', color_by='cluster_name'):
     tau_R = [r['tau_R'] for r in rows]
     if color_by == 'cluster_name' and 'cluster_name' in rows[0]:
         clusters = sorted(set(r['cluster_name'] for r in rows))
-        cmap = plt.cm.get_cmap('tab10', max(len(clusters), 1))
+        try:
+            cmap = plt.colormaps['tab10'].resampled(max(len(clusters), 1))
+        except AttributeError:
+            cmap = plt.cm.get_cmap('tab10', max(len(clusters), 1))
         for i, c in enumerate(clusters):
             idx = [j for j, r in enumerate(rows) if r.get('cluster_name') == c]
             if idx:
-                ax.scatter([tau_L[j] for j in idx], [tau_R[j] for j in idx], label=c, alpha=0.7, s=40, color=cmap(i))
+                ci = i / max(len(clusters) - 1, 1) if len(clusters) > 1 else 0.0
+                ax.scatter([tau_L[j] for j in idx], [tau_R[j] for j in idx], label=c, alpha=0.7, s=40, color=cmap(ci))
         ax.legend(loc='best', fontsize=8)
     else:
         # color by correct (1) vs incorrect (0)
@@ -177,7 +181,7 @@ def plot_w_summary(rows, out_dir, prefix='maqw'):
             by_cluster[r['cluster_name']].append(r['w_mean'])
     box_data = [by_cluster[c] for c in clusters if c in by_cluster]
     if box_data:
-        ax.boxplot(box_data, labels=clusters, patch_artist=True)
+        ax.boxplot(box_data, tick_labels=clusters, patch_artist=True)
         ax.set_ylabel('w_mean')
         ax.set_title('Mean weight by cluster')
     plt.tight_layout()
