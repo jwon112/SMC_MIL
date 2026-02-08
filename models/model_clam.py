@@ -127,6 +127,7 @@ class CLAM_SB(nn.Module):
         all_targets = torch.cat([p_targets, n_targets], dim=0)
         all_instances = torch.cat([top_p, top_n], dim=0)
         logits = classifier(all_instances)
+        all_targets = all_targets.to(logits.device)
         all_preds = torch.topk(logits, 1, dim = 1)[1].squeeze(1)
         instance_loss = self.instance_loss_fn(logits, all_targets)
         return instance_loss, all_preds, all_targets
@@ -140,6 +141,7 @@ class CLAM_SB(nn.Module):
         top_p = torch.index_select(h, dim=0, index=top_p_ids)
         p_targets = self.create_negative_targets(self.k_sample, device)
         logits = classifier(top_p)
+        p_targets = p_targets.to(logits.device)
         p_preds = torch.topk(logits, 1, dim = 1)[1].squeeze(1)
         instance_loss = self.instance_loss_fn(logits, p_targets)
         return instance_loss, p_preds, p_targets
