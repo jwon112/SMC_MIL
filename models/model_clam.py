@@ -6,6 +6,17 @@ import pdb
 
 from models.maqw import M_AQW, M_AQW_Multi
 
+# topk SmoothTop1SVM uses delta(y, labels, alpha); labels can be created on CPU in DDP, causing device mismatch.
+try:
+    import topk.utils as _topk_utils
+    _delta_orig = _topk_utils.delta
+    def _delta_device(y, labels, alpha):
+        labels = labels.to(y.device)
+        return _delta_orig(y, labels, alpha)
+    _topk_utils.delta = _delta_device
+except Exception:
+    pass
+
 """
 Attention Network without Gating (2 fc layers)
 args:
