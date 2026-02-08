@@ -5,6 +5,22 @@ import pdb
 import os
 import math
 
+# Patch topk.utils.delta so labels are on same device as y (fixes DDP + SmoothTop1SVM device mismatch).
+# Must run before any code that imports topk (e.g. core_utils which uses SmoothTop1SVM).
+try:
+    import topk.utils as _topk_utils
+    _topk_delta_orig = getattr(_topk_utils, 'delta', None)
+    if _topk_delta_orig is not None:
+        def _topk_delta_patch(y, labels, alpha):
+            labels = labels.to(y.device)
+            return _topk_delta_orig(y, labels, alpha)
+        _topk_utils.delta = _topk_delta_patch
+        import topk.functional as _topk_fn
+        if hasattr(_topk_fn, 'delta'):
+            _topk_fn.delta = _topk_delta_patch
+except Exception:
+    pass
+
 # internal imports
 from utils.file_utils import save_pkl, load_pkl
 from utils.utils import *
