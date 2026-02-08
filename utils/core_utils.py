@@ -12,6 +12,27 @@ from sklearn.metrics import auc as calc_auc
 
 device=torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+
+def _patch_topk_delta_for_device():
+    """topk.utils.delta(y, labels, alpha)에서 labels가 CPU에 있으면 DDP에서 device 불일치 발생.
+    delta를 wrapper로 교체해 labels를 y와 같은 device로 옮긴 뒤 원래 delta 호출.
+    topk.functional이 이미 delta를 import해 둔 경우를 위해 functional.delta도 덮어씀."""
+    try:
+        import topk.utils as _tu
+        _orig = getattr(_tu, 'delta', None)
+        if _orig is None:
+            return
+        def _wrapped(y, labels, alpha):
+            labels = labels.to(y.device)
+            return _orig(y, labels, alpha)
+        _tu.delta = _wrapped
+        import topk.functional as _tf
+        if hasattr(_tf, 'delta'):
+            _tf.delta = _wrapped
+    except Exception:
+        pass
+
+
 class Accuracy_Logger(object):
     """Accuracy logger"""
     def __init__(self, n_classes):
@@ -137,6 +158,7 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
         print('\nInit loss function...', end=' ')
     if args.bag_loss == 'svm':
         from topk.svm import SmoothTop1SVM
+        _patch_topk_delta_for_device()
         loss_fn = SmoothTop1SVM(n_classes = args.n_classes)
         if device.type == 'cuda':
             loss_fn = loss_fn.to(device)
@@ -165,6 +187,7 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
             model_dict.update({'k_sample': args.B})
         if args.inst_loss == 'svm':
             from topk.svm import SmoothTop1SVM
+            _patch_topk_delta_for_device()
             instance_loss_fn = SmoothTop1SVM(n_classes = 2)
             if device.type == 'cuda':
                 instance_loss_fn = instance_loss_fn.to(device)
