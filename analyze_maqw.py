@@ -1,5 +1,7 @@
 """
 M-AQW 결과 CSV 분석: 분포 타입별 클러스터링 및 τ/k 박스플롯·산점도 시각화.
+단일 지표(laplacian만) 및 다중 지표(laplacian + stain_saturation + contrast) 대응.
+출력은 out_dir 아래 combined/, indicators/<이름>/ 등 폴더로 정리.
 Usage:
   python analyze_maqw.py --csv maqw_test_details.csv [maqw_val_details.csv ...] --out_dir ./maqw_plots
   python analyze_maqw.py --results_dir ./results/exp_s1 --out_dir ./maqw_plots
@@ -19,6 +21,9 @@ try:
     HAS_SKLEARN = True
 except ImportError:
     HAS_SKLEARN = False
+
+# Multi-indicator M-AQW: CSV column suffix _0, _1, _2 -> indicator name
+INDICATOR_NAMES = ['laplacian', 'stain_saturation', 'contrast']
 
 
 def load_maqw_csv(path):
@@ -191,12 +196,63 @@ def plot_w_summary(rows, out_dir, prefix='maqw'):
     print('Saved', path)
 
 
+def is_multi_indicator(rows):
+    """True if CSV has per-indicator columns (tau_L_0, tau_L_1, ...)."""
+    if not rows:
+        return False
+    return 'tau_L_0' in rows[0] or 'tau_L_1' in rows[0]
+
+
+def build_rows_for_indicator(rows, indicator_index):
+    """Build virtual rows with tau_L, tau_R, k_L, k_R from tau_L_<i>, etc.; copy cluster_name, label, Y_hat, w_*."""
+    param_keys = ['tau_L', 'tau_R', 'k_L', 'k_R']
+    suffix = f'_{indicator_index}'
+    out = []
+    for r in rows:
+        nr = {k: v for k, v in r.items() if k in ('cluster_name', 'label', 'Y_hat', 'w_mean', 'w_lt_0p1', 'w_gt_0p9')}
+        for p in param_keys:
+            key = p + suffix
+            if key in r and r[key] is not None:
+                nr[p] = r[key]
+        if all(p in nr for p in param_keys):
+            out.append(nr)
+    return out if out else rows
+
+
+def write_cluster_summary(rows, out_path, param_keys=None):
+    """Write cluster summary CSV for given rows and param keys."""
+    if not rows or 'cluster_name' not in rows[0]:
+        return
+    if param_keys is None:
+        param_keys = ('tau_L', 'tau_R', 'k_L', 'k_R', 'q_mean', 'w_mean', 'w_lt_0p1', 'w_gt_0p9')
+    clusters = sorted(set(r['cluster_name'] for r in rows))
+    summary_rows = []
+    for c in clusters:
+        sub = [r for r in rows if r['cluster_name'] == c]
+        if not sub:
+            continue
+        sr = {'cluster_name': c, 'count': len(sub)}
+        for k in param_keys:
+            vals = [r[k] for r in sub if k in r and r[k] is not None]
+            if vals:
+                sr[f'{k}_mean'] = float(np.mean(vals))
+                sr[f'{k}_std'] = float(np.std(vals))
+        summary_rows.append(sr)
+    if summary_rows:
+        os.makedirs(os.path.dirname(out_path) or '.', exist_ok=True)
+        with open(out_path, 'w', newline='', encoding='utf-8') as f:
+            w = csv.DictWriter(f, fieldnames=list(summary_rows[0].keys()))
+            w.writeheader()
+            w.writerows(summary_rows)
+        print('Saved', out_path)
+
+
 def main():
     parser = argparse.ArgumentParser(description='Analyze M-AQW CSV outputs: cluster and plot.')
     parser.add_argument('--csv', nargs='+', default=[], help='Paths to maqw_*_details.csv')
     parser.add_argument('--results_dir', type=str, default=None,
                         help='If set, look for maqw_val_details.csv and maqw_test_details.csv here')
-    parser.add_argument('--out_dir', type=str, default='./maqw_plots', help='Output directory for figures')
+    parser.add_argument('--out_dir', type=str, default='./maqw_plots', help='Output directory (combined + indicators/*)')
     parser.add_argument('--n_clusters', type=int, default=3, help='Number of clusters (default 3)')
     parser.add_argument('--no_cluster', action='store_true', help='Skip clustering; only plot scatter (no cluster_name)')
     args = parser.parse_args()
@@ -216,7 +272,12 @@ def main():
         print('No rows loaded.')
         return
 
-    rows = ensure_numeric(rows, ['tau_L', 'tau_R', 'k_L', 'k_R', 'q_mean', 'q_std', 'w_mean', 'w_lt_0p1', 'w_gt_0p9', 'label', 'Y_hat'])
+    multi = is_multi_indicator(rows)
+    numeric_keys = ['tau_L', 'tau_R', 'k_L', 'k_R', 'q_mean', 'q_std', 'w_mean', 'w_lt_0p1', 'w_gt_0p9', 'label', 'Y_hat']
+    if multi:
+        for i in range(len(INDICATOR_NAMES)):
+            numeric_keys.extend([f'tau_L_{i}', f'k_L_{i}', f'tau_R_{i}', f'k_R_{i}'])
+    rows = ensure_numeric(rows, numeric_keys)
     if not args.no_cluster and HAS_SKLEARN:
         rows = cluster_by_q_hist(rows, n_clusters=args.n_clusters)
     else:
@@ -233,35 +294,33 @@ def main():
     if args.results_dir:
         prefix = os.path.basename(args.results_dir.rstrip(os.sep)) or 'maqw'
 
-    plot_boxplots(rows, args.out_dir, prefix=prefix)
-    plot_scatter_tau(rows, args.out_dir, prefix=prefix, color_by='cluster_name')
-    plot_scatter_tau(rows, args.out_dir, prefix=prefix, color_by='correct')
-    plot_w_summary(rows, args.out_dir, prefix=prefix)
+    # Combined (mean params for multi, or single-indicator)
+    combined_dir = os.path.join(args.out_dir, 'combined')
+    os.makedirs(combined_dir, exist_ok=True)
+    plot_boxplots(rows, combined_dir, prefix=prefix)
+    plot_scatter_tau(rows, combined_dir, prefix=prefix, color_by='cluster_name')
+    plot_scatter_tau(rows, combined_dir, prefix=prefix, color_by='correct')
+    plot_w_summary(rows, combined_dir, prefix=prefix)
+    write_cluster_summary(rows, os.path.join(combined_dir, f'{prefix}_cluster_summary.csv'))
 
-    # Cluster summary table (CSV)
-    if 'cluster_name' in rows[0]:
-        clusters = sorted(set(r['cluster_name'] for r in rows))
-        summary_rows = []
-        for c in clusters:
-            sub = [r for r in rows if r['cluster_name'] == c]
-            if not sub:
+    # Per-indicator (multi only)
+    if multi:
+        for i, name in enumerate(INDICATOR_NAMES):
+            if f'tau_L_{i}' not in rows[0]:
                 continue
-            sr = {'cluster_name': c, 'count': len(sub)}
-            for k in ('tau_L', 'tau_R', 'k_L', 'k_R', 'q_mean', 'w_mean', 'w_lt_0p1', 'w_gt_0p9'):
-                vals = [r[k] for r in sub if k in r and r[k] is not None]
-                if vals:
-                    sr[f'{k}_mean'] = float(np.mean(vals))
-                    sr[f'{k}_std'] = float(np.std(vals))
-            summary_rows.append(sr)
-        if summary_rows:
-            out_csv = os.path.join(args.out_dir, f'{prefix}_cluster_summary.csv')
-            with open(out_csv, 'w', newline='', encoding='utf-8') as f:
-                w = csv.DictWriter(f, fieldnames=list(summary_rows[0].keys()))
-                w.writeheader()
-                w.writerows(summary_rows)
-            print('Saved', out_csv)
+            ind_dir = os.path.join(args.out_dir, 'indicators', name)
+            os.makedirs(ind_dir, exist_ok=True)
+            rows_i = build_rows_for_indicator(rows, i)
+            if not rows_i:
+                continue
+            rows_i = ensure_numeric(rows_i, ['tau_L', 'tau_R', 'k_L', 'k_R'])
+            plot_boxplots(rows_i, ind_dir, prefix=name)
+            plot_scatter_tau(rows_i, ind_dir, prefix=name, color_by='cluster_name')
+            plot_scatter_tau(rows_i, ind_dir, prefix=name, color_by='correct')
+            plot_w_summary(rows_i, ind_dir, prefix=name)
+            write_cluster_summary(rows_i, os.path.join(ind_dir, f'{name}_cluster_summary.csv'), param_keys=('tau_L', 'tau_R', 'k_L', 'k_R', 'w_mean', 'w_lt_0p1', 'w_gt_0p9'))
 
-    print('Done. Figures in', args.out_dir)
+    print('Done. Outputs in', args.out_dir, '(combined/ and indicators/<name>/)')
 
 
 if __name__ == '__main__':

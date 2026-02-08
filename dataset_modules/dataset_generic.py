@@ -192,7 +192,7 @@ class Generic_WSI_Classification_Dataset(Dataset):
 		if len(split) > 0:
 			mask = self.slide_data['slide_id'].isin(split.tolist())
 			df_slice = self.slide_data[mask].reset_index(drop=True)
-			split = Generic_Split(df_slice, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5)
+			split = Generic_Split(df_slice, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5, use_maqw_multi=getattr(self, 'use_maqw_multi', False))
 		else:
 			split = None
 		
@@ -219,23 +219,24 @@ class Generic_WSI_Classification_Dataset(Dataset):
 
 
 		if from_id:
+			use_maqw_multi = getattr(self, 'use_maqw_multi', False)
 			if len(self.train_ids) > 0:
 				train_data = self.slide_data.loc[self.train_ids].reset_index(drop=True)
-				train_split = Generic_Split(train_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5)
+				train_split = Generic_Split(train_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5, use_maqw_multi=use_maqw_multi)
 
 			else:
 				train_split = None
 			
 			if len(self.val_ids) > 0:
 				val_data = self.slide_data.loc[self.val_ids].reset_index(drop=True)
-				val_split = Generic_Split(val_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5)
+				val_split = Generic_Split(val_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5, use_maqw_multi=use_maqw_multi)
 
 			else:
 				val_split = None
 			
 			if len(self.test_ids) > 0:
 				test_data = self.slide_data.loc[self.test_ids].reset_index(drop=True)
-				test_split = Generic_Split(test_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5)
+				test_split = Generic_Split(test_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5, use_maqw_multi=use_maqw_multi)
 			
 			else:
 				test_split = None
@@ -312,6 +313,10 @@ class Generic_WSI_Classification_Dataset(Dataset):
 		df.to_csv(filename, index = False)
 
 
+# H5 keys for multi-indicator M-AQW (laplacian + stain_saturation + contrast; color_entropy dropped for multicollinearity)
+MAQW_MULTI_KEYS = ['laplacian_scores', 'stain_saturation', 'contrast']
+
+
 class Generic_MIL_Dataset(Generic_WSI_Classification_Dataset):
 	def __init__(self,
 		data_dir, 
@@ -320,6 +325,7 @@ class Generic_MIL_Dataset(Generic_WSI_Classification_Dataset):
 		super(Generic_MIL_Dataset, self).__init__(**kwargs)
 		self.data_dir = data_dir
 		self.use_h5 = False
+		self.use_maqw_multi = False
 
 	def load_from_h5(self, toggle):
 		self.use_h5 = toggle
@@ -372,17 +378,22 @@ class Generic_MIL_Dataset(Generic_WSI_Classification_Dataset):
 			with h5py.File(full_path,'r') as hdf5_file:
 				features = hdf5_file['features'][:]
 				coords = hdf5_file['coords'][:]
-				laplacian_scores = None
-				if 'laplacian_scores' in hdf5_file:
-					laplacian_scores = torch.from_numpy(hdf5_file['laplacian_scores'][:].astype(np.float32))
+				quality_scores = None
+				if getattr(self, 'use_maqw_multi', False):
+					if all(k in hdf5_file for k in MAQW_MULTI_KEYS):
+						parts = [hdf5_file[k][:].astype(np.float32) for k in MAQW_MULTI_KEYS]
+						quality_scores = torch.from_numpy(np.column_stack(parts))
+				if quality_scores is None and 'laplacian_scores' in hdf5_file:
+					quality_scores = torch.from_numpy(hdf5_file['laplacian_scores'][:].astype(np.float32))
 
 			features = torch.from_numpy(features)
-			return features, label, coords, laplacian_scores
+			return features, label, coords, quality_scores
 
 
 class Generic_Split(Generic_MIL_Dataset):
-	def __init__(self, slide_data, data_dir=None, num_classes=2, use_h5=False):
+	def __init__(self, slide_data, data_dir=None, num_classes=2, use_h5=False, use_maqw_multi=False):
 		self.use_h5 = use_h5
+		self.use_maqw_multi = use_maqw_multi
 		self.slide_data = slide_data
 		self.data_dir = data_dir
 		self.num_classes = num_classes

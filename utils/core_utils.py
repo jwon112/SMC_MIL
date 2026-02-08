@@ -159,6 +159,8 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
             model_dict.update({'subtyping': True})
         if getattr(args, 'use_maqw', False):
             model_dict.update({'use_maqw': True})
+        if getattr(args, 'use_maqw_multi', False):
+            model_dict.update({'use_maqw_multi': True})
         if args.B > 0:
             model_dict.update({'k_sample': args.B})
         if args.inst_loss == 'svm':
@@ -654,9 +656,18 @@ def summary(model, loader, n_classes, results_dir=None, split_name='test'):
             for k in ["tau_L", "k_L", "tau_R", "k_R",
                       "q_mean", "q_std", "q_min", "q_max", "q_p25", "q_p75",
                       "w_mean", "w_std", "w_lt_0p1", "w_gt_0p9"]:
-                row[k] = float(maqw[k].detach().cpu())
-            row["q_hist10"] = ",".join([f"{v:.6f}" for v in maqw["q_hist10"].detach().cpu().numpy().tolist()])
-            row["w_hist10"] = ",".join([f"{v:.6f}" for v in maqw["w_hist10"].detach().cpu().numpy().tolist()])
+                if k in maqw:
+                    row[k] = float(maqw[k].detach().cpu())
+            for k in maqw:
+                if k in row:
+                    continue
+                v = maqw[k]
+                if hasattr(v, "detach"):
+                    v = v.detach().cpu()
+                if hasattr(v, "numel") and v.numel() == 1:
+                    row[k] = float(v)
+                elif hasattr(v, "numpy") and hasattr(v, "shape") and len(v.shape) == 1:
+                    row[k] = ",".join([f"{x:.6f}" for x in v.numpy().tolist()])
             maqw_rows.append(row)
 
     test_error /= len(loader)

@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import numpy as np
 import pdb
 
-from models.maqw import M_AQW
+from models.maqw import M_AQW, M_AQW_Multi
 
 """
 Attention Network without Gating (2 fc layers)
@@ -78,12 +78,14 @@ args:
 """
 class CLAM_SB(nn.Module):
     def __init__(self, gate = True, size_arg = "small", dropout = 0., k_sample=8, n_classes=2,
-        instance_loss_fn=nn.CrossEntropyLoss(), subtyping=False, embed_dim=1024, use_maqw=False):
+        instance_loss_fn=nn.CrossEntropyLoss(), subtyping=False, embed_dim=1024, use_maqw=False, use_maqw_multi=False):
         super().__init__()
         self.size_dict = {"small": [embed_dim, 512, 256], "big": [embed_dim, 512, 384]}
         size = self.size_dict[size_arg]
-        self.use_maqw = use_maqw
-        if use_maqw:
+        self.use_maqw = use_maqw or use_maqw_multi
+        if use_maqw_multi:
+            self.maqw_module = M_AQW_Multi(meta_input_dim=48, meta_hidden=32)
+        elif use_maqw:
             self.maqw_module = M_AQW(meta_input_dim=16, meta_hidden=32)
         else:
             self.maqw_module = None
@@ -194,12 +196,14 @@ class CLAM_SB(nn.Module):
 
 class CLAM_MB(CLAM_SB):
     def __init__(self, gate = True, size_arg = "small", dropout = 0., k_sample=8, n_classes=2,
-        instance_loss_fn=nn.CrossEntropyLoss(), subtyping=False, embed_dim=1024, use_maqw=False):
+        instance_loss_fn=nn.CrossEntropyLoss(), subtyping=False, embed_dim=1024, use_maqw=False, use_maqw_multi=False):
         nn.Module.__init__(self)
         self.size_dict = {"small": [embed_dim, 512, 256], "big": [embed_dim, 512, 384]}
         size = self.size_dict[size_arg]
-        self.use_maqw = use_maqw
-        if use_maqw:
+        self.use_maqw = use_maqw or use_maqw_multi
+        if use_maqw_multi:
+            self.maqw_module = M_AQW_Multi(meta_input_dim=48, meta_hidden=32)
+        elif use_maqw:
             self.maqw_module = M_AQW(meta_input_dim=16, meta_hidden=32)
         else:
             self.maqw_module = None
