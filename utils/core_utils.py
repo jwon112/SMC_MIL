@@ -510,7 +510,8 @@ def validate_clam(cur, epoch, model, loader, n_classes, early_stopping = None, w
     
     prob = np.zeros((len(loader), n_classes))
     labels = np.zeros(len(loader))
-    sample_size = model.k_sample
+    _model = model.module if hasattr(model, 'module') else model
+    sample_size = _model.k_sample
     maqw_logs = {
         "tau_L": [], "k_L": [], "tau_R": [], "k_R": [],
         "w_mean": [], "w_lt_0p1": [], "w_gt_0p9": []

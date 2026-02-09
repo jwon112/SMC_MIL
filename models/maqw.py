@@ -1,10 +1,16 @@
 """
 M-AQW: Meta-Parametric Asymmetric Quality-Aware Weighting.
-Per-patch weights from Laplacian (quality) via double-sigmoid; parameters predicted by Meta-MLP from slide-level stats + histogram.
+Per-patch weights from Laplacian (quality) via plateau-type double-sigmoid; parameters predicted by Meta-MLP from slide-level stats + histogram.
+- Plateau: W(q) = min(2*sigmoid_L, 2*sigmoid_R, 1.0) for wide 1.0 band.
+- tau_R - tau_L >= 0.5; k init steeper (bias 2.0) for faster rise to 1.0.
 """
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
+# k raw bias so that initial k ~ 7–8 (steeper sigmoid; plateau reaches 1.0 more easily)
+K_INIT_BIAS = 2.0
+TAU_GAP_MIN = 0.5
 
 
 def _normalize_q(q: torch.Tensor, eps: float = 1e-8) -> torch.Tensor:
@@ -80,17 +86,16 @@ class M_AQW(nn.Module):
         q_norm = _normalize_q(q)  # [N]
         x_feat = _slide_stats_and_histogram(q_norm)  # [16]
         x = x_feat.unsqueeze(0)  # [1, 16]
-        raw = self.meta_mlp(x).squeeze(0)  # [4] -> (tau_L, k_L, tau_R, k_R)
+        raw = self.meta_mlp(x).squeeze(0)  # [4] -> (tau_L, k_L, gap_raw, k_R)
         tau_L = torch.sigmoid(raw[0])
-        k_L = F.softplus(raw[1]) + 0.1
-        tau_R = torch.sigmoid(raw[2])
-        k_R = F.softplus(raw[3]) + 0.1
+        k_L = F.softplus(raw[1] + K_INIT_BIAS) + 0.1
+        tau_R = torch.clamp(tau_L + TAU_GAP_MIN + F.softplus(raw[2]), max=1.0)
+        k_R = F.softplus(raw[3] + K_INIT_BIAS) + 0.1
 
-        # W_left(q) = sigmoid(k_L * (q_norm - tau_L))
+        # Plateau: W(q) = min(2*sigmoid_L, 2*sigmoid_R, 1.0) for wide 1.0 band
         w_left = torch.sigmoid(k_L * (q_norm - tau_L))
-        # W_right(q) = sigmoid(k_R * (tau_R - q_norm))
         w_right = torch.sigmoid(k_R * (tau_R - q_norm))
-        w = w_left * w_right  # [N]
+        w = torch.clamp(torch.minimum(2.0 * w_left, 2.0 * w_right), max=1.0)  # [N]
         h_out = h * w.unsqueeze(1)
 
         if not return_debug:
@@ -135,9 +140,9 @@ def _slide_stats_and_histogram_multi(q_norm: torch.Tensor, n_bins: int = 10, eps
 class M_AQW_Multi(nn.Module):
     """
     Multi-indicator M-AQW: 3 quality channels (laplacian, stain_saturation, contrast).
-    Per-channel double-sigmoid; final weight = product of the 3 weights.
+    Per-channel plateau double-sigmoid; final weight = geometric mean (w_1 * w_2 * w_3)^(1/3).
     Input: h [N, D], q [N, 3] (raw scores for 3 indicators).
-    Output: h_mod [N, D] = h * W(q), with W = w_1 * w_2 * w_3.
+    Output: h_mod [N, D] = h * W(q).
     """
 
     N_CHANNELS = 3
@@ -173,13 +178,15 @@ class M_AQW_Multi(nn.Module):
         for c in range(self.N_CHANNELS):
             i = c * 4
             tau_L = torch.sigmoid(raw[i])
-            k_L = F.softplus(raw[i + 1]) + 0.1
-            tau_R = torch.sigmoid(raw[i + 2])
-            k_R = F.softplus(raw[i + 3]) + 0.1
+            k_L = F.softplus(raw[i + 1] + K_INIT_BIAS) + 0.1
+            tau_R = torch.clamp(tau_L + TAU_GAP_MIN + F.softplus(raw[i + 2]), max=1.0)
+            k_R = F.softplus(raw[i + 3] + K_INIT_BIAS) + 0.1
             w_left = torch.sigmoid(k_L * (q_norm[:, c] - tau_L))
             w_right = torch.sigmoid(k_R * (tau_R - q_norm[:, c]))
-            w_all.append(w_left * w_right)
-        w = w_all[0] * w_all[1] * w_all[2]
+            w_c = torch.clamp(torch.minimum(2.0 * w_left, 2.0 * w_right), max=1.0)
+            w_all.append(w_c)
+        # Geometric mean: (w_0 * w_1 * w_2)^(1/3) to avoid one weak channel killing the weight
+        w = (w_all[0] * w_all[1] * w_all[2]).clamp(min=1e-8).pow(1.0 / self.N_CHANNELS)
         h_out = h * w.unsqueeze(1)
 
         if not return_debug:
@@ -187,11 +194,16 @@ class M_AQW_Multi(nn.Module):
 
         w_flat = w.view(-1)
         q_flat = q_norm.view(-1)
+        # Report actual tau/k (post-transform) for logging
+        _tau_L = torch.sigmoid(raw[0::4]).mean()
+        _tau_R = torch.clamp(
+            torch.sigmoid(raw[0::4]) + TAU_GAP_MIN + F.softplus(raw[2::4]), max=1.0
+        ).mean()
         debug = {
-            "tau_L": raw[0::4].mean(),
-            "k_L": raw[1::4].mean(),
-            "tau_R": raw[2::4].mean(),
-            "k_R": raw[3::4].mean(),
+            "tau_L": _tau_L,
+            "k_L": (F.softplus(raw[1::4] + K_INIT_BIAS) + 0.1).mean(),
+            "tau_R": _tau_R,
+            "k_R": (F.softplus(raw[3::4] + K_INIT_BIAS) + 0.1).mean(),
             "q_mean": q_norm.mean(),
             "q_std": q_norm.std(),
             "q_min": q_norm.min(),
@@ -207,8 +219,9 @@ class M_AQW_Multi(nn.Module):
         }
         for c in range(self.N_CHANNELS):
             i = c * 4
-            debug[f"tau_L_{c}"] = torch.sigmoid(raw[i])
-            debug[f"k_L_{c}"] = F.softplus(raw[i + 1]) + 0.1
-            debug[f"tau_R_{c}"] = torch.sigmoid(raw[i + 2])
-            debug[f"k_R_{c}"] = F.softplus(raw[i + 3]) + 0.1
+            tL = torch.sigmoid(raw[i])
+            debug[f"tau_L_{c}"] = tL
+            debug[f"k_L_{c}"] = F.softplus(raw[i + 1] + K_INIT_BIAS) + 0.1
+            debug[f"tau_R_{c}"] = torch.clamp(tL + TAU_GAP_MIN + F.softplus(raw[i + 2]), max=1.0)
+            debug[f"k_R_{c}"] = F.softplus(raw[i + 3] + K_INIT_BIAS) + 0.1
         return h_out, debug
