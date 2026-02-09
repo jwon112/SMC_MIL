@@ -86,10 +86,12 @@ class M_AQW(nn.Module):
         q_norm = _normalize_q(q)  # [N]
         x_feat = _slide_stats_and_histogram(q_norm)  # [16]
         x = x_feat.unsqueeze(0)  # [1, 16]
-        raw = self.meta_mlp(x).squeeze(0)  # [4] -> (tau_L, k_L, gap_raw, k_R)
+        raw = self.meta_mlp(x).squeeze(0)  # [4] -> (tau_L, k_L, tau_R_raw, k_R)
         tau_L = torch.sigmoid(raw[0])
         k_L = F.softplus(raw[1] + K_INIT_BIAS) + 0.1
-        tau_R = torch.clamp(tau_L + TAU_GAP_MIN + F.softplus(raw[2]), max=1.0)
+        # tau_L과 tau_R을 독립적으로 예측하되, 최소 간격 제약만 보장
+        tau_R_raw = torch.sigmoid(raw[2])
+        tau_R = torch.clamp(tau_R_raw, min=tau_L + TAU_GAP_MIN, max=1.0)
         k_R = F.softplus(raw[3] + K_INIT_BIAS) + 0.1
 
         # Plateau: W(q) = min(2*sigmoid_L, 2*sigmoid_R, 1.0) for wide 1.0 band
@@ -179,7 +181,9 @@ class M_AQW_Multi(nn.Module):
             i = c * 4
             tau_L = torch.sigmoid(raw[i])
             k_L = F.softplus(raw[i + 1] + K_INIT_BIAS) + 0.1
-            tau_R = torch.clamp(tau_L + TAU_GAP_MIN + F.softplus(raw[i + 2]), max=1.0)
+            # tau_L과 tau_R을 독립적으로 예측하되, 최소 간격 제약만 보장
+            tau_R_raw = torch.sigmoid(raw[i + 2])
+            tau_R = torch.clamp(tau_R_raw, min=tau_L + TAU_GAP_MIN, max=1.0)
             k_R = F.softplus(raw[i + 3] + K_INIT_BIAS) + 0.1
             w_left = torch.sigmoid(k_L * (q_norm[:, c] - tau_L))
             w_right = torch.sigmoid(k_R * (tau_R - q_norm[:, c]))
@@ -196,9 +200,9 @@ class M_AQW_Multi(nn.Module):
         q_flat = q_norm.view(-1)
         # Report actual tau/k (post-transform) for logging
         _tau_L = torch.sigmoid(raw[0::4]).mean()
-        _tau_R = torch.clamp(
-            torch.sigmoid(raw[0::4]) + TAU_GAP_MIN + F.softplus(raw[2::4]), max=1.0
-        ).mean()
+        _tau_L_vec = torch.sigmoid(raw[0::4])
+        _tau_R_raw = torch.sigmoid(raw[2::4])
+        _tau_R = torch.clamp(_tau_R_raw, min=_tau_L_vec + TAU_GAP_MIN, max=1.0).mean()
         debug = {
             "tau_L": _tau_L,
             "k_L": (F.softplus(raw[1::4] + K_INIT_BIAS) + 0.1).mean(),
@@ -220,8 +224,9 @@ class M_AQW_Multi(nn.Module):
         for c in range(self.N_CHANNELS):
             i = c * 4
             tL = torch.sigmoid(raw[i])
+            tR_raw = torch.sigmoid(raw[i + 2])
             debug[f"tau_L_{c}"] = tL
             debug[f"k_L_{c}"] = F.softplus(raw[i + 1] + K_INIT_BIAS) + 0.1
-            debug[f"tau_R_{c}"] = torch.clamp(tL + TAU_GAP_MIN + F.softplus(raw[i + 2]), max=1.0)
+            debug[f"tau_R_{c}"] = torch.clamp(tR_raw, min=tL + TAU_GAP_MIN, max=1.0)
             debug[f"k_R_{c}"] = F.softplus(raw[i + 3] + K_INIT_BIAS) + 0.1
         return h_out, debug
