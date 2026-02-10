@@ -1,9 +1,10 @@
 """
-Add patch-level metrics (stain saturation, color entropy, contrast; optionally Laplacian)
+Add patch-level metrics (stain saturation, color entropy, contrast; Tenengrad, VGM, Wavelet; optionally Laplacian)
 to existing feature H5 files. Metrics are computed from WSI patch images, not from features.
 Usage:
   python add_patch_metrics_to_h5.py --feat_dir ./feats --data_h5_dir ./patches_root --data_slide_dir ./wsi --csv_path slides.csv
   python add_patch_metrics_to_h5.py --feat_dir ./feats --data_h5_dir ./patches_root --data_slide_dir ./wsi  # use all H5 in feat_dir/h5_files
+Wavelet-based score requires: pip install PyWavelets
 """
 import os
 import argparse
@@ -65,8 +66,9 @@ def add_metrics_to_slide(
         # Optionally skip if all metrics already present
         if skip_existing:
             if 'stain_saturation' in f and 'color_entropy' in f and 'contrast' in f:
-                if not add_laplacian or 'laplacian_scores' in f:
-                    return True, n, 'already has metrics'
+                if 'tenengrad' in f and 'vgm' in f and 'wavelet_scores' in f:
+                    if not add_laplacian or 'laplacian_scores' in f:
+                        return True, n, 'already has metrics'
 
     with h5py.File(patch_h5_path, 'r') as f:
         if 'coords' not in f:
@@ -79,15 +81,21 @@ def add_metrics_to_slide(
     color_ent = []
     contrast_list = []
     laplacian_list = [] if add_laplacian else None
+    tenengrad_list = []
+    vgm_list = []
+    wavelet_list = []
 
     try:
         for i in range(n):
             coord = tuple(int(x) for x in coords[i])
             pil = wsi.read_region(coord, patch_level, (patch_size, patch_size)).convert('RGB')
-            metrics = compute_patch_metrics(pil, downsample=downsample, include_laplacian=add_laplacian)
+            metrics = compute_patch_metrics(pil, downsample=downsample, include_laplacian=add_laplacian, include_tenengrad_vgm_wavelet=True)
             stain_sat.append(metrics['stain_saturation'])
             color_ent.append(metrics['color_entropy'])
             contrast_list.append(metrics['contrast'])
+            tenengrad_list.append(metrics['tenengrad'])
+            vgm_list.append(metrics['vgm'])
+            wavelet_list.append(metrics['wavelet'])
             if add_laplacian:
                 laplacian_list.append(metrics['laplacian'])
     finally:
@@ -96,6 +104,9 @@ def add_metrics_to_slide(
     stain_sat = np.array(stain_sat, dtype=np.float32)
     color_ent = np.array(color_ent, dtype=np.float32)
     contrast_arr = np.array(contrast_list, dtype=np.float32)
+    tenengrad_arr = np.array(tenengrad_list, dtype=np.float32)
+    vgm_arr = np.array(vgm_list, dtype=np.float32)
+    wavelet_arr = np.array(wavelet_list, dtype=np.float32)
 
     with h5py.File(feat_h5_path, 'r+') as f:
         def _write_or_overwrite(name, data):
@@ -106,6 +117,9 @@ def add_metrics_to_slide(
         _write_or_overwrite('stain_saturation', stain_sat)
         _write_or_overwrite('color_entropy', color_ent)
         _write_or_overwrite('contrast', contrast_arr)
+        _write_or_overwrite('tenengrad', tenengrad_arr)
+        _write_or_overwrite('vgm', vgm_arr)
+        _write_or_overwrite('wavelet_scores', wavelet_arr)
         if add_laplacian and laplacian_list is not None:
             _write_or_overwrite('laplacian_scores', np.array(laplacian_list, dtype=np.float32))
 
@@ -115,7 +129,7 @@ def add_metrics_to_slide(
 def main():
     import torch
     parser = argparse.ArgumentParser(
-        description='Add stain_saturation, color_entropy, contrast (and optionally Laplacian) to existing feature H5 from WSI patches.'
+        description='Add stain_saturation, color_entropy, contrast, tenengrad, vgm, wavelet_scores (and optionally Laplacian) to existing feature H5 from WSI patches.'
     )
     parser.add_argument('--feat_dir', type=str, required=True, help='Feature directory (contains h5_files/)')
     parser.add_argument('--data_h5_dir', type=str, required=True, help='Root dir containing patches/<slide_id>.h5 with coords attrs')
