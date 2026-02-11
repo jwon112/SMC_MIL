@@ -12,7 +12,17 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-METRIC_KEYS = ['laplacian_scores', 'stain_saturation', 'color_entropy', 'contrast']
+# Patch-level metric keys to include in correlation matrix.
+# Default: blur/sharpness metrics + color/contrast metrics.
+METRIC_KEYS = [
+    'laplacian_scores',   # Laplacian-based blur score
+    'tenengrad',          # Tenengrad sharpness
+    'vgm',                # Variance of Gradient Magnitude
+    'wavelet_scores',     # Wavelet-based sharpness
+    'stain_saturation',   # Stain saturation (HSV-S)
+    'color_entropy',      # Color entropy
+    'contrast',           # Luminance contrast
+]
 
 
 def get_slide_ids_from_feat_dir(feat_dir):
@@ -57,7 +67,9 @@ def load_metrics_from_h5(path, keys=None, max_patches=None, rng=None):
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Compute correlation matrix of patch metrics (laplacian, stain_saturation, color_entropy, contrast) across H5 files.'
+        description='Compute correlation matrix of patch metrics across H5 files '
+                    '(default: laplacian_scores, tenengrad, vgm, wavelet_scores, '
+                    'stain_saturation, color_entropy, contrast).'
     )
     parser.add_argument('--feat_dir', type=str, required=True,
                         help='Feature directory containing h5_files/')

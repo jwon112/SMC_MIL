@@ -379,12 +379,20 @@ class Generic_MIL_Dataset(Generic_WSI_Classification_Dataset):
 				features = hdf5_file['features'][:]
 				coords = hdf5_file['coords'][:]
 				quality_scores = None
+				# Multi-indicator M-AQW: stacked [laplacian_scores, stain_saturation, contrast]
 				if getattr(self, 'use_maqw_multi', False):
 					if all(k in hdf5_file for k in MAQW_MULTI_KEYS):
 						parts = [hdf5_file[k][:].astype(np.float32) for k in MAQW_MULTI_KEYS]
 						quality_scores = torch.from_numpy(np.column_stack(parts))
-				if quality_scores is None and 'laplacian_scores' in hdf5_file:
-					quality_scores = torch.from_numpy(hdf5_file['laplacian_scores'][:].astype(np.float32))
+				# Single-indicator M-AQW: one chosen sharpness metric from H5 (default: laplacian_scores)
+				if quality_scores is None:
+					metric_key = getattr(self, 'maqw_metric_key', 'laplacian_scores')
+					if metric_key in hdf5_file:
+						q_arr = hdf5_file[metric_key][:].astype(np.float32)
+						quality_scores = torch.from_numpy(q_arr)
+					elif 'laplacian_scores' in hdf5_file:
+						q_arr = hdf5_file['laplacian_scores'][:].astype(np.float32)
+						quality_scores = torch.from_numpy(q_arr)
 
 			features = torch.from_numpy(features)
 			return features, label, coords, quality_scores

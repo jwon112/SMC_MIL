@@ -134,6 +134,11 @@ parser.add_argument('--use_maqw', action='store_true', default=False,
                     help='enable M-AQW (Meta-Parametric Asymmetric Quality-Aware Weighting); requires H5 features with laplacian_scores')
 parser.add_argument('--use_maqw_multi', action='store_true', default=False,
                     help='enable multi-indicator M-AQW (laplacian + stain_saturation + contrast); requires H5 with these 3 metrics')
+parser.add_argument('--maqw_metric', type=str,
+                    choices=['laplacian', 'tenengrad', 'vgm', 'wavelet'],
+                    default='laplacian',
+                    help='which patch-level sharpness metric to use for single-indicator M-AQW '
+                         '(laplacian_scores, tenengrad, vgm, wavelet_scores)')
 parser.add_argument('--distributed', action='store_true', default=False,
                     help='enable DDP multi-GPU training (use with torchrun)')
 args = parser.parse_args()
@@ -242,6 +247,15 @@ if args.use_maqw or args.use_maqw_multi:
     assert args.model_type in ['clam_sb', 'clam_mb'], 'M-AQW is only supported with CLAM models (clam_sb or clam_mb)'
 if args.use_maqw_multi:
     dataset.use_maqw_multi = True
+if args.use_maqw and not args.use_maqw_multi:
+    # Select which single-indicator quality metric from H5 to use for M-AQW.
+    _metric_to_key = {
+        'laplacian': 'laplacian_scores',
+        'tenengrad': 'tenengrad',
+        'vgm': 'vgm',
+        'wavelet': 'wavelet_scores',
+    }
+    dataset.maqw_metric_key = _metric_to_key[args.maqw_metric]
 
 if not os.path.isdir(args.results_dir):
     os.mkdir(args.results_dir)
@@ -260,7 +274,7 @@ assert os.path.isdir(args.split_dir)
 
 settings.update({'split_dir': args.split_dir})
 if args.use_maqw:
-    settings.update({'use_maqw': True})
+    settings.update({'use_maqw': True, 'maqw_metric': args.maqw_metric})
 if args.use_maqw_multi:
     settings.update({'use_maqw_multi': True})
 
