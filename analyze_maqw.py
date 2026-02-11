@@ -14,6 +14,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from collections import defaultdict
+import pandas as pd
 
 try:
     from sklearn.cluster import KMeans
@@ -247,6 +248,92 @@ def write_cluster_summary(rows, out_path, param_keys=None):
         print('Saved', out_path)
 
 
+def plot_representative_W_from_summary(summary_csv, out_dir, prefix='maqw'):
+    """
+    Read cluster_summary CSV (from write_cluster_summary) and plot a representative W(q) curve
+    using the global mean of tau_L, tau_R, k_L, k_R.
+    """
+    if not os.path.isfile(summary_csv):
+        return
+    df = pd.read_csv(summary_csv)
+    if df.empty:
+        return
+
+    # 전체 클러스터 평균으로 대표 파라미터 계산
+    if not all(col in df.columns for col in ['tau_L_mean', 'tau_R_mean', 'k_L_mean', 'k_R_mean']):
+        return
+    tau_L = df['tau_L_mean'].mean()
+    tau_R = df['tau_R_mean'].mean()
+    k_L = df['k_L_mean'].mean()
+    k_R = df['k_R_mean'].mean()
+
+    q = np.linspace(0.0, 1.0, 500)
+
+    # M-AQW와 동일한 수식 (plateau: min(2*w_left, 2*w_right, 1.0))
+    w_left = 1.0 / (1.0 + np.exp(-k_L * (q - tau_L)))
+    w_right = 1.0 / (1.0 + np.exp(-k_R * (tau_R - q)))
+    W = np.minimum(2.0 * w_left, 2.0 * w_right)
+    W = np.clip(W, 0.0, 1.0)
+
+    plt.figure(figsize=(6, 4))
+    plt.plot(q, W, label='avg W(q)')
+    plt.xlabel('q (normalized quality)')
+    plt.ylabel('W(q)')
+    plt.ylim(0.0, 1.05)
+    plt.grid(True, alpha=0.3)
+    plt.title('Representative M-AQW weight curve')
+    plt.legend()
+    os.makedirs(out_dir, exist_ok=True)
+    path = os.path.join(out_dir, f'{prefix}_representative_W_curve.png')
+    plt.tight_layout()
+    plt.savefig(path, dpi=150, bbox_inches='tight')
+    plt.close()
+    print('Saved', path)
+
+
+def plot_mean_q_w_hist(rows, out_dir, prefix='maqw'):
+    """
+    Plot mean q_hist10 and w_hist10 across rows.
+    Requires that load_maqw_csv has parsed q_hist10 and w_hist10 into numpy arrays.
+    """
+    if not rows:
+        return
+    q_hists = [np.asarray(r['q_hist10'], dtype=np.float64)
+               for r in rows if isinstance(r.get('q_hist10'), np.ndarray)]
+    w_hists = [np.asarray(r['w_hist10'], dtype=np.float64)
+               for r in rows if isinstance(r.get('w_hist10'), np.ndarray)]
+    if not q_hists or not w_hists:
+        return
+
+    mean_q = np.mean(q_hists, axis=0)
+    mean_w = np.mean(w_hists, axis=0)
+
+    # 10-bin histogram over [0,1] (same as _slide_stats_and_histogram)
+    bins = np.linspace(0.0, 1.0, 11)
+    centers = (bins[:-1] + bins[1:]) / 2.0
+
+    os.makedirs(out_dir, exist_ok=True)
+    plt.figure(figsize=(10, 4))
+
+    plt.subplot(1, 2, 1)
+    plt.bar(centers, mean_q, width=0.09)
+    plt.xlabel('q (normalized quality)')
+    plt.ylabel('density')
+    plt.title('Mean q distribution')
+
+    plt.subplot(1, 2, 2)
+    plt.bar(centers, mean_w, width=0.09, color='orange')
+    plt.xlabel('w')
+    plt.ylabel('density')
+    plt.title('Mean w distribution')
+
+    plt.tight_layout()
+    path = os.path.join(out_dir, f'{prefix}_mean_q_w_hist.png')
+    plt.savefig(path, dpi=150, bbox_inches='tight')
+    plt.close()
+    print('Saved', path)
+
+
 def main():
     parser = argparse.ArgumentParser(description='Analyze M-AQW CSV outputs: cluster and plot.')
     parser.add_argument('--csv', nargs='+', default=[], help='Paths to maqw_*_details.csv')
@@ -289,26 +376,37 @@ def main():
             for r in rows:
                 r['cluster_name'] = 'all'
 
-    os.makedirs(args.out_dir, exist_ok=True)
+    # 사용자가 직접 out_dir를 결과 폴더(예: ./results/exp_xxx)로 줄 때,
+    # 그 안에 하위 폴더(maqw_plots)를 만들어 정리하도록 함.
+    if args.out_dir == './maqw_plots':
+        out_root = args.out_dir
+    else:
+        out_root = os.path.join(args.out_dir, 'maqw_plots')
+
+    os.makedirs(out_root, exist_ok=True)
     prefix = 'maqw'
     if args.results_dir:
         prefix = os.path.basename(args.results_dir.rstrip(os.sep)) or 'maqw'
 
     # Combined (mean params for multi, or single-indicator)
-    combined_dir = os.path.join(args.out_dir, 'combined')
+    combined_dir = os.path.join(out_root, 'combined')
     os.makedirs(combined_dir, exist_ok=True)
     plot_boxplots(rows, combined_dir, prefix=prefix)
     plot_scatter_tau(rows, combined_dir, prefix=prefix, color_by='cluster_name')
     plot_scatter_tau(rows, combined_dir, prefix=prefix, color_by='correct')
     plot_w_summary(rows, combined_dir, prefix=prefix)
-    write_cluster_summary(rows, os.path.join(combined_dir, f'{prefix}_cluster_summary.csv'))
+    summary_csv_path = os.path.join(combined_dir, f'{prefix}_cluster_summary.csv')
+    write_cluster_summary(rows, summary_csv_path)
+    # Representative W(q) curve from mean tau/k, and empirical q/w histograms
+    plot_representative_W_from_summary(summary_csv_path, combined_dir, prefix=prefix)
+    plot_mean_q_w_hist(rows, combined_dir, prefix=prefix)
 
     # Per-indicator (multi only)
     if multi:
         for i, name in enumerate(INDICATOR_NAMES):
             if f'tau_L_{i}' not in rows[0]:
                 continue
-            ind_dir = os.path.join(args.out_dir, 'indicators', name)
+            ind_dir = os.path.join(out_root, 'indicators', name)
             os.makedirs(ind_dir, exist_ok=True)
             rows_i = build_rows_for_indicator(rows, i)
             if not rows_i:
@@ -320,7 +418,7 @@ def main():
             plot_w_summary(rows_i, ind_dir, prefix=name)
             write_cluster_summary(rows_i, os.path.join(ind_dir, f'{name}_cluster_summary.csv'), param_keys=('tau_L', 'tau_R', 'k_L', 'k_R', 'w_mean', 'w_lt_0p1', 'w_gt_0p9'))
 
-    print('Done. Outputs in', args.out_dir, '(combined/ and indicators/<name>/)')
+    print('Done. Outputs in', out_root, '(combined/ and indicators/<name>/)')
 
 
 if __name__ == '__main__':
