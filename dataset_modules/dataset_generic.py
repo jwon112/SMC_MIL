@@ -192,7 +192,13 @@ class Generic_WSI_Classification_Dataset(Dataset):
 		if len(split) > 0:
 			mask = self.slide_data['slide_id'].isin(split.tolist())
 			df_slice = self.slide_data[mask].reset_index(drop=True)
-			split = Generic_Split(df_slice, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5, use_maqw_multi=getattr(self, 'use_maqw_multi', False))
+			split = Generic_Split(
+				df_slice,
+				data_dir=self.data_dir,
+				num_classes=self.num_classes,
+				use_h5=self.use_h5,
+				use_maqw_multi=getattr(self, 'use_maqw_multi', False)
+			)
 		else:
 			split = None
 		
@@ -220,9 +226,11 @@ class Generic_WSI_Classification_Dataset(Dataset):
 
 		if from_id:
 			use_maqw_multi = getattr(self, 'use_maqw_multi', False)
+			metric_key = getattr(self, 'maqw_metric_key', 'laplacian_scores')
 			if len(self.train_ids) > 0:
 				train_data = self.slide_data.loc[self.train_ids].reset_index(drop=True)
 				train_split = Generic_Split(train_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5, use_maqw_multi=use_maqw_multi)
+				train_split.maqw_metric_key = metric_key
 
 			else:
 				train_split = None
@@ -230,6 +238,7 @@ class Generic_WSI_Classification_Dataset(Dataset):
 			if len(self.val_ids) > 0:
 				val_data = self.slide_data.loc[self.val_ids].reset_index(drop=True)
 				val_split = Generic_Split(val_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5, use_maqw_multi=use_maqw_multi)
+				val_split.maqw_metric_key = metric_key
 
 			else:
 				val_split = None
@@ -237,6 +246,7 @@ class Generic_WSI_Classification_Dataset(Dataset):
 			if len(self.test_ids) > 0:
 				test_data = self.slide_data.loc[self.test_ids].reset_index(drop=True)
 				test_split = Generic_Split(test_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5, use_maqw_multi=use_maqw_multi)
+				test_split.maqw_metric_key = metric_key
 			
 			else:
 				test_split = None
@@ -245,9 +255,16 @@ class Generic_WSI_Classification_Dataset(Dataset):
 		else:
 			assert csv_path 
 			all_splits = pd.read_csv(csv_path, dtype=self.slide_data['slide_id'].dtype)  # Without "dtype=self.slide_data['slide_id'].dtype", read_csv() will convert all-number columns to a numerical type. Even if we convert numerical columns back to objects later, we may lose zero-padding in the process; the columns must be correctly read in from the get-go. When we compare the individual train/val/test columns to self.slide_data['slide_id'] in the get_split_from_df() method, we cannot compare objects (strings) to numbers or even to incorrectly zero-padded objects/strings. An example of this breaking is shown in https://github.com/andrew-weisman/clam_analysis/tree/main/datatype_comparison_bug-2021-12-01.
+			metric_key = getattr(self, 'maqw_metric_key', 'laplacian_scores')
 			train_split = self.get_split_from_df(all_splits, 'train')
+			if train_split is not None:
+				train_split.maqw_metric_key = metric_key
 			val_split = self.get_split_from_df(all_splits, 'val')
+			if val_split is not None:
+				val_split.maqw_metric_key = metric_key
 			test_split = self.get_split_from_df(all_splits, 'test')
+			if test_split is not None:
+				test_split.maqw_metric_key = metric_key
 			
 		return train_split, val_split, test_split
 
