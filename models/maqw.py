@@ -1,8 +1,9 @@
 """
 M-AQW: Meta-Parametric Asymmetric Quality-Aware Weighting.
 Per-patch weights from Laplacian (quality) via plateau-type double-sigmoid; parameters predicted by Meta-MLP from slide-level stats + histogram.
+- q normalization: linear min-max to [0,1] then sqrt so low-quality (left-skewed) mass is spread; no extra constraints.
 - Plateau: W(q) = min(2*sigmoid_L, 2*sigmoid_R, 1.0) for wide 1.0 band.
-- Window [tau_L, tau_R] is parameterized as center ± half_width so gap >= 0.5 is symmetric (no right bias).
+- Window [tau_L, tau_R]: no constraints; tau_L and tau_R learned freely (tau_R > tau_L enforced only for valid plateau).
 - k init steeper (bias 2.0) for faster rise to 1.0.
 """
 import torch
@@ -11,17 +12,15 @@ import torch.nn.functional as F
 
 # k raw bias so that initial k ~ 7–8 (steeper sigmoid; plateau reaches 1.0 more easily)
 K_INIT_BIAS = 2.0
-# Center + half-width: half_width in [0.25, 0.5] => gap = 2*half_width in [0.5, 1.0]; symmetric, no right bias
-HALF_WIDTH_MIN = 0.25
-HALF_WIDTH_MAX = 0.5
 
 
 def _normalize_q(q: torch.Tensor, eps: float = 1e-8) -> torch.Tensor:
-    """Per-slide normalize q to [0, 1]. q: [N]."""
+    """Per-slide linear min-max to [0, 1], then sqrt to spread lower values (less left skew). q: [N]."""
     q_min = q.min()
     q_max = q.max()
     span = q_max - q_min + eps
-    return (q - q_min) / span
+    q_linear = ((q - q_min) / span).clamp(min=0.0, max=1.0)
+    return torch.sqrt(q_linear)
 
 
 def _slide_stats_and_histogram(q_norm: torch.Tensor, n_bins: int = 10, eps: float = 1e-8) -> torch.Tensor:
@@ -89,11 +88,10 @@ class M_AQW(nn.Module):
         q_norm = _normalize_q(q)  # [N]
         x_feat = _slide_stats_and_histogram(q_norm)  # [16]
         x = x_feat.unsqueeze(0)  # [1, 16]
-        raw = self.meta_mlp(x).squeeze(0)  # [4] -> (center, half_width, k_L, k_R)
-        center = torch.sigmoid(raw[0])
-        half_width = HALF_WIDTH_MIN + (HALF_WIDTH_MAX - HALF_WIDTH_MIN) * torch.sigmoid(raw[1])
-        tau_L = torch.clamp(center - half_width, min=0.0, max=1.0)
-        tau_R = torch.clamp(center + half_width, min=0.0, max=1.0)
+        raw = self.meta_mlp(x).squeeze(0)  # [4] -> (tau_L_raw, tau_R_extra_raw, k_L, k_R)
+        tau_L = torch.sigmoid(raw[0])
+        # tau_R in (tau_L, 1] so plateau gap is free; tau_R = tau_L + (1 - tau_L) * sigmoid(raw[1])
+        tau_R = tau_L + (1.0 - tau_L) * torch.sigmoid(raw[1])
         k_L = F.softplus(raw[2] + K_INIT_BIAS) + 0.1
         k_R = F.softplus(raw[3] + K_INIT_BIAS) + 0.1
 
@@ -182,10 +180,8 @@ class M_AQW_Multi(nn.Module):
         w_all = []
         for c in range(self.N_CHANNELS):
             i = c * 4
-            center = torch.sigmoid(raw[i])
-            half_width = HALF_WIDTH_MIN + (HALF_WIDTH_MAX - HALF_WIDTH_MIN) * torch.sigmoid(raw[i + 1])
-            tau_L = torch.clamp(center - half_width, min=0.0, max=1.0)
-            tau_R = torch.clamp(center + half_width, min=0.0, max=1.0)
+            tau_L = torch.sigmoid(raw[i])
+            tau_R = tau_L + (1.0 - tau_L) * torch.sigmoid(raw[i + 1])
             k_L = F.softplus(raw[i + 2] + K_INIT_BIAS) + 0.1
             k_R = F.softplus(raw[i + 3] + K_INIT_BIAS) + 0.1
             w_left = torch.sigmoid(k_L * (q_norm[:, c] - tau_L))
@@ -201,11 +197,8 @@ class M_AQW_Multi(nn.Module):
 
         w_flat = w.view(-1)
         q_flat = q_norm.view(-1)
-        # Report actual tau/k (post-transform) for logging (center + half_width -> tau_L, tau_R)
-        _center = torch.sigmoid(raw[0::4])
-        _hw = HALF_WIDTH_MIN + (HALF_WIDTH_MAX - HALF_WIDTH_MIN) * torch.sigmoid(raw[1::4])
-        _tau_L = torch.clamp(_center - _hw, min=0.0, max=1.0).mean()
-        _tau_R = torch.clamp(_center + _hw, min=0.0, max=1.0).mean()
+        _tau_L = torch.sigmoid(raw[0::4]).mean()
+        _tau_R = (torch.sigmoid(raw[0::4]) + (1.0 - torch.sigmoid(raw[0::4])) * torch.sigmoid(raw[1::4])).mean()
         debug = {
             "tau_L": _tau_L,
             "k_L": (F.softplus(raw[2::4] + K_INIT_BIAS) + 0.1).mean(),
@@ -226,10 +219,8 @@ class M_AQW_Multi(nn.Module):
         }
         for c in range(self.N_CHANNELS):
             i = c * 4
-            cen = torch.sigmoid(raw[i])
-            hw = HALF_WIDTH_MIN + (HALF_WIDTH_MAX - HALF_WIDTH_MIN) * torch.sigmoid(raw[i + 1])
-            tL = torch.clamp(cen - hw, min=0.0, max=1.0)
-            tR = torch.clamp(cen + hw, min=0.0, max=1.0)
+            tL = torch.sigmoid(raw[i])
+            tR = tL + (1.0 - tL) * torch.sigmoid(raw[i + 1])
             debug[f"tau_L_{c}"] = tL
             debug[f"k_L_{c}"] = F.softplus(raw[i + 2] + K_INIT_BIAS) + 0.1
             debug[f"tau_R_{c}"] = tR
