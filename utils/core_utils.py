@@ -181,8 +181,11 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
             model_dict.update({'subtyping': True})
         if getattr(args, 'use_maqw', False):
             model_dict.update({'use_maqw': True})
-        if getattr(args, 'use_maqw_multi', False):
-            model_dict.update({'use_maqw_multi': True})
+            n_c = getattr(args, 'maqw_multi_n_channels', 1)
+            if n_c > 1:
+                model_dict.update({'use_maqw_multi': True, 'maqw_multi_n_channels': n_c})
+            else:
+                model_dict.update({'use_maqw_multi': False})
         if args.B > 0:
             model_dict.update({'k_sample': args.B})
         if args.inst_loss == 'svm':

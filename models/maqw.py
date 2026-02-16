@@ -142,28 +142,28 @@ def _slide_stats_and_histogram_multi(q_norm: torch.Tensor, n_bins: int = 10, eps
 
 class M_AQW_Multi(nn.Module):
     """
-    Multi-indicator M-AQW: 3 quality channels (laplacian, stain_saturation, contrast).
-    Per-channel plateau double-sigmoid; final weight = geometric mean (w_1 * w_2 * w_3)^(1/3).
-    Input: h [N, D], q [N, 3] (raw scores for 3 indicators).
+    Multi-indicator M-AQW: configurable quality channels (e.g. laplacian, tenengrad, vgm, wavelet, stain_saturation, contrast).
+    Per-channel plateau double-sigmoid; final weight = geometric mean over channels.
+    Input: h [N, D], q [N, C] (raw scores for C indicators).
     Output: h_mod [N, D] = h * W(q).
     """
 
-    N_CHANNELS = 3
-    META_INPUT_DIM = 3 * 16
-    META_OUTPUT_DIM = 3 * 4
-
-    def __init__(self, meta_input_dim: int = 48, meta_hidden: int = 32):
+    def __init__(self, meta_input_dim: int = 48, meta_hidden: int = 32, n_channels: int = None):
         super().__init__()
+        if n_channels is None:
+            n_channels = meta_input_dim // 16
+        self.n_channels = n_channels
+        meta_output_dim = n_channels * 4
         self.meta_mlp = nn.Sequential(
             nn.Linear(meta_input_dim, meta_hidden),
             nn.ReLU(inplace=True),
-            nn.Linear(meta_hidden, self.META_OUTPUT_DIM),
+            nn.Linear(meta_hidden, meta_output_dim),
         )
 
     def forward(self, h: torch.Tensor, q: torch.Tensor, return_debug: bool = False):
         """
-        h: [N, D], q: [N, 3].
-        Returns h_out [N, D] = h * (w_1 * w_2 * w_3).unsqueeze(1).
+        h: [N, D], q: [N, C].
+        Returns h_out [N, D] = h * geometric_mean(w_1,...,w_C).unsqueeze(1).
         """
         if q is None or q.numel() == 0:
             if return_debug:
@@ -171,14 +171,14 @@ class M_AQW_Multi(nn.Module):
             return h
         if q.dim() == 1:
             q = q.unsqueeze(1)
-        assert q.shape[1] >= self.N_CHANNELS, "q must have at least 3 columns"
-        q = q[:, : self.N_CHANNELS]
-        q_norm = torch.stack([_normalize_q(q[:, c]) for c in range(self.N_CHANNELS)], dim=1)
+        assert q.shape[1] >= self.n_channels, "q must have at least n_channels columns"
+        q = q[:, : self.n_channels]
+        q_norm = torch.stack([_normalize_q(q[:, c]) for c in range(self.n_channels)], dim=1)
         x_feat = _slide_stats_and_histogram_multi(q_norm)
         x = x_feat.unsqueeze(0)
         raw = self.meta_mlp(x).squeeze(0)
         w_all = []
-        for c in range(self.N_CHANNELS):
+        for c in range(self.n_channels):
             i = c * 4
             tau_L = torch.sigmoid(raw[i])
             tau_R = tau_L + (1.0 - tau_L) * torch.sigmoid(raw[i + 1])
@@ -188,8 +188,8 @@ class M_AQW_Multi(nn.Module):
             w_right = torch.sigmoid(k_R * (tau_R - q_norm[:, c]))
             w_c = torch.clamp(torch.minimum(2.0 * w_left, 2.0 * w_right), max=1.0)
             w_all.append(w_c)
-        # Geometric mean: (w_0 * w_1 * w_2)^(1/3) to avoid one weak channel killing the weight
-        w = (w_all[0] * w_all[1] * w_all[2]).clamp(min=1e-8).pow(1.0 / self.N_CHANNELS)
+        # Geometric mean over channels to avoid one weak channel killing the weight
+        w = torch.stack(w_all, dim=1).clamp(min=1e-8).prod(dim=1).pow(1.0 / self.n_channels)
         h_out = h * w.unsqueeze(1)
 
         if not return_debug:
@@ -217,7 +217,7 @@ class M_AQW_Multi(nn.Module):
             "w_gt_0p9": (w_flat > 0.9).float().mean(),
             "w_hist10": M_AQW._hist_10(torch.clamp(w_flat, 0.0, 1.0)),
         }
-        for c in range(self.N_CHANNELS):
+        for c in range(self.n_channels):
             i = c * 4
             tL = torch.sigmoid(raw[i])
             tR = tL + (1.0 - tL) * torch.sigmoid(raw[i + 1])

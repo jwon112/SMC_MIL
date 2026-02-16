@@ -20,6 +20,13 @@ def initiate_model(args, ckpt_path, device='cuda'):
     
     if args.model_size is not None and args.model_type in ['clam_sb', 'clam_mb']:
         model_dict.update({"size_arg": args.model_size})
+    if getattr(args, 'use_maqw', False):
+        model_dict.update({'use_maqw': True})
+        n_c = getattr(args, 'maqw_multi_n_channels', 1)
+        if n_c > 1:
+            model_dict.update({'use_maqw_multi': True, 'maqw_multi_n_channels': n_c})
+        else:
+            model_dict.update({'use_maqw_multi': False})
     
     if args.model_type =='clam_sb':
         model = CLAM_SB(**model_dict)

@@ -131,14 +131,10 @@ parser.add_argument('--bag_weight', type=float, default=0.7,
                     help='clam: weight coefficient for bag-level loss (default: 0.7)')
 parser.add_argument('--B', type=int, default=8, help='numbr of positive/negative patches to sample for clam')
 parser.add_argument('--use_maqw', action='store_true', default=False,
-                    help='enable M-AQW (Meta-Parametric Asymmetric Quality-Aware Weighting); requires H5 features with laplacian_scores')
-parser.add_argument('--use_maqw_multi', action='store_true', default=False,
-                    help='enable multi-indicator M-AQW (laplacian + stain_saturation + contrast); requires H5 with these 3 metrics')
-parser.add_argument('--maqw_metric', type=str,
-                    choices=['laplacian', 'tenengrad', 'vgm', 'wavelet'],
-                    default='laplacian',
-                    help='which patch-level sharpness metric to use for single-indicator M-AQW '
-                         '(laplacian_scores, tenengrad, vgm, wavelet_scores)')
+                    help='enable M-AQW (Meta-Parametric Asymmetric Quality-Aware Weighting); requires H5 with quality metrics')
+parser.add_argument('--maqw_metrics', type=str, default='laplacian',
+                    help='comma-separated quality metrics for M-AQW. 1 metric = single-indicator; 2+ = multi-indicator. '
+                         'Allowed: laplacian, tenengrad, vgm, wavelet, stain_saturation, color_entropy, contrast. Example: laplacian or laplacian,tenengrad,vgm')
 parser.add_argument('--distributed', action='store_true', default=False,
                     help='enable DDP multi-GPU training (use with torchrun)')
 args = parser.parse_args()
@@ -242,20 +238,31 @@ else:
 # drop slides that have no feature file (e.g. skipped during extraction)
 dataset.filter_slides_by_available_files()
 
-if args.use_maqw or args.use_maqw_multi:
+if args.use_maqw:
     dataset.load_from_h5(True)
     assert args.model_type in ['clam_sb', 'clam_mb'], 'M-AQW is only supported with CLAM models (clam_sb or clam_mb)'
-if args.use_maqw_multi:
-    dataset.use_maqw_multi = True
-if args.use_maqw and not args.use_maqw_multi:
-    # Select which single-indicator quality metric from H5 to use for M-AQW.
+if args.use_maqw:
     _metric_to_key = {
         'laplacian': 'laplacian_scores',
         'tenengrad': 'tenengrad',
         'vgm': 'vgm',
         'wavelet': 'wavelet_scores',
+        'stain_saturation': 'stain_saturation',
+        'color_entropy': 'color_entropy',
+        'contrast': 'contrast',
     }
-    dataset.maqw_metric_key = _metric_to_key[args.maqw_metric]
+    _names = [s.strip() for s in args.maqw_metrics.split(',') if s.strip()]
+    for m in _names:
+        if m not in _metric_to_key:
+            raise ValueError('maqw_metrics: unknown metric "{}". Allowed: {}'.format(m, list(_metric_to_key.keys())))
+    _keys = [_metric_to_key[m] for m in _names]
+    if len(_keys) == 1:
+        dataset.maqw_metric_key = _keys[0]
+        dataset.use_maqw_multi = False
+    else:
+        dataset.use_maqw_multi = True
+        dataset.maqw_multi_keys = _keys
+        args.maqw_multi_n_channels = len(_keys)
 
 if not os.path.isdir(args.results_dir):
     os.mkdir(args.results_dir)
@@ -274,9 +281,7 @@ assert os.path.isdir(args.split_dir)
 
 settings.update({'split_dir': args.split_dir})
 if args.use_maqw:
-    settings.update({'use_maqw': True, 'maqw_metric': args.maqw_metric})
-if args.use_maqw_multi:
-    settings.update({'use_maqw_multi': True})
+    settings.update({'use_maqw': True, 'maqw_metrics': args.maqw_metrics})
 
 
 with open(args.results_dir + '/experiment_{}.txt'.format(args.exp_code), 'w') as f:

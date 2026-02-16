@@ -227,10 +227,12 @@ class Generic_WSI_Classification_Dataset(Dataset):
 		if from_id:
 			use_maqw_multi = getattr(self, 'use_maqw_multi', False)
 			metric_key = getattr(self, 'maqw_metric_key', 'laplacian_scores')
+			multi_keys = getattr(self, 'maqw_multi_keys', MAQW_MULTI_KEYS)
 			if len(self.train_ids) > 0:
 				train_data = self.slide_data.loc[self.train_ids].reset_index(drop=True)
 				train_split = Generic_Split(train_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5, use_maqw_multi=use_maqw_multi)
 				train_split.maqw_metric_key = metric_key
+				train_split.maqw_multi_keys = multi_keys
 
 			else:
 				train_split = None
@@ -239,6 +241,7 @@ class Generic_WSI_Classification_Dataset(Dataset):
 				val_data = self.slide_data.loc[self.val_ids].reset_index(drop=True)
 				val_split = Generic_Split(val_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5, use_maqw_multi=use_maqw_multi)
 				val_split.maqw_metric_key = metric_key
+				val_split.maqw_multi_keys = multi_keys
 
 			else:
 				val_split = None
@@ -247,6 +250,7 @@ class Generic_WSI_Classification_Dataset(Dataset):
 				test_data = self.slide_data.loc[self.test_ids].reset_index(drop=True)
 				test_split = Generic_Split(test_data, data_dir=self.data_dir, num_classes=self.num_classes, use_h5=self.use_h5, use_maqw_multi=use_maqw_multi)
 				test_split.maqw_metric_key = metric_key
+				test_split.maqw_multi_keys = multi_keys
 			
 			else:
 				test_split = None
@@ -256,15 +260,19 @@ class Generic_WSI_Classification_Dataset(Dataset):
 			assert csv_path 
 			all_splits = pd.read_csv(csv_path, dtype=self.slide_data['slide_id'].dtype)  # Without "dtype=self.slide_data['slide_id'].dtype", read_csv() will convert all-number columns to a numerical type. Even if we convert numerical columns back to objects later, we may lose zero-padding in the process; the columns must be correctly read in from the get-go. When we compare the individual train/val/test columns to self.slide_data['slide_id'] in the get_split_from_df() method, we cannot compare objects (strings) to numbers or even to incorrectly zero-padded objects/strings. An example of this breaking is shown in https://github.com/andrew-weisman/clam_analysis/tree/main/datatype_comparison_bug-2021-12-01.
 			metric_key = getattr(self, 'maqw_metric_key', 'laplacian_scores')
+			multi_keys = getattr(self, 'maqw_multi_keys', MAQW_MULTI_KEYS)
 			train_split = self.get_split_from_df(all_splits, 'train')
 			if train_split is not None:
 				train_split.maqw_metric_key = metric_key
+				train_split.maqw_multi_keys = multi_keys
 			val_split = self.get_split_from_df(all_splits, 'val')
 			if val_split is not None:
 				val_split.maqw_metric_key = metric_key
+				val_split.maqw_multi_keys = multi_keys
 			test_split = self.get_split_from_df(all_splits, 'test')
 			if test_split is not None:
 				test_split.maqw_metric_key = metric_key
+				test_split.maqw_multi_keys = multi_keys
 			
 		return train_split, val_split, test_split
 
@@ -396,10 +404,11 @@ class Generic_MIL_Dataset(Generic_WSI_Classification_Dataset):
 				features = hdf5_file['features'][:]
 				coords = hdf5_file['coords'][:]
 				quality_scores = None
-				# Multi-indicator M-AQW: stacked [laplacian_scores, stain_saturation, contrast]
+				# Multi-indicator M-AQW: stacked metrics from maqw_multi_keys (e.g. laplacian,tenen,vgm,wavelet,stain_saturation,contrast)
 				if getattr(self, 'use_maqw_multi', False):
-					if all(k in hdf5_file for k in MAQW_MULTI_KEYS):
-						parts = [hdf5_file[k][:].astype(np.float32) for k in MAQW_MULTI_KEYS]
+					multi_keys = getattr(self, 'maqw_multi_keys', MAQW_MULTI_KEYS)
+					if all(k in hdf5_file for k in multi_keys):
+						parts = [hdf5_file[k][:].astype(np.float32) for k in multi_keys]
 						quality_scores = torch.from_numpy(np.column_stack(parts))
 				# Single-indicator M-AQW: one chosen sharpness metric from H5 (default: laplacian_scores)
 				if quality_scores is None:
