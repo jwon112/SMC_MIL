@@ -120,9 +120,8 @@ def _run_artidiffuser(arti_root, conf_path, extra_args=None):
     if not os.path.isfile(test_py):
         raise FileNotFoundError(f"ArtiDiffuser test.py not found at {test_py}")
 
-    cmd = ["python", test_py, "--conf_path", conf_path] + list(extra_args)
-    # Run in the model_inference directory so that imports work as in inference.sh
-    cwd = os.path.dirname(test_py)
+    cmd = ["python", "test.py", "--conf_path", conf_path] + list(extra_args)
+    cwd = arti_root  # 예: ./artidiffuser/model_inference
     subprocess.run(cmd, check=True, cwd=cwd)
 
 
