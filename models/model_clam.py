@@ -1,3 +1,4 @@
+import os
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -5,6 +6,7 @@ import numpy as np
 import pdb
 
 from models.maqw import M_AQW, M_AQW_Multi
+from models.ddpm_feature import DDPMFeatureDenoiser
 
 """
 Attention Network without Gating (2 fc layers)
@@ -76,12 +78,30 @@ args:
     instance_loss_fn: loss function to supervise instance-level training
     subtyping: whether it's a subtyping problem
 """
+def _load_ddpm_denoiser(ckpt_path, embed_dim=None):
+    ckpt = torch.load(ckpt_path, map_location='cpu')
+    ed = ckpt.get('embed_dim', embed_dim)
+    if ed is None:
+        ed = 1024
+    T = ckpt.get('T', 1000)
+    denoiser = DDPMFeatureDenoiser(embed_dim=ed, T=T)
+    denoiser.load_state_dict(ckpt['state_dict'], strict=True)
+    return denoiser
+
+
 class CLAM_SB(nn.Module):
     def __init__(self, gate = True, size_arg = "small", dropout = 0., k_sample=8, n_classes=2,
-        instance_loss_fn=nn.CrossEntropyLoss(), subtyping=False, embed_dim=1024, use_maqw=False, use_maqw_multi=False, maqw_multi_n_channels=3):
+        instance_loss_fn=nn.CrossEntropyLoss(), subtyping=False, embed_dim=1024, use_maqw=False, use_maqw_multi=False, maqw_multi_n_channels=3,
+        use_ddpm_denoise=False, ddpm_ckpt_path=None, ddpm_t_start=20, ddpm_num_steps=20):
         super().__init__()
         self.size_dict = {"small": [embed_dim, 512, 256], "big": [embed_dim, 512, 384]}
         size = self.size_dict[size_arg]
+        self.ddpm_t_start = ddpm_t_start
+        self.ddpm_num_steps = ddpm_num_steps
+        if use_ddpm_denoise and ddpm_ckpt_path and os.path.isfile(ddpm_ckpt_path):
+            self.ddpm_denoiser = _load_ddpm_denoiser(ddpm_ckpt_path, embed_dim)
+        else:
+            self.ddpm_denoiser = None
         self.use_maqw = use_maqw or use_maqw_multi
         if use_maqw_multi:
             n_c = maqw_multi_n_channels
@@ -148,6 +168,8 @@ class CLAM_SB(nn.Module):
         return instance_loss, p_preds, p_targets
 
     def forward(self, h, label=None, instance_eval=False, return_features=False, attention_only=False, laplacian_scores=None):
+        if self.ddpm_denoiser is not None:
+            h = self.ddpm_denoiser.denoise(h, t_start=self.ddpm_t_start, num_steps=self.ddpm_num_steps)
         maqw_debug = None
         if self.maqw_module is not None and laplacian_scores is not None:
             h, maqw_debug = self.maqw_module(h, laplacian_scores, return_debug=True)
@@ -199,10 +221,17 @@ class CLAM_SB(nn.Module):
 
 class CLAM_MB(CLAM_SB):
     def __init__(self, gate = True, size_arg = "small", dropout = 0., k_sample=8, n_classes=2,
-        instance_loss_fn=nn.CrossEntropyLoss(), subtyping=False, embed_dim=1024, use_maqw=False, use_maqw_multi=False, maqw_multi_n_channels=3):
+        instance_loss_fn=nn.CrossEntropyLoss(), subtyping=False, embed_dim=1024, use_maqw=False, use_maqw_multi=False, maqw_multi_n_channels=3,
+        use_ddpm_denoise=False, ddpm_ckpt_path=None, ddpm_t_start=20, ddpm_num_steps=20):
         nn.Module.__init__(self)
         self.size_dict = {"small": [embed_dim, 512, 256], "big": [embed_dim, 512, 384]}
         size = self.size_dict[size_arg]
+        self.ddpm_t_start = ddpm_t_start
+        self.ddpm_num_steps = ddpm_num_steps
+        if use_ddpm_denoise and ddpm_ckpt_path and os.path.isfile(ddpm_ckpt_path):
+            self.ddpm_denoiser = _load_ddpm_denoiser(ddpm_ckpt_path, embed_dim)
+        else:
+            self.ddpm_denoiser = None
         self.use_maqw = use_maqw or use_maqw_multi
         if use_maqw_multi:
             n_c = maqw_multi_n_channels
@@ -228,6 +257,8 @@ class CLAM_MB(CLAM_SB):
         self.subtyping = subtyping
 
     def forward(self, h, label=None, instance_eval=False, return_features=False, attention_only=False, laplacian_scores=None):
+        if self.ddpm_denoiser is not None:
+            h = self.ddpm_denoiser.denoise(h, t_start=self.ddpm_t_start, num_steps=self.ddpm_num_steps)
         maqw_debug = None
         if self.maqw_module is not None and laplacian_scores is not None:
             h, maqw_debug = self.maqw_module(h, laplacian_scores, return_debug=True)

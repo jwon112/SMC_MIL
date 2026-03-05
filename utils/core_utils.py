@@ -188,6 +188,13 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
                 model_dict.update({'use_maqw_multi': False})
         if args.B > 0:
             model_dict.update({'k_sample': args.B})
+        if getattr(args, 'use_ddpm_denoise', False):
+            model_dict.update({
+                'use_ddpm_denoise': True,
+                'ddpm_ckpt_path': getattr(args, 'ddpm_ckpt', None),
+                'ddpm_t_start': getattr(args, 'ddpm_t_start', 20),
+                'ddpm_num_steps': getattr(args, 'ddpm_num_steps', 20),
+            })
         if args.inst_loss == 'svm':
             from topk.svm import SmoothTop1SVM
             _patch_topk_delta_for_device()

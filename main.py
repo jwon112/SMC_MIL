@@ -135,6 +135,14 @@ parser.add_argument('--use_maqw', action='store_true', default=False,
 parser.add_argument('--maqw_metrics', type=str, default='laplacian',
                     help='comma-separated quality metrics for M-AQW. 1 metric = single-indicator; 2+ = multi-indicator. '
                          'Allowed: laplacian, tenengrad, vgm, wavelet, stain_saturation, color_entropy, contrast. Example: laplacian or laplacian,tenengrad,vgm')
+parser.add_argument('--use_ddpm_denoise', action='store_true', default=False,
+                    help='enable DDPM feature denoising before attention; requires --ddpm_ckpt')
+parser.add_argument('--ddpm_ckpt', type=str, default=None,
+                    help='path to DDPM denoiser checkpoint (from train_ddpm_feature.py)')
+parser.add_argument('--ddpm_t_start', type=int, default=20,
+                    help='DDPM denoise: starting timestep (default 20)')
+parser.add_argument('--ddpm_num_steps', type=int, default=20,
+                    help='DDPM denoise: number of reverse steps (default 20)')
 parser.add_argument('--distributed', action='store_true', default=False,
                     help='enable DDP multi-GPU training (use with torchrun)')
 args = parser.parse_args()
@@ -177,6 +185,9 @@ if args.model_type in ['clam_sb', 'clam_mb']:
    settings.update({'bag_weight': args.bag_weight,
                     'inst_loss': args.inst_loss,
                     'B': args.B})
+   if getattr(args, 'use_ddpm_denoise', False):
+       settings.update({'use_ddpm_denoise': True, 'ddpm_ckpt_path': args.ddpm_ckpt,
+                        'ddpm_t_start': args.ddpm_t_start, 'ddpm_num_steps': args.ddpm_num_steps})
 
 print('\nLoad Dataset')
 
