@@ -6,7 +6,7 @@ from typing import Optional
 import torch
 import torch.nn as nn
 
-from mini.module.blocks import norm_layer
+from mini.module.norms import norm_layer
 
 
 def _odd_kernel(k: int) -> int:

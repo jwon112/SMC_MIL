@@ -123,7 +123,7 @@ def train_one_epoch(
 
         optimizer.zero_grad(set_to_none=True)
         if scaler is not None:
-            with torch.cuda.amp.autocast(dtype=torch.float16):
+            with torch.amp.autocast(device_type="cuda", dtype=torch.float16):
                 logits = model(imgs)
                 loss = F.cross_entropy(logits, masks, ignore_index=ignore_index)
             scaler.scale(loss).backward()
