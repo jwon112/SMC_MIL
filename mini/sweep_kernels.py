@@ -7,7 +7,8 @@ from pathlib import Path
 from typing import List
 
 
-KERNEL_SIZES = list(range(3, 32, 2))  # 3..31 odd
+# 3..21 odd (2D seg can get memory-heavy for larger kernels)
+KERNEL_SIZES = list(range(3, 22, 2))
 BLOCKS = ["kconv", "kdwsep"]  # normal conv vs depthwise-separable
 
 

@@ -13,6 +13,8 @@ def _odd_kernel(k: int) -> int:
     k = int(k)
     if k < 1 or k % 2 == 0:
         raise ValueError(f"kernel_size must be positive odd, got {k}")
+    if k > 21:
+        raise ValueError(f"kernel_size must be <= 21 for this sweep setup, got {k}")
     return k
 
 

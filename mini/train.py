@@ -108,6 +108,7 @@ def train_one_epoch(
     loader,
     optimizer: torch.optim.Optimizer,
     scaler: torch.cuda.amp.GradScaler | None,
+    scheduler,
     device: torch.device,
     num_classes: int,
     ignore_index: int,
@@ -134,6 +135,9 @@ def train_one_epoch(
             loss = F.cross_entropy(logits, masks, ignore_index=ignore_index)
             loss.backward()
             optimizer.step()
+
+        if scheduler is not None:
+            scheduler.step()
 
         with torch.no_grad():
             loss_meter += float(loss.item()) * imgs.size(0)
@@ -285,10 +289,15 @@ def main() -> None:
     p.add_argument("--pin_memory", action=argparse.BooleanOptionalAction, default=True)
     p.add_argument("--persistent_workers", action=argparse.BooleanOptionalAction, default=False)
     p.add_argument("--prefetch_factor", type=int, default=2)
-    p.add_argument("--lr", type=float, default=3e-4)
+    p.add_argument("--lr", type=float, default=1e-3)
     p.add_argument("--weight_decay", type=float, default=1e-4)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--amp", action="store_true")
+    # scheduler
+    p.add_argument("--scheduler", type=str, default="poly", choices=["none", "poly", "cosine"])
+    p.add_argument("--warmup_epochs", type=float, default=1.0)
+    p.add_argument("--poly_power", type=float, default=0.9)
+    p.add_argument("--min_lr", type=float, default=1e-6)
     p.add_argument("--do_test", action="store_true", default=True)
     p.add_argument("--test_set", type=str, default="val", choices=["train", "val"])
 
@@ -399,6 +408,38 @@ def main() -> None:
     else:
         scaler = None
 
+    # iteration-based LR scheduler (seg-friendly)
+    steps_per_epoch = max(1, len(train_loader))
+    total_steps = int(args.epochs * steps_per_epoch)
+    warmup_steps = int(float(args.warmup_epochs) * steps_per_epoch)
+    warmup_steps = max(0, min(warmup_steps, total_steps))
+    base_lr = float(optimizer.param_groups[0]["lr"])
+    min_lr = float(args.min_lr)
+    min_factor = (min_lr / base_lr) if base_lr > 0 else 0.0
+
+    def lr_lambda(step: int) -> float:
+        if total_steps <= 0:
+            return 1.0
+        if warmup_steps > 0 and step < warmup_steps:
+            warm = float(step + 1) / float(warmup_steps)
+            return min_factor + (1.0 - min_factor) * warm
+        t = step - warmup_steps
+        T = max(1, total_steps - warmup_steps)
+        if args.scheduler == "poly":
+            s = float((1.0 - t / T) ** float(args.poly_power))
+            return min_factor + (1.0 - min_factor) * s
+        if args.scheduler == "cosine":
+            import math
+
+            s = float(0.5 * (1.0 + math.cos(math.pi * t / T)))
+            return min_factor + (1.0 - min_factor) * s
+        return min_factor + (1.0 - min_factor) * 1.0
+
+    if args.scheduler == "none":
+        scheduler = None
+    else:
+        scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lr_lambda)
+
     meta = {
         "time": time.strftime("%Y-%m-%d %H:%M:%S"),
         "device": str(device),
@@ -416,11 +457,17 @@ def main() -> None:
     _log_print(log_f, f"device={device} amp={bool(args.amp and device.type == 'cuda')}")
     _log_print(log_f, f"dataset={args.dataset} data_root={os.path.abspath(args.data_root)}")
     _log_print(log_f, f"model=UNet base={args.base_channels} depth={args.depth} norm={args.norm} act={args.act} up={args.up}")
+    _log_print(
+        log_f,
+        f"scheduler={args.scheduler} warmup_epochs={args.warmup_epochs} min_lr={args.min_lr} "
+        f"steps/epoch={steps_per_epoch} total_steps={total_steps}",
+    )
 
     for epoch in range(1, args.epochs + 1):
-        tr = train_one_epoch(model, train_loader, optimizer, scaler, device, num_classes, ignore_index)
+        tr = train_one_epoch(model, train_loader, optimizer, scaler, scheduler, device, num_classes, ignore_index)
         va = eval_one_epoch(model, val_loader, device, num_classes, ignore_index)
-        row = {"epoch": epoch, "train": tr, "val": va}
+        lr_now = float(optimizer.param_groups[0]["lr"])
+        row = {"epoch": epoch, "lr": lr_now, "train": tr, "val": va}
         history.append(row)
 
         (run_dir / "history.json").write_text(json.dumps(history, indent=2), encoding="utf-8")
@@ -441,6 +488,7 @@ def main() -> None:
         _log_print(
             log_f,
             f"[{epoch:03d}/{args.epochs}] "
+            f"lr={optimizer.param_groups[0]['lr']:.3e} | "
             f"train loss={tr['loss']:.4f} dice={tr['dice']:.4f} | "
             f"val loss={va['loss']:.4f} dice={va['dice']:.4f} | "
             f"best(val dice)={best_val['dice']:.4f}@{best_val['epoch']}"
