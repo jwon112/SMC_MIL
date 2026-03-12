@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 import argparse
 import json
 import os
@@ -12,6 +13,14 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from tqdm import tqdm
+
+# Allow running either:
+# - from repo root:  python -m mini.train ...
+# - from inside mini: cd mini && python train.py ...
+_MINI_DIR = Path(__file__).resolve().parent
+_PARENT_DIR = _MINI_DIR.parent
+if str(_PARENT_DIR) not in sys.path:
+    sys.path.insert(0, str(_PARENT_DIR))
 
 from mini.data.dataloader import DataSpec, build_loader
 from mini.model.unet import UNet
