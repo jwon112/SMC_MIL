@@ -2,12 +2,14 @@ from __future__ import annotations
 
 import sys
 import argparse
+import contextlib
+import csv
 import json
 import os
 import time
 from dataclasses import asdict
 from pathlib import Path
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Optional
 
 import torch
 import torch.nn as nn
@@ -68,6 +70,39 @@ def miou_from_cm(cm: torch.Tensor, eps: float = 1e-6) -> float:
     return float(iou.mean().item())
 
 
+@torch.no_grad()
+def mdice_from_cm(cm: torch.Tensor, *, ignore_background: bool = True, eps: float = 1e-6) -> float:
+    """
+    Multi-class Dice computed from confusion matrix.
+    nnU-Net-style reporting typically uses mean foreground Dice (exclude background).
+    """
+    cm = cm.to(torch.float32)
+    tp = torch.diag(cm)
+    fp = cm.sum(dim=0) - tp
+    fn = cm.sum(dim=1) - tp
+    dice = (2 * tp) / (2 * tp + fp + fn + eps)
+    if ignore_background and dice.numel() > 1:
+        dice = dice[1:]
+    return float(dice.mean().item())
+
+
+def _open_log(run_dir: Path):
+    run_dir.mkdir(parents=True, exist_ok=True)
+    log_path = run_dir / "log.txt"
+    f = open(log_path, "a", encoding="utf-8")
+    f.write("\n" + "=" * 80 + "\n")
+    f.write(time.strftime("%Y-%m-%d %H:%M:%S") + "\n")
+    f.flush()
+    return f
+
+
+def _log_print(log_f, msg: str) -> None:
+    print(msg, flush=True)
+    if log_f is not None:
+        log_f.write(msg + "\n")
+        log_f.flush()
+
+
 def train_one_epoch(
     model: nn.Module,
     loader,
@@ -105,7 +140,11 @@ def train_one_epoch(
             cm += confusion_matrix(logits.detach().cpu(), masks.detach().cpu(), num_classes=num_classes, ignore_index=ignore_index)
             n += imgs.size(0)
 
-    return {"loss": loss_meter / max(n, 1), "miou": miou_from_cm(cm)}
+    return {
+        "loss": loss_meter / max(n, 1),
+        "dice": mdice_from_cm(cm, ignore_background=True),
+        "miou": miou_from_cm(cm),
+    }
 
 
 @torch.no_grad()
@@ -131,7 +170,107 @@ def eval_one_epoch(
         cm += confusion_matrix(logits.detach().cpu(), masks.detach().cpu(), num_classes=num_classes, ignore_index=ignore_index)
         n += imgs.size(0)
 
-    return {"loss": loss_meter / max(n, 1), "miou": miou_from_cm(cm)}
+    return {
+        "loss": loss_meter / max(n, 1),
+        "dice": mdice_from_cm(cm, ignore_background=True),
+        "miou": miou_from_cm(cm),
+    }
+
+
+def _save_metric_plot(history, out_path: Path) -> None:
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    epochs = [h["epoch"] for h in history]
+    tr_loss = [h["train"]["loss"] for h in history]
+    va_loss = [h["val"]["loss"] for h in history]
+    tr_dice = [h["train"]["dice"] for h in history]
+    va_dice = [h["val"]["dice"] for h in history]
+
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4), dpi=160)
+
+    ax = axes[0]
+    ax.plot(epochs, tr_loss, label="train")
+    ax.plot(epochs, va_loss, label="val")
+    ax.set_title("Loss")
+    ax.set_xlabel("epoch")
+    ax.grid(True, alpha=0.3)
+    ax.legend()
+
+    ax = axes[1]
+    ax.plot(epochs, tr_dice, label="train")
+    ax.plot(epochs, va_dice, label="val")
+    ax.set_title("Mean foreground Dice")
+    ax.set_xlabel("epoch")
+    ax.set_ylim(0.0, 1.0)
+    ax.grid(True, alpha=0.3)
+    ax.legend()
+
+    fig.tight_layout()
+    fig.savefig(out_path)
+    plt.close(fig)
+
+
+def _count_params(model: nn.Module) -> int:
+    return sum(p.numel() for p in model.parameters())
+
+
+def _estimate_flops(model: nn.Module, x: torch.Tensor) -> Optional[float]:
+    """
+    Return FLOPs for a single forward (not MACs), if a supported profiler is available.
+    - fvcore: returns total ops count (we treat as FLOPs)
+    - thop: returns MACs; we convert to FLOPs by *2
+    """
+    try:
+        from fvcore.nn import FlopCountAnalysis  # type: ignore
+
+        return float(FlopCountAnalysis(model, x).total())
+    except Exception:
+        pass
+    try:
+        from thop import profile  # type: ignore
+
+        macs, _params = profile(model, inputs=(x,), verbose=False)
+        return float(macs) * 2.0
+    except Exception:
+        return None
+
+
+@torch.no_grad()
+def _measure_latency_ms(model: nn.Module, x: torch.Tensor, *, iters: int = 50, warmup: int = 10) -> float:
+    model.eval()
+    device = x.device
+
+    for _ in range(warmup):
+        _ = model(x)
+    if device.type == "cuda":
+        torch.cuda.synchronize()
+        starter = torch.cuda.Event(enable_timing=True)
+        ender = torch.cuda.Event(enable_timing=True)
+        starter.record()
+        for _ in range(iters):
+            _ = model(x)
+        ender.record()
+        torch.cuda.synchronize()
+        return float(starter.elapsed_time(ender) / iters)
+
+    t0 = time.perf_counter()
+    for _ in range(iters):
+        _ = model(x)
+    t1 = time.perf_counter()
+    return float((t1 - t0) * 1000.0 / iters)
+
+
+def _append_results_row(results_csv: Path, row: Dict[str, object]) -> None:
+    results_csv.parent.mkdir(parents=True, exist_ok=True)
+    exists = results_csv.exists()
+    with open(results_csv, "a", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=list(row.keys()))
+        if not exists:
+            w.writeheader()
+        w.writerow(row)
 
 
 def main() -> None:
@@ -146,6 +285,8 @@ def main() -> None:
     p.add_argument("--weight_decay", type=float, default=1e-4)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--amp", action="store_true")
+    p.add_argument("--do_test", action="store_true", default=True)
+    p.add_argument("--test_set", type=str, default="val", choices=["train", "val"])
 
     # model knobs (swappable)
     p.add_argument("--base_channels", type=int, default=64)
@@ -155,16 +296,25 @@ def main() -> None:
     p.add_argument("--dropout", type=float, default=0.0)
     p.add_argument("--pool", type=str, default="max")
     p.add_argument("--up", type=str, default="bilinear")
+    p.add_argument("--block", type=str, default="conv", choices=["conv", "convnext", "convnextv2", "kconv", "kdwsep"])
+    p.add_argument("--convnext_num_blocks", type=int, default=2)
+    p.add_argument("--convnext_layer_scale", type=float, default=1e-6)
+    p.add_argument("--convnext_drop_path", type=float, default=0.0)
+    p.add_argument("--kernel_size", type=int, default=3)
 
     # data aug knobs
-    p.add_argument("--resize", type=int, default=384)
-    p.add_argument("--crop_size", type=int, default=352)
+    p.add_argument("--crop_size", type=int, default=512)
+    p.add_argument("--scale_min", type=float, default=0.5)
+    p.add_argument("--scale_max", type=float, default=2.0)
     p.add_argument("--hflip", type=float, default=0.5)
+    p.add_argument("--color_jitter", type=float, default=0.2)
+    p.add_argument("--gaussian_blur_p", type=float, default=0.0)
 
     args = p.parse_args()
 
     run_dir = Path(args.run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
+    log_f = _open_log(run_dir)
 
     seed_all(args.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -182,9 +332,12 @@ def main() -> None:
         download=True,
         num_workers=args.num_workers,
         batch_size=args.batch_size,
-        resize=args.resize if args.resize > 0 else None,
-        crop_size=args.crop_size if args.crop_size > 0 else None,
+        crop_size=args.crop_size,
+        scale_min=args.scale_min,
+        scale_max=args.scale_max,
         hflip=args.hflip,
+        color_jitter=args.color_jitter,
+        gaussian_blur_p=args.gaussian_blur_p,
     )
     val_spec = DataSpec(
         dataset=args.dataset,
@@ -193,13 +346,21 @@ def main() -> None:
         download=True,
         num_workers=max(1, args.num_workers // 2),
         batch_size=args.batch_size,
-        resize=args.resize if args.resize > 0 else None,
-        crop_size=args.crop_size if args.crop_size > 0 else None,
+        crop_size=args.crop_size,
+        scale_min=1.0,
+        scale_max=1.0,
         hflip=0.0,
+        color_jitter=0.0,
+        gaussian_blur_p=0.0,
     )
 
     train_loader = build_loader(data_spec, shuffle=True)
     val_loader = build_loader(val_spec, shuffle=False)
+
+    if args.test_set == "train":
+        test_loader = build_loader(data_spec, shuffle=False)
+    else:
+        test_loader = val_loader
 
     model_spec = UNetSpec(
         in_channels=3,
@@ -211,6 +372,11 @@ def main() -> None:
         dropout=args.dropout,
         pool=args.pool,
         up=args.up,
+        block=args.block,
+        convnext_num_blocks=args.convnext_num_blocks,
+        convnext_layer_scale=args.convnext_layer_scale,
+        convnext_drop_path=args.convnext_drop_path,
+        kernel_size=args.kernel_size,
     )
     model = UNet(model_spec).to(device)
 
@@ -227,8 +393,13 @@ def main() -> None:
     }
     (run_dir / "meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
 
-    best = {"epoch": -1, "miou": -1.0}
+    best_val = {"epoch": -1, "dice": -1.0}
     history = []
+
+    _log_print(log_f, f"run_dir={run_dir.resolve()}")
+    _log_print(log_f, f"device={device} amp={bool(args.amp and device.type == 'cuda')}")
+    _log_print(log_f, f"dataset={args.dataset} data_root={os.path.abspath(args.data_root)}")
+    _log_print(log_f, f"model=UNet base={args.base_channels} depth={args.depth} norm={args.norm} act={args.act} up={args.up}")
 
     for epoch in range(1, args.epochs + 1):
         tr = train_one_epoch(model, train_loader, optimizer, scaler, device, num_classes, ignore_index)
@@ -237,6 +408,7 @@ def main() -> None:
         history.append(row)
 
         (run_dir / "history.json").write_text(json.dumps(history, indent=2), encoding="utf-8")
+        _save_metric_plot(history, run_dir / "metrics.png")
 
         ckpt = {
             "epoch": epoch,
@@ -246,16 +418,60 @@ def main() -> None:
         }
         torch.save(ckpt, run_dir / "last.pt")
 
-        if va["miou"] > best["miou"]:
-            best = {"epoch": epoch, "miou": va["miou"]}
+        if va["dice"] > best_val["dice"]:
+            best_val = {"epoch": epoch, "dice": va["dice"]}
             torch.save(ckpt, run_dir / "best.pt")
 
-        print(
+        _log_print(
+            log_f,
             f"[{epoch:03d}/{args.epochs}] "
-            f"train loss={tr['loss']:.4f} miou={tr['miou']:.4f} | "
-            f"val loss={va['loss']:.4f} miou={va['miou']:.4f} | "
-            f"best={best['miou']:.4f}@{best['epoch']}"
+            f"train loss={tr['loss']:.4f} dice={tr['dice']:.4f} | "
+            f"val loss={va['loss']:.4f} dice={va['dice']:.4f} | "
+            f"best(val dice)={best_val['dice']:.4f}@{best_val['epoch']}"
         )
+
+    te = None
+    if args.do_test:
+        te = eval_one_epoch(model, test_loader, device, num_classes, ignore_index)
+        _log_print(log_f, f"[test:{args.test_set}] loss={te['loss']:.4f} dice={te['dice']:.4f} miou={te['miou']:.4f}")
+
+    # Summary row (results.csv)
+    params = _count_params(model)
+    dummy = torch.zeros(
+        (1, 3, int(args.crop_size), int(args.crop_size)),
+        dtype=torch.float32,
+        device=device,
+    )
+    flops = _estimate_flops(model, dummy)
+    latency_ms = _measure_latency_ms(model, dummy, iters=50, warmup=10)
+
+    results_row = {
+        "run_dir": str(run_dir.resolve()),
+        "time": meta["time"],
+        "dataset": args.dataset,
+        "test_set": args.test_set,
+        "epochs": args.epochs,
+        "batch_size": args.batch_size,
+        "best_val_epoch": best_val["epoch"],
+        "best_val_dice": best_val["dice"],
+        "test_loss": (te["loss"] if te is not None else None),
+        "test_dice": (te["dice"] if te is not None else None),
+        "test_miou": (te["miou"] if te is not None else None),
+        "params": params,
+        "flops": flops,
+        "latency_ms": latency_ms,
+        "model_base_channels": args.base_channels,
+        "model_depth": args.depth,
+        "model_norm": args.norm,
+        "model_act": args.act,
+        "model_up": args.up,
+    }
+    results_csv = run_dir / "results" / "results.csv"
+    _append_results_row(results_csv, results_row)
+    _log_print(log_f, f"wrote {results_csv}")
+
+    with contextlib.suppress(Exception):
+        log_f.close()
 
 
 if __name__ == "__main__":

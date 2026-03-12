@@ -1,6 +1,9 @@
 torch
 torchvision
+numpy
 tqdm
 PyYAML
 opencv-python
 matplotlib
+fvcore
+thop

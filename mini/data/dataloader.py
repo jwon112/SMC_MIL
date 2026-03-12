@@ -10,6 +10,7 @@ from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms as T
 from torchvision.datasets import VOCSegmentation
 from torchvision.transforms import InterpolationMode
+from torchvision.transforms.functional import pad as tv_pad
 
 
 @dataclass(frozen=True)
@@ -23,10 +24,19 @@ class DataSpec:
     batch_size: int = 8
     pin_memory: bool = True
 
-    # segmentation-friendly transforms
-    resize: Optional[int] = 384
-    crop_size: Optional[int] = 352
+    # segmentation-friendly transforms (defaults: "standard" recipe)
+    # - random scale jitter + random crop + hflip
+    # - mild photometric jitter on image only
+    crop_size: int = 512
+    scale_min: float = 0.5
+    scale_max: float = 2.0
     hflip: float = 0.5
+    color_jitter: float = 0.2  # applied to image only
+    gaussian_blur_p: float = 0.0  # keep off by default (many baselines don't use it)
+
+    # normalization (ImageNet default)
+    mean: Tuple[float, float, float] = (0.485, 0.456, 0.406)
+    std: Tuple[float, float, float] = (0.229, 0.224, 0.225)
 
 
 def _voc_pair_transform(spec: DataSpec) -> Callable:
@@ -36,24 +46,43 @@ def _voc_pair_transform(spec: DataSpec) -> Callable:
     """
 
     def _tfm(img, mask):
-        # resize (optional)
-        if spec.resize:
-            img = T.functional.resize(img, spec.resize, interpolation=InterpolationMode.BILINEAR)
-            mask = T.functional.resize(mask, spec.resize, interpolation=InterpolationMode.NEAREST)
+        # random scale jitter (paired)
+        if spec.scale_min and spec.scale_max and spec.scale_max > 0:
+            s = float(torch.empty(1).uniform_(spec.scale_min, spec.scale_max).item())
+            new_h = max(1, int(round(img.size[1] * s)))
+            new_w = max(1, int(round(img.size[0] * s)))
+            img = T.functional.resize(img, (new_h, new_w), interpolation=InterpolationMode.BILINEAR)
+            mask = T.functional.resize(mask, (new_h, new_w), interpolation=InterpolationMode.NEAREST)
 
-        # random crop (optional)
-        if spec.crop_size:
-            i, j, h, w = T.RandomCrop.get_params(img, output_size=(spec.crop_size, spec.crop_size))
-            img = T.functional.crop(img, i, j, h, w)
-            mask = T.functional.crop(mask, i, j, h, w)
+        # pad to at least crop size (paired)
+        th = int(spec.crop_size)
+        tw = int(spec.crop_size)
+        pad_h = max(0, th - img.size[1])
+        pad_w = max(0, tw - img.size[0])
+        if pad_h > 0 or pad_w > 0:
+            # right/bottom padding only; mask padded with ignore_index=255
+            img = tv_pad(img, padding=[0, 0, pad_w, pad_h], fill=0)
+            mask = tv_pad(mask, padding=[0, 0, pad_w, pad_h], fill=255)
+
+        # random crop (paired)
+        i, j, h, w = T.RandomCrop.get_params(img, output_size=(th, tw))
+        img = T.functional.crop(img, i, j, h, w)
+        mask = T.functional.crop(mask, i, j, h, w)
 
         # hflip
         if spec.hflip and torch.rand(()) < spec.hflip:
             img = T.functional.hflip(img)
             mask = T.functional.hflip(mask)
 
+        # photometric aug (image only)
+        cj = float(spec.color_jitter or 0.0)
+        if cj > 0:
+            img = T.ColorJitter(brightness=cj, contrast=cj, saturation=cj, hue=min(0.1, cj / 2))(img)
+        if spec.gaussian_blur_p and torch.rand(()) < float(spec.gaussian_blur_p):
+            img = T.GaussianBlur(kernel_size=3, sigma=(0.1, 2.0))(img)
+
         img = T.functional.to_tensor(img)  # float [0,1]
-        img = T.functional.normalize(img, mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
+        img = T.functional.normalize(img, mean=spec.mean, std=spec.std)
 
         mask = torch.from_numpy(np.array(mask, dtype=np.int64))  # HxW, values in [0..20] or 255(ignore)
         return img, mask

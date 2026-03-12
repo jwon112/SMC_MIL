@@ -7,6 +7,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from mini.module.convnext import ConvNeXtStage
+from mini.module.kernelconv import KernelConvStage
+
 
 def norm_layer(kind: str, num_channels: int) -> nn.Module:
     kind = (kind or "bn").lower()
@@ -183,4 +186,62 @@ class UNetSpec:
     dropout: float = 0.0
     pool: str = "max"
     up: str = "bilinear"
+
+    # block selection
+    block: str = "conv"  # conv | convnext | convnextv2
+    convnext_num_blocks: int = 2
+    convnext_layer_scale: float = 1e-6
+    convnext_drop_path: float = 0.0
+
+    # kernel sweep blocks
+    kernel_size: int = 3
+
+
+def build_stage(spec: UNetSpec, in_ch: int, out_ch: int) -> nn.Module:
+    """
+    Registry/redirect for U-Net stages.
+    This is the indirection layer so new blocks can live in separate files.
+    """
+    block = (spec.block or "conv").lower()
+    if block == "conv":
+        return DoubleConv(in_ch, out_ch, norm=spec.norm, act=spec.act, dropout=spec.dropout)
+    if block in {"convnext", "convnextv1"}:
+        return ConvNeXtStage(
+            in_ch,
+            out_ch,
+            variant="v1",
+            num_blocks=spec.convnext_num_blocks,
+            layer_scale_init_value=spec.convnext_layer_scale,
+            drop_path=spec.convnext_drop_path,
+        )
+    if block in {"convnextv2", "v2"}:
+        return ConvNeXtStage(
+            in_ch,
+            out_ch,
+            variant="v2",
+            num_blocks=spec.convnext_num_blocks,
+            layer_scale_init_value=0.0,
+            drop_path=spec.convnext_drop_path,
+        )
+    if block in {"kconv", "kernelconv"}:
+        return KernelConvStage(
+            in_ch,
+            out_ch,
+            kernel_size=spec.kernel_size,
+            depthwise_separable=False,
+            norm=spec.norm,
+            act=spec.act,
+            dropout=spec.dropout,
+        )
+    if block in {"kdwsep", "kdw", "dwsep", "kernel_dwsep"}:
+        return KernelConvStage(
+            in_ch,
+            out_ch,
+            kernel_size=spec.kernel_size,
+            depthwise_separable=True,
+            norm=spec.norm,
+            act=spec.act,
+            dropout=spec.dropout,
+        )
+    raise ValueError(f"Unknown block: {spec.block}")
 
