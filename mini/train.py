@@ -76,6 +76,9 @@ def mdice_from_cm(cm: torch.Tensor, *, ignore_background: bool = True, eps: floa
     """
     Multi-class Dice computed from confusion matrix.
     nnU-Net-style reporting typically uses mean foreground Dice (exclude background).
+    - Background(class 0) is excluded when ignore_background=True.
+    - Classes that never appear in GT (tp+fn == 0) are excluded from the mean so that
+      "correctly predicting all zeros" for those classes does not drag the mean down.
     """
     cm = cm.to(torch.float32)
     tp = torch.diag(cm)
@@ -83,8 +86,6 @@ def mdice_from_cm(cm: torch.Tensor, *, ignore_background: bool = True, eps: floa
     fn = cm.sum(dim=1) - tp
     dice = (2 * tp) / (2 * tp + fp + fn + eps)
 
-    # Mask classes that never appear in GT (tp+fn == 0): for those, predicting all zeros is "perfect",
-    # so they should not drag the mean down. This is especially important for small subsets.
     present = (tp + fn) > 0
     if ignore_background and present.numel() > 0:
         present[0] = False  # class 0 is background in VOC
@@ -94,6 +95,88 @@ def mdice_from_cm(cm: torch.Tensor, *, ignore_background: bool = True, eps: floa
         return 0.0
 
     return float(dice[valid].mean().item())
+
+
+def _voc_color_map(num_classes: int = 21) -> torch.Tensor:
+    """
+    Standard PASCAL VOC color map (21 classes).
+    Returns tensor of shape [num_classes, 3] with uint8 RGB values.
+    """
+    import numpy as np
+
+    def bitget(byteval, idx):
+        return (byteval & (1 << idx)) != 0
+
+    cmap = np.zeros((num_classes, 3), dtype=np.uint8)
+    for i in range(num_classes):
+        r = g = b = 0
+        c = i
+        for j in range(8):
+            r |= (bitget(c, 0) << (7 - j))
+            g |= (bitget(c, 1) << (7 - j))
+            b |= (bitget(c, 2) << (7 - j))
+            c >>= 3
+        cmap[i] = np.array([r, g, b], dtype=np.uint8)
+    return torch.from_numpy(cmap)
+
+
+@torch.no_grad()
+def _save_sample_visuals(
+    model: nn.Module,
+    loader: DataLoader,
+    device: torch.device,
+    out_dir: Path,
+    num_samples: int,
+    num_classes: int,
+    mean: Tuple[float, float, float],
+    std: Tuple[float, float, float],
+) -> None:
+    """
+    Save a few (image, GT, prediction) triplets for qualitative inspection.
+    """
+    import numpy as np
+    from PIL import Image
+
+    model.eval()
+    out_dir.mkdir(parents=True, exist_ok=True)
+    cmap = _voc_color_map(num_classes=num_classes)
+
+    mean_t = torch.tensor(mean, dtype=torch.float32).view(1, 3, 1, 1)
+    std_t = torch.tensor(std, dtype=torch.float32).view(1, 3, 1, 1)
+
+    saved = 0
+    for imgs, masks in loader:
+        imgs = imgs.to(device, non_blocking=True)
+        masks = masks.to(device, non_blocking=True)
+        logits = model(imgs)
+        preds = logits.argmax(dim=1)
+
+        imgs_denorm = imgs.detach().cpu() * std_t + mean_t
+        imgs_denorm = imgs_denorm.clamp(0.0, 1.0)
+        preds = preds.detach().cpu()
+        masks = masks.detach().cpu()
+
+        bsz = imgs_denorm.size(0)
+        for b in range(bsz):
+            if saved >= num_samples:
+                return
+
+            img = imgs_denorm[b]  # 3xHxW
+            img_np = (img.permute(1, 2, 0).numpy() * 255.0).astype(np.uint8)
+
+            gt = masks[b].numpy().astype(np.int64)
+            pr = preds[b].numpy().astype(np.int64)
+
+            gt_color = cmap[gt].numpy()
+            pr_color = cmap[pr].numpy()
+
+            # concatenate horizontally: [input | GT | pred]
+            vis = np.concatenate([img_np, gt_color, pr_color], axis=1)
+            Image.fromarray(vis).save(out_dir / f"sample_{saved:03d}.png")
+            saved += 1
+
+        if saved >= num_samples:
+            return
 
 
 def _open_log(run_dir: Path):
@@ -325,6 +408,7 @@ def main() -> None:
     p.add_argument("--convnext_drop_path", type=float, default=0.0)
     p.add_argument("--kernel_size", type=int, default=3)
     p.add_argument("--overfit_n", type=int, default=0)
+    p.add_argument("--num_vis", type=int, default=0, help="Number of qualitative (img, gt, pred) samples to save from test_set")
 
     # data aug knobs
     p.add_argument("--crop_size", type=int, default=512)
@@ -534,6 +618,22 @@ def main() -> None:
     if args.do_test:
         te = eval_one_epoch(model, test_loader, device, num_classes, ignore_index)
         _log_print(log_f, f"[test:{args.test_set}] loss={te['loss']:.4f} dice={te['dice']:.4f} miou={te['miou']:.4f}")
+
+        # qualitative samples
+        if args.num_vis and args.num_vis > 0:
+            vis_dir = run_dir / "vis"
+            # use training data normalization (val/test share same mean/std except jitter)
+            _save_sample_visuals(
+                model,
+                test_loader,
+                device,
+                vis_dir,
+                num_samples=int(args.num_vis),
+                num_classes=num_classes,
+                mean=data_spec.mean,
+                std=data_spec.std,
+            )
+            _log_print(log_f, f"saved {args.num_vis} qualitative samples to {vis_dir}")
 
     # Summary row (results.csv)
     params = _count_params(model)
