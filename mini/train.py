@@ -278,6 +278,7 @@ def main() -> None:
     p.add_argument("--dataset", type=str, default="voc")
     p.add_argument("--data_root", type=str, default="./_data")
     p.add_argument("--run_dir", type=str, default="./mini/runs/exp")
+    p.add_argument("--download", action=argparse.BooleanOptionalAction, default=True)
     p.add_argument("--epochs", type=int, default=20)
     p.add_argument("--batch_size", type=int, default=8)
     p.add_argument("--num_workers", type=int, default=4)
@@ -329,7 +330,7 @@ def main() -> None:
         dataset=args.dataset,
         data_root=args.data_root,
         image_set="train",
-        download=True,
+        download=bool(args.download),
         num_workers=args.num_workers,
         batch_size=args.batch_size,
         crop_size=args.crop_size,
@@ -343,7 +344,7 @@ def main() -> None:
         dataset=args.dataset,
         data_root=args.data_root,
         image_set="val",
-        download=True,
+        download=bool(args.download),
         num_workers=max(1, args.num_workers // 2),
         batch_size=args.batch_size,
         crop_size=args.crop_size,

@@ -103,17 +103,29 @@ class PairedTransformDataset(Dataset):
         return self.paired_transform(img, mask)
 
 
+def voc_is_prepared(root: str, year: str = "2012") -> bool:
+    root = os.path.abspath(root)
+    voc_dir = os.path.join(root, "VOCdevkit", f"VOC{year}")
+    # A lightweight check that mirrors torchvision's expected layout.
+    return os.path.isdir(voc_dir) and os.path.isfile(os.path.join(voc_dir, "ImageSets", "Segmentation", "train.txt"))
+
+
 def build_dataset(spec: DataSpec) -> Dataset:
     ds = (spec.dataset or "voc").lower()
     if ds != "voc":
         raise ValueError(f"Only dataset='voc' is implemented right now (got {spec.dataset})")
 
     root = os.path.abspath(spec.data_root)
+    if spec.download and voc_is_prepared(root, spec.year):
+        # Avoid re-downloading when the dataset is already present.
+        download = False
+    else:
+        download = spec.download
     base = VOCSegmentation(
         root=root,
         year=spec.year,
         image_set=spec.image_set,
-        download=spec.download,
+        download=download,
         transforms=None,
         transform=None,
         target_transform=None,
