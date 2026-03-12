@@ -281,7 +281,10 @@ def main() -> None:
     p.add_argument("--download", action=argparse.BooleanOptionalAction, default=True)
     p.add_argument("--epochs", type=int, default=20)
     p.add_argument("--batch_size", type=int, default=8)
-    p.add_argument("--num_workers", type=int, default=4)
+    p.add_argument("--num_workers", type=int, default=0)
+    p.add_argument("--pin_memory", action=argparse.BooleanOptionalAction, default=True)
+    p.add_argument("--persistent_workers", action=argparse.BooleanOptionalAction, default=False)
+    p.add_argument("--prefetch_factor", type=int, default=2)
     p.add_argument("--lr", type=float, default=3e-4)
     p.add_argument("--weight_decay", type=float, default=1e-4)
     p.add_argument("--seed", type=int, default=42)
@@ -333,6 +336,9 @@ def main() -> None:
         download=bool(args.download),
         num_workers=args.num_workers,
         batch_size=args.batch_size,
+        pin_memory=bool(args.pin_memory),
+        persistent_workers=bool(args.persistent_workers),
+        prefetch_factor=int(args.prefetch_factor),
         crop_size=args.crop_size,
         scale_min=args.scale_min,
         scale_max=args.scale_max,
@@ -347,6 +353,9 @@ def main() -> None:
         download=bool(args.download),
         num_workers=max(1, args.num_workers // 2),
         batch_size=args.batch_size,
+        pin_memory=bool(args.pin_memory),
+        persistent_workers=bool(args.persistent_workers),
+        prefetch_factor=int(args.prefetch_factor),
         crop_size=args.crop_size,
         scale_min=1.0,
         scale_max=1.0,
@@ -382,7 +391,13 @@ def main() -> None:
     model = UNet(model_spec).to(device)
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    scaler = torch.cuda.amp.GradScaler(enabled=bool(args.amp and device.type == "cuda"))
+    if device.type == "cuda":
+        try:
+            scaler = torch.amp.GradScaler("cuda", enabled=bool(args.amp))
+        except TypeError:
+            scaler = torch.cuda.amp.GradScaler(enabled=bool(args.amp))
+    else:
+        scaler = None
 
     meta = {
         "time": time.strftime("%Y-%m-%d %H:%M:%S"),

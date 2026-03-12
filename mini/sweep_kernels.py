@@ -22,7 +22,11 @@ def main() -> None:
     p.add_argument("--runs_dir", type=str, default="./runs/kernel_sweep")
     p.add_argument("--epochs", type=int, default=20)
     p.add_argument("--batch_size", type=int, default=32)
-    p.add_argument("--num_workers", type=int, default=4)
+    p.add_argument("--num_workers", type=int, default=0)
+    p.add_argument("--download", action=argparse.BooleanOptionalAction, default=False)
+    p.add_argument("--pin_memory", action=argparse.BooleanOptionalAction, default=True)
+    p.add_argument("--persistent_workers", action=argparse.BooleanOptionalAction, default=False)
+    p.add_argument("--prefetch_factor", type=int, default=2)
     p.add_argument("--crop_size", type=int, default=512)
     p.add_argument("--scale_min", type=float, default=0.5)
     p.add_argument("--scale_max", type=float, default=2.0)
@@ -52,12 +56,17 @@ def main() -> None:
                 args.data_root,
                 "--run_dir",
                 str(run_dir),
+                "--no-download" if not args.download else "--download",
                 "--epochs",
                 str(args.epochs),
                 "--batch_size",
                 str(args.batch_size),
                 "--num_workers",
                 str(args.num_workers),
+                "--no-pin_memory" if not args.pin_memory else "--pin_memory",
+                "--persistent_workers" if args.persistent_workers else "--no-persistent_workers",
+                "--prefetch_factor",
+                str(args.prefetch_factor),
                 "--crop_size",
                 str(args.crop_size),
                 "--scale_min",

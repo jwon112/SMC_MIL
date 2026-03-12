@@ -23,6 +23,8 @@ class DataSpec:
     num_workers: int = 4
     batch_size: int = 8
     pin_memory: bool = True
+    persistent_workers: bool = False
+    prefetch_factor: int = 2
 
     # segmentation-friendly transforms (defaults: "standard" recipe)
     # - random scale jitter + random crop + hflip
@@ -135,6 +137,10 @@ def build_dataset(spec: DataSpec) -> Dataset:
 
 def build_loader(spec: DataSpec, *, shuffle: bool) -> DataLoader:
     ds = build_dataset(spec)
+    kwargs = {}
+    if spec.num_workers and spec.num_workers > 0:
+        kwargs["persistent_workers"] = bool(spec.persistent_workers)
+        kwargs["prefetch_factor"] = int(spec.prefetch_factor)
     return DataLoader(
         ds,
         batch_size=spec.batch_size,
@@ -142,5 +148,6 @@ def build_loader(spec: DataSpec, *, shuffle: bool) -> DataLoader:
         num_workers=spec.num_workers,
         pin_memory=spec.pin_memory,
         drop_last=shuffle,
+        **kwargs,
     )
 
