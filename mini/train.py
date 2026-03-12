@@ -82,9 +82,18 @@ def mdice_from_cm(cm: torch.Tensor, *, ignore_background: bool = True, eps: floa
     fp = cm.sum(dim=0) - tp
     fn = cm.sum(dim=1) - tp
     dice = (2 * tp) / (2 * tp + fp + fn + eps)
-    if ignore_background and dice.numel() > 1:
-        dice = dice[1:]
-    return float(dice.mean().item())
+
+    # Mask classes that never appear in GT (tp+fn == 0): for those, predicting all zeros is "perfect",
+    # so they should not drag the mean down. This is especially important for small subsets.
+    present = (tp + fn) > 0
+    if ignore_background and present.numel() > 0:
+        present[0] = False  # class 0 is background in VOC
+
+    valid = present.nonzero(as_tuple=False).flatten()
+    if valid.numel() == 0:
+        return 0.0
+
+    return float(dice[valid].mean().item())
 
 
 def _open_log(run_dir: Path):
