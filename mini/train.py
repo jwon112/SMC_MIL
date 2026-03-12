@@ -14,6 +14,7 @@ from typing import Dict, Tuple, Optional
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.utils.data import DataLoader, Subset
 from tqdm import tqdm
 
 # Allow running either:
@@ -24,7 +25,7 @@ _PARENT_DIR = _MINI_DIR.parent
 if str(_PARENT_DIR) not in sys.path:
     sys.path.insert(0, str(_PARENT_DIR))
 
-from mini.data.dataloader import DataSpec, build_loader
+from mini.data.dataloader import DataSpec, build_loader, build_dataset
 from mini.model.unet import UNet
 from mini.module.blocks import UNetSpec
 
@@ -314,6 +315,7 @@ def main() -> None:
     p.add_argument("--convnext_layer_scale", type=float, default=1e-6)
     p.add_argument("--convnext_drop_path", type=float, default=0.0)
     p.add_argument("--kernel_size", type=int, default=3)
+    p.add_argument("--overfit_n", type=int, default=0)
 
     # data aug knobs
     p.add_argument("--crop_size", type=int, default=512)
@@ -373,8 +375,31 @@ def main() -> None:
         gaussian_blur_p=0.0,
     )
 
-    train_loader = build_loader(data_spec, shuffle=True)
-    val_loader = build_loader(val_spec, shuffle=False)
+    if args.overfit_n and args.overfit_n > 0:
+        base_ds = build_dataset(data_spec)
+        n = min(int(args.overfit_n), len(base_ds))
+        # deterministic small subset: first n indices
+        indices = list(range(n))
+        subset = Subset(base_ds, indices)
+        train_loader = DataLoader(
+            subset,
+            batch_size=args.batch_size,
+            shuffle=True,
+            num_workers=args.num_workers,
+            pin_memory=bool(args.pin_memory),
+            drop_last=False,
+        )
+        val_loader = DataLoader(
+            subset,
+            batch_size=args.batch_size,
+            shuffle=False,
+            num_workers=args.num_workers,
+            pin_memory=bool(args.pin_memory),
+            drop_last=False,
+        )
+    else:
+        train_loader = build_loader(data_spec, shuffle=True)
+        val_loader = build_loader(val_spec, shuffle=False)
 
     if args.test_set == "train":
         test_loader = build_loader(data_spec, shuffle=False)
@@ -462,6 +487,8 @@ def main() -> None:
         f"scheduler={args.scheduler} warmup_epochs={args.warmup_epochs} min_lr={args.min_lr} "
         f"steps/epoch={steps_per_epoch} total_steps={total_steps}",
     )
+    if args.overfit_n and args.overfit_n > 0:
+        _log_print(log_f, f"overfit_n={args.overfit_n} (using a fixed small subset of the training data)")
 
     for epoch in range(1, args.epochs + 1):
         tr = train_one_epoch(model, train_loader, optimizer, scaler, scheduler, device, num_classes, ignore_index)
