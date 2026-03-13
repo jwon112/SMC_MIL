@@ -169,6 +169,11 @@ class UNetSpec:
     pool: str = "max"
     up: str = "bilinear"
 
+    # encoder type: "plain" uses the hand-crafted UNet encoder,
+    # "convnext_tiny" will use a pretrained ConvNeXt-Tiny backbone.
+    encoder_type: str = "plain"  # plain | convnext_tiny
+    encoder_pretrained: bool = False
+
     # block selection
     block: str = "conv"  # conv | convnext | convnextv2
     convnext_num_blocks: int = 2

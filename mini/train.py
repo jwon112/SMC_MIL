@@ -167,8 +167,14 @@ def _save_sample_visuals(
             gt = masks[b].numpy().astype(np.int64)
             pr = preds[b].numpy().astype(np.int64)
 
-            gt_color = cmap[gt].numpy()
-            pr_color = cmap[pr].numpy()
+            # 255는 VOC ignore index이므로 색맵 인덱싱 전에 안전한 값(배경=0)으로 내려준다.
+            gt_vis = gt.copy()
+            gt_vis[gt_vis == 255] = 0
+            pr_vis = pr.copy()
+            pr_vis[pr_vis == 255] = 0
+
+            gt_color = cmap[gt_vis].numpy()
+            pr_color = cmap[pr_vis].numpy()
 
             # concatenate horizontally: [input | GT | pred]
             vis = np.concatenate([img_np, gt_color, pr_color], axis=1)
@@ -382,7 +388,7 @@ def main() -> None:
     p.add_argument("--pin_memory", action=argparse.BooleanOptionalAction, default=True)
     p.add_argument("--persistent_workers", action=argparse.BooleanOptionalAction, default=False)
     p.add_argument("--prefetch_factor", type=int, default=2)
-    p.add_argument("--lr", type=float, default=1e-3)
+    p.add_argument("--lr", type=float, default=3e-4)
     p.add_argument("--weight_decay", type=float, default=1e-4)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--amp", action="store_true")
@@ -402,6 +408,8 @@ def main() -> None:
     p.add_argument("--dropout", type=float, default=0.0)
     p.add_argument("--pool", type=str, default="max")
     p.add_argument("--up", type=str, default="bilinear")
+    p.add_argument("--encoder_type", type=str, default="plain", choices=["plain", "convnext_tiny"])
+    p.add_argument("--encoder_pretrained", action=argparse.BooleanOptionalAction, default=False)
     p.add_argument("--block", type=str, default="conv", choices=["conv", "convnext", "convnextv2", "kconv", "kdwsep"])
     p.add_argument("--convnext_num_blocks", type=int, default=2)
     p.add_argument("--convnext_layer_scale", type=float, default=1e-6)
@@ -509,6 +517,8 @@ def main() -> None:
         dropout=args.dropout,
         pool=args.pool,
         up=args.up,
+        encoder_type=args.encoder_type,
+        encoder_pretrained=bool(args.encoder_pretrained),
         block=args.block,
         convnext_num_blocks=args.convnext_num_blocks,
         convnext_layer_scale=args.convnext_layer_scale,
