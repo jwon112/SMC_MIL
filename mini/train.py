@@ -426,6 +426,7 @@ def main() -> None:
     p.add_argument("--up", type=str, default="bilinear")
     p.add_argument("--encoder_type", type=str, default="plain", choices=["plain", "convnext_tiny"])
     p.add_argument("--encoder_pretrained", action=argparse.BooleanOptionalAction, default=False)
+    p.add_argument("--encoder_lr_scale", type=float, default=0.1, help="Relative LR factor for encoder params")
     p.add_argument("--block", type=str, default="conv", choices=["conv", "convnext", "convnextv2", "kconv", "kdwsep"])
     p.add_argument("--convnext_num_blocks", type=int, default=2)
     p.add_argument("--convnext_layer_scale", type=float, default=1e-6)
@@ -543,7 +544,22 @@ def main() -> None:
     )
     model = UNet(model_spec).to(device)
 
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+    # Separate encoder/decoder param groups when using a pretrained encoder so we can
+    # use a smaller LR on the backbone.
+    if getattr(model, "encoder", None) is not None:
+        enc_params = list(model.encoder.parameters())
+        enc_param_ids = {id(p) for p in enc_params}
+        dec_params = [p for p in model.parameters() if id(p) not in enc_param_ids]
+
+        optimizer = torch.optim.AdamW(
+            [
+                {"params": dec_params, "lr": args.lr},
+                {"params": enc_params, "lr": args.lr * float(args.encoder_lr_scale)},
+            ],
+            weight_decay=args.weight_decay,
+        )
+    else:
+        optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     if device.type == "cuda":
         try:
             scaler = torch.amp.GradScaler("cuda", enabled=bool(args.amp))
