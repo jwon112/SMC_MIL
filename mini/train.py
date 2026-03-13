@@ -149,6 +149,10 @@ def _save_sample_visuals(
         imgs = imgs.to(device, non_blocking=True)
         masks = masks.to(device, non_blocking=True)
         logits = model(imgs)
+        if logits.shape[-2:] != masks.shape[-2:]:
+            logits = F.interpolate(
+                logits, size=masks.shape[-2:], mode="bilinear", align_corners=False
+            )
         preds = logits.argmax(dim=1)
 
         imgs_denorm = imgs.detach().cpu() * std_t + mean_t
@@ -225,12 +229,20 @@ def train_one_epoch(
         if scaler is not None:
             with torch.amp.autocast(device_type="cuda", dtype=torch.float16):
                 logits = model(imgs)
+                if logits.shape[-2:] != masks.shape[-2:]:
+                    logits = F.interpolate(
+                        logits, size=masks.shape[-2:], mode="bilinear", align_corners=False
+                    )
                 loss = F.cross_entropy(logits, masks, ignore_index=ignore_index)
             scaler.scale(loss).backward()
             scaler.step(optimizer)
             scaler.update()
         else:
             logits = model(imgs)
+            if logits.shape[-2:] != masks.shape[-2:]:
+                logits = F.interpolate(
+                    logits, size=masks.shape[-2:], mode="bilinear", align_corners=False
+                )
             loss = F.cross_entropy(logits, masks, ignore_index=ignore_index)
             loss.backward()
             optimizer.step()
@@ -267,6 +279,10 @@ def eval_one_epoch(
         imgs = imgs.to(device, non_blocking=True)
         masks = masks.to(device, non_blocking=True)
         logits = model(imgs)
+        if logits.shape[-2:] != masks.shape[-2:]:
+            logits = F.interpolate(
+                logits, size=masks.shape[-2:], mode="bilinear", align_corners=False
+            )
         loss = F.cross_entropy(logits, masks, ignore_index=ignore_index)
 
         loss_meter += float(loss.item()) * imgs.size(0)
