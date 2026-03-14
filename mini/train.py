@@ -172,10 +172,13 @@ def _save_sample_visuals(
             pr = preds[b].numpy().astype(np.int64)
 
             # 255는 VOC ignore index이므로 색맵 인덱싱 전에 안전한 값(배경=0)으로 내려준다.
+            ignore = (gt == 255)
             gt_vis = gt.copy()
             gt_vis[gt_vis == 255] = 0
             pr_vis = pr.copy()
-            pr_vis[pr_vis == 255] = 0
+            # 예측은 0..C-1 범위라 255가 거의 없지만, GT가 ignore인(패딩/void) 영역은
+            # 시각화에서도 예측을 숨겨야 "이미지 밖에 뭐가 생긴 것"처럼 보이지 않는다.
+            pr_vis[ignore] = 0
 
             gt_color = cmap[gt_vis].numpy()
             pr_color = cmap[pr_vis].numpy()
@@ -206,6 +209,28 @@ def _log_print(log_f, msg: str) -> None:
         log_f.flush()
 
 
+def _kd_loss(
+    s_logits: torch.Tensor,
+    t_logits: torch.Tensor,
+    masks: torch.Tensor,
+    ignore_index: int,
+    temp: float,
+) -> torch.Tensor:
+    """Per-pixel KL(teacher || student) with temperature, masked by valid (non-ignore) pixels."""
+    B, C, H, W = s_logits.shape
+    # float32 for stable softmax
+    s_logits = s_logits.float()
+    t_logits = t_logits.float()
+    log_p_s = F.log_softmax(s_logits / temp, dim=1)
+    p_t = F.softmax(t_logits / temp, dim=1)
+    kl_per_pixel = F.kl_div(log_p_s, p_t, reduction="none").sum(dim=1)  # B,H,W
+    valid = (masks != ignore_index).float()
+    if valid.sum() < 1:
+        return s_logits.new_tensor(0.0)
+    mean_kl = (kl_per_pixel * valid).sum() / (valid.sum() + 1e-8)
+    return mean_kl * (temp * temp)
+
+
 def train_one_epoch(
     model: nn.Module,
     loader,
@@ -216,9 +241,16 @@ def train_one_epoch(
     num_classes: int,
     ignore_index: int,
     grad_clip: float = 0.0,
+    teacher: nn.Module | None = None,
+    kd_alpha: float = 0.0,
+    kd_temp: float = 4.0,
 ) -> Dict[str, float]:
     model.train()
+    if teacher is not None:
+        teacher.eval()
     loss_meter = 0.0
+    loss_ce_meter = 0.0
+    loss_kd_meter = 0.0
     cm = torch.zeros((num_classes, num_classes), dtype=torch.int64, device="cpu")
     n = 0
 
@@ -227,6 +259,8 @@ def train_one_epoch(
         masks = masks.to(device, non_blocking=True)
 
         optimizer.zero_grad(set_to_none=True)
+        do_kd = teacher is not None and kd_alpha > 0 and kd_temp > 0
+
         if scaler is not None:
             with torch.amp.autocast(device_type="cuda", dtype=torch.float16):
                 logits = model(imgs)
@@ -234,7 +268,19 @@ def train_one_epoch(
                     logits = F.interpolate(
                         logits, size=masks.shape[-2:], mode="bilinear", align_corners=False
                     )
-                loss = F.cross_entropy(logits, masks, ignore_index=ignore_index)
+                loss_ce = F.cross_entropy(logits, masks, ignore_index=ignore_index)
+                if do_kd:
+                    with torch.no_grad():
+                        t_logits = teacher(imgs)
+                        if t_logits.shape[-2:] != masks.shape[-2:]:
+                            t_logits = F.interpolate(
+                                t_logits, size=masks.shape[-2:], mode="bilinear", align_corners=False
+                            )
+                    loss_kd = _kd_loss(logits, t_logits, masks, ignore_index, kd_temp)
+                    loss = loss_ce + kd_alpha * loss_kd
+                else:
+                    loss_kd = logits.new_tensor(0.0)
+                    loss = loss_ce
             scaler.scale(loss).backward()
             scaler.unscale_(optimizer)
             if grad_clip > 0:
@@ -247,7 +293,19 @@ def train_one_epoch(
                 logits = F.interpolate(
                     logits, size=masks.shape[-2:], mode="bilinear", align_corners=False
                 )
-            loss = F.cross_entropy(logits, masks, ignore_index=ignore_index)
+            loss_ce = F.cross_entropy(logits, masks, ignore_index=ignore_index)
+            if do_kd:
+                with torch.no_grad():
+                    t_logits = teacher(imgs)
+                    if t_logits.shape[-2:] != masks.shape[-2:]:
+                        t_logits = F.interpolate(
+                            t_logits, size=masks.shape[-2:], mode="bilinear", align_corners=False
+                        )
+                loss_kd = _kd_loss(logits, t_logits, masks, ignore_index, kd_temp)
+                loss = loss_ce + kd_alpha * loss_kd
+            else:
+                loss_kd = logits.new_tensor(0.0)
+                loss = loss_ce
             loss.backward()
             if grad_clip > 0:
                 torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=grad_clip)
@@ -258,14 +316,21 @@ def train_one_epoch(
 
         with torch.no_grad():
             loss_meter += float(loss.item()) * imgs.size(0)
+            loss_ce_meter += float(loss_ce.item()) * imgs.size(0)
+            if do_kd:
+                loss_kd_meter += float(loss_kd.item()) * imgs.size(0)
             cm += confusion_matrix(logits.detach().cpu(), masks.detach().cpu(), num_classes=num_classes, ignore_index=ignore_index)
             n += imgs.size(0)
 
-    return {
+    out = {
         "loss": loss_meter / max(n, 1),
         "dice": mdice_from_cm(cm, ignore_background=True),
         "miou": miou_from_cm(cm),
     }
+    if teacher is not None:
+        out["loss_ce"] = loss_ce_meter / max(n, 1)
+        out["loss_kd"] = loss_kd_meter / max(n, 1)
+    return out
 
 
 @torch.no_grad()
@@ -434,13 +499,17 @@ def main() -> None:
     p.add_argument("--encoder_pretrained", action=argparse.BooleanOptionalAction, default=False)
     p.add_argument("--encoder_lr_scale", type=float, default=0.1, help="Relative LR factor for encoder params")
     p.add_argument("--grad_clip", type=float, default=1.0, help="Max gradient norm for clipping (0 = disabled)")
+    # Logits distillation (teacher = frozen model from --teacher_ckpt)
+    p.add_argument("--teacher_ckpt", type=str, default="", help="Path to teacher checkpoint (e.g. runs/.../best.pt). If set, logits KD is applied.")
+    p.add_argument("--kd_alpha", type=float, default=0.5, help="Weight for distillation loss (loss = ce + kd_alpha * kd)")
+    p.add_argument("--kd_temp", type=float, default=4.0, help="Temperature for softmax in logits distillation")
     p.add_argument("--block", type=str, default="conv", choices=["conv", "convnext", "convnextv2", "kconv", "kdwsep"])
     p.add_argument("--convnext_num_blocks", type=int, default=2)
     p.add_argument("--convnext_layer_scale", type=float, default=1e-6)
     p.add_argument("--convnext_drop_path", type=float, default=0.0)
     p.add_argument("--kernel_size", type=int, default=3)
     p.add_argument("--overfit_n", type=int, default=0)
-    p.add_argument("--num_vis", type=int, default=0, help="Number of qualitative (img, gt, pred) samples to save from test_set")
+    p.add_argument("--num_vis", type=int, default=0, help="Number of qualitative (img, gt, pred) s amples to save from test_set")
 
     # data aug knobs
     p.add_argument("--crop_size", type=int, default=512)
@@ -551,6 +620,16 @@ def main() -> None:
     )
     model = UNet(model_spec).to(device)
 
+    teacher = None
+    if args.teacher_ckpt and args.teacher_ckpt.strip():
+        ckpt = torch.load(args.teacher_ckpt.strip(), map_location=device)
+        teacher_spec = UNetSpec(**ckpt["model_spec"])
+        teacher = UNet(teacher_spec).to(device)
+        teacher.load_state_dict(ckpt["model_state"], strict=True)
+        teacher.eval()
+        for p in teacher.parameters():
+            p.requires_grad_(False)
+
     # Separate encoder/decoder param groups when using a pretrained encoder so we can
     # use a smaller LR on the backbone.
     if getattr(model, "encoder", None) is not None:
@@ -631,9 +710,24 @@ def main() -> None:
     )
     if args.overfit_n and args.overfit_n > 0:
         _log_print(log_f, f"overfit_n={args.overfit_n} (using a fixed small subset of the training data)")
+    if teacher is not None:
+        _log_print(log_f, f"distill: teacher={args.teacher_ckpt} kd_alpha={args.kd_alpha} kd_temp={args.kd_temp}")
 
     for epoch in range(1, args.epochs + 1):
-        tr = train_one_epoch(model, train_loader, optimizer, scaler, scheduler, device, num_classes, ignore_index, grad_clip=args.grad_clip)
+        tr = train_one_epoch(
+            model,
+            train_loader,
+            optimizer,
+            scaler,
+            scheduler,
+            device,
+            num_classes,
+            ignore_index,
+            grad_clip=args.grad_clip,
+            teacher=teacher,
+            kd_alpha=float(args.kd_alpha) if teacher is not None else 0.0,
+            kd_temp=float(args.kd_temp) if teacher is not None else 4.0,
+        )
         va = eval_one_epoch(model, val_loader, device, num_classes, ignore_index)
         lr_now = float(optimizer.param_groups[0]["lr"])
         row = {"epoch": epoch, "lr": lr_now, "train": tr, "val": va}
@@ -654,11 +748,15 @@ def main() -> None:
             best_val = {"epoch": epoch, "dice": va["dice"]}
             torch.save(ckpt, run_dir / "best.pt")
 
+        train_msg = (
+            f"train loss={tr['loss']:.4f} dice={tr['dice']:.4f}"
+            + (f" ce={tr['loss_ce']:.4f} kd={tr['loss_kd']:.4f}" if "loss_ce" in tr else "")
+        )
         _log_print(
             log_f,
             f"[{epoch:03d}/{args.epochs}] "
             f"lr={optimizer.param_groups[0]['lr']:.3e} | "
-            f"train loss={tr['loss']:.4f} dice={tr['dice']:.4f} | "
+            f"{train_msg} | "
             f"val loss={va['loss']:.4f} dice={va['dice']:.4f} | "
             f"best(val dice)={best_val['dice']:.4f}@{best_val['epoch']}"
         )
