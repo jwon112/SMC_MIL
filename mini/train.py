@@ -215,6 +215,7 @@ def train_one_epoch(
     device: torch.device,
     num_classes: int,
     ignore_index: int,
+    grad_clip: float = 0.0,
 ) -> Dict[str, float]:
     model.train()
     loss_meter = 0.0
@@ -235,6 +236,9 @@ def train_one_epoch(
                     )
                 loss = F.cross_entropy(logits, masks, ignore_index=ignore_index)
             scaler.scale(loss).backward()
+            scaler.unscale_(optimizer)
+            if grad_clip > 0:
+                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=grad_clip)
             scaler.step(optimizer)
             scaler.update()
         else:
@@ -245,6 +249,8 @@ def train_one_epoch(
                 )
             loss = F.cross_entropy(logits, masks, ignore_index=ignore_index)
             loss.backward()
+            if grad_clip > 0:
+                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=grad_clip)
             optimizer.step()
 
         if scheduler is not None:
@@ -427,6 +433,7 @@ def main() -> None:
     p.add_argument("--encoder_type", type=str, default="plain", choices=["plain", "convnext_tiny"])
     p.add_argument("--encoder_pretrained", action=argparse.BooleanOptionalAction, default=False)
     p.add_argument("--encoder_lr_scale", type=float, default=0.1, help="Relative LR factor for encoder params")
+    p.add_argument("--grad_clip", type=float, default=1.0, help="Max gradient norm for clipping (0 = disabled)")
     p.add_argument("--block", type=str, default="conv", choices=["conv", "convnext", "convnextv2", "kconv", "kdwsep"])
     p.add_argument("--convnext_num_blocks", type=int, default=2)
     p.add_argument("--convnext_layer_scale", type=float, default=1e-6)
@@ -626,7 +633,7 @@ def main() -> None:
         _log_print(log_f, f"overfit_n={args.overfit_n} (using a fixed small subset of the training data)")
 
     for epoch in range(1, args.epochs + 1):
-        tr = train_one_epoch(model, train_loader, optimizer, scaler, scheduler, device, num_classes, ignore_index)
+        tr = train_one_epoch(model, train_loader, optimizer, scaler, scheduler, device, num_classes, ignore_index, grad_clip=args.grad_clip)
         va = eval_one_epoch(model, val_loader, device, num_classes, ignore_index)
         lr_now = float(optimizer.param_groups[0]["lr"])
         row = {"epoch": epoch, "lr": lr_now, "train": tr, "val": va}
@@ -658,6 +665,12 @@ def main() -> None:
 
     te = None
     if args.do_test:
+        # Final test should use the best checkpoint, not the last (which may be broken after NaN).
+        best_pt = run_dir / "best.pt"
+        if best_pt.exists() and best_val["epoch"] >= 1:
+            ckpt = torch.load(best_pt, map_location=device)
+            model.load_state_dict(ckpt["model_state"], strict=True)
+            _log_print(log_f, f"loaded best.pt (epoch {ckpt['epoch']}) for final test evaluation")
         te = eval_one_epoch(model, test_loader, device, num_classes, ignore_index)
         _log_print(log_f, f"[test:{args.test_set}] loss={te['loss']:.4f} dice={te['dice']:.4f} miou={te['miou']:.4f}")
 
