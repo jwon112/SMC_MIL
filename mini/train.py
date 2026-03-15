@@ -475,7 +475,7 @@ def main() -> None:
     p.add_argument("--pin_memory", action=argparse.BooleanOptionalAction, default=True)
     p.add_argument("--persistent_workers", action=argparse.BooleanOptionalAction, default=False)
     p.add_argument("--prefetch_factor", type=int, default=2)
-    p.add_argument("--lr", type=float, default=3e-4)
+    p.add_argument("--lr", type=float, default=2e-4, help="Learning rate (lower default for stability with ConvNeXt encoder)")
     p.add_argument("--weight_decay", type=float, default=1e-4)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--amp", action="store_true")
