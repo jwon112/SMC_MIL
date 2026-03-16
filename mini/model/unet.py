@@ -64,19 +64,21 @@ class UNet(nn.Module):
 
             self.head = SegHead(chs[0], spec.num_classes)
 
-        elif encoder_type == "convnext_tiny":
-            # Use timm ConvNeXt-Tiny encoder with ImageNet pretraining.
+        elif encoder_type in {"convnext_tiny", "convnext_large"}:
+            # Use timm ConvNeXt encoder (Tiny or Large) with ImageNet pretraining.
             import timm
 
+            model_name = "convnext_tiny" if encoder_type == "convnext_tiny" else "convnext_large"
+
             self.encoder = timm.create_model(
-                "convnext_tiny",
+                model_name,
                 pretrained=bool(getattr(spec, "encoder_pretrained", False)),
                 features_only=True,
                 out_indices=(0, 1, 2, 3),
             )
             chs_enc: List[int] = list(self.encoder.feature_info.channels())  # [c1, c2, c3, c4]
             if len(chs_enc) != 4:
-                raise ValueError(f"Expected 4 feature stages from convnext_tiny, got {len(chs_enc)}")
+                raise ValueError(f"Expected 4 feature stages from {encoder_type}, got {len(chs_enc)}")
 
             c1, c2, c3, c4 = chs_enc
 

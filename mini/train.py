@@ -495,7 +495,7 @@ def main() -> None:
     p.add_argument("--dropout", type=float, default=0.0)
     p.add_argument("--pool", type=str, default="max")
     p.add_argument("--up", type=str, default="bilinear")
-    p.add_argument("--encoder_type", type=str, default="plain", choices=["plain", "convnext_tiny"])
+    p.add_argument("--encoder_type", type=str, default="plain", choices=["plain", "convnext_tiny", "convnext_large"])
     p.add_argument("--encoder_pretrained", action=argparse.BooleanOptionalAction, default=False)
     p.add_argument("--encoder_lr_scale", type=float, default=0.1, help="Relative LR factor for encoder params")
     p.add_argument("--grad_clip", type=float, default=1.0, help="Max gradient norm for clipping (0 = disabled)")
