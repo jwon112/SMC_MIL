@@ -159,7 +159,6 @@ def train_coad_ddpm(
         for batch in pbar:
             img = batch["img"].to(device)          # [B,3,H,W] in [-1,1]
             cls = batch["cls"].to(device)          # [B]
-            mask = batch["mask"].to(device)        # [B,1,H,W]
 
             B = img.size(0)
             t = torch.randint(0, timesteps, (B,), device=device, dtype=torch.long)
@@ -168,14 +167,8 @@ def train_coad_ddpm(
 
             noise_pred = model(x_t, t)
 
-            # base per-pixel MSE
-            per_pixel = (noise_pred - noise) ** 2  # [B,3,H,W]
-
-            # mask 가중치: normal(cls==0)은 mask=0일 것이므로 w_map=1
-            w_map = 1.0 + (w_mask - 1.0) * mask    # [B,1,H,W]
-            per_pixel = per_pixel * w_map
-
-            loss = per_pixel.mean()
+            # 마스크 없이 순수 per-pixel MSE
+            loss = F.mse_loss(noise_pred, noise)
 
             optimizer.zero_grad()
             loss.backward()
