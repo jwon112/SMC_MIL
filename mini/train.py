@@ -701,6 +701,8 @@ def main() -> None:
 
     _log_print(log_f, f"run_dir={run_dir.resolve()}")
     _log_print(log_f, f"device={device} amp={bool(args.amp and device.type == 'cuda')}")
+    if device.type == "cuda":
+        _log_print(log_f, f"CUDA_VISIBLE_DEVICES={os.environ.get('CUDA_VISIBLE_DEVICES', 'not set')} -> using cuda:{torch.cuda.current_device()} ({torch.cuda.get_device_name(0)})")
     _log_print(log_f, f"dataset={args.dataset} data_root={os.path.abspath(args.data_root)}")
     _log_print(log_f, f"model=UNet base={args.base_channels} depth={args.depth} norm={args.norm} act={args.act} up={args.up}")
     _log_print(
