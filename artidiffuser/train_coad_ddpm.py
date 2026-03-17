@@ -68,8 +68,11 @@ class SimpleUNet(nn.Module):
 
         self.mid = conv_block(base_channels * 4, base_channels * 4)
 
-        self.up3 = conv_block(base_channels * 8, base_channels * 2)
-        self.up2 = conv_block(base_channels * 4, base_channels)
+        # up path: 채널 수는 forward의 concat 구조에 맞게 조정
+        # u3 입력: concat([u3(4C), d2(2C)]) → 6C
+        self.up3 = conv_block(base_channels * 6, base_channels * 2)
+        # u2 입력: concat([u2(2C), d1(C)]) → 3C
+        self.up2 = conv_block(base_channels * 3, base_channels)
         self.up1 = conv_block(base_channels * 2, base_channels)
 
         self.time_proj = nn.Linear(time_dim, base_channels * 4)
