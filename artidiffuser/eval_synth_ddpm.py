@@ -10,6 +10,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
+from PIL import Image
 
 from artidiffuser.train_coad_ddpm import (
     SimpleUNet,
@@ -128,6 +129,28 @@ def compute_ssim(pred: np.ndarray, gt: np.ndarray) -> float:
     return float(np.mean(vals))
 
 
+def _save_triplet_image(
+    inpainted: np.ndarray,
+    restored: np.ndarray,
+    ori: np.ndarray,
+    out_path: str,
+) -> None:
+    """
+    inpainted/restored/ori: [H,W,3] in [0,1]
+    """
+    def to_uint8(x: np.ndarray) -> np.ndarray:
+        x = np.clip(x, 0.0, 1.0)
+        return (x * 255.0).astype(np.uint8)
+
+    h, w, _ = inpainted.shape
+    canvas = np.zeros((h, w * 3, 3), dtype=np.uint8)
+    canvas[:, 0:w, :] = to_uint8(inpainted)
+    canvas[:, w : 2 * w, :] = to_uint8(restored)
+    canvas[:, 2 * w : 3 * w, :] = to_uint8(ori)
+
+    Image.fromarray(canvas).save(out_path)
+
+
 def run_eval(
     ckpt_path: str,
     synth_root: str,
@@ -136,6 +159,8 @@ def run_eval(
     max_samples: Optional[int] = None,
     device: str = "cuda",
     seed: int = 42,
+    result_dir: Optional[str] = None,
+    max_triplet_images: int = 16,
 ) -> Tuple[float, float]:
     """
     체크포인트 로드 -> Synth 데이터로 복원 -> PSNR, SSIM 반환.
@@ -160,10 +185,14 @@ def run_eval(
     else:
         total = len(loader.dataset)
 
+    if result_dir is not None:
+        os.makedirs(result_dir, exist_ok=True)
+
     psnr_list: List[float] = []
     ssim_list: List[float] = []
 
     n_done = 0
+    triplet_saved = 0
     with torch.no_grad():
         for batch in tqdm(loader, desc="Eval Synth"):
             inpainted = batch["inpainted"]
@@ -173,8 +202,9 @@ def run_eval(
                 inpainted, model, betas, alphas_cumprod, t_start, device, seed=seed
             )
 
-            pred_np = tensor_to_01(restored)
-            gt_np = tensor_to_01(ori)
+            pred_np = tensor_to_01(restored)  # [B,H,W,3]
+            gt_np = tensor_to_01(ori)         # [B,H,W,3]
+            in_np = tensor_to_01(inpainted)   # [B,H,W,3]
 
             for i in range(pred_np.shape[0]):
                 if max_samples is not None and n_done >= max_samples:
@@ -184,6 +214,17 @@ def run_eval(
                 psnr_list.append(p)
                 ssim_list.append(s)
                 n_done += 1
+
+                # triplet 이미지 저장 (선택)
+                if result_dir is not None and triplet_saved < max_triplet_images:
+                    out_path = os.path.join(result_dir, f"triplet_{triplet_saved:03d}.png")
+                    _save_triplet_image(
+                        inpainted=in_np[i],
+                        restored=pred_np[i],
+                        ori=gt_np[i],
+                        out_path=out_path,
+                    )
+                    triplet_saved += 1
 
             if max_samples is not None and n_done >= max_samples:
                 break
@@ -219,6 +260,12 @@ def main():
     )
     parser.add_argument("--device", type=str, default="cuda")
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument(
+        "--result_dir",
+        type=str,
+        default=None,
+        help="If set, save triplet images and metrics under this directory.",
+    )
     args = parser.parse_args()
 
     psnr, ssim = run_eval(
@@ -229,6 +276,7 @@ def main():
         max_samples=args.max_samples,
         device=args.device,
         seed=args.seed,
+        result_dir=args.result_dir,
     )
 
     print(f"PSNR: {psnr:.2f} dB")

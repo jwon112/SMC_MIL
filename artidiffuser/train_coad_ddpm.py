@@ -139,8 +139,11 @@ def train_coad_ddpm(
     eval_every: int = 5,
     eval_t_start: int = 100,
     eval_max_samples: int = 200,
+    result_dir: Optional[str] = None,
 ):
     os.makedirs(save_dir, exist_ok=True)
+    out_dir = result_dir if result_dir is not None else save_dir
+    os.makedirs(out_dir, exist_ok=True)
 
     device = torch.device(device if torch.cuda.is_available() else "cpu")
 
@@ -159,6 +162,15 @@ def train_coad_ddpm(
     betas, alphas_cumprod = prepare_diffusion(timesteps, device=device)
 
     global_step = 0
+    best_psnr: float = -1.0
+    best_ssim: float = -1.0
+    best_epoch: int = -1
+
+    # 로그 파일 (모든 epoch 기록)
+    log_path = os.path.join(out_dir, "train_log.csv")
+    if not os.path.exists(log_path):
+        with open(log_path, "w") as f:
+            f.write("epoch,train_loss,psnr,ssim,is_best\n")
     for epoch in range(num_epochs):
         model.train()
         pbar = tqdm(dataloader, desc=f"Epoch {epoch+1}/{num_epochs}")
@@ -188,30 +200,31 @@ def train_coad_ddpm(
         epoch_loss /= len(dataloader.dataset)
         print(f"Epoch {epoch+1} avg loss: {epoch_loss:.6f}")
 
-        # 체크포인트 저장
-        ckpt_path = os.path.join(save_dir, f"coad_ddpm_epoch{epoch+1}.pt")
-        torch.save(
-            {
-                "model": model.state_dict(),
-                "epoch": epoch + 1,
-                "global_step": global_step,
-                "betas": betas,
-                "alphas_cumprod": alphas_cumprod,
-                "config": {
-                    "timesteps": timesteps,
-                    "w_mask": w_mask,
-                },
+        # 현재 epoch 상태 dict
+        ckpt = {
+            "model": model.state_dict(),
+            "epoch": epoch + 1,
+            "global_step": global_step,
+            "betas": betas,
+            "alphas_cumprod": alphas_cumprod,
+            "config": {
+                "timesteps": timesteps,
+                "w_mask": w_mask,
             },
-            ckpt_path,
-        )
-        print(f"Saved checkpoint to {ckpt_path}")
+        }
 
         # Synth validation (synth_root 지정 시 eval_every epoch마다)
+        psnr = None
+        ssim = None
         if synth_root and (epoch + 1) % eval_every == 0:
             from artidiffuser.eval_synth_ddpm import run_eval
 
+            # 임시 체크포인트 저장 후 eval
+            tmp_ckpt_path = os.path.join(out_dir, "_tmp_eval.pt")
+            torch.save(ckpt, tmp_ckpt_path)
+
             psnr, ssim = run_eval(
-                ckpt_path=ckpt_path,
+                ckpt_path=tmp_ckpt_path,
                 synth_root=synth_root,
                 t_start=eval_t_start,
                 batch_size=4,
@@ -220,6 +233,39 @@ def train_coad_ddpm(
                 seed=42,
             )
             print(f"Epoch {epoch+1} Synth val PSNR: {psnr:.2f} dB, SSIM: {ssim:.4f}")
+
+            # best 갱신 시 best.pt로 저장
+            if psnr is not None and psnr > best_psnr:
+                best_psnr = psnr
+                best_ssim = ssim if ssim is not None else -1.0
+                best_epoch = epoch + 1
+                best_path = os.path.join(out_dir, "best.pt")
+                torch.save(ckpt, best_path)
+                is_best = True
+            else:
+                is_best = False
+        else:
+            is_best = False
+
+        # 로그 파일에 한 줄 추가
+        with open(log_path, "a") as f:
+            psnr_str = f"{psnr:.4f}" if psnr is not None else ""
+            ssim_str = f"{ssim:.4f}" if ssim is not None else ""
+            f.write(f"{epoch+1},{epoch_loss},{psnr_str},{ssim_str},{int(is_best)}\n")
+
+        # 마지막 epoch이면 final.pt 저장
+        if epoch + 1 == num_epochs:
+            final_path = os.path.join(out_dir, "final.pt")
+            torch.save(ckpt, final_path)
+            print(f"Saved final checkpoint to {final_path}")
+
+            # results.csv: 최종 요약만 한 줄
+            results_path = os.path.join(out_dir, "results.csv")
+            with open(results_path, "w") as f:
+                f.write("best_epoch,best_psnr,best_ssim,final_epoch,final_train_loss\n")
+                f.write(
+                    f"{best_epoch},{best_psnr:.4f if best_psnr>=0 else -1},{best_ssim:.4f if best_ssim>=0 else -1},{epoch+1},{epoch_loss}\n"
+                )
 
 
 def parse_args():
