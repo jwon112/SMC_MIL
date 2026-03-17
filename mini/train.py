@@ -509,7 +509,12 @@ def main() -> None:
     p.add_argument("--convnext_drop_path", type=float, default=0.0)
     p.add_argument("--kernel_size", type=int, default=3)
     p.add_argument("--overfit_n", type=int, default=0)
-    p.add_argument("--num_vis", type=int, default=0, help="Number of qualitative (img, gt, pred) s amples to save from test_set")
+    p.add_argument(
+        "--num_vis",
+        type=int,
+        default=6,
+        help="Number of qualitative (img, gt, pred) samples to save from test_set (0 disables saving)",
+    )
 
     # data aug knobs
     p.add_argument("--crop_size", type=int, default=512)
