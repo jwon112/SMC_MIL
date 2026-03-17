@@ -1,6 +1,6 @@
 import argparse
 import os
-from typing import Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 import torch
@@ -135,6 +135,10 @@ def train_coad_ddpm(
     lr: float = 1e-4,
     device: str = "cuda",
     w_mask: float = 10.0,
+    synth_root: Optional[str] = None,
+    eval_every: int = 5,
+    eval_t_start: int = 100,
+    eval_max_samples: int = 200,
 ):
     os.makedirs(save_dir, exist_ok=True)
 
@@ -184,7 +188,7 @@ def train_coad_ddpm(
         epoch_loss /= len(dataloader.dataset)
         print(f"Epoch {epoch+1} avg loss: {epoch_loss:.6f}")
 
-        # 간단히 epoch마다 체크포인트 저장
+        # 체크포인트 저장
         ckpt_path = os.path.join(save_dir, f"coad_ddpm_epoch{epoch+1}.pt")
         torch.save(
             {
@@ -201,6 +205,21 @@ def train_coad_ddpm(
             ckpt_path,
         )
         print(f"Saved checkpoint to {ckpt_path}")
+
+        # Synth validation (synth_root 지정 시 eval_every epoch마다)
+        if synth_root and (epoch + 1) % eval_every == 0:
+            from artidiffuser.eval_synth_ddpm import run_eval
+
+            psnr, ssim = run_eval(
+                ckpt_path=ckpt_path,
+                synth_root=synth_root,
+                t_start=eval_t_start,
+                batch_size=4,
+                max_samples=eval_max_samples,
+                device=str(device),
+                seed=42,
+            )
+            print(f"Epoch {epoch+1} Synth val PSNR: {psnr:.2f} dB, SSIM: {ssim:.4f}")
 
 
 def parse_args():
@@ -223,6 +242,15 @@ def parse_args():
     parser.add_argument("--lr", type=float, default=1e-4)
     parser.add_argument("--device", type=str, default="cuda")
     parser.add_argument("--w_mask", type=float, default=10.0)
+    parser.add_argument(
+        "--synth_root",
+        type=str,
+        default=None,
+        help="ArtiDiffuser-Synth root for validation (PSNR/SSIM). If set, eval every --eval_every epochs.",
+    )
+    parser.add_argument("--eval_every", type=int, default=5, help="Run Synth validation every N epochs")
+    parser.add_argument("--eval_t_start", type=int, default=100, help="t_start for restoration eval")
+    parser.add_argument("--eval_max_samples", type=int, default=200, help="Max Synth samples for eval")
     return parser.parse_args()
 
 
@@ -237,5 +265,9 @@ if __name__ == "__main__":
         lr=args.lr,
         device=args.device,
         w_mask=args.w_mask,
+        synth_root=args.synth_root,
+        eval_every=args.eval_every,
+        eval_t_start=args.eval_t_start,
+        eval_max_samples=args.eval_max_samples,
     )
 

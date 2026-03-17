@@ -160,6 +160,54 @@ class SynthDataset(Dataset):
         }
 
 
+class SynthEvalDataset(Dataset):
+    """
+    ArtiDiffuser-Synth (inpainted, ori) 페어용 eval Dataset.
+    ori/ 와 inpainted/ 만 필요. masks 불필요.
+    """
+
+    def __init__(self, root: str, cls_map: Dict[str, int]):
+        super().__init__()
+        self.root = root
+        self.cls_map = cls_map
+        self.items = []  # (inpainted_path, ori_path, cls)
+
+        for kind in os.listdir(root):
+            kind_dir = os.path.join(root, kind)
+            if not os.path.isdir(kind_dir):
+                continue
+            if kind not in cls_map:
+                continue
+
+            label = cls_map[kind]
+            ori_dir = os.path.join(kind_dir, "ori")
+            imp_dir = os.path.join(kind_dir, "inpainted")
+            if not (os.path.isdir(ori_dir) and os.path.isdir(imp_dir)):
+                continue
+
+            ori_files = set(_list_images(ori_dir))
+            imp_files = set(_list_images(imp_dir))
+            common = sorted(ori_files & imp_files)
+
+            for name in common:
+                imp_path = os.path.join(imp_dir, name)
+                ori_path = os.path.join(ori_dir, name)
+                self.items.append((imp_path, ori_path, label))
+
+    def __len__(self) -> int:
+        return len(self.items)
+
+    def __getitem__(self, idx: int) -> Dict[str, Any]:
+        imp_path, ori_path, label = self.items[idx]
+        inpainted = _load_image(imp_path)
+        ori = _load_image(ori_path)
+        return {
+            "inpainted": inpainted,
+            "ori": ori,
+            "cls": torch.tensor(label, dtype=torch.long),
+        }
+
+
 class CombinedDataset(Dataset):
     """
     COAD + Synth를 단순 concat으로 합친 Dataset 래퍼.
