@@ -297,6 +297,12 @@ def parse_args():
     parser.add_argument("--eval_every", type=int, default=5, help="Run Synth validation every N epochs")
     parser.add_argument("--eval_t_start", type=int, default=100, help="t_start for restoration eval")
     parser.add_argument("--eval_max_samples", type=int, default=200, help="Max Synth samples for eval")
+    parser.add_argument(
+        "--result_dir",
+        type=str,
+        default=None,
+        help="Directory to save logs and best/final checkpoints (default: save_dir).",
+    )
     return parser.parse_args()
 
 
@@ -315,5 +321,6 @@ if __name__ == "__main__":
         eval_every=args.eval_every,
         eval_t_start=args.eval_t_start,
         eval_max_samples=args.eval_max_samples,
+        result_dir=args.result_dir,
     )
 
