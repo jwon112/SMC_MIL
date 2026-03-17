@@ -244,6 +244,7 @@ def train_one_epoch(
     teacher: nn.Module | None = None,
     kd_alpha: float = 0.0,
     kd_temp: float = 4.0,
+    skip_nonfinite: bool = True,
 ) -> Dict[str, float]:
     model.train()
     if teacher is not None:
@@ -251,6 +252,7 @@ def train_one_epoch(
     loss_meter = 0.0
     loss_ce_meter = 0.0
     loss_kd_meter = 0.0
+    n_skipped = 0
     cm = torch.zeros((num_classes, num_classes), dtype=torch.int64, device="cpu")
     n = 0
 
@@ -281,6 +283,10 @@ def train_one_epoch(
                 else:
                     loss_kd = logits.new_tensor(0.0)
                     loss = loss_ce
+            if skip_nonfinite and (not torch.isfinite(loss).all().item()):
+                n_skipped += 1
+                optimizer.zero_grad(set_to_none=True)
+                continue
             scaler.scale(loss).backward()
             scaler.unscale_(optimizer)
             if grad_clip > 0:
@@ -306,6 +312,10 @@ def train_one_epoch(
             else:
                 loss_kd = logits.new_tensor(0.0)
                 loss = loss_ce
+            if skip_nonfinite and (not torch.isfinite(loss).all().item()):
+                n_skipped += 1
+                optimizer.zero_grad(set_to_none=True)
+                continue
             loss.backward()
             if grad_clip > 0:
                 torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=grad_clip)
@@ -326,6 +336,7 @@ def train_one_epoch(
         "loss": loss_meter / max(n, 1),
         "dice": mdice_from_cm(cm, ignore_background=True),
         "miou": miou_from_cm(cm),
+        "n_skipped": n_skipped,
     }
     if teacher is not None:
         out["loss_ce"] = loss_ce_meter / max(n, 1)
@@ -499,6 +510,12 @@ def main() -> None:
     p.add_argument("--encoder_pretrained", action=argparse.BooleanOptionalAction, default=False)
     p.add_argument("--encoder_lr_scale", type=float, default=0.1, help="Relative LR factor for encoder params")
     p.add_argument("--grad_clip", type=float, default=1.0, help="Max gradient norm for clipping (0 = disabled)")
+    p.add_argument(
+        "--skip_nonfinite",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Skip a training step if loss is NaN/Inf (prevents NaN propagation)",
+    )
     # Logits distillation (teacher = frozen model from --teacher_ckpt)
     p.add_argument("--teacher_ckpt", type=str, default="", help="Path to teacher checkpoint (e.g. runs/.../best.pt). If set, logits KD is applied.")
     p.add_argument("--kd_alpha", type=float, default=0.5, help="Weight for distillation loss (loss = ce + kd_alpha * kd)")
@@ -734,6 +751,7 @@ def main() -> None:
             teacher=teacher,
             kd_alpha=float(args.kd_alpha) if teacher is not None else 0.0,
             kd_temp=float(args.kd_temp) if teacher is not None else 4.0,
+            skip_nonfinite=bool(args.skip_nonfinite),
         )
         va = eval_one_epoch(model, val_loader, device, num_classes, ignore_index)
         lr_now = float(optimizer.param_groups[0]["lr"])
@@ -758,6 +776,7 @@ def main() -> None:
         train_msg = (
             f"train loss={tr['loss']:.4f} dice={tr['dice']:.4f}"
             + (f" ce={tr['loss_ce']:.4f} kd={tr['loss_kd']:.4f}" if "loss_ce" in tr else "")
+            + (f" skip={tr['n_skipped']}" if tr.get("n_skipped", 0) else "")
         )
         _log_print(
             log_f,
