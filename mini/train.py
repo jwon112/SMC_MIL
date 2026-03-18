@@ -231,6 +231,109 @@ def _kd_loss(
     return mean_kl * (temp * temp)
 
 
+def _soft_dice_loss(
+    logits: torch.Tensor,
+    masks: torch.Tensor,
+    *,
+    num_classes: int,
+    ignore_index: int,
+    eps: float = 1e-6,
+) -> torch.Tensor:
+    """
+    Soft Dice loss over foreground classes (exclude background=0).
+    Ignores pixels with ignore_index.
+    """
+    # logits: B,C,H,W  masks: B,H,W
+    probs = F.softmax(logits.float(), dim=1)
+    valid = (masks != ignore_index)
+    if valid.sum() < 1:
+        return logits.new_tensor(0.0)
+
+    # one-hot with ignore masked out
+    target = torch.zeros_like(probs)
+    clamped = masks.clamp(0, num_classes - 1)
+    target.scatter_(1, clamped.unsqueeze(1), 1.0)
+    target = target * valid.unsqueeze(1).float()
+    probs = probs * valid.unsqueeze(1).float()
+
+    # exclude background
+    probs_fg = probs[:, 1:]
+    target_fg = target[:, 1:]
+
+    dims = (0, 2, 3)
+    inter = (probs_fg * target_fg).sum(dim=dims)
+    den = (probs_fg + target_fg).sum(dim=dims)
+    dice = (2.0 * inter + eps) / (den + eps)
+    return 1.0 - dice.mean()
+
+
+def _focal_loss(
+    logits: torch.Tensor,
+    masks: torch.Tensor,
+    *,
+    ignore_index: int,
+    gamma: float = 2.0,
+    alpha: float = -1.0,
+) -> torch.Tensor:
+    """
+    Multi-class focal loss.
+    - Uses CE over non-ignored pixels
+    - alpha < 0 disables alpha-balancing
+    """
+    ce = F.cross_entropy(logits, masks, ignore_index=ignore_index, reduction="none")
+    valid = (masks != ignore_index)
+    if valid.sum() < 1:
+        return logits.new_tensor(0.0)
+    pt = torch.exp(-ce)  # exp(log p_true)
+    focal = (1.0 - pt) ** float(gamma) * ce
+    if alpha is not None and float(alpha) >= 0:
+        focal = focal * float(alpha)
+    return focal[valid].mean()
+
+
+def _task_loss(
+    logits: torch.Tensor,
+    masks: torch.Tensor,
+    *,
+    num_classes: int,
+    ignore_index: int,
+    loss_type: str,
+    dice_weight: float,
+    focal_gamma: float,
+    focal_alpha: float,
+    label_smoothing: float,
+) -> tuple[torch.Tensor, Dict[str, float]]:
+    loss_type = (loss_type or "ce").lower()
+    ce = F.cross_entropy(
+        logits,
+        masks,
+        ignore_index=ignore_index,
+        label_smoothing=float(label_smoothing or 0.0),
+    )
+    out: Dict[str, float] = {"loss_ce": float(ce.detach().item())}
+
+    if loss_type == "ce":
+        return ce, out
+
+    if loss_type == "ce_dice":
+        dl = _soft_dice_loss(logits, masks, num_classes=num_classes, ignore_index=ignore_index)
+        out["loss_dice"] = float(dl.detach().item())
+        loss = ce + float(dice_weight) * dl
+        return loss, out
+
+    if loss_type == "focal":
+        fl = _focal_loss(logits, masks, ignore_index=ignore_index, gamma=focal_gamma, alpha=focal_alpha)
+        out["loss_focal"] = float(fl.detach().item())
+        return fl, out
+
+    if loss_type == "ce_focal":
+        fl = _focal_loss(logits, masks, ignore_index=ignore_index, gamma=focal_gamma, alpha=focal_alpha)
+        out["loss_focal"] = float(fl.detach().item())
+        return ce + fl, out
+
+    raise ValueError(f"Unknown --loss: {loss_type}")
+
+
 def train_one_epoch(
     model: nn.Module,
     loader,
@@ -245,12 +348,20 @@ def train_one_epoch(
     kd_alpha: float = 0.0,
     kd_temp: float = 4.0,
     skip_nonfinite: bool = True,
+    loss_type: str = "ce",
+    dice_weight: float = 1.0,
+    focal_gamma: float = 2.0,
+    focal_alpha: float = -1.0,
+    label_smoothing: float = 0.0,
 ) -> Dict[str, float]:
     model.train()
     if teacher is not None:
         teacher.eval()
     loss_meter = 0.0
+    loss_task_meter = 0.0
     loss_ce_meter = 0.0
+    loss_dice_meter = 0.0
+    loss_focal_meter = 0.0
     loss_kd_meter = 0.0
     n_skipped = 0
     cm = torch.zeros((num_classes, num_classes), dtype=torch.int64, device="cpu")
@@ -270,7 +381,17 @@ def train_one_epoch(
                     logits = F.interpolate(
                         logits, size=masks.shape[-2:], mode="bilinear", align_corners=False
                     )
-                loss_ce = F.cross_entropy(logits, masks, ignore_index=ignore_index)
+                loss_task, parts = _task_loss(
+                    logits,
+                    masks,
+                    num_classes=num_classes,
+                    ignore_index=ignore_index,
+                    loss_type=loss_type,
+                    dice_weight=dice_weight,
+                    focal_gamma=focal_gamma,
+                    focal_alpha=focal_alpha,
+                    label_smoothing=label_smoothing,
+                )
                 if do_kd:
                     with torch.no_grad():
                         t_logits = teacher(imgs)
@@ -279,10 +400,10 @@ def train_one_epoch(
                                 t_logits, size=masks.shape[-2:], mode="bilinear", align_corners=False
                             )
                     loss_kd = _kd_loss(logits, t_logits, masks, ignore_index, kd_temp)
-                    loss = loss_ce + kd_alpha * loss_kd
+                    loss = loss_task + kd_alpha * loss_kd
                 else:
                     loss_kd = logits.new_tensor(0.0)
-                    loss = loss_ce
+                    loss = loss_task
             if skip_nonfinite and (not torch.isfinite(loss).all().item()):
                 n_skipped += 1
                 optimizer.zero_grad(set_to_none=True)
@@ -299,7 +420,17 @@ def train_one_epoch(
                 logits = F.interpolate(
                     logits, size=masks.shape[-2:], mode="bilinear", align_corners=False
                 )
-            loss_ce = F.cross_entropy(logits, masks, ignore_index=ignore_index)
+            loss_task, parts = _task_loss(
+                logits,
+                masks,
+                num_classes=num_classes,
+                ignore_index=ignore_index,
+                loss_type=loss_type,
+                dice_weight=dice_weight,
+                focal_gamma=focal_gamma,
+                focal_alpha=focal_alpha,
+                label_smoothing=label_smoothing,
+            )
             if do_kd:
                 with torch.no_grad():
                     t_logits = teacher(imgs)
@@ -308,10 +439,10 @@ def train_one_epoch(
                             t_logits, size=masks.shape[-2:], mode="bilinear", align_corners=False
                         )
                 loss_kd = _kd_loss(logits, t_logits, masks, ignore_index, kd_temp)
-                loss = loss_ce + kd_alpha * loss_kd
+                loss = loss_task + kd_alpha * loss_kd
             else:
                 loss_kd = logits.new_tensor(0.0)
-                loss = loss_ce
+                loss = loss_task
             if skip_nonfinite and (not torch.isfinite(loss).all().item()):
                 n_skipped += 1
                 optimizer.zero_grad(set_to_none=True)
@@ -326,7 +457,10 @@ def train_one_epoch(
 
         with torch.no_grad():
             loss_meter += float(loss.item()) * imgs.size(0)
-            loss_ce_meter += float(loss_ce.item()) * imgs.size(0)
+            loss_task_meter += float(loss_task.item()) * imgs.size(0)
+            loss_ce_meter += float(parts.get("loss_ce", 0.0)) * imgs.size(0)
+            loss_dice_meter += float(parts.get("loss_dice", 0.0)) * imgs.size(0)
+            loss_focal_meter += float(parts.get("loss_focal", 0.0)) * imgs.size(0)
             if do_kd:
                 loss_kd_meter += float(loss_kd.item()) * imgs.size(0)
             cm += confusion_matrix(logits.detach().cpu(), masks.detach().cpu(), num_classes=num_classes, ignore_index=ignore_index)
@@ -337,9 +471,14 @@ def train_one_epoch(
         "dice": mdice_from_cm(cm, ignore_background=True),
         "miou": miou_from_cm(cm),
         "n_skipped": n_skipped,
+        "loss_task": loss_task_meter / max(n, 1),
+        "loss_ce": loss_ce_meter / max(n, 1),
     }
+    if loss_dice_meter > 0:
+        out["loss_dice"] = loss_dice_meter / max(n, 1)
+    if loss_focal_meter > 0:
+        out["loss_focal"] = loss_focal_meter / max(n, 1)
     if teacher is not None:
-        out["loss_ce"] = loss_ce_meter / max(n, 1)
         out["loss_kd"] = loss_kd_meter / max(n, 1)
     return out
 
@@ -351,6 +490,12 @@ def eval_one_epoch(
     device: torch.device,
     num_classes: int,
     ignore_index: int,
+    *,
+    loss_type: str = "ce",
+    dice_weight: float = 1.0,
+    focal_gamma: float = 2.0,
+    focal_alpha: float = -1.0,
+    label_smoothing: float = 0.0,
 ) -> Dict[str, float]:
     model.eval()
     loss_meter = 0.0
@@ -365,7 +510,17 @@ def eval_one_epoch(
             logits = F.interpolate(
                 logits, size=masks.shape[-2:], mode="bilinear", align_corners=False
             )
-        loss = F.cross_entropy(logits, masks, ignore_index=ignore_index)
+        loss, _parts = _task_loss(
+            logits,
+            masks,
+            num_classes=num_classes,
+            ignore_index=ignore_index,
+            loss_type=loss_type,
+            dice_weight=dice_weight,
+            focal_gamma=focal_gamma,
+            focal_alpha=focal_alpha,
+            label_smoothing=label_smoothing,
+        )
 
         loss_meter += float(loss.item()) * imgs.size(0)
         cm += confusion_matrix(logits.detach().cpu(), masks.detach().cpu(), num_classes=num_classes, ignore_index=ignore_index)
@@ -516,6 +671,12 @@ def main() -> None:
         default=True,
         help="Skip a training step if loss is NaN/Inf (prevents NaN propagation)",
     )
+    # loss knobs (VOC imbalance-friendly options)
+    p.add_argument("--loss", type=str, default="ce", choices=["ce", "ce_dice", "focal", "ce_focal"])
+    p.add_argument("--dice_weight", type=float, default=1.0, help="Weight for Dice loss when --loss ce_dice")
+    p.add_argument("--focal_gamma", type=float, default=2.0, help="Gamma for focal loss")
+    p.add_argument("--focal_alpha", type=float, default=-1.0, help="Alpha multiplier for focal loss (-1 disables)")
+    p.add_argument("--label_smoothing", type=float, default=0.0, help="Label smoothing for CE (0 disables)")
     # Logits distillation (teacher = frozen model from --teacher_ckpt)
     p.add_argument("--teacher_ckpt", type=str, default="", help="Path to teacher checkpoint (e.g. runs/.../best.pt). If set, logits KD is applied.")
     p.add_argument("--kd_alpha", type=float, default=0.5, help="Weight for distillation loss (loss = ce + kd_alpha * kd)")
@@ -752,8 +913,24 @@ def main() -> None:
             kd_alpha=float(args.kd_alpha) if teacher is not None else 0.0,
             kd_temp=float(args.kd_temp) if teacher is not None else 4.0,
             skip_nonfinite=bool(args.skip_nonfinite),
+            loss_type=str(args.loss),
+            dice_weight=float(args.dice_weight),
+            focal_gamma=float(args.focal_gamma),
+            focal_alpha=float(args.focal_alpha),
+            label_smoothing=float(args.label_smoothing),
         )
-        va = eval_one_epoch(model, val_loader, device, num_classes, ignore_index)
+        va = eval_one_epoch(
+            model,
+            val_loader,
+            device,
+            num_classes,
+            ignore_index,
+            loss_type=str(args.loss),
+            dice_weight=float(args.dice_weight),
+            focal_gamma=float(args.focal_gamma),
+            focal_alpha=float(args.focal_alpha),
+            label_smoothing=float(args.label_smoothing),
+        )
         lr_now = float(optimizer.param_groups[0]["lr"])
         row = {"epoch": epoch, "lr": lr_now, "train": tr, "val": va}
         history.append(row)
@@ -795,7 +972,18 @@ def main() -> None:
             ckpt = torch.load(best_pt, map_location=device)
             model.load_state_dict(ckpt["model_state"], strict=True)
             _log_print(log_f, f"loaded best.pt (epoch {ckpt['epoch']}) for final test evaluation")
-        te = eval_one_epoch(model, test_loader, device, num_classes, ignore_index)
+        te = eval_one_epoch(
+            model,
+            test_loader,
+            device,
+            num_classes,
+            ignore_index,
+            loss_type=str(args.loss),
+            dice_weight=float(args.dice_weight),
+            focal_gamma=float(args.focal_gamma),
+            focal_alpha=float(args.focal_alpha),
+            label_smoothing=float(args.label_smoothing),
+        )
         _log_print(log_f, f"[test:{args.test_set}] loss={te['loss']:.4f} dice={te['dice']:.4f} miou={te['miou']:.4f}")
 
         # qualitative samples
