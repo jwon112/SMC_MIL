@@ -952,7 +952,10 @@ def main() -> None:
 
         train_msg = (
             f"train loss={tr['loss']:.4f} dice={tr['dice']:.4f}"
-            + (f" ce={tr['loss_ce']:.4f} kd={tr['loss_kd']:.4f}" if "loss_ce" in tr else "")
+            + (f" ce={tr['loss_ce']:.4f}" if "loss_ce" in tr else "")
+            + (f" diceLoss={tr['loss_dice']:.4f}" if "loss_dice" in tr else "")
+            + (f" focal={tr['loss_focal']:.4f}" if "loss_focal" in tr else "")
+            + (f" kd={tr['loss_kd']:.4f}" if "loss_kd" in tr else "")
             + (f" skip={tr['n_skipped']}" if tr.get("n_skipped", 0) else "")
         )
         _log_print(
