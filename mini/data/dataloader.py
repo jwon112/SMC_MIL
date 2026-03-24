@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Callable, Optional, Tuple
 
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, Dataset
+from PIL import Image
 from torchvision import transforms as T
 from torchvision.datasets import VOCSegmentation
 from torchvision.transforms import InterpolationMode
@@ -105,6 +107,71 @@ class PairedTransformDataset(Dataset):
         return self.paired_transform(img, mask)
 
 
+class ADE20KDataset(Dataset):
+    """
+    ADE20K (ADEChallengeData2016) dataset wrapper.
+    Expected layout:
+    - <root>/images/training/*.jpg
+    - <root>/images/validation/*.jpg
+    - <root>/annotations/training/*.png
+    - <root>/annotations/validation/*.png
+    """
+
+    def __init__(self, root: str, image_set: str):
+        root_path = Path(root).resolve()
+
+        # Accept both:
+        # - data_root=/.../ADEChallengeData2016
+        # - data_root=/.../data   (contains ADEChallengeData2016 subfolder)
+        candidates = [
+            root_path,
+            root_path / "ADEChallengeData2016",
+            root_path / "ADEChallangeData2016",  # common typo seen in some paths
+        ]
+        base = None
+        for c in candidates:
+            if (c / "images").is_dir() and (c / "annotations").is_dir():
+                base = c
+                break
+        if base is None:
+            raise FileNotFoundError(
+                "ADE20K root not found. Expected one of: "
+                f"{', '.join(str(c) for c in candidates)} with images/ and annotations/."
+            )
+
+        split = (image_set or "train").lower()
+        if split in {"train", "training"}:
+            split_dir = "training"
+        elif split in {"val", "validation"}:
+            split_dir = "validation"
+        else:
+            raise ValueError(f"Unsupported image_set for ADE20K: {image_set}")
+
+        self.img_dir = base / "images" / split_dir
+        self.ann_dir = base / "annotations" / split_dir
+
+        if not self.img_dir.is_dir() or not self.ann_dir.is_dir():
+            raise FileNotFoundError(f"Missing ADE20K split dirs: {self.img_dir} and/or {self.ann_dir}")
+
+        self.samples = []
+        for p in sorted(self.img_dir.glob("*.jpg")):
+            m = self.ann_dir / f"{p.stem}.png"
+            if m.exists():
+                self.samples.append((p, m))
+
+        if len(self.samples) == 0:
+            raise RuntimeError(f"No ADE20K samples found under {self.img_dir}")
+
+    def __len__(self):
+        return len(self.samples)
+
+    def __getitem__(self, idx):
+        img_path, mask_path = self.samples[idx]
+        img = Image.open(img_path).convert("RGB")
+        mask = Image.open(mask_path)
+        return img, mask
+
+
 def voc_is_prepared(root: str, year: str = "2012") -> bool:
     root = os.path.abspath(root)
     voc_dir = os.path.join(root, "VOCdevkit", f"VOC{year}")
@@ -114,25 +181,31 @@ def voc_is_prepared(root: str, year: str = "2012") -> bool:
 
 def build_dataset(spec: DataSpec) -> Dataset:
     ds = (spec.dataset or "voc").lower()
-    if ds != "voc":
-        raise ValueError(f"Only dataset='voc' is implemented right now (got {spec.dataset})")
-
     root = os.path.abspath(spec.data_root)
-    if spec.download and voc_is_prepared(root, spec.year):
-        # Avoid re-downloading when the dataset is already present.
-        download = False
-    else:
-        download = spec.download
-    base = VOCSegmentation(
-        root=root,
-        year=spec.year,
-        image_set=spec.image_set,
-        download=download,
-        transforms=None,
-        transform=None,
-        target_transform=None,
-    )
-    return PairedTransformDataset(base, _voc_pair_transform(spec))
+    if ds == "voc":
+        if spec.download and voc_is_prepared(root, spec.year):
+            # Avoid re-downloading when the dataset is already present.
+            download = False
+        else:
+            download = spec.download
+        base = VOCSegmentation(
+            root=root,
+            year=spec.year,
+            image_set=spec.image_set,
+            download=download,
+            transforms=None,
+            transform=None,
+            target_transform=None,
+        )
+        return PairedTransformDataset(base, _voc_pair_transform(spec))
+
+    if ds == "ade20k":
+        if spec.download:
+            raise ValueError("ADE20K auto-download is not supported. Set --no-download and place dataset manually.")
+        base = ADE20KDataset(root=root, image_set=spec.image_set)
+        return PairedTransformDataset(base, _voc_pair_transform(spec))
+
+    raise ValueError(f"Unsupported dataset: {spec.dataset} (expected 'voc' or 'ade20k')")
 
 
 def build_loader(spec: DataSpec, *, shuffle: bool) -> DataLoader:

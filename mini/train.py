@@ -631,7 +631,7 @@ def _append_results_row(results_csv: Path, row: Dict[str, object]) -> None:
 
 def main() -> None:
     p = argparse.ArgumentParser()
-    p.add_argument("--dataset", type=str, default="voc")
+    p.add_argument("--dataset", type=str, default="voc", choices=["voc", "ade20k"])
     p.add_argument("--data_root", type=str, default="./_data")
     p.add_argument("--run_dir", type=str, default="./mini/runs/exp")
     p.add_argument("--download", action=argparse.BooleanOptionalAction, default=True)
@@ -714,8 +714,13 @@ def main() -> None:
     if args.dataset.lower() == "voc":
         num_classes = 21
         ignore_index = 255
+    elif args.dataset.lower() == "ade20k":
+        # ADE20K semantic labels are typically 0..150 (151 classes incl. background).
+        # We still keep ignore_index=255 for padded/void pixels in our transforms.
+        num_classes = 151
+        ignore_index = 255
     else:
-        raise ValueError("Only --dataset voc is supported for now")
+        raise ValueError("Unsupported --dataset (expected voc or ade20k)")
 
     data_spec = DataSpec(
         dataset=args.dataset,
