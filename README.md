@@ -92,6 +92,13 @@ python create_patches_fp.py --source DATA_DIRECTORY --save_dir RESULTS_DIRECTORY
 ```bash
 CUDA_VISIBLE_DEVICES=0 python extract_features_fp.py --data_h5_dir DIR_TO_COORDS --data_slide_dir DATA_DIRECTORY --csv_path CSV_FILE_NAME --feat_dir FEATURES_DIRECTORY --batch_size 512 --slide_ext .svs
 ```
+
+### AtlasPatch DICOM WSI
+
+AtlasPatch manual/original coordinate outputs and multi-source DICOM WSI use a
+separate extractor rather than the OpenSlide/SVS command above. See
+[`docs/dicom_feature_pipeline.md`](docs/dicom_feature_pipeline.md) for manifest
+generation, a one-slide smoke test, and server Git synchronization steps.
 결과 디렉토리 구조:
 ```bash
 FEATURES_DIRECTORY/
@@ -221,4 +228,3 @@ CUDA_VISIBLE_DEVICES=0 python create_heatmaps.py --config config_template.yaml
 
 원시 결과는 **heatmaps/heatmap_raw_results**에, 최종 결과는 **heatmaps/heatmap_production_results**에 저장됩니다.
 각 구성 옵션은 **heatmaps/configs/config_template.yaml**을 참조하세요.
-
