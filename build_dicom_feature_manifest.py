@@ -35,7 +35,9 @@ def resolve_path(path: Path, dataset_root: Path) -> Path:
 def slide_id_from_rel_path(slide_rel_path: str) -> str:
     parts = [part for part in slide_rel_path.replace("\\", "/").split("/") if part]
     raw = "__".join(parts)
-    slide_id = re.sub(r"[^A-Za-z0-9._-]+", "_", raw).strip("._")
+    # Keep underscores intact: folders such as "slide" and "slide_" are
+    # distinct valid dataset entries and must produce distinct feature files.
+    slide_id = re.sub(r"[^A-Za-z0-9._-]+", "_", raw).strip(".")
     if not slide_id:
         raise ValueError(f"Could not create a slide_id from: {slide_rel_path!r}")
     return slide_id
