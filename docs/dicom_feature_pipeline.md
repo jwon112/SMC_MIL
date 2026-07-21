@@ -62,6 +62,10 @@ test, omit both `--limit` and `--max-patches-per-slide`. Output is compatible
 with CLAM training: `<feat-dir>/h5_files/<slide_id>.h5` and
 `<feat-dir>/pt_files/<slide_id>.pt`.
 
+The reader caches 128 decoded DICOM tiles per slide by default. This reduces
+repeated JPEG decoding for adjacent 256px patches. Set `--tile-cache-size 0`
+only when host RAM is unusually constrained.
+
 `resnet50_trunc` is a practical first smoke-test encoder. Use the intended
 foundation encoder (for example `uni_v1`) for the final experiment after its
 checkpoint availability has been verified.

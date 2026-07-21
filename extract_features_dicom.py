@@ -14,6 +14,7 @@ import csv
 import math
 import os
 import re
+from collections import OrderedDict
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
@@ -67,6 +68,12 @@ def parse_args() -> argparse.Namespace:
         help="Encode at most this many reproducibly sampled patches per slide. Use only for smoke tests.",
     )
     parser.add_argument("--sample-seed", type=int, default=0)
+    parser.add_argument(
+        "--tile-cache-size",
+        type=int,
+        default=128,
+        help="Number of decoded DICOM tiles to cache per slide (0 disables caching).",
+    )
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 
@@ -147,8 +154,11 @@ def frame_positions(
 class DicomLevel0Reader:
     """Random-access level-0 patch reader backed by tiled DICOM frames."""
 
-    def __init__(self, slide_dir: Path):
+    def __init__(self, slide_dir: Path, tile_cache_size: int = 128):
+        if tile_cache_size < 0:
+            raise ValueError("tile_cache_size must be non-negative")
         self.slide_dir = slide_dir
+        self.tile_cache_size = tile_cache_size
         self.paths = choose_level0_dicom_group(slide_dir)
         if not self.paths:
             raise ValueError(f"No tiled level-0 VOLUME DICOM found: {slide_dir}")
@@ -191,6 +201,7 @@ class DicomLevel0Reader:
 
         self._pixel_dataset: pydicom.Dataset | None = None
         self._pixel_dataset_path: Path | None = None
+        self._tile_cache: OrderedDict[FrameRef, Image.Image] = OrderedDict()
 
     def _load_pixel_dataset(self, path: Path) -> pydicom.Dataset:
         if self._pixel_dataset_path != path:
@@ -199,7 +210,7 @@ class DicomLevel0Reader:
         assert self._pixel_dataset is not None
         return self._pixel_dataset
 
-    def _read_tile(self, frame_ref: FrameRef) -> Image.Image:
+    def _decode_tile(self, frame_ref: FrameRef) -> Image.Image:
         dataset = self._load_pixel_dataset(frame_ref.source_path)
         try:
             frame = get_frame(
@@ -212,6 +223,21 @@ class DicomLevel0Reader:
             raise RuntimeError(
                 f"Could not decode frame {frame_ref.frame_index} from {frame_ref.source_path}"
             ) from exc
+
+    def _read_tile(self, frame_ref: FrameRef) -> Image.Image:
+        if self.tile_cache_size:
+            cached = self._tile_cache.get(frame_ref)
+            if cached is not None:
+                self._tile_cache.move_to_end(frame_ref)
+                return cached
+
+        tile = self._decode_tile(frame_ref)
+        if self.tile_cache_size:
+            self._tile_cache[frame_ref] = tile
+            self._tile_cache.move_to_end(frame_ref)
+            if len(self._tile_cache) > self.tile_cache_size:
+                self._tile_cache.popitem(last=False)
+        return tile
 
     def read_patch(self, x: int, y: int, width: int, height: int) -> Image.Image:
         patch = Image.new("RGB", (width, height), "white")
@@ -354,12 +380,15 @@ def encode_slide(
     amp: bool,
     max_patches: int | None,
     sample_seed: int,
+    tile_cache_size: int,
 ) -> int:
     coords, patch_size = read_coordinates(spec.coords_path)
     coords, source_patch_count = sample_coordinates(coords, max_patches, sample_seed)
     if len(coords) == 0:
         raise ValueError(f"No selected patches: {spec.coords_path}")
-    reader = DicomLevel0Reader(dataset_root / Path(spec.slide_rel_path))
+    reader = DicomLevel0Reader(
+        dataset_root / Path(spec.slide_rel_path), tile_cache_size=tile_cache_size
+    )
     h5_path.parent.mkdir(parents=True, exist_ok=True)
     pt_path.parent.mkdir(parents=True, exist_ok=True)
     h5_tmp = h5_path.with_suffix(".h5.tmp")
@@ -382,6 +411,7 @@ def encode_slide(
             output.attrs["patch_sampling"] = (
                 "full" if len(coords) == source_patch_count else f"random_without_replacement(seed={sample_seed})"
             )
+            output.attrs["tile_cache_size"] = tile_cache_size
             output.attrs["source_dicom_paths"] = "|".join(str(path) for path in reader.paths)
             output.attrs["total_pixel_matrix"] = np.asarray([reader.total_w, reader.total_h])
 
@@ -438,6 +468,8 @@ def main() -> int:
         raise ValueError("--batch-size must be at least 1")
     if args.max_patches_per_slide is not None and args.max_patches_per_slide < 1:
         raise ValueError("--max-patches-per-slide must be at least 1")
+    if args.tile_cache_size < 0:
+        raise ValueError("--tile-cache-size must be non-negative")
     if args.device == "cuda" and not torch.cuda.is_available():
         raise RuntimeError("--device cuda was requested but CUDA is unavailable")
     if args.device == "auto":
@@ -487,6 +519,7 @@ def main() -> int:
                 args.amp,
                 args.max_patches_per_slide,
                 args.sample_seed,
+                args.tile_cache_size,
             )
             completed += 1
             print(f"[OK] [{index}/{len(specs)}] {spec.slide_id}: {count} patches")
