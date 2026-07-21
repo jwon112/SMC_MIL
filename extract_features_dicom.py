@@ -60,6 +60,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--amp", action="store_true", help="Use FP16 autocast on CUDA.")
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument(
+        "--max-patches-per-slide",
+        type=int,
+        default=None,
+        help="Encode at most this many reproducibly sampled patches per slide. Use only for smoke tests.",
+    )
+    parser.add_argument("--sample-seed", type=int, default=0)
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 
@@ -288,6 +295,20 @@ def read_coordinates(coords_path: Path) -> tuple[np.ndarray, int]:
     return coords, patch_size
 
 
+def sample_coordinates(
+    coords: np.ndarray,
+    max_patches: int | None,
+    seed: int,
+) -> tuple[np.ndarray, int]:
+    total_count = len(coords)
+    if max_patches is None or max_patches >= total_count:
+        return coords, total_count
+    if max_patches < 1:
+        raise ValueError("max_patches must be at least 1 when provided")
+    indices = np.random.default_rng(seed).choice(total_count, size=max_patches, replace=False)
+    return coords[np.sort(indices)], total_count
+
+
 def output_paths(feat_dir: Path, slide_id: str) -> tuple[Path, Path]:
     return feat_dir / "h5_files" / f"{slide_id}.h5", feat_dir / "pt_files" / f"{slide_id}.pt"
 
@@ -331,8 +352,11 @@ def encode_slide(
     device: torch.device,
     batch_size: int,
     amp: bool,
+    max_patches: int | None,
+    sample_seed: int,
 ) -> int:
     coords, patch_size = read_coordinates(spec.coords_path)
+    coords, source_patch_count = sample_coordinates(coords, max_patches, sample_seed)
     if len(coords) == 0:
         raise ValueError(f"No selected patches: {spec.coords_path}")
     reader = DicomLevel0Reader(dataset_root / Path(spec.slide_rel_path))
@@ -353,6 +377,11 @@ def encode_slide(
             output.attrs["coords_path"] = str(spec.coords_path)
             output.attrs["patch_level"] = 0
             output.attrs["patch_size_level0"] = patch_size
+            output.attrs["source_patch_count"] = source_patch_count
+            output.attrs["encoded_patch_count"] = len(coords)
+            output.attrs["patch_sampling"] = (
+                "full" if len(coords) == source_patch_count else f"random_without_replacement(seed={sample_seed})"
+            )
             output.attrs["source_dicom_paths"] = "|".join(str(path) for path in reader.paths)
             output.attrs["total_pixel_matrix"] = np.asarray([reader.total_w, reader.total_h])
 
@@ -407,6 +436,8 @@ def main() -> int:
         raise FileNotFoundError(f"Manifest not found: {manifest_path}")
     if args.batch_size < 1:
         raise ValueError("--batch-size must be at least 1")
+    if args.max_patches_per_slide is not None and args.max_patches_per_slide < 1:
+        raise ValueError("--max-patches-per-slide must be at least 1")
     if args.device == "cuda" and not torch.cuda.is_available():
         raise RuntimeError("--device cuda was requested but CUDA is unavailable")
     if args.device == "auto":
@@ -421,7 +452,15 @@ def main() -> int:
     if args.dry_run:
         for spec in specs:
             coords, patch_size = read_coordinates(spec.coords_path)
-            print(f"[DRY RUN] {spec.slide_id}: {len(coords)} patches, size={patch_size}, {spec.coords_source}")
+            selected_coords, source_patch_count = sample_coordinates(
+                coords, args.max_patches_per_slide, args.sample_seed
+            )
+            patch_count = (
+                f"{len(selected_coords)} patches"
+                if len(selected_coords) == source_patch_count
+                else f"{len(selected_coords)}/{source_patch_count} sampled patches"
+            )
+            print(f"[DRY RUN] {spec.slide_id}: {patch_count}, size={patch_size}, {spec.coords_source}")
         return 0
 
     model, transform = get_encoder(args.model_name, target_img_size=args.target_patch_size)
@@ -446,6 +485,8 @@ def main() -> int:
                 device,
                 args.batch_size,
                 args.amp,
+                args.max_patches_per_slide,
+                args.sample_seed,
             )
             completed += 1
             print(f"[OK] [{index}/{len(specs)}] {spec.slide_id}: {count} patches")

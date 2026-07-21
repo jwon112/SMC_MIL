@@ -51,11 +51,15 @@ python extract_features_dicom.py \
   --feat-dir /home/jupyter/data/image_team/exp3_features \
   --model-name resnet50_trunc \
   --batch-size 64 \
+  --max-patches-per-slide 512 \
+  --sample-seed 0 \
   --limit 1
 ```
 
-After a successful smoke test, omit `--limit`. Output is compatible with CLAM
-training: `<feat-dir>/h5_files/<slide_id>.h5` and
+`--max-patches-per-slide` is only for a fast smoke test; its output is a
+partial bag and must not be used for CLAM training. After a successful smoke
+test, omit both `--limit` and `--max-patches-per-slide`. Output is compatible
+with CLAM training: `<feat-dir>/h5_files/<slide_id>.h5` and
 `<feat-dir>/pt_files/<slide_id>.pt`.
 
 `resnet50_trunc` is a practical first smoke-test encoder. Use the intended
