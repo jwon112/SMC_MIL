@@ -67,5 +67,8 @@ repeated JPEG decoding for adjacent 256px patches. Set `--tile-cache-size 0`
 only when host RAM is unusually constrained.
 
 `resnet50_trunc` is a practical first smoke-test encoder. Use the intended
-foundation encoder (for example `uni_v1`) for the final experiment after its
-checkpoint availability has been verified.
+foundation encoder (for example `uni_v1` or `uni_v2`) for the final experiment
+after its checkpoint availability has been verified. `uni_v1` writes
+1,024-dimensional features; `uni_v2` denotes the official UNI2-h model and
+writes 1,536-dimensional features, so CLAM training must use the matching
+embedding dimension.
