@@ -62,6 +62,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument(
+        "--num-shards",
+        type=int,
+        default=1,
+        help="Split the manifest into this many deterministic, disjoint shards.",
+    )
+    parser.add_argument(
+        "--shard-index",
+        type=int,
+        default=0,
+        help="Zero-based shard to process; must be smaller than --num-shards.",
+    )
+    parser.add_argument(
         "--max-patches-per-slide",
         type=int,
         default=None,
@@ -468,6 +480,10 @@ def main() -> int:
         raise ValueError("--batch-size must be at least 1")
     if args.max_patches_per_slide is not None and args.max_patches_per_slide < 1:
         raise ValueError("--max-patches-per-slide must be at least 1")
+    if args.num_shards < 1:
+        raise ValueError("--num-shards must be at least 1")
+    if not 0 <= args.shard_index < args.num_shards:
+        raise ValueError("--shard-index must be in [0, --num-shards)")
     if args.tile_cache_size < 0:
         raise ValueError("--tile-cache-size must be non-negative")
     if args.device == "cuda" and not torch.cuda.is_available():
@@ -480,7 +496,14 @@ def main() -> int:
     specs = read_manifest(manifest_path, dataset_root)
     if args.limit is not None:
         specs = specs[: args.limit]
-    print(f"Encoding manifest: {len(specs)} slide(s)")
+    if args.num_shards > 1:
+        specs = specs[args.shard_index::args.num_shards]
+        print(
+            f"Encoding shard {args.shard_index + 1}/{args.num_shards}: "
+            f"{len(specs)} slide(s)"
+        )
+    else:
+        print(f"Encoding manifest: {len(specs)} slide(s)")
     if args.dry_run:
         for spec in specs:
             coords, patch_size = read_coordinates(spec.coords_path)
@@ -534,7 +557,12 @@ def main() -> int:
             )
             print(f"[FAIL] [{index}/{len(specs)}] {spec.slide_id}: {type(exc).__name__}: {exc}")
 
-    failure_path = feat_dir / "logs" / "dicom_feature_failures.csv"
+    failure_name = "dicom_feature_failures.csv"
+    if args.num_shards > 1:
+        failure_name = (
+            f"dicom_feature_failures_shard_{args.shard_index + 1}_of_{args.num_shards}.csv"
+        )
+    failure_path = feat_dir / "logs" / failure_name
     write_failures(failure_path, failures)
     print(f"Completed: {completed}; skipped: {skipped}; failures: {len(failures)}")
     if failures:

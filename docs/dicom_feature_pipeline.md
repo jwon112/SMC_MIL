@@ -72,3 +72,14 @@ after its checkpoint availability has been verified. `uni_v1` writes
 1,024-dimensional features; `uni_v2` denotes the official UNI2-h model and
 writes 1,536-dimensional features, so CLAM training must use the matching
 embedding dimension.
+
+## Multiple GPUs
+
+Use one process per GPU and split the same manifest into disjoint shards. The
+shards use every Nth manifest row, so they are deterministic and do not write
+the same slide output. For example, to use physical GPUs 1 and 3, set
+`CUDA_VISIBLE_DEVICES` separately for each process and use shard indices 0 and
+1 with `--num-shards 2`. Each process sees its selected GPU as `cuda:0`, so
+keep `--device cuda` in both commands. Interrupted runs can be resumed with
+the same commands because already-complete `.h5` and `.pt` pairs are skipped.
+Each shard writes its own failure CSV under `<feat-dir>/logs/`.
