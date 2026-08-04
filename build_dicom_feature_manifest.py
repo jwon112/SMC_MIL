@@ -25,6 +25,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir-name", default="atlaspatch")
     parser.add_argument("--manual-coords-filename", default="patch_coords_manual.h5")
     parser.add_argument("--original-coords-filename", default="patch_coords.h5")
+    parser.add_argument(
+        "--coords-filename",
+        default=None,
+        help="Use one level-specific coordinate file for every slide instead of L0 manual/original selection.",
+    )
     return parser.parse_args()
 
 
@@ -72,18 +77,25 @@ def main() -> int:
             original_coords = atlaspatch_dir / args.original_coords_filename
             manual_mask = atlaspatch_dir / "tissue_mask_manual.png"
 
-            if manual_mask.is_file() and not manual_coords.is_file():
-                warnings.append(f"manual mask has no manual coordinates: {slide_rel_path}")
-                continue
-            if manual_coords.is_file():
-                coords_path = manual_coords
-                coords_source = "manual"
-            elif original_coords.is_file():
-                coords_path = original_coords
-                coords_source = "original"
+            if args.coords_filename:
+                coords_path = atlaspatch_dir / args.coords_filename
+                coords_source = args.coords_filename
+                if not coords_path.is_file():
+                    warnings.append(f"missing level-specific coordinates: {slide_rel_path}")
+                    continue
             else:
-                warnings.append(f"missing manual/original coordinates: {slide_rel_path}")
-                continue
+                if manual_mask.is_file() and not manual_coords.is_file():
+                    warnings.append(f"manual mask has no manual coordinates: {slide_rel_path}")
+                    continue
+                if manual_coords.is_file():
+                    coords_path = manual_coords
+                    coords_source = "manual"
+                elif original_coords.is_file():
+                    coords_path = original_coords
+                    coords_source = "original"
+                else:
+                    warnings.append(f"missing manual/original coordinates: {slide_rel_path}")
+                    continue
 
             slide_id = slide_id_from_rel_path(slide_rel_path)
             if slide_id in seen_ids:

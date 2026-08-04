@@ -73,6 +73,68 @@ after its checkpoint availability has been verified. `uni_v1` writes
 writes 1,536-dimensional features, so CLAM training must use the matching
 embedding dimension.
 
+## Multi-Resolution DICOM Ablation
+
+The original AtlasPatch coordinates and the completed UNI2-h run use level 0,
+the largest DICOM pixel matrix. Do not reuse those level-0 coordinates at a
+lower DICOM level: that only changes the sampling resolution of the same field
+of view. Instead, generate a new 256px grid in each requested level while
+using the same thumbnail tissue mask. `tissue_mask_manual.png` is used where
+present; all other slides use `tissue_mask.png`. Postprocessed masks are never
+used.
+
+Store each scale in a separate feature directory under one encoder root:
+
+```text
+data/features/uni_v2/
+  l0_0p25mpp_40x/
+  l1_0p50mpp_20x/
+  l2_1p00mpp_10x/
+  l3_2p00mpp_5x/
+```
+
+The nominal magnification labels are descriptive. Use the MPP stored in each
+coordinate/feature H5 as the authoritative physical resolution.
+
+For L1/0.5 MPP, first generate coordinates and a matching manifest:
+
+```bash
+DATASET_ROOT=/home/jupyter/data/image_team/exp3_inbox
+FEATURE_ROOT=/home/jupyter/image_team/projects/SMC_MIL/data/features/uni_v2
+
+python build_multilevel_patch_coords.py \
+  --dataset-root "$DATASET_ROOT" \
+  --pyramid-level 1 \
+  --coords-filename patch_coords_l1.h5 \
+  --skip-existing
+
+python build_dicom_feature_manifest.py \
+  --dataset-root "$DATASET_ROOT" \
+  --coords-filename patch_coords_l1.h5 \
+  --output _clam/dicom_feature_manifest_l1.csv
+```
+
+The feature extractor reads the level encoded in the coordinate H5; no separate
+feature-extraction level argument is required. Run an L1 smoke test before the
+full sharded extraction:
+
+```bash
+python extract_features_dicom.py \
+  --dataset-root "$DATASET_ROOT" \
+  --manifest "$DATASET_ROOT/_clam/dicom_feature_manifest_l1.csv" \
+  --feat-dir "$FEATURE_ROOT/l1_0p50mpp_20x" \
+  --model-name uni_v2 \
+  --target-patch-size 224 \
+  --batch-size 32 \
+  --device cuda \
+  --amp \
+  --max-patches-per-slide 128 \
+  --limit 1
+```
+
+Repeat with levels 2 and 3 only after L1 has passed its smoke test. Use the
+same patient-level splits and model settings for every scale ablation.
+
 ## Multiple GPUs
 
 Use one process per GPU and split the same manifest into disjoint shards. The

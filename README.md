@@ -18,7 +18,7 @@
     - 예: `--data_root_dir ./data/features` → 내부에서 추가 조인 없이 바로 `./data/features`를 사용.
 
 - **Feature Extractor 확장**
-  - **UNI v2 지원 추가**: `uni_v2` (ViT-H, 1280-dim), `uni_v2_l` (ViT-L, 1024-dim) 옵션 추가
+  - **UNI v2 지원 추가**: `uni_v2` (official UNI2-h, 1536-dim), `uni_v2_l` (ViT-L, 1024-dim) 옵션 추가
   - **자동 다운로드**: UNI v1, v2는 HuggingFace에서 자동으로 다운로드되도록 개선 (환경변수 설정 불필요)
 
 - **Patch Quality Filtering (Blur Filtering)**
@@ -112,7 +112,7 @@ CSV 파일은 처리할 슬라이드 파일 이름 목록(확장자 없이)을 �
 `--model_name` 옵션:
 * `resnet50_trunc`: ResNet50 (기본값, 1024-dim)
 * `uni_v1`: UNI v1 (1024-dim)
-* `uni_v2`: UNI v2 ViT-H (1280-dim)
+* `uni_v2`: UNI2-h ViT-h/14-reg8 (1536-dim)
 * `uni_v2_l`: UNI v2 ViT-L (1024-dim)
 * `conch_v1`: CONCH v1 (512-dim)
 * `conch_v1_5`: CONCH v1.5 (448×448 입력)

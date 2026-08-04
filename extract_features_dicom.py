@@ -27,6 +27,7 @@ import torch
 from PIL import Image
 from pydicom.encaps import get_frame
 
+from dicom_pyramid import discover_pyramid_levels
 from models import get_encoder
 
 
@@ -43,6 +44,16 @@ class SlideSpec:
     slide_rel_path: str
     coords_source: str
     coords_path: Path
+
+
+@dataclass(frozen=True)
+class CoordinateSet:
+    """Patch locations in one selected DICOM pyramid level."""
+
+    coords_level: np.ndarray
+    coords_level0: np.ndarray | None
+    patch_size: int
+    pyramid_level: int
 
 
 def parse_args() -> argparse.Namespace:
@@ -94,29 +105,6 @@ def resolve_path(path: Path, dataset_root: Path) -> Path:
     return path if path.is_absolute() else dataset_root / path
 
 
-def is_volume_wsi(dataset: pydicom.Dataset) -> bool:
-    image_type = [str(value).upper() for value in getattr(dataset, "ImageType", [])]
-    return "VOLUME" in image_type and hasattr(dataset, "TotalPixelMatrixColumns")
-
-
-def choose_level0_dicom_group(slide_dir: Path) -> tuple[Path, ...]:
-    grouped: dict[tuple[int, int, int, int, int], list[Path]] = {}
-    for path in sorted(slide_dir.glob("*.dcm")):
-        try:
-            dataset = pydicom.dcmread(str(path), stop_before_pixels=True, force=True)
-        except Exception:
-            continue
-        if not is_volume_wsi(dataset):
-            continue
-        total_w = int(dataset.TotalPixelMatrixColumns)
-        total_h = int(dataset.TotalPixelMatrixRows)
-        key = (total_w * total_h, total_w, total_h, int(dataset.Rows), int(dataset.Columns))
-        grouped.setdefault(key, []).append(path)
-    if not grouped:
-        return ()
-    return tuple(sorted(grouped[max(grouped, key=lambda key: key[0])]))
-
-
 def frame_positions(
     dataset: pydicom.Dataset, *, sequential_offset: int | None = None
 ) -> list[tuple[int, int]]:
@@ -163,17 +151,21 @@ def frame_positions(
     return positions
 
 
-class DicomLevel0Reader:
-    """Random-access level-0 patch reader backed by tiled DICOM frames."""
+class DicomPyramidReader:
+    """Random-access reader for one tiled DICOM WSI pyramid level."""
 
-    def __init__(self, slide_dir: Path, tile_cache_size: int = 128):
+    def __init__(self, slide_dir: Path, pyramid_level: int, tile_cache_size: int = 128):
         if tile_cache_size < 0:
             raise ValueError("tile_cache_size must be non-negative")
         self.slide_dir = slide_dir
         self.tile_cache_size = tile_cache_size
-        self.paths = choose_level0_dicom_group(slide_dir)
-        if not self.paths:
-            raise ValueError(f"No tiled level-0 VOLUME DICOM found: {slide_dir}")
+        self.levels = discover_pyramid_levels(slide_dir)
+        if pyramid_level < 0 or pyramid_level >= len(self.levels):
+            raise ValueError(
+                f"Requested pyramid level {pyramid_level}, but {slide_dir} has {len(self.levels)} level(s)"
+            )
+        self.level = self.levels[pyramid_level]
+        self.paths = self.level.paths
 
         metadata = [pydicom.dcmread(str(path), stop_before_pixels=True, force=True) for path in self.paths]
         first = metadata[0]
@@ -190,7 +182,7 @@ class DicomLevel0Reader:
                 int(dataset.Columns),
             )
             if found != expected:
-                raise ValueError(f"Mixed level-0 DICOM dimensions: {path}")
+                raise ValueError(f"Mixed DICOM dimensions in pyramid level {pyramid_level}: {path}")
 
         total_grid_frames = math.ceil(self.total_w / self.tile_w) * math.ceil(
             self.total_h / self.tile_h
@@ -207,7 +199,9 @@ class DicomLevel0Reader:
             for index, (x0, y0) in enumerate(positions):
                 key = (x0 // self.tile_w, y0 // self.tile_h)
                 if key in self.tile_refs:
-                    raise ValueError(f"Duplicate level-0 tile position {key} in {slide_dir}")
+                    raise ValueError(
+                        f"Duplicate tile position {key} in pyramid level {pyramid_level}: {slide_dir}"
+                    )
                 self.tile_refs[key] = FrameRef(path, index)
             decoded_offset += frame_count
 
@@ -313,38 +307,67 @@ def read_manifest(manifest_path: Path, dataset_root: Path) -> list[SlideSpec]:
     return specs
 
 
-def read_coordinates(coords_path: Path) -> tuple[np.ndarray, int]:
+def read_coordinates(coords_path: Path) -> CoordinateSet:
     with h5py.File(coords_path, "r") as handle:
         if "coords" not in handle:
             raise ValueError(f"No coords dataset: {coords_path}")
         raw_coords = np.asarray(handle["coords"])
-        patch_size = int(handle.attrs.get("patch_size_level0", handle.attrs.get("patch_size", 256)))
+        patch_size = int(handle.attrs.get("patch_size_level", handle.attrs.get("patch_size", 256)))
+        attr_level = int(handle.attrs.get("pyramid_level", 0))
+        raw_level0_coords = np.asarray(handle["coords_level0"]) if "coords_level0" in handle else None
     if raw_coords.ndim != 2 or raw_coords.shape[1] < 2:
         raise ValueError(f"coords must have at least x/y columns: {coords_path}")
-    coords = np.asarray(raw_coords[:, :2], dtype=np.int32)
+    coords_level = np.asarray(raw_coords[:, :2], dtype=np.int32)
     if raw_coords.shape[1] >= 4:
         widths = np.unique(raw_coords[:, 2])
         heights = np.unique(raw_coords[:, 3])
         if len(widths) != 1 or len(heights) != 1 or int(widths[0]) != int(heights[0]):
             raise ValueError(f"Variable/non-square patch sizes are not supported: {coords_path}")
         patch_size = int(widths[0])
+    if raw_coords.shape[1] >= 5:
+        levels = np.unique(raw_coords[:, 4])
+        if len(levels) != 1:
+            raise ValueError(f"Mixed pyramid levels are not supported: {coords_path}")
+        coord_level = int(levels[0])
+        if coord_level != attr_level:
+            raise ValueError(
+                f"Coordinate level {coord_level} disagrees with pyramid_level={attr_level}: {coords_path}"
+            )
     if patch_size <= 0:
         raise ValueError(f"Invalid patch size in {coords_path}: {patch_size}")
-    return coords, patch_size
+    if raw_level0_coords is not None:
+        if raw_level0_coords.shape != (len(coords_level), 2):
+            raise ValueError(f"coords_level0 shape does not match coords: {coords_path}")
+        raw_level0_coords = np.asarray(raw_level0_coords, dtype=np.int32)
+    return CoordinateSet(coords_level, raw_level0_coords, patch_size, attr_level)
 
 
-def sample_coordinates(
-    coords: np.ndarray,
+def sample_coordinate_set(
+    coordinate_set: CoordinateSet,
     max_patches: int | None,
     seed: int,
-) -> tuple[np.ndarray, int]:
-    total_count = len(coords)
+) -> tuple[CoordinateSet, int]:
+    total_count = len(coordinate_set.coords_level)
     if max_patches is None or max_patches >= total_count:
-        return coords, total_count
+        return coordinate_set, total_count
     if max_patches < 1:
         raise ValueError("max_patches must be at least 1 when provided")
     indices = np.random.default_rng(seed).choice(total_count, size=max_patches, replace=False)
-    return coords[np.sort(indices)], total_count
+    indices.sort()
+    coords_level0 = (
+        coordinate_set.coords_level0[indices]
+        if coordinate_set.coords_level0 is not None
+        else None
+    )
+    return (
+        CoordinateSet(
+            coordinate_set.coords_level[indices],
+            coords_level0,
+            coordinate_set.patch_size,
+            coordinate_set.pyramid_level,
+        ),
+        total_count,
+    )
 
 
 def output_paths(feat_dir: Path, slide_id: str) -> tuple[Path, Path]:
@@ -354,7 +377,8 @@ def output_paths(feat_dir: Path, slide_id: str) -> tuple[Path, Path]:
 def append_batch(
     output: h5py.File,
     features: np.ndarray,
-    coords: np.ndarray,
+    coords_level0: np.ndarray,
+    coords_level: np.ndarray | None = None,
 ) -> None:
     if "features" not in output:
         output.create_dataset(
@@ -369,15 +393,43 @@ def append_batch(
             "coords",
             shape=(0, 2),
             maxshape=(None, 2),
-            chunks=(max(1, min(512, len(coords))), 2),
+            chunks=(max(1, min(512, len(coords_level0))), 2),
             compression="gzip",
             dtype=np.int32,
         )
-    for key, values in (("features", features), ("coords", coords)):
+        if coords_level is not None:
+            output.create_dataset(
+                "coords_level",
+                shape=(0, 2),
+                maxshape=(None, 2),
+                chunks=(max(1, min(512, len(coords_level))), 2),
+                compression="gzip",
+                dtype=np.int32,
+            )
+    for key, values in (("features", features), ("coords", coords_level0)):
         dataset = output[key]
         start = len(dataset)
         dataset.resize(start + len(values), axis=0)
         dataset[start:] = values
+    if coords_level is not None:
+        dataset = output["coords_level"]
+        start = len(dataset)
+        dataset.resize(start + len(coords_level), axis=0)
+        dataset[start:] = coords_level
+
+
+def infer_level0_coords(coordinates: np.ndarray, reader: DicomPyramidReader) -> np.ndarray:
+    """Map selected-level pixel coordinates into the level-0 coordinate space."""
+
+    if reader.level.index == 0:
+        return np.asarray(coordinates, dtype=np.int32)
+    level0 = reader.levels[0]
+    return np.column_stack(
+        (
+            np.rint(coordinates[:, 0] * level0.total_width / reader.total_w),
+            np.rint(coordinates[:, 1] * level0.total_height / reader.total_h),
+        )
+    ).astype(np.int32, copy=False)
 
 
 def encode_slide(
@@ -394,13 +446,25 @@ def encode_slide(
     sample_seed: int,
     tile_cache_size: int,
 ) -> int:
-    coords, patch_size = read_coordinates(spec.coords_path)
-    coords, source_patch_count = sample_coordinates(coords, max_patches, sample_seed)
-    if len(coords) == 0:
-        raise ValueError(f"No selected patches: {spec.coords_path}")
-    reader = DicomLevel0Reader(
-        dataset_root / Path(spec.slide_rel_path), tile_cache_size=tile_cache_size
+    coordinate_set = read_coordinates(spec.coords_path)
+    coordinate_set, source_patch_count = sample_coordinate_set(
+        coordinate_set, max_patches, sample_seed
     )
+    coords_level = coordinate_set.coords_level
+    patch_size = coordinate_set.patch_size
+    if len(coords_level) == 0:
+        raise ValueError(f"No selected patches: {spec.coords_path}")
+    reader = DicomPyramidReader(
+        dataset_root / Path(spec.slide_rel_path),
+        coordinate_set.pyramid_level,
+        tile_cache_size=tile_cache_size,
+    )
+    coords_level0 = coordinate_set.coords_level0
+    if coords_level0 is None:
+        coords_level0 = infer_level0_coords(coords_level, reader)
+    level0 = reader.levels[0]
+    patch_size_level0_x = int(round(patch_size * level0.total_width / reader.total_w))
+    patch_size_level0_y = int(round(patch_size * level0.total_height / reader.total_h))
     h5_path.parent.mkdir(parents=True, exist_ok=True)
     pt_path.parent.mkdir(parents=True, exist_ok=True)
     h5_tmp = h5_path.with_suffix(".h5.tmp")
@@ -416,19 +480,31 @@ def encode_slide(
             output.attrs["slide_rel_path"] = spec.slide_rel_path
             output.attrs["coords_source"] = spec.coords_source
             output.attrs["coords_path"] = str(spec.coords_path)
-            output.attrs["patch_level"] = 0
-            output.attrs["patch_size_level0"] = patch_size
+            output.attrs["patch_level"] = coordinate_set.pyramid_level
+            output.attrs["patch_size_level"] = patch_size
+            output.attrs["patch_size_level0"] = patch_size_level0_x
+            output.attrs["patch_size_level0_x"] = patch_size_level0_x
+            output.attrs["patch_size_level0_y"] = patch_size_level0_y
+            output.attrs["coordinate_storage_space"] = "level0"
             output.attrs["source_patch_count"] = source_patch_count
-            output.attrs["encoded_patch_count"] = len(coords)
+            output.attrs["encoded_patch_count"] = len(coords_level)
             output.attrs["patch_sampling"] = (
-                "full" if len(coords) == source_patch_count else f"random_without_replacement(seed={sample_seed})"
+                "full"
+                if len(coords_level) == source_patch_count
+                else f"random_without_replacement(seed={sample_seed})"
             )
             output.attrs["tile_cache_size"] = tile_cache_size
             output.attrs["source_dicom_paths"] = "|".join(str(path) for path in reader.paths)
             output.attrs["total_pixel_matrix"] = np.asarray([reader.total_w, reader.total_h])
+            output.attrs["level0_total_pixel_matrix"] = np.asarray(
+                [level0.total_width, level0.total_height]
+            )
+            output.attrs["mpp_x_um"] = np.nan if reader.level.mpp_x_um is None else reader.level.mpp_x_um
+            output.attrs["mpp_y_um"] = np.nan if reader.level.mpp_y_um is None else reader.level.mpp_y_um
 
-            for start in range(0, len(coords), batch_size):
-                coord_batch = coords[start : start + batch_size]
+            for start in range(0, len(coords_level), batch_size):
+                coord_batch = coords_level[start : start + batch_size]
+                coord_level0_batch = coords_level0[start : start + batch_size]
                 images = [
                     transform(reader.read_patch(int(x), int(y), patch_size, patch_size))
                     for x, y in coord_batch
@@ -442,7 +518,8 @@ def encode_slide(
                 append_batch(
                     output,
                     features.detach().cpu().float().numpy().astype(np.float32, copy=False),
-                    coord_batch,
+                    coord_level0_batch,
+                    coord_batch if coordinate_set.pyramid_level != 0 else None,
                 )
 
         with h5py.File(h5_tmp, "r") as output:
@@ -455,7 +532,7 @@ def encode_slide(
             if path.exists():
                 path.unlink()
         raise
-    return len(coords)
+    return len(coords_level)
 
 
 def write_failures(path: Path, failures: Iterable[dict[str, str]]) -> None:
@@ -506,16 +583,20 @@ def main() -> int:
         print(f"Encoding manifest: {len(specs)} slide(s)")
     if args.dry_run:
         for spec in specs:
-            coords, patch_size = read_coordinates(spec.coords_path)
-            selected_coords, source_patch_count = sample_coordinates(
-                coords, args.max_patches_per_slide, args.sample_seed
+            coordinate_set = read_coordinates(spec.coords_path)
+            selected_coordinates, source_patch_count = sample_coordinate_set(
+                coordinate_set, args.max_patches_per_slide, args.sample_seed
             )
             patch_count = (
-                f"{len(selected_coords)} patches"
-                if len(selected_coords) == source_patch_count
-                else f"{len(selected_coords)}/{source_patch_count} sampled patches"
+                f"{len(selected_coordinates.coords_level)} patches"
+                if len(selected_coordinates.coords_level) == source_patch_count
+                else f"{len(selected_coordinates.coords_level)}/{source_patch_count} sampled patches"
             )
-            print(f"[DRY RUN] {spec.slide_id}: {patch_count}, size={patch_size}, {spec.coords_source}")
+            print(
+                f"[DRY RUN] {spec.slide_id}: {patch_count}, "
+                f"level={coordinate_set.pyramid_level}, size={coordinate_set.patch_size}, "
+                f"{spec.coords_source}"
+            )
         return 0
 
     model, transform = get_encoder(args.model_name, target_img_size=args.target_patch_size)
