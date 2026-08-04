@@ -127,9 +127,12 @@ def main() -> int:
         writer.writeheader()
         writer.writerows(rows)
 
-    manual_count = sum(row["coords_source"] == "manual" for row in rows)
     print(f"[OK] manifest -> {output_path}")
-    print(f"Slides: {len(rows)} (manual: {manual_count}, original: {len(rows) - manual_count})")
+    if args.coords_filename:
+        print(f"Slides: {len(rows)} (coordinates: {args.coords_filename})")
+    else:
+        manual_count = sum(row["coords_source"] == "manual" for row in rows)
+        print(f"Slides: {len(rows)} (manual: {manual_count}, original: {len(rows) - manual_count})")
     if warnings:
         warning_path = output_path.with_name(f"{output_path.stem}_warnings.csv")
         with warning_path.open("w", newline="", encoding="utf-8") as handle:
