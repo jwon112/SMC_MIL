@@ -48,7 +48,7 @@ selection, model loading, and feature writing without scanning the full set:
 python extract_features_dicom.py \
   --dataset-root /home/jupyter/data/image_team/exp3_inbox \
   --manifest /home/jupyter/data/image_team/exp3_inbox/_clam/dicom_feature_manifest.csv \
-  --feat-dir /home/jupyter/data/image_team/exp3_features \
+  --feat-dir /home/jupyter/data/image_team/features \
   --model-name resnet50_trunc \
   --batch-size 64 \
   --max-patches-per-slide 512 \
@@ -100,7 +100,7 @@ For L1/0.5 MPP, first generate coordinates and a matching manifest:
 
 ```bash
 DATASET_ROOT=/home/jupyter/data/image_team/exp3_inbox
-FEATURE_ROOT=/home/jupyter/image_team/projects/SMC_MIL/data/features/uni_v2
+FEATURE_ROOT=/home/jupyter/data/image_team/features/uni_v2
 
 python build_multilevel_patch_coords.py \
   --dataset-root "$DATASET_ROOT" \
