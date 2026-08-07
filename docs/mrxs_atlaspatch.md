@@ -26,3 +26,13 @@ After confirming the output, run all 13 slides by omitting `--limit 1`.
 The expected output per slide is `thumbnail.png`, `tissue_mask.png`,
 `tissue_overlay.png`, and `patch_coords.h5`. Review and manual correction can
 then write parallel `*_manual` files.
+
+If the server OpenSlide build cannot read these MRXS files, the locally staged
+dataset already contains a thumbnail for every slide. The delivered 13 slides
+all have the same verified level-0 geometry, so the server can avoid OpenSlide:
+
+```bash
+bash tools/atlaspatch_mrxs/run_atlaspatch_mrxs.sh --reuse-thumbnail \
+  --level0-width 264110 --level0-height 284950 \
+  --mpp-x 0.24948414119707099 --mpp-y 0.250027957951241
+```

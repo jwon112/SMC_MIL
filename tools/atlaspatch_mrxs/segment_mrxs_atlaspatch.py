@@ -91,11 +91,19 @@ def write_patch_coords(
     step_size: int,
     coord_mode: str,
     tissue_ratio_threshold: float,
+    level0_width: int | None = None,
+    level0_height: int | None = None,
+    mpp_x: float | None = None,
+    mpp_y: float | None = None,
 ) -> None:
-    with openslide.OpenSlide(str(mrxs_path)) as slide:
-        width, height = slide.dimensions
-        mpp_x = float(slide.properties.get(openslide.PROPERTY_NAME_MPP_X, "nan"))
-        mpp_y = float(slide.properties.get(openslide.PROPERTY_NAME_MPP_Y, "nan"))
+    if None in (level0_width, level0_height, mpp_x, mpp_y):
+        with openslide.OpenSlide(str(mrxs_path)) as slide:
+            width, height = slide.dimensions
+            mpp_x = float(slide.properties.get(openslide.PROPERTY_NAME_MPP_X, "nan"))
+            mpp_y = float(slide.properties.get(openslide.PROPERTY_NAME_MPP_Y, "nan"))
+    else:
+        width, height = int(level0_width), int(level0_height)
+        mpp_x, mpp_y = float(mpp_x), float(mpp_y)
     if not math.isfinite(mpp_x) or not math.isfinite(mpp_y):
         raise ValueError(f"No usable MPP metadata: {mrxs_path}")
 
@@ -146,6 +154,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--coord-mode", choices=["center", "ratio"], default="center")
     parser.add_argument("--tissue-ratio-threshold", type=float, default=0.10)
     parser.add_argument("--skip-existing", action="store_true")
+    parser.add_argument(
+        "--reuse-thumbnail",
+        action="store_true",
+        help="Segment existing atlaspatch/thumbnail.png without opening MRXS on this machine.",
+    )
+    parser.add_argument("--level0-width", type=int)
+    parser.add_argument("--level0-height", type=int)
+    parser.add_argument("--mpp-x", type=float)
+    parser.add_argument("--mpp-y", type=float)
     parser.add_argument("--limit", type=int)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--failure-log", type=Path)
@@ -172,13 +189,23 @@ def main() -> int:
             output = path.parent / args.output_dir_name
             try:
                 print(f"[{index}/{len(to_process)}] {path}")
-                with openslide.OpenSlide(str(path)) as slide:
-                    thumbnail = build_thumbnail(slide, args.max_size)
                 output.mkdir(parents=True, exist_ok=True)
-                thumbnail.save(output / "thumbnail.png")
+                thumbnail_path = output / "thumbnail.png"
+                if args.reuse_thumbnail:
+                    if not thumbnail_path.is_file():
+                        raise FileNotFoundError(f"Missing reusable thumbnail: {thumbnail_path}")
+                    thumbnail = Image.open(thumbnail_path).convert("RGB")
+                else:
+                    with openslide.OpenSlide(str(path)) as slide:
+                        thumbnail = build_thumbnail(slide, args.max_size)
+                    thumbnail.save(thumbnail_path)
                 mask = segment_thumbnail(thumbnail, predictor)
                 save_mask_outputs(mask, thumbnail, output)
-                write_patch_coords(path, mask, output / "patch_coords.h5", args.patch_size, args.step_size, args.coord_mode, args.tissue_ratio_threshold)
+                write_patch_coords(
+                    path, mask, output / "patch_coords.h5", args.patch_size,
+                    args.step_size, args.coord_mode, args.tissue_ratio_threshold,
+                    args.level0_width, args.level0_height, args.mpp_x, args.mpp_y,
+                )
             except Exception as exc:  # noqa: BLE001
                 failures.append({"mrxs_path": str(path), "error_type": type(exc).__name__, "error_message": str(exc)})
                 print(f"[FAIL] {path}: {exc}")
