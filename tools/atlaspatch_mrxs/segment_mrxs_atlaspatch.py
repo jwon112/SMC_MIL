@@ -51,6 +51,30 @@ def segment_thumbnail(thumbnail: Image.Image, predictor) -> np.ndarray:
     return np.asarray(mask_1024.resize(original_size, Image.Resampling.NEAREST)) > 0
 
 
+def build_thumbnail(slide: openslide.OpenSlide, max_size: int) -> Image.Image:
+    """Read a pyramid level directly, avoiding OpenSlide get_thumbnail metadata paths."""
+    level = next(
+        (
+            index
+            for index, dimensions in enumerate(slide.level_dimensions)
+            if max(dimensions) <= max_size
+        ),
+        slide.level_count - 1,
+    )
+    rgba = slide.read_region((0, 0), level, slide.level_dimensions[level])
+    # Transparent outside-slide pixels otherwise turn black after RGB conversion.
+    white = Image.new("RGBA", rgba.size, "white")
+    white.alpha_composite(rgba)
+    thumbnail = white.convert("RGB")
+    if max(thumbnail.size) > max_size:
+        scale = max_size / max(thumbnail.size)
+        thumbnail = thumbnail.resize(
+            (round(thumbnail.width * scale), round(thumbnail.height * scale)),
+            Image.Resampling.LANCZOS,
+        )
+    return thumbnail
+
+
 def save_mask_outputs(mask: np.ndarray, thumbnail: Image.Image, output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     Image.fromarray(mask.astype(np.uint8) * 255).save(output_dir / "tissue_mask.png")
@@ -149,7 +173,7 @@ def main() -> int:
             try:
                 print(f"[{index}/{len(to_process)}] {path}")
                 with openslide.OpenSlide(str(path)) as slide:
-                    thumbnail = slide.get_thumbnail((args.max_size, args.max_size)).convert("RGB")
+                    thumbnail = build_thumbnail(slide, args.max_size)
                 output.mkdir(parents=True, exist_ok=True)
                 thumbnail.save(output / "thumbnail.png")
                 mask = segment_thumbnail(thumbnail, predictor)
