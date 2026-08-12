@@ -33,12 +33,19 @@ print("OpenSlide read_region OK")
 PY
 ```
 
-If this fails with `Cannot read slide position info`, update the server conda
-environment to a current OpenSlide build before proceeding:
+If this fails with `Cannot read slide position info`, install the current
+self-contained OpenSlide binary into the active Python environment before
+proceeding:
 
 ```bash
-conda install -n clam_latest -c conda-forge "openslide=4.*" openslide-python
+python -m pip install --upgrade --force-reinstall --no-cache-dir \
+  "openslide-python>=1.4.0" "openslide-bin>=4.0.0"
 ```
+
+`openslide-python` 1.4+ loads `openslide-bin` before a system/conda OpenSlide
+library. This avoids mixing conda's incompatible JPEG dependency chain into
+the existing UNI/SAM environment. Restart the shell or kernel, then repeat the
+probe above.
 
 ## Coordinates and Manifests
 
