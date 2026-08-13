@@ -104,6 +104,17 @@ The final L0 path is `$FEATURE_ROOT/l0_0p25mpp_40x`; use the corresponding L1,
 L2, and L3 names for the other scale ablations. Omit both `--limit` and
 `--max-patches-per-slide` for final encoding.
 
+After a full level completes, verify every `.h5`/`.pt` pair against its
+manifest before training:
+
+```bash
+python verify_feature_bags.py \
+  --manifest "$DATASET_ROOT/_clam/mrxs_feature_manifest_l0.csv" \
+  --feat-dir "$FEATURE_ROOT/l0_0p25mpp_40x" \
+  --expected-level 0 \
+  --expected-embed-dim 1536
+```
+
 Two GPU processes can use the same manifest and feature directory with
 `CUDA_VISIBLE_DEVICES=1`/`3` and `--num-shards 2 --shard-index 0`/`1`, exactly
 as in the DICOM feature pipeline. The feature H5 files contain 1,536-dim UNI2-h
