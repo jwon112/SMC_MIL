@@ -57,6 +57,9 @@ class Generic_WSI_Classification_Dataset(Dataset):
 		self.patient_strat = patient_strat
 		self.train_ids, self.val_ids, self.test_ids  = (None, None, None)
 		self.data_dir = None
+		# Split generation uses Generic_Split before Generic_MIL_Dataset has a
+		# chance to initialize feature storage mode.
+		self.use_h5 = False
 		if not label_col:
 			label_col = 'label'
 		self.label_col = label_col
@@ -438,5 +441,4 @@ class Generic_Split(Generic_MIL_Dataset):
 	def __len__(self):
 		return len(self.slide_data)
 		
-
 
