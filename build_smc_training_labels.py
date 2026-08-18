@@ -20,9 +20,9 @@ import pandas as pd
 
 
 TASKS = {
-    "smc_acr_4class_0r_1r_2r_3r": {
+    "smc_acr_binary_0r1r_vs_2r3r": {
         "source_column": "ACR 등급",
-        "labels": {"0R": (0, "0R"), "1R": (1, "1R"), "2R": (2, "2R"), "3R": (3, "3R")},
+        "labels": {"0R": (0, "0R/1R"), "1R": (0, "0R/1R"), "2R": (1, "2R/3R"), "3R": (1, "2R/3R")},
     },
     "smc_acr_binary_0r_vs_1r2r3r": {
         "source_column": "ACR 등급",

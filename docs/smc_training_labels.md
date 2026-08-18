@@ -13,8 +13,8 @@ python build_smc_training_labels.py \
 
 This writes three CSVs to `dataset_csv/`:
 
-- `smc_acr_4class_0r_1r_2r_3r.csv`: labels `0R`, `1R`, `2R`, `3R` as classes 0--3. The current matched data has no `3R` bag, so this file is an auditable label export, not a runnable four-class experiment.
 - `smc_acr_binary_0r_vs_1r2r3r.csv`: `0R` versus `1R/2R/3R`.
+- `smc_acr_binary_0r1r_vs_2r3r.csv`: `0R/1R` versus `2R/3R`.
 - `smc_amr_binary_pamr0_vs_positive.csv`: `pAMR0` versus `pAMR1`, `pAMR1(I+)`, or `pAMR2`.
 
 Every row represents one feature bag. `case_id` is a stable pseudonym derived
@@ -38,14 +38,17 @@ class counts alongside AUROC, balanced accuracy, sensitivity, and specificity.
 
 ## Patient-grouped splits and training
 
-The two binary tasks are registered in `create_splits_seq.py` and `main.py`.
-Use three folds; the four-class ACR CSV cannot be split or trained until at
-least one `3R` event is available.
+The three binary tasks are registered in `create_splits_seq.py` and `main.py`.
+Use three folds.
 
 ```bash
 # Run once per task. The patient-level case_id prevents slide/event leakage.
 python create_splits_seq.py \
   --task task_smc_acr_binary_0r_vs_1r2r3r \
+  --k 3 --val_frac 0.15 --test_frac 0.15
+
+python create_splits_seq.py \
+  --task task_smc_acr_binary_0r1r_vs_2r3r \
   --k 3 --val_frac 0.15 --test_frac 0.15
 
 python create_splits_seq.py \
