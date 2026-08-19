@@ -20,10 +20,6 @@ import pandas as pd
 
 
 TASKS = {
-    "smc_acr_binary_0r1r_vs_2r3r": {
-        "source_column": "ACR 등급",
-        "labels": {"0R": (0, "0R/1R"), "1R": (0, "0R/1R"), "2R": (1, "2R/3R"), "3R": (1, "2R/3R")},
-    },
     "smc_acr_binary_0r_vs_1r2r3r": {
         "source_column": "ACR 등급",
         "labels": {"0R": (0, "0R"), "1R": (1, "1R/2R/3R"), "2R": (1, "1R/2R/3R"), "3R": (1, "1R/2R/3R")},
@@ -36,6 +32,9 @@ TASKS = {
             "pAMR1(I+)": (1, "pAMR1/pAMR1(I+)/pAMR2"),
             "pAMR2": (1, "pAMR1/pAMR1(I+)/pAMR2"),
         },
+    },
+    "smc_any_rejection_binary": {
+        "composite": True,
     },
 }
 
@@ -112,17 +111,25 @@ def load_labels(path: Path) -> pd.DataFrame:
 
 
 def task_rows(slides: list[Slide], labels: pd.DataFrame, task: dict[str, object]) -> list[dict[str, str | int]]:
-    source_column = str(task["source_column"])
-    label_map = dict(task["labels"])
     rows: list[dict[str, str | int]] = []
     for slide in slides:
         if slide.event_key not in labels.index:
             continue
         record = labels.loc[slide.event_key]
-        grade = str(record[source_column]).strip()
-        if grade not in label_map:
-            continue
-        numeric_label, label_text = label_map[grade]
+        if task.get("composite"):
+            acr_grade = str(record["ACR 등급"]).strip()
+            amr_grade = str(record["AMR 등급"]).strip()
+            if acr_grade not in {"0R", "1R", "2R", "3R"} or amr_grade not in {"pAMR0", "pAMR1", "pAMR1(I+)", "pAMR2"}:
+                continue
+            numeric_label = int(acr_grade != "0R" or amr_grade != "pAMR0")
+            label_text = "ACR>=1R or AMR-positive" if numeric_label else "ACR 0R and pAMR0"
+        else:
+            source_column = str(task["source_column"])
+            label_map = dict(task["labels"])
+            grade = str(record[source_column]).strip()
+            if grade not in label_map:
+                continue
+            numeric_label, label_text = label_map[grade]
         rows.append(
             {
                 "case_id": pseudonymous_case_id(record["ID"]),

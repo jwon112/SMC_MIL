@@ -14,8 +14,8 @@ python build_smc_training_labels.py \
 This writes three CSVs to `dataset_csv/`:
 
 - `smc_acr_binary_0r_vs_1r2r3r.csv`: `0R` versus `1R/2R/3R`.
-- `smc_acr_binary_0r1r_vs_2r3r.csv`: `0R/1R` versus `2R/3R`.
 - `smc_amr_binary_pamr0_vs_positive.csv`: `pAMR0` versus `pAMR1`, `pAMR1(I+)`, or `pAMR2`.
+- `smc_any_rejection_binary.csv`: positive when ACR is at least `1R` or AMR is positive.
 
 Every row represents one feature bag. `case_id` is a stable pseudonym derived
 from the source patient ID; it is shared across all slide bags belonging to the
@@ -36,24 +36,27 @@ For the AMR task, the rare positive class still has very few patients. Report
 patient-grouped cross-validation results as exploratory and retain each fold's
 class counts alongside AUROC, balanced accuracy, sensitivity, and specificity.
 
-## Patient-grouped splits and training
+## Patient-grouped nested 3-fold CV
 
-The three binary tasks are registered in `create_splits_seq.py` and `main.py`.
-Use three folds.
+Use `create_smc_nested_cv_splits.py`, not the older `create_splits_seq.py`,
+for the final experiments. The outer three folds assign every patient to one
+held-out evaluation fold exactly once. Each outer-training set is then split
+into train and an inner validation set for early stopping. There is no separate
+fixed final test cohort.
 
 ```bash
 # Run once per task. The patient-level case_id prevents slide/event leakage.
-python create_splits_seq.py \
+python create_smc_nested_cv_splits.py \
   --task task_smc_acr_binary_0r_vs_1r2r3r \
-  --k 3 --val_frac 0.15 --test_frac 0.15
+  --inner-val-frac 0.20
 
-python create_splits_seq.py \
-  --task task_smc_acr_binary_0r1r_vs_2r3r \
-  --k 3 --val_frac 0.15 --test_frac 0.15
-
-python create_splits_seq.py \
+python create_smc_nested_cv_splits.py \
   --task task_smc_amr_binary_pamr0_vs_positive \
-  --k 3 --val_frac 0.15 --test_frac 0.15
+  --inner-val-frac 0.20
+
+python create_smc_nested_cv_splits.py \
+  --task task_smc_any_rejection_binary \
+  --inner-val-frac 0.20
 ```
 
 Point `--data_root_dir` to a directory containing the feature bags for every

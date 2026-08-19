@@ -12,7 +12,7 @@ parser.add_argument('--seed', type=int, default=1,
                     help='random seed (default: 1)')
 parser.add_argument('--k', type=int, default=10,
                     help='number of splits (default: 10)')
-parser.add_argument('--task', type=str, choices=['task_1_tumor_vs_normal', 'task_2_tumor_subtyping', 'task_3_camelyon16_binary', 'task_4_camelyon16_multiclass', 'task_smc_acr_binary_0r_vs_1r2r3r', 'task_smc_acr_binary_0r1r_vs_2r3r', 'task_smc_amr_binary_pamr0_vs_positive'])
+parser.add_argument('--task', type=str, choices=['task_1_tumor_vs_normal', 'task_2_tumor_subtyping', 'task_3_camelyon16_binary', 'task_4_camelyon16_multiclass', 'task_smc_acr_binary_0r_vs_1r2r3r', 'task_smc_amr_binary_pamr0_vs_positive', 'task_smc_any_rejection_binary'])
 parser.add_argument('--csv_path', type=str, default=None, help='custom csv path (overrides task default)')
 parser.add_argument('--val_frac', type=float, default= 0.1,
                     help='fraction of labels for validation (default: 0.1)')
@@ -88,9 +88,9 @@ elif args.task == 'task_smc_amr_binary_pamr0_vs_positive':
                             patient_voting='max',
                             ignore=[])
 
-elif args.task == 'task_smc_acr_binary_0r1r_vs_2r3r':
+elif args.task == 'task_smc_any_rejection_binary':
     args.n_classes=2
-    csv_path = args.csv_path if args.csv_path else 'dataset_csv/smc_acr_binary_0r1r_vs_2r3r.csv'
+    csv_path = args.csv_path if args.csv_path else 'dataset_csv/smc_any_rejection_binary.csv'
     dataset = Generic_WSI_Classification_Dataset(csv_path = csv_path,
                             shuffle = False,
                             seed = args.seed,
@@ -129,4 +129,3 @@ if __name__ == '__main__':
             save_splits(splits, ['train', 'val', 'test'], os.path.join(split_dir, 'splits_{}.csv'.format(i)))
             save_splits(splits, ['train', 'val', 'test'], os.path.join(split_dir, 'splits_{}_bool.csv'.format(i)), boolean_style=True)
             descriptor_df.to_csv(os.path.join(split_dir, 'splits_{}_descriptor.csv'.format(i)))
-
