@@ -64,7 +64,28 @@ python create_smc_nested_cv_splits.py \
   --inner-val-frac 0.20
 ```
 
-Point `--data_root_dir` to a directory containing the feature bags for every
-row in the chosen CSV. With the current separate DICOM and MRXS feature roots,
-create a combined feature view first; do not silently train after one source's
-feature files have been filtered out.
+Point `--data_root_dir` to the selected scale directory containing the feature
+bags for every row in the chosen CSV. Verify that the shared feature directory
+contains both the exp3 and MRXS bags before training.
+
+## Four-scale Grid
+
+After creating the nested splits, run exactly one training process per GPU.
+The two workers partition the four tasks across GPUs and each process runs its
+eight assigned task-scale combinations sequentially.
+
+```bash
+FEATURE_ROOT=/home/jupyter/image_team/projects/SMC_MIL/data/features/uni_v2
+
+nohup bash tools/run_smc_cv_grid.sh \
+  --gpu 1 --worker acr --feature-root "$FEATURE_ROOT" \
+  > results/logs/grid_gpu1.log 2>&1 &
+
+nohup bash tools/run_smc_cv_grid.sh \
+  --gpu 3 --worker amr --feature-root "$FEATURE_ROOT" \
+  > results/logs/grid_gpu3.log 2>&1 &
+```
+
+This yields 16 task-scale experiments in total. Each experiment runs all three
+outer folds sequentially. Do not start more than one of these training workers
+per GPU.
