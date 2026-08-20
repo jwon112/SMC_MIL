@@ -14,6 +14,7 @@ python build_smc_training_labels.py \
 This writes three CSVs to `dataset_csv/`:
 
 - `smc_acr_binary_0r_vs_1r2r3r.csv`: `0R` versus `1R/2R/3R`.
+- `smc_acr_binary_0r1r_vs_2r3r.csv`: `0R/1R` versus `2R/3R`.
 - `smc_amr_binary_pamr0_vs_positive.csv`: `pAMR0` versus `pAMR1`, `pAMR1(I+)`, or `pAMR2`.
 - `smc_any_rejection_binary.csv`: positive when ACR is at least `1R` or AMR is positive.
 
@@ -48,6 +49,10 @@ fixed final test cohort.
 # Run once per task. The patient-level case_id prevents slide/event leakage.
 python create_smc_nested_cv_splits.py \
   --task task_smc_acr_binary_0r_vs_1r2r3r \
+  --inner-val-frac 0.20
+
+python create_smc_nested_cv_splits.py \
+  --task task_smc_acr_binary_0r1r_vs_2r3r \
   --inner-val-frac 0.20
 
 python create_smc_nested_cv_splits.py \

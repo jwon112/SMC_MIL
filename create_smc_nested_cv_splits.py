@@ -12,6 +12,7 @@ from sklearn.model_selection import StratifiedKFold, StratifiedShuffleSplit
 
 TASKS = {
     "task_smc_acr_binary_0r_vs_1r2r3r": ("dataset_csv/smc_acr_binary_0r_vs_1r2r3r.csv", "smc_cv_acr_0r_vs_1r2r3r"),
+    "task_smc_acr_binary_0r1r_vs_2r3r": ("dataset_csv/smc_acr_binary_0r1r_vs_2r3r.csv", "smc_cv_acr_0r1r_vs_2r3r"),
     "task_smc_amr_binary_pamr0_vs_positive": ("dataset_csv/smc_amr_binary_pamr0_vs_positive.csv", "smc_cv_amr_pamr0_vs_positive"),
     "task_smc_any_rejection_binary": ("dataset_csv/smc_any_rejection_binary.csv", "smc_cv_any_rejection"),
 }

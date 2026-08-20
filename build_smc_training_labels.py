@@ -24,6 +24,10 @@ TASKS = {
         "source_column": "ACR 등급",
         "labels": {"0R": (0, "0R"), "1R": (1, "1R/2R/3R"), "2R": (1, "1R/2R/3R"), "3R": (1, "1R/2R/3R")},
     },
+    "smc_acr_binary_0r1r_vs_2r3r": {
+        "source_column": "ACR 등급",
+        "labels": {"0R": (0, "0R/1R"), "1R": (0, "0R/1R"), "2R": (1, "2R/3R"), "3R": (1, "2R/3R")},
+    },
     "smc_amr_binary_pamr0_vs_positive": {
         "source_column": "AMR 등급",
         "labels": {
