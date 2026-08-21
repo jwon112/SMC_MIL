@@ -138,12 +138,15 @@ class CLAM_SB(nn.Module):
         device=h.device
         if len(A.shape) == 1:
             A = A.view(1, -1)
-        top_p_ids = torch.topk(A, self.k_sample)[1][-1]
+        # Coarser pyramid levels can legitimately yield fewer patches than B.
+        # Instance clustering should use every available patch in that case.
+        k_sample = min(self.k_sample, A.size(1))
+        top_p_ids = torch.topk(A, k_sample)[1][-1]
         top_p = torch.index_select(h, dim=0, index=top_p_ids)
-        top_n_ids = torch.topk(-A, self.k_sample, dim=1)[1][-1]
+        top_n_ids = torch.topk(-A, k_sample, dim=1)[1][-1]
         top_n = torch.index_select(h, dim=0, index=top_n_ids)
-        p_targets = self.create_positive_targets(self.k_sample, device)
-        n_targets = self.create_negative_targets(self.k_sample, device)
+        p_targets = self.create_positive_targets(k_sample, device)
+        n_targets = self.create_negative_targets(k_sample, device)
 
         all_targets = torch.cat([p_targets, n_targets], dim=0)
         all_instances = torch.cat([top_p, top_n], dim=0)
@@ -158,9 +161,10 @@ class CLAM_SB(nn.Module):
         device=h.device
         if len(A.shape) == 1:
             A = A.view(1, -1)
-        top_p_ids = torch.topk(A, self.k_sample)[1][-1]
+        k_sample = min(self.k_sample, A.size(1))
+        top_p_ids = torch.topk(A, k_sample)[1][-1]
         top_p = torch.index_select(h, dim=0, index=top_p_ids)
-        p_targets = self.create_negative_targets(self.k_sample, device)
+        p_targets = self.create_negative_targets(k_sample, device)
         logits = classifier(top_p)
         p_targets = p_targets.to(logits.device)
         p_preds = torch.topk(logits, 1, dim = 1)[1].squeeze(1)

@@ -88,4 +88,5 @@ nohup bash tools/run_smc_cv_grid.sh \
 
 This yields 16 task-scale experiments in total. Each experiment runs all three
 outer folds sequentially. Do not start more than one of these training workers
-per GPU.
+per GPU. The runner skips any experiment that already has its `summary.csv`,
+so rerunning the same worker resumes incomplete task-scale combinations.

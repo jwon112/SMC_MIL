@@ -67,6 +67,11 @@ for scale in "${SCALES[@]}"; do
 
     exp_code="smc_${short_name}_${scale}_uni2_clamsb_nested3"
     log_path="results/logs/${exp_code}.log"
+    result_dir="results/${exp_code}_s1"
+    if [[ -f "$result_dir/summary.csv" ]]; then
+      echo "[SKIP] $exp_code already has summary.csv"
+      continue
+    fi
     echo "[RUN] GPU $GPU | $task | $scale"
 
     CUDA_VISIBLE_DEVICES="$GPU" python main.py \
