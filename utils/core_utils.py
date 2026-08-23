@@ -228,6 +228,14 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
     if rank == 0:
         print('Done!')
 
+    if args.lr_scheduler == 'cosine':
+        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+            optimizer, T_max=args.max_epochs, eta_min=args.min_lr)
+        if rank == 0:
+            print(f'Cosine LR schedule: {args.lr:.2e} -> {args.min_lr:.2e} over {args.max_epochs} epochs')
+    else:
+        scheduler = None
+
     if rank == 0:
         print('\nInit Loaders...', end=' ')
     if world_size > 1:
@@ -266,6 +274,10 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
             stop = False if args.no_val else validate(
                 cur, epoch, model, val_loader, args.n_classes,
                 early_stopping, writer, loss_fn, args.results_dir)
+        if scheduler is not None:
+            scheduler.step()
+            if writer:
+                writer.add_scalar('train/lr', scheduler.get_last_lr()[0], epoch)
         if stop:
             break
 

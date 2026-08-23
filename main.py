@@ -93,6 +93,10 @@ parser.add_argument('--max_epochs', type=int, default=200,
                     help='maximum number of epochs to train (default: 200)')
 parser.add_argument('--lr', type=float, default=1e-4,
                     help='learning rate (default: 0.0001)')
+parser.add_argument('--lr-scheduler', dest='lr_scheduler', choices=['none', 'cosine'], default='none',
+                    help='epoch-level learning-rate schedule (default: none)')
+parser.add_argument('--min-lr', dest='min_lr', type=float, default=0.0,
+                    help='final learning rate for cosine scheduling (default: 0.0)')
 parser.add_argument('--label_frac', type=float, default=1.0,
                     help='fraction of training labels (default: 1.0)')
 parser.add_argument('--reg', type=float, default=1e-5,
