@@ -25,6 +25,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", type=Path, default=None)
     parser.add_argument("--seed", type=int, default=1)
     parser.add_argument("--inner-val-frac", type=float, default=0.20)
+    parser.add_argument("--no-inner-val", action="store_true",
+                        help="Use all outer-training patients for training; write an empty validation column.")
     return parser.parse_args()
 
 
@@ -71,11 +73,14 @@ def main() -> int:
     for fold, (outer_train_idx, outer_test_idx) in enumerate(outer.split(patients["case_id"], patients["label"])):
         outer_train = patients.iloc[outer_train_idx].reset_index(drop=True)
         outer_test = patients.iloc[outer_test_idx].reset_index(drop=True)
-        inner = StratifiedShuffleSplit(n_splits=1, test_size=args.inner_val_frac, random_state=args.seed + fold)
-        inner_train_idx, inner_val_idx = next(inner.split(outer_train["case_id"], outer_train["label"]))
-
-        train_cases = set(outer_train.iloc[inner_train_idx]["case_id"])
-        val_cases = set(outer_train.iloc[inner_val_idx]["case_id"])
+        if args.no_inner_val:
+            train_cases = set(outer_train["case_id"])
+            val_cases: set[str] = set()
+        else:
+            inner = StratifiedShuffleSplit(n_splits=1, test_size=args.inner_val_frac, random_state=args.seed + fold)
+            inner_train_idx, inner_val_idx = next(inner.split(outer_train["case_id"], outer_train["label"]))
+            train_cases = set(outer_train.iloc[inner_train_idx]["case_id"])
+            val_cases = set(outer_train.iloc[inner_val_idx]["case_id"])
         test_cases = set(outer_test["case_id"])
         if train_cases & val_cases or train_cases & test_cases or val_cases & test_cases:
             raise RuntimeError("Patient leakage while creating splits")

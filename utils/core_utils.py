@@ -236,7 +236,9 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
         train_loader = get_split_loader(train_split, training=True, testing=args.testing, weighted=False, train_sampler=train_sampler)
     else:
         train_loader = get_split_loader(train_split, training=True, testing=args.testing, weighted=args.weighted_sample)
-    val_loader = get_split_loader(val_split, testing=args.testing)
+    if args.no_val and args.early_stopping:
+        raise ValueError('--no_val and --early_stopping cannot be used together')
+    val_loader = None if args.no_val else get_split_loader(val_split, testing=args.testing)
     test_loader = get_split_loader(test_split, testing=args.testing)
     if rank == 0:
         print('Done!')
@@ -256,11 +258,13 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
             train_loader.sampler.set_epoch(epoch)
         if args.model_type in ['clam_sb', 'clam_mb'] and not args.no_inst_cluster:
             train_loop_clam(epoch, model, train_loader, optimizer, args.n_classes, args.bag_weight, writer, loss_fn)
-            stop = validate_clam(cur, epoch, model, val_loader, args.n_classes,
+            stop = False if args.no_val else validate_clam(
+                cur, epoch, model, val_loader, args.n_classes,
                 early_stopping, writer, loss_fn, args.results_dir)
         else:
             train_loop(epoch, model, train_loader, optimizer, args.n_classes, writer, loss_fn)
-            stop = validate(cur, epoch, model, val_loader, args.n_classes,
+            stop = False if args.no_val else validate(
+                cur, epoch, model, val_loader, args.n_classes,
                 early_stopping, writer, loss_fn, args.results_dir)
         if stop:
             break
@@ -274,8 +278,11 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
             state = model.module.state_dict() if hasattr(model, 'module') else model.state_dict()
             torch.save(state, ckpt_path)
 
-        _, val_error, val_auc, _ = summary(model, val_loader, args.n_classes, results_dir=args.results_dir, split_name='val')
-        print('Val error: {:.4f}, ROC AUC: {:.4f}'.format(val_error, val_auc))
+        if args.no_val:
+            val_error, val_auc = float('nan'), float('nan')
+        else:
+            _, val_error, val_auc, _ = summary(model, val_loader, args.n_classes, results_dir=args.results_dir, split_name='val')
+            print('Val error: {:.4f}, ROC AUC: {:.4f}'.format(val_error, val_auc))
         results_dict, test_error, test_auc, acc_logger = summary(model, test_loader, args.n_classes, results_dir=args.results_dir, split_name='test')
         print('Test error: {:.4f}, ROC AUC: {:.4f}'.format(test_error, test_auc))
         for i in range(args.n_classes):
@@ -284,8 +291,9 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
             if writer:
                 writer.add_scalar('final/test_class_{}_acc'.format(i), acc, 0)
         if writer:
-            writer.add_scalar('final/val_error', val_error, 0)
-            writer.add_scalar('final/val_auc', val_auc, 0)
+            if not args.no_val:
+                writer.add_scalar('final/val_error', val_error, 0)
+                writer.add_scalar('final/val_auc', val_auc, 0)
             writer.add_scalar('final/test_error', test_error, 0)
             writer.add_scalar('final/test_auc', test_auc, 0)
             writer.close()
