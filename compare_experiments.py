@@ -1,10 +1,21 @@
 import os
 import argparse
+import pickle
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
+from sklearn.metrics import (
+    average_precision_score,
+    balanced_accuracy_score,
+    confusion_matrix,
+    f1_score,
+    matthews_corrcoef,
+    precision_score,
+    recall_score,
+    roc_auc_score,
+)
 
 def collect_summaries(results_dir, experiment_names):
     """지정된 실험들의 summary.csv를 수집하고 통합"""
@@ -50,6 +61,90 @@ def calculate_averages(df):
         avg_df[f'{col}_std'] = std_df[col]
     
     return avg_df
+
+
+def positive_probability(value):
+    probs = np.asarray(value, dtype=float).reshape(-1)
+    if probs.size != 2:
+        raise ValueError(f'Expected binary probabilities, got shape {np.asarray(value).shape}')
+    return float(probs[1])
+
+
+def collect_prediction_rows(results_dir, experiment_names):
+    """Read held-out bag probabilities saved by main.py for binary experiments."""
+    rows = []
+    for experiment in experiment_names:
+        exp_dir = Path(results_dir) / experiment
+        for result_path in sorted(exp_dir.glob('split_*_results.pkl')):
+            fold = int(result_path.stem.split('_')[1])
+            with result_path.open('rb') as handle:
+                split_results = pickle.load(handle)
+            for slide_id, result in split_results.items():
+                rows.append({
+                    'experiment': experiment,
+                    'fold': fold,
+                    'slide_id': str(slide_id),
+                    'label': int(result['label']),
+                    'prob_positive': positive_probability(result['prob']),
+                })
+    return pd.DataFrame(rows)
+
+
+def calculate_binary_metrics(frame, threshold, scope, fold):
+    labels = frame['label'].to_numpy(dtype=int)
+    probs = frame['prob_positive'].to_numpy(dtype=float)
+    predictions = (probs >= threshold).astype(int)
+    tn, fp, fn, tp = confusion_matrix(labels, predictions, labels=[0, 1]).ravel()
+    return {
+        'experiment': frame['experiment'].iloc[0],
+        'scope': scope,
+        'fold': fold,
+        'n_bags': len(frame),
+        'positive_bags': int(labels.sum()),
+        'positive_prevalence': float(labels.mean()),
+        'threshold': threshold,
+        'auroc': roc_auc_score(labels, probs),
+        'average_precision': average_precision_score(labels, probs),
+        'balanced_accuracy': balanced_accuracy_score(labels, predictions),
+        'sensitivity': recall_score(labels, predictions, zero_division=0),
+        'specificity': tn / (tn + fp) if tn + fp else float('nan'),
+        'precision': precision_score(labels, predictions, zero_division=0),
+        'f1': f1_score(labels, predictions, zero_division=0),
+        'mcc': matthews_corrcoef(labels, predictions) if len(np.unique(predictions)) > 1 else 0.0,
+        'tn': int(tn), 'fp': int(fp), 'fn': int(fn), 'tp': int(tp),
+    }
+
+
+def write_imbalance_metrics(results_dir, experiment_names, output_dir, threshold):
+    """Write PR-AUC and threshold metrics when outer-fold predictions exist."""
+    predictions = collect_prediction_rows(results_dir, experiment_names)
+    if predictions.empty:
+        print('No split_*_results.pkl files found; skipping imbalance-aware metrics.')
+        return
+
+    predictions = predictions.sort_values(['experiment', 'fold', 'slide_id'])
+    metric_rows = []
+    for (experiment, fold), frame in predictions.groupby(['experiment', 'fold'], sort=True):
+        metric_rows.append(calculate_binary_metrics(frame, threshold, 'outer_fold', int(fold)))
+    for _, frame in predictions.groupby('experiment', sort=True):
+        metric_rows.append(calculate_binary_metrics(frame, threshold, 'pooled_oof', 'all'))
+    metrics = pd.DataFrame(metric_rows)
+    fold_metrics = metrics.loc[metrics['scope'] == 'outer_fold'].copy()
+    metric_cols = [
+        'auroc', 'average_precision', 'balanced_accuracy', 'sensitivity',
+        'specificity', 'precision', 'f1', 'mcc',
+    ]
+    averages = fold_metrics.groupby('experiment')[metric_cols].agg(['mean', 'std'])
+    averages.columns = ['_'.join(column) for column in averages.columns]
+    averages = averages.reset_index().merge(
+        metrics.loc[metrics['scope'] == 'pooled_oof', ['experiment', 'n_bags', 'positive_bags', 'positive_prevalence'] + metric_cols],
+        on='experiment', how='left', suffixes=('', '_pooled_oof'),
+    )
+
+    predictions.to_csv(os.path.join(output_dir, 'oof_bag_predictions.csv'), index=False)
+    metrics.to_csv(os.path.join(output_dir, 'fold_imbalance_metrics.csv'), index=False)
+    averages.to_csv(os.path.join(output_dir, 'averaged_imbalance_metrics.csv'), index=False)
+    print('Saved imbalance-aware metrics: PR-AUC, balanced accuracy, sensitivity, specificity, F1, MCC.')
 
 def create_barplot(df, metric, output_path, title_suffix=''):
     """막대 그래프 생성 (수치값 표시)"""
@@ -104,8 +199,12 @@ def main():
                         help='Experiment names (subdirectories in results_dir)')
     parser.add_argument('--output_dir', type=str, default=None,
                         help='Output directory for comparison results (default: results_dir/comparison)')
+    parser.add_argument('--threshold', type=float, default=0.5,
+                        help='Fixed positive-class threshold for sensitivity/specificity metrics (default: 0.5)')
     
     args = parser.parse_args()
+    if not 0.0 < args.threshold < 1.0:
+        parser.error('--threshold must be strictly between 0 and 1')
     
     # 출력 디렉토리 설정
     if args.output_dir is None:
@@ -133,6 +232,8 @@ def main():
     avg_csv_path = os.path.join(output_dir, 'averaged_summary.csv')
     avg_df.to_csv(avg_csv_path, index=False)
     print(f"Saved averaged summary: {avg_csv_path}")
+
+    write_imbalance_metrics(args.results_dir, args.experiments, output_dir, args.threshold)
     
     # 시각화
     print("\nGenerating visualizations...")
