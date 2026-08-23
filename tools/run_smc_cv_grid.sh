@@ -6,14 +6,21 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 FEATURE_ROOT="$ROOT_DIR/data/features/uni_v2"
 GPU=""
 WORKER=""
+FULL_TRAIN_CV=false
+MAX_EPOCHS=200
 
 usage() {
   cat <<'EOF'
-Usage: bash tools/run_smc_cv_grid.sh --gpu GPU_ID --worker acr|amr [--feature-root PATH]
+Usage: bash tools/run_smc_cv_grid.sh --gpu GPU_ID --worker acr|amr [--feature-root PATH] [--full-train-cv --max-epochs N]
 
 Workers:
   acr  Runs the two ACR tasks at L0, L1, L2, and L3.
   amr  Runs the AMR and composite rejection tasks at L0, L1, L2, and L3.
+
+Modes:
+  --full-train-cv  Train on all two outer-training folds without validation or
+                   early stopping. Uses cosine LR decay and *_fulltrain splits.
+  --max-epochs N   Training epochs (default: 200; use 100 with --full-train-cv).
 EOF
 }
 
@@ -22,6 +29,8 @@ while [[ $# -gt 0 ]]; do
     --gpu) GPU="$2"; shift 2 ;;
     --worker) WORKER="$2"; shift 2 ;;
     --feature-root) FEATURE_ROOT="$2"; shift 2 ;;
+    --full-train-cv) FULL_TRAIN_CV=true; shift ;;
+    --max-epochs) MAX_EPOCHS="$2"; shift 2 ;;
     -h|--help) usage; exit 0 ;;
     *) echo "Unknown argument: $1" >&2; usage >&2; exit 2 ;;
   esac
@@ -31,6 +40,8 @@ if [[ -z "$GPU" || ( "$WORKER" != "acr" && "$WORKER" != "amr" ) ]]; then
   usage >&2
   exit 2
 fi
+
+[[ "$MAX_EPOCHS" =~ ^[1-9][0-9]*$ ]] || { echo "--max-epochs must be a positive integer" >&2; exit 2; }
 
 case "$WORKER" in
   acr)
@@ -63,9 +74,16 @@ for scale in "${SCALES[@]}"; do
 
   for spec in "${TASK_SPECS[@]}"; do
     IFS='|' read -r task split_dir short_name <<< "$spec"
+    mode_args=(--early_stopping)
+    exp_mode=""
+    if [[ "$FULL_TRAIN_CV" == true ]]; then
+      split_dir="${split_dir}_fulltrain"
+      mode_args=(--no_val --lr-scheduler cosine --min-lr 0)
+      exp_mode="_fulltrain${MAX_EPOCHS}cosine"
+    fi
     [[ -d "splits/$split_dir" ]] || { echo "Missing nested CV splits: splits/$split_dir" >&2; exit 1; }
 
-    exp_code="smc_${short_name}_${scale}_uni2_clamsb_nested3"
+    exp_code="smc_${short_name}_${scale}_uni2_clamsb_nested3${exp_mode}"
     log_path="results/logs/${exp_code}.log"
     result_dir="results/${exp_code}_s1"
     if [[ -f "$result_dir/summary.csv" ]]; then
@@ -82,9 +100,9 @@ for scale in "${SCALES[@]}"; do
       --exp_code "$exp_code" \
       --model_type clam_sb \
       --model_size small \
-      --max_epochs 200 \
+      --max_epochs "$MAX_EPOCHS" \
       --drop_out 0.25 \
-      --early_stopping \
+      "${mode_args[@]}" \
       --lr 2e-4 \
       --reg 1e-5 \
       --bag_loss ce \
