@@ -115,19 +115,17 @@ def calculate_binary_metrics(frame, threshold, scope, fold):
     }
 
 
-def write_imbalance_metrics(results_dir, experiment_names, output_dir, threshold):
-    """Write PR-AUC and threshold metrics when outer-fold predictions exist."""
+def calculate_imbalance_metrics(results_dir, experiment_names, threshold):
+    """Return fold and average metrics to merge into the existing summaries."""
     predictions = collect_prediction_rows(results_dir, experiment_names)
     if predictions.empty:
         print('No split_*_results.pkl files found; skipping imbalance-aware metrics.')
-        return
+        return None, None
 
     predictions = predictions.sort_values(['experiment', 'fold', 'slide_id'])
     metric_rows = []
     for (experiment, fold), frame in predictions.groupby(['experiment', 'fold'], sort=True):
         metric_rows.append(calculate_binary_metrics(frame, threshold, 'outer_fold', int(fold)))
-    for _, frame in predictions.groupby('experiment', sort=True):
-        metric_rows.append(calculate_binary_metrics(frame, threshold, 'pooled_oof', 'all'))
     metrics = pd.DataFrame(metric_rows)
     fold_metrics = metrics.loc[metrics['scope'] == 'outer_fold'].copy()
     metric_cols = [
@@ -136,15 +134,10 @@ def write_imbalance_metrics(results_dir, experiment_names, output_dir, threshold
     ]
     averages = fold_metrics.groupby('experiment')[metric_cols].agg(['mean', 'std'])
     averages.columns = ['_'.join(column) for column in averages.columns]
-    averages = averages.reset_index().merge(
-        metrics.loc[metrics['scope'] == 'pooled_oof', ['experiment', 'n_bags', 'positive_bags', 'positive_prevalence'] + metric_cols],
-        on='experiment', how='left', suffixes=('', '_pooled_oof'),
-    )
-
-    predictions.to_csv(os.path.join(output_dir, 'oof_bag_predictions.csv'), index=False)
-    metrics.to_csv(os.path.join(output_dir, 'fold_imbalance_metrics.csv'), index=False)
-    averages.to_csv(os.path.join(output_dir, 'averaged_imbalance_metrics.csv'), index=False)
-    print('Saved imbalance-aware metrics: PR-AUC, balanced accuracy, sensitivity, specificity, F1, MCC.')
+    averages = averages.reset_index()
+    fold_metrics = fold_metrics.drop(columns=['scope'])
+    print('Added PR-AUC, balanced accuracy, sensitivity, specificity, F1, and MCC to existing summaries.')
+    return fold_metrics, averages
 
 def create_barplot(df, metric, output_path, title_suffix=''):
     """막대 그래프 생성 (수치값 표시)"""
@@ -219,21 +212,30 @@ def main():
     print(f"\nCollecting summaries from {len(args.experiments)} experiments...")
     combined_df = collect_summaries(args.results_dir, args.experiments)
     
+    # 평균 계산
+    print("\nCalculating averages...")
+    avg_df = calculate_averages(combined_df)
+
+    fold_metrics, metric_averages = calculate_imbalance_metrics(
+        args.results_dir, args.experiments, args.threshold)
+    if fold_metrics is not None:
+        combined_df = combined_df.merge(
+            fold_metrics,
+            left_on=['experiment', 'folds'],
+            right_on=['experiment', 'fold'],
+            how='left',
+        ).drop(columns=['fold'])
+        avg_df = avg_df.merge(metric_averages, on='experiment', how='left')
+
     # 통합 CSV 저장
     combined_csv_path = os.path.join(output_dir, 'combined_summary.csv')
     combined_df.to_csv(combined_csv_path, index=False)
     print(f"Saved combined summary: {combined_csv_path}")
-    
-    # 평균 계산
-    print("\nCalculating averages...")
-    avg_df = calculate_averages(combined_df)
-    
+
     # 평균 결과 CSV 저장
     avg_csv_path = os.path.join(output_dir, 'averaged_summary.csv')
     avg_df.to_csv(avg_csv_path, index=False)
     print(f"Saved averaged summary: {avg_csv_path}")
-
-    write_imbalance_metrics(args.results_dir, args.experiments, output_dir, args.threshold)
     
     # 시각화
     print("\nGenerating visualizations...")
