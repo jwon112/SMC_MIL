@@ -151,7 +151,7 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
         save_splits(datasets, ['train', 'val', 'test'], os.path.join(args.results_dir, 'splits_{}.csv'.format(cur)))
         print('Done!')
         print("Training on {} samples".format(len(train_split)))
-        print("Validating on {} samples".format(len(val_split)))
+        print("Validating on {} samples".format(0 if val_split is None else len(val_split)))
         print("Testing on {} samples".format(len(test_split)))
 
     if rank == 0:

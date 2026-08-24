@@ -14,7 +14,10 @@ import h5py
 from utils.utils import generate_split, nth
 
 def save_splits(split_datasets, column_keys, filename, boolean_style=False):
-	splits = [split_datasets[i].slide_data['slide_id'] for i in range(len(split_datasets))]
+	splits = [
+		pd.Series(dtype=object) if dataset is None else dataset.slide_data['slide_id']
+		for dataset in split_datasets
+	]
 	if not boolean_style:
 		df = pd.concat(splits, ignore_index=True, axis=1)
 		df.columns = column_keys
@@ -22,7 +25,7 @@ def save_splits(split_datasets, column_keys, filename, boolean_style=False):
 		df = pd.concat(splits, ignore_index = True, axis=0)
 		index = df.values.tolist()
 		one_hot = np.eye(len(split_datasets)).astype(bool)
-		bool_array = np.repeat(one_hot, [len(dset) for dset in split_datasets], axis=0)
+		bool_array = np.repeat(one_hot, [0 if dset is None else len(dset) for dset in split_datasets], axis=0)
 		df = pd.DataFrame(bool_array, index=index, columns = ['train', 'val', 'test'])
 
 	df.to_csv(filename)
@@ -441,4 +444,3 @@ class Generic_Split(Generic_MIL_Dataset):
 	def __len__(self):
 		return len(self.slide_data)
 		
-
