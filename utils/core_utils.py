@@ -152,7 +152,7 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
         print('Done!')
         print("Training on {} samples".format(len(train_split)))
         print("Validating on {} samples".format(0 if val_split is None else len(val_split)))
-        print("Testing on {} samples".format(len(test_split)))
+        print("Testing on {} samples".format(0 if test_split is None else len(test_split)))
 
     if rank == 0:
         print('\nInit loss function...', end=' ')
