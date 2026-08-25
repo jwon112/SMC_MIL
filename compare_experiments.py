@@ -63,6 +63,16 @@ def calculate_averages(df):
     return avg_df
 
 
+def calculate_cv_averages(df):
+    """Calculate means for standard CV summaries with no separate test split."""
+    columns = ['cv_val_auc', 'cv_val_acc']
+    avg_df = df.groupby('experiment')[columns].mean().reset_index()
+    std_df = df.groupby('experiment')[columns].std().reset_index()
+    for column in columns:
+        avg_df[f'{column}_std'] = std_df[column]
+    return avg_df
+
+
 def positive_probability(value):
     probs = np.asarray(value, dtype=float).reshape(-1)
     if probs.size != 2:
@@ -214,7 +224,17 @@ def main():
     
     # 평균 계산
     print("\nCalculating averages...")
-    avg_df = calculate_averages(combined_df)
+    is_standard_cv = {'cv_val_auc', 'cv_val_acc'}.issubset(combined_df.columns)
+    if is_standard_cv:
+        if {'test_auc', 'test_acc'}.issubset(combined_df.columns):
+            raise ValueError('Do not mix standard CV and test-set summaries in one comparison.')
+        print('Evaluation protocol: standard 3-fold CV validation')
+        avg_df = calculate_cv_averages(combined_df)
+        auc_col, acc_col = 'cv_val_auc', 'cv_val_acc'
+    else:
+        print('Evaluation protocol: held-out test evaluation')
+        avg_df = calculate_averages(combined_df)
+        auc_col, acc_col = 'test_auc', 'test_acc'
 
     fold_metrics, metric_averages = calculate_imbalance_metrics(
         args.results_dir, args.experiments, args.threshold)
@@ -239,17 +259,17 @@ def main():
     
     # 시각화
     print("\nGenerating visualizations...")
-    create_barplot(avg_df, 'test_auc', 
-                  os.path.join(output_dir, 'test_auc_comparison.png'),
-                  ' - Test AUC')
-    create_barplot(avg_df, 'test_acc', 
-                  os.path.join(output_dir, 'test_acc_comparison.png'),
-                  ' - Test Accuracy')
+    create_barplot(avg_df, auc_col,
+                  os.path.join(output_dir, f'{auc_col}_comparison.png'),
+                  f' - {auc_col.replace("_", " ").title()}')
+    create_barplot(avg_df, acc_col,
+                  os.path.join(output_dir, f'{acc_col}_comparison.png'),
+                  f' - {acc_col.replace("_", " ").title()}')
     
     print(f"\n{'='*60}")
     print("Comparison Summary")
     print(f"{'='*60}")
-    print(avg_df[['experiment', 'test_auc', 'test_acc']].to_string(index=False))
+    print(avg_df[['experiment', auc_col, acc_col]].to_string(index=False))
     print(f"{'='*60}")
     print(f"\nAll results saved to: {output_dir}")
 

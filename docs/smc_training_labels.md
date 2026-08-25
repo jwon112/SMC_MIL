@@ -37,31 +37,26 @@ For the AMR task, the rare positive class still has very few patients. Report
 patient-grouped cross-validation results as exploratory and retain each fold's
 class counts alongside AUROC, balanced accuracy, sensitivity, and specificity.
 
-## Patient-grouped nested 3-fold CV
+## Patient-grouped standard 3-fold CV
 
-Use `create_smc_nested_cv_splits.py`, not the older `create_splits_seq.py`,
-for the final experiments. The outer three folds assign every patient to one
-held-out evaluation fold exactly once. Each outer-training set is then split
-into train and an inner validation set for early stopping. There is no separate
-fixed final test cohort.
+Use `create_smc_cv_splits.py`, not the older `create_splits_seq.py`. Each fold
+uses two patient folds for training and the remaining patient fold for
+validation. The validation fold is used for early stopping and is the reported
+cross-validation result; there is no separate test split or inner split.
 
 ```bash
 # Run once per task. The patient-level case_id prevents slide/event leakage.
-python create_smc_nested_cv_splits.py \
-  --task task_smc_acr_binary_0r_vs_1r2r3r \
-  --inner-val-frac 0.20
+python create_smc_cv_splits.py \
+  --task task_smc_acr_binary_0r_vs_1r2r3r
 
-python create_smc_nested_cv_splits.py \
-  --task task_smc_acr_binary_0r1r_vs_2r3r \
-  --inner-val-frac 0.20
+python create_smc_cv_splits.py \
+  --task task_smc_acr_binary_0r1r_vs_2r3r
 
-python create_smc_nested_cv_splits.py \
-  --task task_smc_amr_binary_pamr0_vs_positive \
-  --inner-val-frac 0.20
+python create_smc_cv_splits.py \
+  --task task_smc_amr_binary_pamr0_vs_positive
 
-python create_smc_nested_cv_splits.py \
-  --task task_smc_any_rejection_binary \
-  --inner-val-frac 0.20
+python create_smc_cv_splits.py \
+  --task task_smc_any_rejection_binary
 ```
 
 Point `--data_root_dir` to the selected scale directory containing the feature
@@ -70,7 +65,7 @@ contains both the exp3 and MRXS bags before training.
 
 ## Four-scale Grid
 
-After creating the nested splits, run exactly one training process per GPU.
+After creating the CV splits, run exactly one training process per GPU.
 The two workers partition the four tasks across GPUs and each process runs its
 eight assigned task-scale combinations sequentially.
 
@@ -87,6 +82,6 @@ nohup bash tools/run_smc_cv_grid.sh \
 ```
 
 This yields 16 task-scale experiments in total. Each experiment runs all three
-outer folds sequentially. Do not start more than one of these training workers
+CV folds sequentially. Do not start more than one of these training workers
 per GPU. The runner skips any experiment that already has its `summary.csv`,
 so rerunning the same worker resumes incomplete task-scale combinations.

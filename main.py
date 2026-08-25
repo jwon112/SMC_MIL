@@ -76,8 +76,15 @@ def main(args, rank=0, world_size=1, local_rank=0):
             torch.distributed.barrier()
 
     if rank == 0:
-        final_df = pd.DataFrame({'folds': folds, 'test_auc': all_test_auc,
-            'val_auc': all_val_auc, 'test_acc': all_test_acc, 'val_acc': all_val_acc})
+        if args.cv_validation:
+            final_df = pd.DataFrame({
+                'folds': folds,
+                'cv_val_auc': all_val_auc,
+                'cv_val_acc': all_val_acc,
+            })
+        else:
+            final_df = pd.DataFrame({'folds': folds, 'test_auc': all_test_auc,
+                'val_auc': all_val_auc, 'test_acc': all_test_acc, 'val_acc': all_val_acc})
         if len(folds) != args.k:
             save_name = 'summary_partial_{}_{}.csv'.format(start, end)
         else:
@@ -115,6 +122,8 @@ parser.add_argument('--testing', action='store_true', default=False, help='debug
 parser.add_argument('--early_stopping', action='store_true', default=False, help='enable early stopping')
 parser.add_argument('--no_val', action='store_true', default=False,
                     help='skip validation entirely; train to --max_epochs and evaluate only the held-out fold')
+parser.add_argument('--cv-validation', action='store_true', default=False,
+                    help='standard CV mode: use the held-out validation fold for early stopping and reported CV metrics; no test split is used')
 parser.add_argument('--opt', type=str, choices = ['adam', 'sgd'], default='adam')
 parser.add_argument('--drop_out', type=float, default=0.25, help='dropout')
 parser.add_argument('--bag_loss', type=str, choices=['svm', 'ce'], default='ce',

@@ -246,8 +246,12 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
         train_loader = get_split_loader(train_split, training=True, testing=args.testing, weighted=args.weighted_sample)
     if args.no_val and args.early_stopping:
         raise ValueError('--no_val and --early_stopping cannot be used together')
+    if args.cv_validation and args.no_val:
+        raise ValueError('--cv-validation requires a validation split')
+    if args.cv_validation and val_split is None:
+        raise ValueError('--cv-validation requires a non-empty validation split')
     val_loader = None if args.no_val else get_split_loader(val_split, testing=args.testing)
-    test_loader = get_split_loader(test_split, testing=args.testing)
+    test_loader = None if args.cv_validation else get_split_loader(test_split, testing=args.testing)
     if rank == 0:
         print('Done!')
 
@@ -295,19 +299,26 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
         else:
             _, val_error, val_auc, _ = summary(model, val_loader, args.n_classes, results_dir=args.results_dir, split_name='val')
             print('Val error: {:.4f}, ROC AUC: {:.4f}'.format(val_error, val_auc))
-        results_dict, test_error, test_auc, acc_logger = summary(model, test_loader, args.n_classes, results_dir=args.results_dir, split_name='test')
-        print('Test error: {:.4f}, ROC AUC: {:.4f}'.format(test_error, test_auc))
+        if args.cv_validation:
+            results_dict, test_error, test_auc, acc_logger = summary(
+                model, val_loader, args.n_classes, results_dir=args.results_dir, split_name='cv_val')
+            print('CV validation error: {:.4f}, ROC AUC: {:.4f}'.format(test_error, test_auc))
+        else:
+            results_dict, test_error, test_auc, acc_logger = summary(
+                model, test_loader, args.n_classes, results_dir=args.results_dir, split_name='test')
+            print('Test error: {:.4f}, ROC AUC: {:.4f}'.format(test_error, test_auc))
         for i in range(args.n_classes):
             acc, correct, count = acc_logger.get_summary(i)
             print('class {}: acc {}, correct {}/{}'.format(i, acc, correct, count))
             if writer:
-                writer.add_scalar('final/test_class_{}_acc'.format(i), acc, 0)
+                writer.add_scalar('final/{}_class_{}_acc'.format(
+                    'cv_val' if args.cv_validation else 'test', i), acc, 0)
         if writer:
             if not args.no_val:
                 writer.add_scalar('final/val_error', val_error, 0)
                 writer.add_scalar('final/val_auc', val_auc, 0)
-            writer.add_scalar('final/test_error', test_error, 0)
-            writer.add_scalar('final/test_auc', test_auc, 0)
+            writer.add_scalar('final/{}_error'.format('cv_val' if args.cv_validation else 'test'), test_error, 0)
+            writer.add_scalar('final/{}_auc'.format('cv_val' if args.cv_validation else 'test'), test_auc, 0)
             writer.close()
         return results_dict, test_auc, val_auc, 1 - test_error, 1 - val_error
 

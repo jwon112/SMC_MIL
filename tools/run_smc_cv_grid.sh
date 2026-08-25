@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run one sequential half of the SMC nested-CV grid on one physical GPU.
+# Run one sequential half of the SMC patient-grouped 3-fold CV grid on one physical GPU.
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -46,14 +46,14 @@ fi
 case "$WORKER" in
   acr)
     TASK_SPECS=(
-      "task_smc_acr_binary_0r_vs_1r2r3r|smc_cv_acr_0r_vs_1r2r3r|acr_0r_vs_rest"
-      "task_smc_acr_binary_0r1r_vs_2r3r|smc_cv_acr_0r1r_vs_2r3r|acr_high_grade"
+      "task_smc_acr_binary_0r_vs_1r2r3r|smc_cv_acr_0r_vs_1r2r3r_standard3|acr_0r_vs_rest"
+      "task_smc_acr_binary_0r1r_vs_2r3r|smc_cv_acr_0r1r_vs_2r3r_standard3|acr_high_grade"
     )
     ;;
   amr)
     TASK_SPECS=(
-      "task_smc_amr_binary_pamr0_vs_positive|smc_cv_amr_pamr0_vs_positive|amr_positive"
-      "task_smc_any_rejection_binary|smc_cv_any_rejection|any_rejection"
+      "task_smc_amr_binary_pamr0_vs_positive|smc_cv_amr_pamr0_vs_positive_standard3|amr_positive"
+      "task_smc_any_rejection_binary|smc_cv_any_rejection_standard3|any_rejection"
     )
     ;;
 esac
@@ -74,16 +74,16 @@ for scale in "${SCALES[@]}"; do
 
   for spec in "${TASK_SPECS[@]}"; do
     IFS='|' read -r task split_dir short_name <<< "$spec"
-    mode_args=(--early_stopping)
-    exp_mode=""
+    mode_args=(--early_stopping --cv-validation)
+    exp_mode="_cv3val"
     if [[ "$FULL_TRAIN_CV" == true ]]; then
-      split_dir="${split_dir}_fulltrain"
+      split_dir="${split_dir%_standard3}_fulltrain"
       mode_args=(--no_val --lr-scheduler cosine --min-lr 0)
       exp_mode="_fulltrain${MAX_EPOCHS}cosine"
     fi
-    [[ -d "splits/$split_dir" ]] || { echo "Missing nested CV splits: splits/$split_dir" >&2; exit 1; }
+    [[ -d "splits/$split_dir" ]] || { echo "Missing CV splits: splits/$split_dir" >&2; exit 1; }
 
-    exp_code="smc_${short_name}_${scale}_uni2_clamsb_nested3${exp_mode}"
+    exp_code="smc_${short_name}_${scale}_uni2_clamsb${exp_mode}"
     log_path="results/logs/${exp_code}.log"
     result_dir="results/${exp_code}_s1"
     if [[ -f "$result_dir/summary.csv" ]]; then
