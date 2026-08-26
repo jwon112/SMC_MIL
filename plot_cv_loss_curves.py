@@ -38,9 +38,12 @@ class ExperimentCurve:
         return f"{self.task}__{self.scale}"
 
 
-def parse_log(path: Path) -> list[ExperimentCurve]:
+def parse_log(path: Path, fallback_name: str | None = None) -> list[ExperimentCurve]:
     experiments: list[ExperimentCurve] = []
     current: ExperimentCurve | None = None
+    if fallback_name is not None:
+        current = ExperimentCurve(fallback_name, "")
+        experiments.append(current)
     current_fold: int | None = None
     latest_epoch: int | None = None
 
@@ -124,17 +127,29 @@ def plot_experiment(experiment: ExperimentCurve, output_dir: Path) -> dict[str, 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--log", type=Path, action="append", required=True,
+    parser.add_argument("--log", type=Path, action="append", default=[],
                         help="Worker log to parse; repeat for multiple logs.")
+    parser.add_argument("--log-dir", type=Path, default=None,
+                        help="Parse per-experiment smc_*_cv3val.log files in this directory.")
     parser.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args()
 
+    if not args.log and args.log_dir is None:
+        parser.error("provide --log or --log-dir")
     args.output_dir.mkdir(parents=True, exist_ok=True)
+    log_paths = list(args.log)
+    if args.log_dir is not None:
+        if not args.log_dir.is_dir():
+            raise NotADirectoryError(f"Log directory not found: {args.log_dir}")
+        log_paths.extend(sorted(args.log_dir.glob("smc_*_cv3val.log")))
+    if not log_paths:
+        raise FileNotFoundError("No matching CV logs found")
     curves: dict[str, ExperimentCurve] = {}
-    for log_path in args.log:
+    for log_path in log_paths:
         if not log_path.is_file():
             raise FileNotFoundError(f"Log not found: {log_path}")
-        for experiment in parse_log(log_path):
+        fallback_name = log_path.stem if log_path.name.startswith("smc_") else None
+        for experiment in parse_log(log_path, fallback_name=fallback_name):
             if experiment.key in curves:
                 raise ValueError(f"Duplicate experiment in logs: {experiment.key}")
             curves[experiment.key] = experiment
