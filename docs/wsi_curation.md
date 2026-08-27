@@ -62,6 +62,12 @@ quality_reviewer
 quality_reviewed_at
 ```
 
+Use `usable` when the WSI is technically sound. Use `usable_low_quality` when
+it remains interpretable but should be excluded from a strict quality-clean
+ablation. The curated manifest preserves both: `include_quality_usable` keeps
+both usable states, while `include_quality_clean` keeps only `usable` and
+unreviewed `usable_auto` slides.
+
 The default screening tail is 5% per metric, not a diagnostic cutoff. It is
 intentionally broad because faint IHC and grid-like scan degradation can be
 missed by a very small tail. The queue records its reason in

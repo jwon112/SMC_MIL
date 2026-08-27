@@ -67,7 +67,8 @@ def apply_quality(frame: pd.DataFrame, decisions_path: Path | None) -> pd.DataFr
     frame.loc[frame["known_quality_exclusion"].astype(str).str.lower().eq("true"), "quality_status_final"] = "exclude"
     reviewed = frame["quality_manual_status"].isin(QUALITY_STATUSES)
     frame.loc[reviewed, "quality_status_final"] = frame.loc[reviewed, "quality_manual_status"]
-    frame["include_quality_clean"] = ~frame["quality_status_final"].eq("exclude")
+    frame["include_quality_usable"] = ~frame["quality_status_final"].eq("exclude")
+    frame["include_quality_clean"] = frame["quality_status_final"].isin({"usable_auto", "usable"})
     return frame
 
 
@@ -199,7 +200,7 @@ def main() -> int:
     args.output_dir.mkdir(parents=True, exist_ok=True)
     frame.to_csv(args.output_dir / "slide_curation_manifest_curated.csv", index=False)
 
-    exclusions = frame[~frame.include_quality_clean].copy()
+    exclusions = frame[~frame.include_quality_usable].copy()
     exclusions["reason"] = exclusions["quality_manual_reason"].where(
         exclusions["quality_manual_reason"].ne(""), "WSI quality curation exclusion"
     )
@@ -215,14 +216,15 @@ def main() -> int:
     )
     summary.to_csv(args.output_dir / "curation_summary.csv", index=False)
 
-    unresolved_stain = frame[frame.include_quality_clean & frame.stain_group.eq("unknown")].copy()
+    unresolved_stain = frame[frame.include_quality_usable & frame.stain_group.eq("unknown")].copy()
     unresolved_stain.to_csv(args.output_dir / "stain_manual_review_queue.csv", index=False)
     if args.export_unresolved_stain_previews:
         export_thumbnail_previews(unresolved_stain, args.output_dir)
 
     queued_quality_pending = quality_review_required(frame) & ~frame["quality_manual_status"].isin(QUALITY_STATUSES)
     print(f"Slides: {len(frame)}")
-    print(f"Quality-clean slides: {int(frame.include_quality_clean.sum())}")
+    print(f"Quality-usable slides: {int(frame.include_quality_usable.sum())}")
+    print(f"Strict quality-clean slides: {int(frame.include_quality_clean.sum())}")
     print(f"H&E-only slides: {int(frame.include_he_only.sum())}")
     print(f"Non-H&E-only slides: {int(frame.include_non_he_only.sum())}")
     print(f"Unknown stain group: {int(frame.stain_group.eq('unknown').sum())}")
