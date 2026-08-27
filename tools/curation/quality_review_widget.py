@@ -95,6 +95,7 @@ class QualityReviewEditor:
             f"<b>Review trigger:</b> {flags}<br>"
             f"<b>Mask source:</b> {row.get('tissue_pixel_source', '')} &nbsp; "
             f"<b>Tissue ratio:</b> {row.get('tissue_ratio', '')} &nbsp; "
+            f"<b>L0 patches:</b> {row.get('patch_count_l0', '')} ({row.get('tissue_adequacy_auto', '')}) &nbsp; "
             f"<b>Sharpness:</b> {row.get('sharpness_score', '')} &nbsp; "
             f"<b>Grid score:</b> {row.get('grid_periodicity_score', '')}"
         )

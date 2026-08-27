@@ -26,7 +26,8 @@ python tools/curation/build_wsi_curation_manifest.py \
 Generated files:
 
 - `slide_curation_manifest.csv`: every input WSI with thumbnail/mask metrics,
-  pathology-ID match status, automatic stain candidates, and blank manual fields.
+  pathology-ID match status, automatic stain candidates, L0 patch counts, and
+  blank manual fields.
 - `quality_review_queue.csv`: missing/unreadable thumbnails, broad image-metric
   screening candidates, plus a random audit sample. Only this queue needs per-slide
   quality review.
@@ -79,6 +80,13 @@ Do not use pale staining alone as an exclusion criterion. Reserve `exclude` for
 slides that are technically unusable: blank/nearly blank scans, severe scan or
 color corruption, grid/tiling degradation that prevents tissue interpretation,
 or insufficient focus/resolution to inspect tissue.
+
+Tissue adequacy is calculated automatically from the coordinate file that will
+be used for L0 training: `patch_coords_manual.h5` when a manual mask exists,
+otherwise `patch_coords.h5`. Default categories are `adequate` for at least
+512 patches, `limited` for 128-511, and `insufficient` below 128. These are
+study-analysis strata, not automatic exclusions; keep them independent from
+the visual image-quality decision.
 
 After completing the first quality pass, quantify whether the screening criteria
 actually enriched for exclusions before changing the tail fraction again:

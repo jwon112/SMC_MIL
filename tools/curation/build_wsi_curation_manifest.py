@@ -17,6 +17,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import h5py
 from PIL import Image, ImageDraw
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
@@ -64,6 +65,10 @@ def parse_args() -> argparse.Namespace:
                         help="Random unflagged slides exported for quality-control audit (default: 100).")
     parser.add_argument("--stain-clusters", type=int, default=24,
                         help="Number of thumbnail-color clusters for grouped stain review (default: 24).")
+    parser.add_argument("--adequate-min-l0-patches", type=int, default=512,
+                        help="L0 patch count at or above which tissue adequacy is marked adequate (default: 512).")
+    parser.add_argument("--limited-min-l0-patches", type=int, default=128,
+                        help="L0 patch count at or above which tissue adequacy is marked limited, not insufficient (default: 128).")
     parser.add_argument("--seed", type=int, default=1)
     parser.add_argument("--export-quality-previews", action="store_true",
                         help="Export resized thumbnail PNGs for the quality review queue.")
@@ -163,6 +168,47 @@ def periodicity_score(signal: np.ndarray) -> float:
     if band.size == 0:
         return np.nan
     return float(band.max() / (np.median(band) + 1e-12))
+
+
+def patch_metrics(slide_dir: Path, adequate_min: int, limited_min: int) -> dict[str, object]:
+    if limited_min < 1 or adequate_min < limited_min:
+        raise ValueError("Patch adequacy thresholds must satisfy adequate >= limited >= 1")
+    atlaspatch_dir = slide_dir / "atlaspatch"
+    manual_mask = atlaspatch_dir / "tissue_mask_manual.png"
+    manual_coords = atlaspatch_dir / "patch_coords_manual.h5"
+    original_coords = atlaspatch_dir / "patch_coords.h5"
+    if manual_mask.is_file() and manual_coords.is_file():
+        coords_path = manual_coords
+        coords_source = "manual"
+    elif original_coords.is_file():
+        coords_path = original_coords
+        coords_source = "original"
+    else:
+        return {
+            "patch_coords_path": "",
+            "patch_coords_source": "missing",
+            "patch_count_l0": np.nan,
+            "tissue_adequacy_auto": "unknown",
+        }
+    try:
+        with h5py.File(coords_path, "r") as handle:
+            if "coords" not in handle:
+                raise KeyError("coords")
+            count = int(handle["coords"].shape[0])
+    except Exception as exc:
+        return {
+            "patch_coords_path": str(coords_path),
+            "patch_coords_source": f"unreadable:{type(exc).__name__}",
+            "patch_count_l0": np.nan,
+            "tissue_adequacy_auto": "unknown",
+        }
+    adequacy = "adequate" if count >= adequate_min else "limited" if count >= limited_min else "insufficient"
+    return {
+        "patch_coords_path": str(coords_path),
+        "patch_coords_source": coords_source,
+        "patch_count_l0": count,
+        "tissue_adequacy_auto": adequacy,
+    }
 
 
 def image_metrics(slide_dir: Path) -> dict[str, object]:
@@ -462,6 +508,7 @@ def main() -> int:
             "stain_note": stain_note,
             "needs_stain_signature_review": stain_group == "unknown" or stain_confidence != "high",
             **image_metrics(root / rel_path),
+            **patch_metrics(root / rel_path, args.adequate_min_l0_patches, args.limited_min_l0_patches),
         }
         records.append(record)
 
@@ -532,6 +579,7 @@ def main() -> int:
     print(f"Gold pathology-ID matched: {int(frame.gold_pathology_id_match.sum())}")
     print(f"Known quality exclusions: {int(frame.known_quality_exclusion.sum())}")
     print(f"Quality review queue: {len(quality_queue)}")
+    print(f"L0 tissue adequacy: {dict(sorted(Counter(frame.tissue_adequacy_auto).items()))}")
     print(f"Stain signatures needing mapping: {int(signatures.needs_review.sum())}")
     print(f"Stain color clusters: {int(frame.stain_color_cluster.nunique())}")
     print(f"Manifest: {args.output_dir / 'slide_curation_manifest.csv'}")
