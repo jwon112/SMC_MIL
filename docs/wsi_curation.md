@@ -119,6 +119,12 @@ from both restricted arms but retain them in the all-stains baseline.
 metadata or explicit filename labels, so it only fills currently `unknown` slides
 and never overrides a signature-level mapping.
 
+For per-slide review of the unresolved subset, open
+`tools/curation/stain_review_notebook.ipynb` in JupyterLab. Its four buttons
+write decisions immediately to `$CURATION_ROOT/stain_slide_review.csv`; it also
+shows the current slide's color-cluster montage for context. The notebook uses
+only the original `unknown` rows, leaving high-confidence filename rules intact.
+
 ## 3. Produce the curated manifest
 
 ```bash
@@ -152,7 +158,7 @@ python tools/curation/apply_wsi_curation_decisions.py \
   --quality-decisions "$CURATION_ROOT/quality_review_queue.csv" \
   --stain-map "$CURATION_ROOT/stain_signature_review.csv" \
   --stain-cluster-map "$CURATION_ROOT/stain_color_cluster_review.csv" \
-  --stain-decisions "$CURATION_ROOT/curated/stain_manual_review_queue.csv" \
+  --stain-decisions "$CURATION_ROOT/stain_slide_review.csv" \
   --require-quality-review-complete \
   --output-dir "$CURATION_ROOT/curated_final"
 ```
