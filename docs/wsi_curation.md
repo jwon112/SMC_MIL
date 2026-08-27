@@ -44,7 +44,16 @@ they are mapped from metadata, LIS information, or visual review.
 
 ## 2. Record manual decisions
 
-In `quality_review_queue.csv`, fill these columns only for reviewed rows:
+Open `tools/curation/quality_review_notebook.ipynb` in JupyterLab and run its
+single code cell. It shows one thumbnail at a time with its automatic review
+trigger. `Usable`, `Usable low quality`, and `Exclude` save immediately to
+`quality_review_queue.csv`; `Previous`, `Skip`, and `Clear decision` allow
+navigation and correction without editing CSV rows directly.
+
+The notebook's `CURATION_ROOT` must match the directory used to build the
+manifest. Enter a reviewer name in the small text field before deciding slides.
+
+The saved fields are:
 
 ```text
 quality_manual_status: usable | usable_low_quality | exclude
