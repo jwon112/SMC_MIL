@@ -58,8 +58,8 @@ class StainReviewEditor:
 
         self.title = widgets.HTML()
         self.metadata = widgets.HTML()
-        self.image = widgets.Image(format="jpeg", layout=widgets.Layout(width="70%", height="760px", object_fit="contain"))
-        self.cluster_image = widgets.Image(format="jpeg", layout=widgets.Layout(width="30%", height="300px", object_fit="contain"))
+        self.image = widgets.Image(format="jpeg", layout=widgets.Layout(width="100%", height="760px", object_fit="contain"))
+        self.cluster_image = widgets.Image(format="jpeg", layout=widgets.Layout(width="100%", height="760px", object_fit="contain"))
         self.image_status = widgets.HTML()
         self.stain_raw = widgets.Text(placeholder="Optional detail, e.g. Masson trichrome")
         self.confidence = widgets.Dropdown(options=[("High", "high"), ("Medium", "medium"), ("Low", "low")], value="medium")
@@ -187,8 +187,8 @@ class StainReviewEditor:
             self.special_button, self.unknown_button, self.clear_button,
         ], layout=widgets.Layout(flex_flow="row wrap", gap="8px"))
         detail = widgets.HBox([
-            widgets.VBox([widgets.HTML("<b>Current slide</b>"), self.image]),
-            widgets.VBox([widgets.HTML("<b>Color-cluster examples</b>"), self.cluster_image]),
+            widgets.VBox([widgets.HTML("<b>Current slide</b>"), self.image], layout=widgets.Layout(width="65%")),
+            widgets.VBox([widgets.HTML("<b>Color-cluster examples</b>"), self.cluster_image], layout=widgets.Layout(width="35%")),
         ], layout=widgets.Layout(width="100%"))
         display(widgets.VBox([
             self.title,
