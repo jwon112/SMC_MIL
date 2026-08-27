@@ -58,10 +58,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--stain-map", type=Path, default=None,
                         help="Optional reviewed stain_signature map produced by this script.")
     parser.add_argument("--output-dir", type=Path, required=True)
-    parser.add_argument("--quality-tail-frac", type=float, default=0.02,
-                        help="Tail fraction per quality metric to flag for manual review (default: 0.02).")
-    parser.add_argument("--audit-unflagged-count", type=int, default=50,
-                        help="Random unflagged slides exported for quality-control audit (default: 50).")
+    parser.add_argument("--quality-tail-frac", type=float, default=0.05,
+                        help="Screening tail fraction per quality metric to flag for manual review (default: 0.05).")
+    parser.add_argument("--audit-unflagged-count", type=int, default=100,
+                        help="Random unflagged slides exported for quality-control audit (default: 100).")
     parser.add_argument("--stain-clusters", type=int, default=24,
                         help="Number of thumbnail-color clusters for grouped stain review (default: 24).")
     parser.add_argument("--seed", type=int, default=1)
@@ -151,6 +151,20 @@ def load_stain_map(path: Path | None) -> dict[str, dict[str, str]]:
     return mapped
 
 
+def periodicity_score(signal: np.ndarray) -> float:
+    """Return a scale-free score for strong regular repetition in a 1D edge profile."""
+    if signal.size < 32:
+        return np.nan
+    centered = signal.astype(np.float64) - np.median(signal)
+    spectrum = np.abs(np.fft.rfft(centered * np.hanning(centered.size))) ** 2
+    lower = 3
+    upper = max(lower + 1, spectrum.size // 3)
+    band = spectrum[lower:upper]
+    if band.size == 0:
+        return np.nan
+    return float(band.max() / (np.median(band) + 1e-12))
+
+
 def image_metrics(slide_dir: Path) -> dict[str, object]:
     thumbnail_path = slide_dir / "atlaspatch" / "thumbnail.png"
     base = {
@@ -165,7 +179,15 @@ def image_metrics(slide_dir: Path) -> dict[str, object]:
         "dark_fraction": np.nan,
         "sharpness_score": np.nan,
         "tissue_mask_path": "",
+        "tissue_pixel_source": "",
         "tissue_ratio": np.nan,
+        "tissue_luminance_mean": np.nan,
+        "tissue_luminance_std": np.nan,
+        "tissue_saturation_mean": np.nan,
+        "tissue_saturation_std": np.nan,
+        "grid_periodicity_x": np.nan,
+        "grid_periodicity_y": np.nan,
+        "grid_periodicity_score": np.nan,
         **{column: np.nan for column in COLOR_FEATURE_COLUMNS},
     }
     if not thumbnail_path.is_file():
@@ -194,9 +216,49 @@ def image_metrics(slide_dir: Path) -> dict[str, object]:
         "dark_fraction": float((luminance <= 15).mean()),
         "sharpness_score": float(gradients.var()) if gradients.size else 0.0,
     })
-    tissue_like = luminance < 245
+    tissue_like: np.ndarray | None = None
+    for filename in ("tissue_mask_manual.png", "tissue_mask.png"):
+        mask_path = slide_dir / "atlaspatch" / filename
+        if not mask_path.is_file():
+            continue
+        try:
+            with Image.open(mask_path) as source:
+                mask_image = source.convert("L")
+                if mask_image.size != image.size:
+                    mask_image = mask_image.resize(image.size, Image.Resampling.NEAREST)
+                mask = np.asarray(mask_image, dtype=np.uint8)
+            base["tissue_mask_path"] = str(mask_path)
+            base["tissue_ratio"] = float((mask > 0).mean())
+            base["tissue_pixel_source"] = "manual_mask" if filename.endswith("manual.png") else "automatic_mask"
+            tissue_like = mask > 0
+            break
+        except Exception:
+            continue
+    if tissue_like is None or tissue_like.sum() < 64:
+        tissue_like = luminance < 245
+        base["tissue_pixel_source"] = "nonwhite_thumbnail"
     if tissue_like.sum() < 64:
         tissue_like = np.ones(luminance.shape, dtype=bool)
+        base["tissue_pixel_source"] = "whole_thumbnail_fallback"
+
+    tissue_luminance = luminance[tissue_like]
+    tissue_saturation = saturation[tissue_like]
+    base.update({
+        "tissue_luminance_mean": float(tissue_luminance.mean()),
+        "tissue_luminance_std": float(tissue_luminance.std()),
+        "tissue_saturation_mean": float(tissue_saturation.mean()),
+        "tissue_saturation_std": float(tissue_saturation.std()),
+    })
+    horizontal_edges = np.abs(np.diff(luminance, axis=1)).mean(axis=0)
+    vertical_edges = np.abs(np.diff(luminance, axis=0)).mean(axis=1)
+    grid_x = periodicity_score(horizontal_edges)
+    grid_y = periodicity_score(vertical_edges)
+    base.update({
+        "grid_periodicity_x": grid_x,
+        "grid_periodicity_y": grid_y,
+        "grid_periodicity_score": float(np.nanmax([grid_x, grid_y])),
+    })
+
     values = (array[tissue_like] / 255.0).reshape(-1, 3)
     red, green, blue = values[:, 0], values[:, 1], values[:, 2]
     maximum = values.max(axis=1)
@@ -221,18 +283,6 @@ def image_metrics(slide_dir: Path) -> dict[str, object]:
     ]
     base.update(dict(zip(COLOR_FEATURE_COLUMNS, color_values, strict=True)))
 
-    for filename in ("tissue_mask_manual.png", "tissue_mask.png"):
-        mask_path = slide_dir / "atlaspatch" / filename
-        if not mask_path.is_file():
-            continue
-        try:
-            with Image.open(mask_path) as source:
-                mask = np.asarray(source.convert("L"), dtype=np.uint8)
-            base["tissue_mask_path"] = str(mask_path)
-            base["tissue_ratio"] = float((mask > 0).mean())
-            break
-        except Exception:
-            continue
     return base
 
 
@@ -240,7 +290,14 @@ def add_quality_triage(frame: pd.DataFrame, tail_fraction: float, audit_count: i
     if not 0.0 < tail_fraction < 0.25:
         raise ValueError("--quality-tail-frac must be between 0 and 0.25")
     frame = frame.copy()
-    metric_columns = ["tissue_ratio", "sharpness_score", "luminance_mean", "saturation_mean"]
+    metric_columns = [
+        "tissue_ratio",
+        "sharpness_score",
+        "tissue_luminance_mean",
+        "tissue_luminance_std",
+        "tissue_saturation_mean",
+        "grid_periodicity_score",
+    ]
     valid = frame[frame.thumbnail_state.eq("ok")]
     quantiles = {
         column: valid[column].dropna().quantile([tail_fraction, 1.0 - tail_fraction]).to_dict()
@@ -257,12 +314,22 @@ def add_quality_triage(frame: pd.DataFrame, tail_fraction: float, audit_count: i
             if pd.notna(row.sharpness_score) and row.sharpness_score <= quantiles["sharpness_score"][tail_fraction]:
                 row_flags.append("low_sharpness_tail")
             if (
-                pd.notna(row.luminance_mean)
-                and pd.notna(row.saturation_mean)
-                and row.luminance_mean >= quantiles["luminance_mean"][1.0 - tail_fraction]
-                and row.saturation_mean <= quantiles["saturation_mean"][tail_fraction]
+                pd.notna(row.tissue_luminance_mean)
+                and pd.notna(row.tissue_saturation_mean)
+                and row.tissue_luminance_mean >= quantiles["tissue_luminance_mean"][1.0 - tail_fraction]
+                and row.tissue_saturation_mean <= quantiles["tissue_saturation_mean"][tail_fraction]
             ):
-                row_flags.append("bright_desaturated_tail")
+                row_flags.append("pale_desaturated_tissue_tail")
+            if (
+                pd.notna(row.tissue_luminance_std)
+                and row.tissue_luminance_std <= quantiles["tissue_luminance_std"][tail_fraction]
+            ):
+                row_flags.append("low_tissue_contrast_tail")
+            if (
+                pd.notna(row.grid_periodicity_score)
+                and row.grid_periodicity_score >= quantiles["grid_periodicity_score"][1.0 - tail_fraction]
+            ):
+                row_flags.append("possible_grid_artifact_tail")
         flags.append(";".join(row_flags))
     frame["quality_auto_flags"] = flags
     frame["quality_auto_priority"] = np.where(

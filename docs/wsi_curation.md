@@ -27,8 +27,9 @@ Generated files:
 
 - `slide_curation_manifest.csv`: every input WSI with thumbnail/mask metrics,
   pathology-ID match status, automatic stain candidates, and blank manual fields.
-- `quality_review_queue.csv`: missing/unreadable thumbnails, image-metric
-  outliers, plus a random audit sample. Only this queue needs per-slide quality review.
+- `quality_review_queue.csv`: missing/unreadable thumbnails, broad image-metric
+  screening candidates, plus a random audit sample. Only this queue needs per-slide
+  quality review.
 - `quality_review_images/`: flat thumbnail previews corresponding to the queue.
 - `stain_signature_review.csv`: stain suffix groups with slide counts and example
   paths. Map repeated signatures here rather than reviewing every WSI separately.
@@ -52,9 +53,32 @@ quality_reviewer
 quality_reviewed_at
 ```
 
+The default screening tail is 5% per metric, not a diagnostic cutoff. It is
+intentionally broad because faint IHC and grid-like scan degradation can be
+missed by a very small tail. The queue records its reason in
+`quality_auto_flags`: low tissue area, low sharpness, pale/desaturated tissue,
+low tissue contrast, or possible regular grid artifact. The latter is a
+frequency-based screening signal, not a definitive artifact detector.
+
 Do not use pale staining alone as an exclusion criterion. Reserve `exclude` for
 slides that are technically unusable: blank/nearly blank scans, severe scan or
-color corruption, or insufficient focus/resolution to inspect tissue.
+color corruption, grid/tiling degradation that prevents tissue interpretation,
+or insufficient focus/resolution to inspect tissue.
+
+After completing the first quality pass, quantify whether the screening criteria
+actually enriched for exclusions before changing the tail fraction again:
+
+```bash
+python tools/curation/summarize_quality_review.py \
+  --manifest "$CURATION_ROOT/slide_curation_manifest.csv" \
+  --quality-decisions "$CURATION_ROOT/quality_review_queue.csv" \
+  --output-dir "$CURATION_ROOT/quality_review_report"
+```
+
+This reports exclusion rates for each automatic review trigger and for random
+audit slides. An exclusion found in the random-audit group is evidence that the
+screening rules missed that failure mode; it is a reason to broaden or revise
+the queue before freezing the cohort.
 
 In `stain_signature_review.csv`, fill:
 
