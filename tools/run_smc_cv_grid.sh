@@ -8,10 +8,11 @@ GPU=""
 WORKER=""
 FULL_TRAIN_CV=false
 MAX_EPOCHS=200
+WEAK_TRAIN_ROOT=""
 
 usage() {
   cat <<'EOF'
-Usage: bash tools/run_smc_cv_grid.sh --gpu GPU_ID --worker acr|amr [--feature-root PATH] [--full-train-cv --max-epochs N]
+Usage: bash tools/run_smc_cv_grid.sh --gpu GPU_ID --worker acr|amr [--feature-root PATH] [--weak-train-root PATH] [--full-train-cv --max-epochs N]
 
 Workers:
   acr  Runs the two ACR tasks at L0, L1, L2, and L3.
@@ -21,6 +22,9 @@ Modes:
   --full-train-cv  Train on all two outer-training folds without validation or
                    early stopping. Uses cosine LR decay and *_fulltrain splits.
   --max-epochs N   Training epochs (default: 200; use 100 with --full-train-cv).
+  --weak-train-root PATH
+                   Root created by build_smc_weak_unique_training.py. Keeps each
+                   standard CV validation fold unchanged and augments train only.
 EOF
 }
 
@@ -29,6 +33,7 @@ while [[ $# -gt 0 ]]; do
     --gpu) GPU="$2"; shift 2 ;;
     --worker) WORKER="$2"; shift 2 ;;
     --feature-root) FEATURE_ROOT="$2"; shift 2 ;;
+    --weak-train-root) WEAK_TRAIN_ROOT="$2"; shift 2 ;;
     --full-train-cv) FULL_TRAIN_CV=true; shift ;;
     --max-epochs) MAX_EPOCHS="$2"; shift 2 ;;
     -h|--help) usage; exit 0 ;;
@@ -81,7 +86,23 @@ for scale in "${SCALES[@]}"; do
       mode_args=(--no_val --lr-scheduler cosine --min-lr 0)
       exp_mode="_fulltrain${MAX_EPOCHS}cosine"
     fi
-    [[ -d "splits/$split_dir" ]] || { echo "Missing CV splits: splits/$split_dir" >&2; exit 1; }
+
+    csv_args=()
+    if [[ -n "$WEAK_TRAIN_ROOT" ]]; then
+      [[ "$FULL_TRAIN_CV" == false ]] || { echo "--weak-train-root cannot be combined with --full-train-cv" >&2; exit 2; }
+      split_dir="${split_dir}_weak_unique_0to3"
+      weak_csv="$WEAK_TRAIN_ROOT/dataset_csv/${task}_weak_unique_0to3.csv"
+      [[ -f "$weak_csv" ]] || { echo "Missing weak-label CSV: $weak_csv" >&2; exit 1; }
+      csv_args=(--csv_path "$weak_csv")
+      exp_mode="${exp_mode}_weakunique3"
+    fi
+    if [[ -n "$WEAK_TRAIN_ROOT" ]]; then
+      split_path="$WEAK_TRAIN_ROOT/splits/$split_dir"
+      split_dir="$split_path"
+    else
+      split_path="splits/$split_dir"
+    fi
+    [[ -d "$split_path" ]] || { echo "Missing CV splits: $split_path" >&2; exit 1; }
 
     exp_code="smc_${short_name}_${scale}_uni2_clamsb${exp_mode}"
     log_path="results/logs/${exp_code}.log"
@@ -96,6 +117,7 @@ for scale in "${SCALES[@]}"; do
       --data_root_dir "$feature_dir" \
       --task "$task" \
       --split_dir "$split_dir" \
+      "${csv_args[@]}" \
       --k 3 \
       --exp_code "$exp_code" \
       --model_type clam_sb \
