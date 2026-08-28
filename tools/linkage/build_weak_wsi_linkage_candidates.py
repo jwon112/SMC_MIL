@@ -35,8 +35,8 @@ def parse_args() -> argparse.Namespace:
                         help="Optional symmetric widening after empirical calibration.")
     parser.add_argument("--scan-cluster-gap-days", type=int, default=14,
                         help="Split one top-level WSI folder when consecutive scan dates differ by more than this many days.")
-    parser.add_argument("--include-gold-ehr-candidates", action="store_true",
-                        help="Allow EHR biopsy events already anchored by an exact gold pathology-ID WSI match to remain weak-linkage candidates.")
+    parser.add_argument("--exclude-gold-ehr-candidates", action="store_true",
+                        help="Exclude EHR biopsy events already anchored by an exact gold pathology-ID WSI match. Disabled by default so possible additional slides from an existing gold event remain visible.")
     return parser.parse_args()
 
 
@@ -235,21 +235,24 @@ def main() -> int:
     if lower > upper:
         raise AssertionError("Invalid calibrated date-offset range")
 
-    # Gold pathology-ID matches already claim these EHR biopsy events.  Keeping
-    # them in the weak candidate pool creates avoidable same-date collisions
-    # and can assign an unmatched WSI to an event that is already accounted for.
+    # A slide in an unmatched folder may still belong to an event already
+    # anchored by a gold pathology-ID match.  Keep those candidates by default,
+    # but mark them so downstream review can distinguish possible gold-event
+    # recovery from genuinely new EHR-event linkage.
     gold_ehr_pairs = {
         (int(row.gold_smc_id), row.gold_biopsy_date)
         for row in events[events["gold_folder_match"]].itertuples(index=False)
         if not pd.isna(row.gold_smc_id) and not pd.isna(row.gold_biopsy_date)
     }
-    if args.include_gold_ehr_candidates:
-        candidate_ehr = ehr
+    ehr = ehr.copy()
+    ehr["is_gold_anchored_ehr_event"] = ehr.apply(
+        lambda row: (int(row.smc_id), row.biopsy_date) in gold_ehr_pairs,
+        axis=1,
+    )
+    if args.exclude_gold_ehr_candidates:
+        candidate_ehr = ehr[~ehr["is_gold_anchored_ehr_event"]].copy()
     else:
-        candidate_ehr = ehr[~ehr.apply(
-            lambda row: (int(row.smc_id), row.biopsy_date) in gold_ehr_pairs,
-            axis=1,
-        )].copy()
+        candidate_ehr = ehr
 
     candidates: list[dict[str, object]] = []
     # Do not generate weak candidates for a folder already present in the gold
@@ -271,6 +274,7 @@ def main() -> int:
                     "candidate_smc_id": ehr_row.smc_id,
                     "candidate_patient_hash": ehr_row.patient_hash,
                     "candidate_biopsy_date": ehr_row.biopsy_date,
+                    "candidate_is_gold_anchored": ehr_row.is_gold_anchored_ehr_event,
                     "closest_wsi_scan_date": closest_scan_date,
                     "scan_minus_biopsy_days": offset_days,
                     "absolute_date_difference_days": abs(offset_days),
@@ -280,6 +284,7 @@ def main() -> int:
         candidate_frame = pd.DataFrame(columns=[
             "event_key", "event_id", "slide_count", "wsi_scan_dates", "candidate_biopsy_id",
             "candidate_smc_id", "candidate_patient_hash", "candidate_biopsy_date",
+            "candidate_is_gold_anchored",
             "closest_wsi_scan_date", "scan_minus_biopsy_days", "absolute_date_difference_days",
         ])
     else:
@@ -329,9 +334,9 @@ def main() -> int:
         "scan_minus_biopsy_days_upper": upper,
         "extra_days": args.extra_days,
         "scan_cluster_gap_days": args.scan_cluster_gap_days,
-        "gold_ehr_events_reserved": len(gold_ehr_pairs),
+        "gold_anchored_ehr_events": len(gold_ehr_pairs),
         "candidate_ehr_events": len(candidate_ehr),
-        "include_gold_ehr_candidates": args.include_gold_ehr_candidates,
+        "exclude_gold_ehr_candidates": args.exclude_gold_ehr_candidates,
         "case_folders": int(events.case_folder_key.nunique()),
         "wsi_event_clusters": len(events),
         "unmatched_events": int((~events.gold_folder_match).sum()),
@@ -341,7 +346,7 @@ def main() -> int:
     print(f"WSI events: {len(events)}; slides: {len(slides)}")
     print(f"Gold date anchors: {len(calibration)}")
     print(f"Empirical scan-minus-biopsy window: [{lower}, {upper}] days")
-    print(f"Reserved gold EHR events: {len(gold_ehr_pairs)}; candidate EHR events: {len(candidate_ehr)}")
+    print(f"Gold-anchored EHR events: {len(gold_ehr_pairs)}; candidate EHR events: {len(candidate_ehr)}")
     print_counts(events, candidate_frame)
     print(f"Review queue: {args.output_dir / 'weak_wsi_linkage_review_queue.csv'}")
     print(f"Candidates: {args.output_dir / 'weak_wsi_ehr_candidates_blinded.csv'}")
