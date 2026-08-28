@@ -33,6 +33,8 @@ def parse_args() -> argparse.Namespace:
                         help="Upper gold-anchor scan-minus-biopsy date-offset quantile.")
     parser.add_argument("--extra-days", type=int, default=0,
                         help="Optional symmetric widening after empirical calibration.")
+    parser.add_argument("--scan-cluster-gap-days", type=int, default=14,
+                        help="Split one top-level WSI folder when consecutive scan dates differ by more than this many days.")
     return parser.parse_args()
 
 
@@ -117,15 +119,17 @@ def read_scan_date(path: Path) -> pd.Timestamp | pd.NaT:
     return pd.NaT
 
 
-def build_events(dataset_root: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
+def build_events(dataset_root: Path, cluster_gap_days: int) -> tuple[pd.DataFrame, pd.DataFrame]:
+    if cluster_gap_days < 0:
+        raise ValueError("--scan-cluster-gap-days must be non-negative")
     slides: list[dict[str, object]] = []
     for rel_path in read_slide_paths(dataset_root):
         slide_dir = dataset_root / rel_path
         dcm = first_dicom(slide_dir)
         event_raw = rel_path.split("/")[0]
         slides.append({
-            "event_key": normalize(event_raw),
-            "event_id": event_raw,
+            "case_folder_key": normalize(event_raw),
+            "case_folder_id": event_raw,
             "slide_rel_path": rel_path,
             "scan_date": read_scan_date(dcm) if dcm else pd.NaT,
             "metadata_state": "ok" if dcm else "missing_dicom",
@@ -136,17 +140,41 @@ def build_events(dataset_root: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
         raise ValueError("No WSI rows found in the DICOM QC manifest")
 
     events: list[dict[str, object]] = []
-    for event_key, group in slide_frame.groupby("event_key", sort=True):
-        dates = sorted({date for date in group["scan_date"] if not pd.isna(date)})
-        events.append({
-            "event_key": event_key,
-            "event_id": group["event_id"].iloc[0],
-            "slide_count": len(group),
-            "scan_date_min": dates[0] if dates else pd.NaT,
-            "scan_date_max": dates[-1] if dates else pd.NaT,
-            "scan_dates": ";".join(date.date().isoformat() for date in dates),
-            "metadata_missing_slides": int(group["metadata_state"].ne("ok").sum()),
-        })
+    for case_folder_key, group in slide_frame.groupby("case_folder_key", sort=True):
+        group = group.copy()
+        dated = group.dropna(subset=["scan_date"]).sort_values("scan_date")
+        cluster_by_date: dict[pd.Timestamp, int] = {}
+        cluster_index = 0
+        previous_date: pd.Timestamp | None = None
+        for scan_date in dated["scan_date"].drop_duplicates():
+            if previous_date is not None and (scan_date - previous_date).days > cluster_gap_days:
+                cluster_index += 1
+            cluster_by_date[scan_date] = cluster_index
+            previous_date = scan_date
+        group["scan_cluster_index"] = group["scan_date"].map(cluster_by_date).fillna(-1).astype(int)
+        dated_cluster_count = len(set(cluster_by_date.values()))
+
+        for cluster, cluster_group in group.groupby("scan_cluster_index", sort=True):
+            dates = sorted({date for date in cluster_group["scan_date"] if not pd.isna(date)})
+            if cluster == -1:
+                event_id = f"{cluster_group['case_folder_id'].iloc[0]}__missing_date"
+            elif dated_cluster_count == 1:
+                event_id = str(cluster_group["case_folder_id"].iloc[0])
+            else:
+                event_id = f"{cluster_group['case_folder_id'].iloc[0]}__scan_{dates[0].date().isoformat()}"
+            events.append({
+                "event_key": event_id,
+                "event_id": event_id,
+                "case_folder_key": case_folder_key,
+                "case_folder_id": cluster_group["case_folder_id"].iloc[0],
+                "scan_cluster_index": cluster,
+                "scan_clusters_in_case_folder": dated_cluster_count,
+                "slide_count": len(cluster_group),
+                "scan_date_min": dates[0] if dates else pd.NaT,
+                "scan_date_max": dates[-1] if dates else pd.NaT,
+                "scan_dates": ";".join(date.date().isoformat() for date in dates),
+                "metadata_missing_slides": int(cluster_group["metadata_state"].ne("ok").sum()),
+            })
     return pd.DataFrame(events), slide_frame
 
 
@@ -175,9 +203,12 @@ def main() -> int:
 
     gold = read_gold_labels(args.label_xlsx)
     ehr = read_ehr(args.ehr_xlsx)
-    events, slides = build_events(args.dicom_root)
-    events = events.join(gold, on="event_key")
-    events["gold_pathology_id_match"] = events["gold_pathology_id"].notna()
+    events, slides = build_events(args.dicom_root, args.scan_cluster_gap_days)
+    events = events.join(gold, on="case_folder_key")
+    events["gold_folder_match"] = events["gold_pathology_id"].notna()
+    # A label attached to a folder with more than one temporally separate scan
+    # cluster must not be copied into every cluster.
+    events["gold_pathology_id_match"] = events["gold_folder_match"] & events["scan_clusters_in_case_folder"].eq(1)
 
     anchors = events[events["gold_pathology_id_match"] & events["scan_dates"].ne("")].copy()
     anchor_rows: list[dict[str, object]] = []
@@ -203,7 +234,10 @@ def main() -> int:
         raise AssertionError("Invalid calibrated date-offset range")
 
     candidates: list[dict[str, object]] = []
-    unmatched = events[~events["gold_pathology_id_match"]].copy()
+    # Do not generate weak candidates for a folder already present in the gold
+    # workbook but split into multiple temporal clusters.  Those require an
+    # explicit folder-level audit instead of accidental relabeling.
+    unmatched = events[~events["gold_folder_match"]].copy()
     for row in unmatched.itertuples(index=False):
         if not row.scan_dates:
             continue
@@ -244,17 +278,18 @@ def main() -> int:
     events["linkage_status"] = np.select(
         [
             events["gold_pathology_id_match"],
+            events["gold_folder_match"],
             events["scan_dates"].eq(""),
             events["candidate_biopsies"].eq(0),
             events["candidate_biopsies"].eq(1),
         ],
-        ["gold_pathology_match", "missing_wsi_date", "no_date_candidate", "date_unique_biopsy"],
+        ["gold_pathology_match", "gold_folder_multicluster", "missing_wsi_date", "no_date_candidate", "date_unique_biopsy"],
         default="date_ambiguous",
     )
 
     review = events[events["linkage_status"].isin(["date_unique_biopsy", "date_ambiguous"])].copy()
     review = review[[
-        "event_key", "event_id", "slide_count", "scan_dates", "scan_date_min", "scan_date_max",
+        "event_key", "event_id", "case_folder_id", "scan_cluster_index", "slide_count", "scan_dates", "scan_date_min", "scan_date_max",
         "candidate_biopsies", "candidate_patients", "linkage_status",
     ]]
     review["reviewer_selected_biopsy_id"] = ""
@@ -275,7 +310,10 @@ def main() -> int:
         "scan_minus_biopsy_days_lower": lower,
         "scan_minus_biopsy_days_upper": upper,
         "extra_days": args.extra_days,
-        "unmatched_events": int((~events.gold_pathology_id_match).sum()),
+        "scan_cluster_gap_days": args.scan_cluster_gap_days,
+        "case_folders": int(events.case_folder_key.nunique()),
+        "wsi_event_clusters": len(events),
+        "unmatched_events": int((~events.gold_folder_match).sum()),
         "reviewable_unmatched_events": len(review),
     }]).to_csv(args.output_dir / "weak_wsi_linkage_calibration_summary.csv", index=False)
 
