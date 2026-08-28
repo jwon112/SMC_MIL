@@ -35,6 +35,8 @@ def parse_args() -> argparse.Namespace:
                         help="Optional symmetric widening after empirical calibration.")
     parser.add_argument("--scan-cluster-gap-days", type=int, default=14,
                         help="Split one top-level WSI folder when consecutive scan dates differ by more than this many days.")
+    parser.add_argument("--include-gold-ehr-candidates", action="store_true",
+                        help="Allow EHR biopsy events already anchored by an exact gold pathology-ID WSI match to remain weak-linkage candidates.")
     return parser.parse_args()
 
 
@@ -233,6 +235,22 @@ def main() -> int:
     if lower > upper:
         raise AssertionError("Invalid calibrated date-offset range")
 
+    # Gold pathology-ID matches already claim these EHR biopsy events.  Keeping
+    # them in the weak candidate pool creates avoidable same-date collisions
+    # and can assign an unmatched WSI to an event that is already accounted for.
+    gold_ehr_pairs = {
+        (int(row.gold_smc_id), row.gold_biopsy_date)
+        for row in events[events["gold_folder_match"]].itertuples(index=False)
+        if not pd.isna(row.gold_smc_id) and not pd.isna(row.gold_biopsy_date)
+    }
+    if args.include_gold_ehr_candidates:
+        candidate_ehr = ehr
+    else:
+        candidate_ehr = ehr[~ehr.apply(
+            lambda row: (int(row.smc_id), row.biopsy_date) in gold_ehr_pairs,
+            axis=1,
+        )].copy()
+
     candidates: list[dict[str, object]] = []
     # Do not generate weak candidates for a folder already present in the gold
     # workbook but split into multiple temporal clusters.  Those require an
@@ -241,7 +259,7 @@ def main() -> int:
     for row in unmatched.itertuples(index=False):
         if not row.scan_dates:
             continue
-        for ehr_row in ehr.itertuples(index=False):
+        for ehr_row in candidate_ehr.itertuples(index=False):
             offset_days, closest_scan_date = closest_offset(row.scan_dates, ehr_row.biopsy_date)
             if lower <= offset_days <= upper:
                 candidates.append({
@@ -311,6 +329,9 @@ def main() -> int:
         "scan_minus_biopsy_days_upper": upper,
         "extra_days": args.extra_days,
         "scan_cluster_gap_days": args.scan_cluster_gap_days,
+        "gold_ehr_events_reserved": len(gold_ehr_pairs),
+        "candidate_ehr_events": len(candidate_ehr),
+        "include_gold_ehr_candidates": args.include_gold_ehr_candidates,
         "case_folders": int(events.case_folder_key.nunique()),
         "wsi_event_clusters": len(events),
         "unmatched_events": int((~events.gold_folder_match).sum()),
@@ -320,6 +341,7 @@ def main() -> int:
     print(f"WSI events: {len(events)}; slides: {len(slides)}")
     print(f"Gold date anchors: {len(calibration)}")
     print(f"Empirical scan-minus-biopsy window: [{lower}, {upper}] days")
+    print(f"Reserved gold EHR events: {len(gold_ehr_pairs)}; candidate EHR events: {len(candidate_ehr)}")
     print_counts(events, candidate_frame)
     print(f"Review queue: {args.output_dir / 'weak_wsi_linkage_review_queue.csv'}")
     print(f"Candidates: {args.output_dir / 'weak_wsi_ehr_candidates_blinded.csv'}")
