@@ -91,7 +91,8 @@ for scale in "${SCALES[@]}"; do
     if [[ -n "$WEAK_TRAIN_ROOT" ]]; then
       [[ "$FULL_TRAIN_CV" == false ]] || { echo "--weak-train-root cannot be combined with --full-train-cv" >&2; exit 2; }
       split_dir="${split_dir}_weak_unique_0to3"
-      weak_csv="$WEAK_TRAIN_ROOT/dataset_csv/${task}_weak_unique_0to3.csv"
+      weak_csv_task="${task#task_}"
+      weak_csv="$WEAK_TRAIN_ROOT/dataset_csv/${weak_csv_task}_weak_unique_0to3.csv"
       [[ -f "$weak_csv" ]] || { echo "Missing weak-label CSV: $weak_csv" >&2; exit 1; }
       csv_args=(--csv_path "$weak_csv")
       exp_mode="${exp_mode}_weakunique3"
