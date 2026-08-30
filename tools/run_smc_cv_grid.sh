@@ -14,10 +14,11 @@ STAIN_COHORT=""
 
 usage() {
   cat <<'EOF'
-Usage: bash tools/run_smc_cv_grid.sh --gpu GPU_ID --worker acr|amr [--feature-root PATH] [--weak-train-root PATH] [--stain-root PATH --stain-cohort NAME] [--full-train-cv --max-epochs N]
+Usage: bash tools/run_smc_cv_grid.sh --gpu GPU_ID --worker acr|acr_low|amr [--feature-root PATH] [--weak-train-root PATH] [--stain-root PATH --stain-cohort NAME] [--full-train-cv --max-epochs N]
 
 Workers:
-  acr  Runs the two ACR tasks at L0, L1, L2, and L3.
+  acr      Runs the two ACR tasks at L0, L1, L2, and L3.
+  acr_low  Runs ACR 0R vs 1R/2R/3R only at L0, L1, L2, and L3.
   amr  Runs the AMR and composite rejection tasks at L0, L1, L2, and L3.
 
 Modes:
@@ -49,7 +50,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ -z "$GPU" || ( "$WORKER" != "acr" && "$WORKER" != "amr" ) ]]; then
+if [[ -z "$GPU" || ( "$WORKER" != "acr" && "$WORKER" != "acr_low" && "$WORKER" != "amr" ) ]]; then
   usage >&2
   exit 2
 fi
@@ -69,6 +70,11 @@ case "$WORKER" in
     TASK_SPECS=(
       "task_smc_acr_binary_0r_vs_1r2r3r|smc_cv_acr_0r_vs_1r2r3r_standard3|acr_0r_vs_rest"
       "task_smc_acr_binary_0r1r_vs_2r3r|smc_cv_acr_0r1r_vs_2r3r_standard3|acr_high_grade"
+    )
+    ;;
+  acr_low)
+    TASK_SPECS=(
+      "task_smc_acr_binary_0r_vs_1r2r3r|smc_cv_acr_0r_vs_1r2r3r_standard3|acr_0r_vs_rest"
     )
     ;;
   amr)
