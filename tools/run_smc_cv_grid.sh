@@ -9,10 +9,12 @@ WORKER=""
 FULL_TRAIN_CV=false
 MAX_EPOCHS=200
 WEAK_TRAIN_ROOT=""
+STAIN_ROOT=""
+STAIN_COHORT=""
 
 usage() {
   cat <<'EOF'
-Usage: bash tools/run_smc_cv_grid.sh --gpu GPU_ID --worker acr|amr [--feature-root PATH] [--weak-train-root PATH] [--full-train-cv --max-epochs N]
+Usage: bash tools/run_smc_cv_grid.sh --gpu GPU_ID --worker acr|amr [--feature-root PATH] [--weak-train-root PATH] [--stain-root PATH --stain-cohort NAME] [--full-train-cv --max-epochs N]
 
 Workers:
   acr  Runs the two ACR tasks at L0, L1, L2, and L3.
@@ -25,6 +27,10 @@ Modes:
   --weak-train-root PATH
                    Root created by build_smc_weak_unique_training.py. Keeps each
                    standard CV validation fold unchanged and augments train only.
+  --stain-root PATH
+  --stain-cohort NAME
+                   Root and cohort created by build_smc_stain_cohorts.py. Both
+                   train and gold-validation bags are restricted to that cohort.
 EOF
 }
 
@@ -34,6 +40,8 @@ while [[ $# -gt 0 ]]; do
     --worker) WORKER="$2"; shift 2 ;;
     --feature-root) FEATURE_ROOT="$2"; shift 2 ;;
     --weak-train-root) WEAK_TRAIN_ROOT="$2"; shift 2 ;;
+    --stain-root) STAIN_ROOT="$2"; shift 2 ;;
+    --stain-cohort) STAIN_COHORT="$2"; shift 2 ;;
     --full-train-cv) FULL_TRAIN_CV=true; shift ;;
     --max-epochs) MAX_EPOCHS="$2"; shift 2 ;;
     -h|--help) usage; exit 0 ;;
@@ -47,6 +55,14 @@ if [[ -z "$GPU" || ( "$WORKER" != "acr" && "$WORKER" != "amr" ) ]]; then
 fi
 
 [[ "$MAX_EPOCHS" =~ ^[1-9][0-9]*$ ]] || { echo "--max-epochs must be a positive integer" >&2; exit 2; }
+if [[ -n "$STAIN_ROOT" && -z "$STAIN_COHORT" ]] || [[ -z "$STAIN_ROOT" && -n "$STAIN_COHORT" ]]; then
+  echo "--stain-root and --stain-cohort must be provided together" >&2
+  exit 2
+fi
+if [[ -n "$WEAK_TRAIN_ROOT" && -n "$STAIN_ROOT" ]]; then
+  echo "Use either --weak-train-root or --stain-root, not both" >&2
+  exit 2
+fi
 
 case "$WORKER" in
   acr)
@@ -88,17 +104,25 @@ for scale in "${SCALES[@]}"; do
     fi
 
     csv_args=()
-    if [[ -n "$WEAK_TRAIN_ROOT" ]]; then
+    if [[ -n "$WEAK_TRAIN_ROOT" || -n "$STAIN_ROOT" ]]; then
       [[ "$FULL_TRAIN_CV" == false ]] || { echo "--weak-train-root cannot be combined with --full-train-cv" >&2; exit 2; }
-      split_dir="${split_dir}_weak_unique_0to3"
       weak_csv_task="${task#task_}"
-      weak_csv="$WEAK_TRAIN_ROOT/dataset_csv/${weak_csv_task}_weak_unique_0to3.csv"
+      if [[ -n "$STAIN_ROOT" ]]; then
+        cohort_suffix="weak_unique_0to3_${STAIN_COHORT}"
+        weak_csv="$STAIN_ROOT/dataset_csv/${weak_csv_task}_${cohort_suffix}.csv"
+        split_dir="${split_dir}_${cohort_suffix}"
+        exp_mode="${exp_mode}_weakunique3_${STAIN_COHORT}"
+      else
+        split_dir="${split_dir}_weak_unique_0to3"
+        weak_csv="$WEAK_TRAIN_ROOT/dataset_csv/${weak_csv_task}_weak_unique_0to3.csv"
+        exp_mode="${exp_mode}_weakunique3"
+      fi
       [[ -f "$weak_csv" ]] || { echo "Missing weak-label CSV: $weak_csv" >&2; exit 1; }
       csv_args=(--csv_path "$weak_csv")
-      exp_mode="${exp_mode}_weakunique3"
     fi
-    if [[ -n "$WEAK_TRAIN_ROOT" ]]; then
-      split_path="$WEAK_TRAIN_ROOT/splits/$split_dir"
+    if [[ -n "$WEAK_TRAIN_ROOT" || -n "$STAIN_ROOT" ]]; then
+      cohort_root="${STAIN_ROOT:-$WEAK_TRAIN_ROOT}"
+      split_path="$cohort_root/splits/$split_dir"
       split_dir="$split_path"
     else
       split_path="splits/$split_dir"
