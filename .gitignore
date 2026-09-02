@@ -57,6 +57,11 @@ results/
 !splits/**/*.csv
 !heatmaps/process_lists/*.csv
 
+# Reproducible local SMC outputs. Canonical task CSVs are versioned above;
+# these exploratory label exports and split directories are rebuilt by scripts.
+/dataset_csv/clam_*_within30d.csv
+/splits/smc_cv_*/
+
 # Data directories (uncomment if you don't want to track data)
 # data/
 # datasets/
