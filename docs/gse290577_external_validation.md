@@ -44,7 +44,7 @@ python tools/gse290577/build_gse290577_core_manifest.py \
   --output-dir "$WORK_ROOT/manifests"
 ```
 
-The core step needs base R but does not need Seurat packages. If R is unavailable on the server, run `export_core_bounds.R` elsewhere and pass its CSV with `--bounds-csv`.
+The repository includes the verified 195-row public core bounds CSV. If `Rscript` is unavailable, the core command automatically uses this bundled file. When R is available, `--rds` regenerates the bounds directly from the Seurat object without requiring Seurat packages.
 
 Visually verify the affine core alignment before segmentation:
 

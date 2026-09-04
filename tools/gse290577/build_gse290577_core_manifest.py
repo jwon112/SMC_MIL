@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import csv
 import re
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -49,12 +50,16 @@ def main() -> int:
     args = parser.parse_args()
     root, output = args.dataset_root.resolve(), args.output_dir.resolve()
     output.mkdir(parents=True, exist_ok=True)
+    bundled_bounds = Path(__file__).with_name("resources") / "gse290577_core_bounds.csv"
     bounds_csv = args.bounds_csv.resolve() if args.bounds_csv else output / "gse290577_core_bounds.csv"
-    if args.bounds_csv is None:
-        if args.rds is None:
-            raise ValueError("Provide --rds or --bounds-csv")
+    if args.bounds_csv is None and args.rds is not None and shutil.which(args.rscript):
         r_script = Path(__file__).with_name("export_core_bounds.R")
         subprocess.run([args.rscript, str(r_script), str(args.rds), str(bounds_csv)], check=True)
+    elif args.bounds_csv is None:
+        if not bundled_bounds.is_file():
+            raise RuntimeError("Rscript is unavailable and bundled core bounds are missing")
+        bounds_csv = bundled_bounds
+        print(f"[INFO] Rscript unavailable; using bundled public core bounds: {bounds_csv}")
 
     assets = root / "spatial_assets"
     source_map = {
