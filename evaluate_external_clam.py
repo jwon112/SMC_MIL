@@ -86,7 +86,11 @@ def main() -> int:
     models = []
     for checkpoint in checkpoints:
         model = CLAM_SB(size_arg=args.model_size, dropout=args.dropout, n_classes=2, embed_dim=args.embed_dim)
-        model.load_state_dict(torch.load(checkpoint, map_location=device, weights_only=True), strict=True)
+        state_dict = torch.load(checkpoint, map_location=device, weights_only=True)
+        # Some training runs serialize buffers owned by the instance-loss module.
+        # They are not model parameters and are absent from the inference model.
+        state_dict.pop("instance_loss_fn.labels", None)
+        model.load_state_dict(state_dict, strict=True)
         models.append(model.eval().to(device))
     print(f"Loaded {len(models)} fold checkpoint(s)")
 
