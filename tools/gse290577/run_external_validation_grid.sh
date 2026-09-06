@@ -5,6 +5,19 @@ WORK_ROOT=${WORK_ROOT:-/home/jupyter/data/image_team/GSE290577_work}
 FEATURE_ROOT=${FEATURE_ROOT:-/home/jupyter/image_team/projects/SMC_MIL/data/features/uni_v2/GSE290577}
 OUTPUT_ROOT=${OUTPUT_ROOT:-results/gse290577_external/weakunique3}
 DEVICE=${DEVICE:-cuda}
+FOLDS=3
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --folds) FOLDS="$2"; shift 2 ;;
+        -h|--help)
+            echo "Usage: bash $0 [--folds 3|5]"
+            exit 0
+            ;;
+        *) echo "Unknown argument: $1" >&2; exit 2 ;;
+    esac
+done
+[[ "$FOLDS" == 3 || "$FOLDS" == 5 ]] || { echo "--folds must be 3 or 5" >&2; exit 2; }
 
 tasks=(acr_high amr_positive significant_rejection)
 prefixes=(acr_high_grade amr_positive significant_rejection)
@@ -22,7 +35,7 @@ for i in "${!tasks[@]}"; do
 
     for j in "${!tags[@]}"; do
         tag=${tags[$j]}
-        checkpoint_dir="results/smc_${prefix}_${levels[$j]}_${checkpoint_mpps[$j]}mpp_${magnifications[$j]}_uni2_clamsb_cv3val_weakunique3_s1"
+        checkpoint_dir="results/smc_${prefix}_${levels[$j]}_${checkpoint_mpps[$j]}mpp_${magnifications[$j]}_uni2_clamsb_cv${FOLDS}val_weakunique3_s1"
         output_dir="$OUTPUT_ROOT/${task}_${tag}mpp"
 
         echo "[RUN] task=$task resolution=${tag}mpp"

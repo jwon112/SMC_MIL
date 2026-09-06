@@ -63,6 +63,10 @@ python create_smc_cv_splits.py \
   --task task_smc_significant_rejection_binary
 ```
 
+Pass `--folds 5` to create `standard5` splits. The default remains 3 folds so
+existing commands and results remain reproducible. Use the same `--folds`
+value with the weak-label, stain-cohort, and training grid scripts.
+
 Point `--data_root_dir` to the selected scale directory containing the feature
 bags for every row in the chosen CSV. Verify that the shared feature directory
 contains both the exp3 and MRXS bags before training.

@@ -35,6 +35,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--base-splits-dir", type=Path, default=Path("splits"))
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--window-days", type=int, default=3)
+    parser.add_argument("--folds", type=int, choices=(3, 5), default=3)
+    parser.add_argument("--tasks", nargs="+", choices=tuple(TASKS), default=list(TASKS))
     return parser.parse_args()
 
 
@@ -167,12 +169,13 @@ def write_augmented_task(task: str, manifest: pd.DataFrame, args: argparse.Names
     combined_path = csv_dir / f"{task}_weak_unique_0to{args.window_days}.csv"
     combined.to_csv(combined_path, index=False)
 
-    split_dir = args.base_splits_dir / TASKS[task]
-    output_splits = args.output_dir / "splits" / f"{TASKS[task]}_weak_unique_0to{args.window_days}"
+    split_name = TASKS[task].replace("standard3", f"standard{args.folds}")
+    split_dir = args.base_splits_dir / split_name
+    output_splits = args.output_dir / "splits" / f"{split_name}_weak_unique_0to{args.window_days}"
     output_splits.mkdir(parents=True, exist_ok=True)
     base_cases = base.set_index("slide_id")["case_id"]
     report: list[dict[str, object]] = []
-    for fold in range(3):
+    for fold in range(args.folds):
         split = pd.read_csv(split_dir / f"splits_{fold}.csv")
         val_ids = split["val"].dropna().astype(str).tolist()
         val_cases = set(base_cases.loc[val_ids])
@@ -203,7 +206,7 @@ def main() -> int:
     manifest.to_csv(args.output_dir / f"weak_unique_slide_manifest_0to{args.window_days}.csv", index=False)
     print("Weak manifest:")
     print(manifest.groupby(["weak_group", "acr_grade", "amr_grade"]).size().to_string())
-    for task in TASKS:
+    for task in args.tasks:
         write_augmented_task(task, manifest, args)
     return 0
 

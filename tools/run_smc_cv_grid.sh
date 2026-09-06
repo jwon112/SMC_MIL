@@ -8,13 +8,14 @@ GPU=""
 WORKER=""
 FULL_TRAIN_CV=false
 MAX_EPOCHS=200
+FOLDS=3
 WEAK_TRAIN_ROOT=""
 STAIN_ROOT=""
 STAIN_COHORT=""
 
 usage() {
   cat <<'EOF'
-Usage: bash tools/run_smc_cv_grid.sh --gpu GPU_ID --worker acr|acr_low|acr_high|amr|significant [--feature-root PATH] [--weak-train-root PATH] [--stain-root PATH --stain-cohort NAME] [--full-train-cv --max-epochs N]
+Usage: bash tools/run_smc_cv_grid.sh --gpu GPU_ID --worker acr|acr_low|acr_high|amr|significant [--folds 3|5] [--feature-root PATH] [--weak-train-root PATH] [--stain-root PATH --stain-cohort NAME] [--full-train-cv --max-epochs N]
 
 Workers:
   acr      Runs the two ACR tasks at L0, L1, L2, and L3.
@@ -27,6 +28,7 @@ Modes:
   --full-train-cv  Train on all two outer-training folds without validation or
                    early stopping. Uses cosine LR decay and *_fulltrain splits.
   --max-epochs N   Training epochs (default: 200; use 100 with --full-train-cv).
+  --folds 3|5      Number of patient-grouped CV folds (default: 3).
   --weak-train-root PATH
                    Root created by build_smc_weak_unique_training.py. Keeps each
                    standard CV validation fold unchanged and augments train only.
@@ -47,6 +49,7 @@ while [[ $# -gt 0 ]]; do
     --stain-cohort) STAIN_COHORT="$2"; shift 2 ;;
     --full-train-cv) FULL_TRAIN_CV=true; shift ;;
     --max-epochs) MAX_EPOCHS="$2"; shift 2 ;;
+    --folds) FOLDS="$2"; shift 2 ;;
     -h|--help) usage; exit 0 ;;
     *) echo "Unknown argument: $1" >&2; usage >&2; exit 2 ;;
   esac
@@ -58,6 +61,7 @@ if [[ -z "$GPU" || ( "$WORKER" != "acr" && "$WORKER" != "acr_low" && "$WORKER" !
 fi
 
 [[ "$MAX_EPOCHS" =~ ^[1-9][0-9]*$ ]] || { echo "--max-epochs must be a positive integer" >&2; exit 2; }
+[[ "$FOLDS" == 3 || "$FOLDS" == 5 ]] || { echo "--folds must be 3 or 5" >&2; exit 2; }
 if [[ -n "$STAIN_ROOT" && -z "$STAIN_COHORT" ]] || [[ -z "$STAIN_ROOT" && -n "$STAIN_COHORT" ]]; then
   echo "--stain-root and --stain-cohort must be provided together" >&2
   exit 2
@@ -113,9 +117,10 @@ for scale in "${SCALES[@]}"; do
   for spec in "${TASK_SPECS[@]}"; do
     IFS='|' read -r task split_dir short_name <<< "$spec"
     mode_args=(--early_stopping --cv-validation)
-    exp_mode="_cv3val"
+    split_dir="${split_dir%_standard3}_standard${FOLDS}"
+    exp_mode="_cv${FOLDS}val"
     if [[ "$FULL_TRAIN_CV" == true ]]; then
-      split_dir="${split_dir%_standard3}_fulltrain"
+      split_dir="${split_dir%_standard${FOLDS}}_fulltrain"
       mode_args=(--no_val --lr-scheduler cosine --min-lr 0)
       exp_mode="_fulltrain${MAX_EPOCHS}cosine"
     fi
@@ -160,7 +165,7 @@ for scale in "${SCALES[@]}"; do
       --task "$task" \
       --split_dir "$split_dir" \
       "${csv_args[@]}" \
-      --k 3 \
+      --k "$FOLDS" \
       --exp_code "$exp_code" \
       --model_type clam_sb \
       --model_size small \

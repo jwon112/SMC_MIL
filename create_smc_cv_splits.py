@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Create patient-grouped standard 3-fold cross-validation splits.
+"""Create patient-grouped standard cross-validation splits.
 
-Each fold trains on two patient folds and validates on the remaining fold.
+Each fold trains on all other patient folds and validates on the remaining fold.
 There is deliberately no separate test split: the held-out validation metrics
 from all three rotations are the reported cross-validation results.
 """
@@ -45,6 +45,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--csv-path", type=Path, default=None)
     parser.add_argument("--output-dir", type=Path, default=None)
     parser.add_argument("--seed", type=int, default=1)
+    parser.add_argument("--folds", type=int, choices=(3, 5), default=3)
     return parser.parse_args()
 
 
@@ -52,8 +53,6 @@ def patient_summary(data: pd.DataFrame) -> pd.DataFrame:
     if set(data["label"].unique()) - {0, 1}:
         raise ValueError("Standard CV currently supports binary labels only")
     patients = data.groupby("case_id", as_index=False)["label"].max()
-    if patients["label"].value_counts().min() < 3:
-        raise ValueError("Each class needs at least three patients for 3-fold CV")
     return patients
 
 
@@ -73,6 +72,7 @@ def main() -> int:
     args = parse_args()
     default_csv, default_dir = TASKS[args.task]
     csv_path = args.csv_path or Path(default_csv)
+    default_dir = default_dir.replace("standard3", f"standard{args.folds}")
     output_dir = args.output_dir or Path("splits") / default_dir
     data = pd.read_csv(csv_path)
     required = {"case_id", "slide_id", "label"}
@@ -83,7 +83,9 @@ def main() -> int:
         raise ValueError("slide_id must be unique")
 
     patients = patient_summary(data)
-    splitter = StratifiedKFold(n_splits=3, shuffle=True, random_state=args.seed)
+    if patients["label"].value_counts().min() < args.folds:
+        raise ValueError(f"Each class needs at least {args.folds} patients for {args.folds}-fold CV")
+    splitter = StratifiedKFold(n_splits=args.folds, shuffle=True, random_state=args.seed)
     output_dir.mkdir(parents=True, exist_ok=True)
     report: list[dict[str, int | str]] = []
     validation_patients: set[str] = set()
@@ -110,7 +112,7 @@ def main() -> int:
     if validation_patients != set(patients["case_id"]):
         raise RuntimeError("Validation folds did not cover every patient exactly once")
     pd.DataFrame(report).to_csv(output_dir / "fold_summary.csv", index=False)
-    print(f"[OK] standard 3-fold CV: {args.task}: patients={len(patients)}, bags={len(data)} -> {output_dir}")
+    print(f"[OK] standard {args.folds}-fold CV: {args.task}: patients={len(patients)}, bags={len(data)} -> {output_dir}")
     print(pd.DataFrame(report).to_string(index=False))
     return 0
 

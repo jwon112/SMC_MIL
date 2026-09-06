@@ -42,6 +42,8 @@ def parse_args() -> argparse.Namespace:
         help="Root created by build_smc_weak_unique_training.py.",
     )
     parser.add_argument("--output-root", type=Path, required=True)
+    parser.add_argument("--folds", type=int, choices=(3, 5), default=3)
+    parser.add_argument("--tasks", nargs="+", choices=tuple(TASK_SPLITS), default=list(TASK_SPLITS))
     parser.add_argument(
         "--cohorts", nargs="+", choices=sorted(COHORTS),
         default=list(COHORTS), help="Cohorts to create (default: all).",
@@ -69,7 +71,8 @@ def task_csv_name(task: str) -> str:
 
 def build_cohort(task: str, cohort: str, curation: pd.DataFrame, args: argparse.Namespace) -> None:
     source_csv = args.weak_root / "dataset_csv" / task_csv_name(task)
-    source_split_dir = args.weak_root / "splits" / f"{TASK_SPLITS[task]}_{INPUT_SUFFIX}"
+    split_name = TASK_SPLITS[task].replace("standard3", f"standard{args.folds}")
+    source_split_dir = args.weak_root / "splits" / f"{split_name}_{INPUT_SUFFIX}"
     if not source_csv.is_file() or not source_split_dir.is_dir():
         raise FileNotFoundError(f"Missing weak-label inputs for {task}")
 
@@ -89,10 +92,10 @@ def build_cohort(task: str, cohort: str, curation: pd.DataFrame, args: argparse.
     output_csv = output_csv_dir / f"{task}_{INPUT_SUFFIX}_{cohort}.csv"
     retained.to_csv(output_csv, index=False)
 
-    output_split_dir = args.output_root / "splits" / f"{TASK_SPLITS[task]}_{INPUT_SUFFIX}_{cohort}"
+    output_split_dir = args.output_root / "splits" / f"{split_name}_{INPUT_SUFFIX}_{cohort}"
     output_split_dir.mkdir(parents=True, exist_ok=True)
     rows: list[dict[str, object]] = []
-    for fold in range(3):
+    for fold in range(args.folds):
         split = pd.read_csv(source_split_dir / f"splits_{fold}.csv")
         train = [slide_id for slide_id in split["train"].dropna().astype(str) if slide_id in retained_ids]
         val = [slide_id for slide_id in split["val"].dropna().astype(str) if slide_id in retained_ids]
@@ -128,7 +131,7 @@ def main() -> int:
     curation = read_curation(args.curation_manifest)
     args.output_root.mkdir(parents=True, exist_ok=True)
     for cohort in args.cohorts:
-        for task in TASK_SPLITS:
+        for task in args.tasks:
             build_cohort(task, cohort, curation, args)
     return 0
 

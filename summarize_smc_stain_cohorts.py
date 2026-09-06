@@ -31,6 +31,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cohort-root", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, default=None)
+    parser.add_argument("--folds", type=int, choices=(3, 5), default=3)
     return parser.parse_args()
 
 
@@ -41,7 +42,8 @@ def main() -> int:
     rows: list[pd.DataFrame] = []
     for task, task_display in TASKS.items():
         for cohort in COHORTS:
-            summary_path = args.cohort_root / "splits" / f"{SPLITS[task]}_{SUFFIX}_{cohort}" / "fold_summary.csv"
+            split_name = SPLITS[task].replace("standard3", f"standard{args.folds}")
+            summary_path = args.cohort_root / "splits" / f"{split_name}_{SUFFIX}_{cohort}" / "fold_summary.csv"
             if not summary_path.is_file():
                 print(f"[SKIP] missing: {summary_path}")
                 continue
