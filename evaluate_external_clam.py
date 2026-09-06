@@ -20,6 +20,7 @@ TASK_LABELS = {
     "acr_high": "acr_high_label",
     "amr_positive": "amr_positive_label",
     "any_rejection": "any_rejection_label",
+    "significant_rejection": "significant_rejection_label",
 }
 
 

@@ -32,6 +32,10 @@ TASKS = {
         "dataset_csv/smc_any_rejection_binary.csv",
         "smc_cv_any_rejection_standard3",
     ),
+    "task_smc_significant_rejection_binary": (
+        "dataset_csv/smc_significant_rejection_binary.csv",
+        "smc_cv_significant_rejection_standard3",
+    ),
 }
 
 

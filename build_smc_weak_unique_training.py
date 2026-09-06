@@ -22,6 +22,7 @@ TASKS = {
     "smc_acr_binary_0r1r_vs_2r3r": "smc_cv_acr_0r1r_vs_2r3r_standard3",
     "smc_amr_binary_pamr0_vs_positive": "smc_cv_amr_pamr0_vs_positive_standard3",
     "smc_any_rejection_binary": "smc_cv_any_rejection_standard3",
+    "smc_significant_rejection_binary": "smc_cv_significant_rejection_standard3",
 }
 
 
@@ -87,10 +88,15 @@ def task_label(task: str, acr: str, amr: str) -> tuple[int, str] | None:
     elif task == "smc_amr_binary_pamr0_vs_positive":
         mapping = {"pAMR0": (0, "pAMR0"), "pAMR1": (1, "pAMR-positive"), "pAMR1(I+)": (1, "pAMR-positive"), "pAMR2": (1, "pAMR-positive")}
         return mapping.get(amr)
-    else:
+    elif task == "smc_any_rejection_binary":
         if acr not in {"0R", "1R", "2R", "3R"} or amr not in {"pAMR0", "pAMR1", "pAMR1(I+)", "pAMR2"}:
             return None
         return (int(acr != "0R" or amr != "pAMR0"), "ACR>=1R or AMR-positive" if acr != "0R" or amr != "pAMR0" else "ACR 0R and pAMR0")
+    else:
+        if acr not in {"0R", "1R", "2R", "3R"} or amr not in {"pAMR0", "pAMR1", "pAMR1(I+)", "pAMR2"}:
+            return None
+        positive = acr in {"2R", "3R"} or amr != "pAMR0"
+        return (int(positive), "ACR>=2R or AMR-positive" if positive else "ACR<2R and pAMR0")
     return mapping.get(acr)
 
 

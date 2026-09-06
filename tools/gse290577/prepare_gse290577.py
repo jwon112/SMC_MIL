@@ -70,6 +70,11 @@ def main() -> int:
             "acr_high_label": int(labels["acr_grade"] in {"2R", "3R"}),
             "amr_positive_label": "" if labels["amr_grade"] == "" else int(labels["amr_grade"] != "pAMR0"),
             "any_rejection_label": int(labels["acr_grade"] != "0R" or labels["amr_grade"] not in {"", "pAMR0"}),
+            "significant_rejection_label": (
+                1 if labels["acr_grade"] in {"2R", "3R"}
+                else "" if labels["amr_grade"] == ""
+                else int(labels["amr_grade"] != "pAMR0")
+            ),
             "roi_x": 0, "roi_y": 0, "roi_width": width, "roi_height": height,
             "width": width, "height": height, "mpp_x": mpp_x, "mpp_y": mpp_y,
         })

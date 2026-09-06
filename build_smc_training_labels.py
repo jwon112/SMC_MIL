@@ -38,7 +38,10 @@ TASKS = {
         },
     },
     "smc_any_rejection_binary": {
-        "composite": True,
+        "composite_acr_min": 1,
+    },
+    "smc_significant_rejection_binary": {
+        "composite_acr_min": 2,
     },
 }
 
@@ -120,13 +123,14 @@ def task_rows(slides: list[Slide], labels: pd.DataFrame, task: dict[str, object]
         if slide.event_key not in labels.index:
             continue
         record = labels.loc[slide.event_key]
-        if task.get("composite"):
+        if "composite_acr_min" in task:
             acr_grade = str(record["ACR 등급"]).strip()
             amr_grade = str(record["AMR 등급"]).strip()
             if acr_grade not in {"0R", "1R", "2R", "3R"} or amr_grade not in {"pAMR0", "pAMR1", "pAMR1(I+)", "pAMR2"}:
                 continue
-            numeric_label = int(acr_grade != "0R" or amr_grade != "pAMR0")
-            label_text = "ACR>=1R or AMR-positive" if numeric_label else "ACR 0R and pAMR0"
+            acr_min = int(task["composite_acr_min"])
+            numeric_label = int(int(acr_grade[0]) >= acr_min or amr_grade != "pAMR0")
+            label_text = f"ACR>={acr_min}R or AMR-positive" if numeric_label else f"ACR<{acr_min}R and pAMR0"
         else:
             source_column = str(task["source_column"])
             label_map = dict(task["labels"])

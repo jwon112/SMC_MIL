@@ -11,12 +11,13 @@ python build_smc_training_labels.py \
   --quality-exclusions /home/jupyter/data/image_team/labels/derived/slide_quality_exclusions.csv
 ```
 
-This writes three CSVs to `dataset_csv/`:
+This writes five CSVs to `dataset_csv/`:
 
 - `smc_acr_binary_0r_vs_1r2r3r.csv`: `0R` versus `1R/2R/3R`.
 - `smc_acr_binary_0r1r_vs_2r3r.csv`: `0R/1R` versus `2R/3R`.
 - `smc_amr_binary_pamr0_vs_positive.csv`: `pAMR0` versus `pAMR1`, `pAMR1(I+)`, or `pAMR2`.
 - `smc_any_rejection_binary.csv`: positive when ACR is at least `1R` or AMR is positive.
+- `smc_significant_rejection_binary.csv`: positive when ACR is at least `2R` or AMR is positive.
 
 Every row represents one feature bag. `case_id` is a stable pseudonym derived
 from the source patient ID; it is shared across all slide bags belonging to the
@@ -57,6 +58,9 @@ python create_smc_cv_splits.py \
 
 python create_smc_cv_splits.py \
   --task task_smc_any_rejection_binary
+
+python create_smc_cv_splits.py \
+  --task task_smc_significant_rejection_binary
 ```
 
 Point `--data_root_dir` to the selected scale directory containing the feature

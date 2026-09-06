@@ -14,12 +14,14 @@ TASKS = {
     "smc_acr_binary_0r1r_vs_2r3r": "ACR 0R/1R vs 2R/3R",
     "smc_amr_binary_pamr0_vs_positive": "AMR pAMR0 vs positive",
     "smc_any_rejection_binary": "Any rejection",
+    "smc_significant_rejection_binary": "Significant rejection",
 }
 SPLITS = {
     "smc_acr_binary_0r_vs_1r2r3r": "smc_cv_acr_0r_vs_1r2r3r_standard3",
     "smc_acr_binary_0r1r_vs_2r3r": "smc_cv_acr_0r1r_vs_2r3r_standard3",
     "smc_amr_binary_pamr0_vs_positive": "smc_cv_amr_pamr0_vs_positive_standard3",
     "smc_any_rejection_binary": "smc_cv_any_rejection_standard3",
+    "smc_significant_rejection_binary": "smc_cv_significant_rejection_standard3",
 }
 COHORTS = ("mixed_known", "he_only", "non_he", "ihc_only")
 SUFFIX = "weak_unique_0to3"

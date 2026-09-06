@@ -29,6 +29,7 @@ def binary_labels(acr: str, amr: str) -> dict[str, str | int]:
         "acr_high_label": "" if acr_number is None else int(acr_number >= 2),
         "amr_positive_label": "" if amr_number is None else int(amr_number >= 1),
         "any_rejection_label": "" if acr_number is None or amr_number is None else int(acr_number >= 1 or amr_number >= 1),
+        "significant_rejection_label": "" if acr_number is None or amr_number is None else int(acr_number >= 2 or amr_number >= 1),
     }
 
 

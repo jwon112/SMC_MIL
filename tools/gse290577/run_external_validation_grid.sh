@@ -6,8 +6,8 @@ FEATURE_ROOT=${FEATURE_ROOT:-/home/jupyter/image_team/projects/SMC_MIL/data/feat
 OUTPUT_ROOT=${OUTPUT_ROOT:-results/gse290577_external/weakunique3}
 DEVICE=${DEVICE:-cuda}
 
-tasks=(acr_any acr_high amr_positive any_rejection)
-prefixes=(acr_0r_vs_rest acr_high_grade amr_positive any_rejection)
+tasks=(acr_high amr_positive significant_rejection)
+prefixes=(acr_high_grade amr_positive significant_rejection)
 tags=(0p25 0p5 1 2)
 checkpoint_mpps=(0p25 0p50 1p00 2p00)
 levels=(l0 l1 l2 l3)

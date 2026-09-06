@@ -148,4 +148,4 @@ python evaluate_external_clam.py \
   --embed-dim 1536 --threshold 0.5 --bootstrap 2000 --device cuda
 ```
 
-Available task names are `acr_any`, `acr_high`, `amr_positive`, and `any_rejection`. ACR-only WSI cases have no AMR grade and are automatically omitted from AMR evaluation. Report WSI and core results separately; the core `n=195` does not represent 195 independent patients.
+Available task names are `acr_any`, `acr_high`, `amr_positive`, legacy `any_rejection`, and `significant_rejection` (ACR at least 2R or AMR positive). ACR-only WSI cases have no AMR grade and are automatically omitted when a negative composite label cannot be established. Report WSI and core results separately; the core `n=195` does not represent 195 independent patients.

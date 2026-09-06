@@ -133,7 +133,7 @@ parser.add_argument('--model_type', type=str, choices=['clam_sb', 'clam_mb', 'mi
 parser.add_argument('--exp_code', type=str, help='experiment code for saving results')
 parser.add_argument('--weighted_sample', action='store_true', default=False, help='enable weighted sampling')
 parser.add_argument('--model_size', type=str, choices=['small', 'big'], default='small', help='size of model, does not affect mil')
-parser.add_argument('--task', type=str, choices=['task_1_tumor_vs_normal',  'task_2_tumor_subtyping', 'task_3_camelyon16_binary', 'task_4_camelyon16_multiclass', 'task_smc_acr_binary_0r_vs_1r2r3r', 'task_smc_acr_binary_0r1r_vs_2r3r', 'task_smc_amr_binary_pamr0_vs_positive', 'task_smc_any_rejection_binary'])
+parser.add_argument('--task', type=str, choices=['task_1_tumor_vs_normal',  'task_2_tumor_subtyping', 'task_3_camelyon16_binary', 'task_4_camelyon16_multiclass', 'task_smc_acr_binary_0r_vs_1r2r3r', 'task_smc_acr_binary_0r1r_vs_2r3r', 'task_smc_amr_binary_pamr0_vs_positive', 'task_smc_any_rejection_binary', 'task_smc_significant_rejection_binary'])
 parser.add_argument('--csv_path', type=str, default=None, help='custom csv path (overrides task default)')
 ### CLAM specific options
 parser.add_argument('--no_inst_cluster', action='store_true', default=False,
@@ -297,6 +297,18 @@ elif args.task == 'task_smc_acr_binary_0r1r_vs_2r3r':
 elif args.task == 'task_smc_any_rejection_binary':
     args.n_classes=2
     csv_path = args.csv_path if args.csv_path else 'dataset_csv/smc_any_rejection_binary.csv'
+    dataset = Generic_MIL_Dataset(csv_path = csv_path,
+                            data_dir= os.path.join(args.data_root_dir),
+                            shuffle = False,
+                            seed = args.seed,
+                            print_info = True,
+                            label_dict = {0:0, 1:1},
+                            patient_strat=False,
+                            ignore=[])
+
+elif args.task == 'task_smc_significant_rejection_binary':
+    args.n_classes=2
+    csv_path = args.csv_path if args.csv_path else 'dataset_csv/smc_significant_rejection_binary.csv'
     dataset = Generic_MIL_Dataset(csv_path = csv_path,
                             data_dir= os.path.join(args.data_root_dir),
                             shuffle = False,
