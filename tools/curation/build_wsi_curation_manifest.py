@@ -40,7 +40,7 @@ IHC_MARKERS = {
     "CD45", "CD56", "CD68", "CD79A", "CMV", "IGG", "IGM", "KI67", "P53",
     "SV40",
 }
-SPECIAL_STAINS = {"AFB", "CONGO", "EVG", "GMS", "MASS", "PAS", "SILVER", "TRICHROME"}
+SPECIAL_STAINS = {"AFB", "CONGO", "EVG", "GMS", "MASS", "MT", "PAS", "SILVER", "TRICHROME"}
 COLOR_FEATURE_COLUMNS = [
     "color_mean_r", "color_mean_g", "color_mean_b",
     "color_std_r", "color_std_g", "color_std_b",
@@ -117,8 +117,8 @@ def stain_signature(slide_rel_path: str, event_key: str) -> str:
 
 def automatic_stain_group(signature: str) -> tuple[str, str, str, str]:
     upper = signature.upper()
-    tokens = set(re.findall(r"[A-Z]+[0-9+]*", upper))
-    if "HE" in tokens or "H&E" in upper or re.search(r"(?:^|[^A-Z])H\s*E(?:$|[^A-Z])", upper):
+    tokens = set(re.findall(r"[A-Z][A-Z0-9+]*", upper))
+    if "HE" in tokens or "PLHE" in tokens or "H&E" in upper or re.search(r"(?:^|[^A-Z])H\s*E(?:$|[^A-Z])", upper):
         return "HE", "HE", "filename_rule", "high"
     marker_hits = sorted(token for token in tokens if token in IHC_MARKERS)
     if marker_hits:
