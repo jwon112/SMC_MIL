@@ -20,6 +20,7 @@ AUTO_GROUP_TO_LABEL = {
     "IHC": "IHC",
     "special_other": "other",
 }
+REVIEW_GROUP_TO_LABEL = {**AUTO_GROUP_TO_LABEL, "unknown": "unknown"}
 LABEL_IDS = {"HE": 0, "IHC": 1, "other": 2}
 TRUE_VALUES = {"1", "true", "t", "yes", "y"}
 
@@ -32,6 +33,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--thumbnail-max-px", type=int, default=1024)
+    parser.add_argument("--image-format", choices=["png", "jpeg"], default="png")
     parser.add_argument("--jpeg-quality", type=int, default=90)
     parser.add_argument(
         "--include-all-quality", action="store_true",
@@ -72,17 +74,23 @@ def resolve_thumbnail(raw_path: str, manifest_path: Path) -> Path:
     raise FileNotFoundError(raw_path)
 
 
-def safe_image_name(slide_id: str) -> str:
+def safe_image_name(slide_id: str, image_format: str) -> str:
     safe_id = re.sub(r"[^A-Za-z0-9_.-]+", "_", slide_id).strip("._") or "slide"
     digest = hashlib.sha1(slide_id.encode("utf-8")).hexdigest()[:10]
-    return f"{safe_id[:120]}__{digest}.jpg"
+    extension = "png" if image_format == "png" else "jpg"
+    return f"{safe_id[:120]}__{digest}.{extension}"
 
 
-def write_thumbnail(source: Path, destination: Path, max_px: int, quality: int) -> None:
+def write_thumbnail(
+    source: Path, destination: Path, max_px: int, image_format: str, quality: int,
+) -> None:
     with Image.open(source) as image:
         image = image.convert("RGB")
         image.thumbnail((max_px, max_px), Image.Resampling.LANCZOS)
-        image.save(destination, format="JPEG", quality=quality, optimize=True)
+        if image_format == "png":
+            image.save(destination, format="PNG", optimize=True)
+        else:
+            image.save(destination, format="JPEG", quality=quality, optimize=True)
 
 
 def prepare_output(path: Path, overwrite: bool) -> Path:
@@ -114,18 +122,20 @@ def main() -> int:
     passthrough = [
         "source_dataset", "slide_rel_path", "event_key", "patient_id",
         "gold_pathology_id_match", "stain_signature", "stain_group",
-        "stain_raw", "stain_source", "stain_confidence",
+        "stain_raw", "stain_source", "stain_confidence", "stain_note",
+        "stain_color_cluster",
         "include_quality_usable", "include_quality_clean",
     ]
 
     for row in frame.to_dict("records"):
         slide_id = str(row["slide_id"])
-        image_name = safe_image_name(slide_id)
+        image_name = safe_image_name(slide_id, args.image_format)
         try:
             source = resolve_thumbnail(str(row["thumbnail_path"]), args.manifest)
             write_thumbnail(
                 source, image_dir / image_name,
-                max_px=args.thumbnail_max_px, quality=args.jpeg_quality,
+                max_px=args.thumbnail_max_px, image_format=args.image_format,
+                quality=args.jpeg_quality,
             )
         except Exception as exc:
             failures.append({
@@ -137,14 +147,31 @@ def main() -> int:
 
         signature = str(row["stain_signature"]).strip()
         auto_group, auto_raw, auto_source, auto_confidence = automatic_stain_group(signature)
-        label = AUTO_GROUP_TO_LABEL.get(auto_group, "") if auto_source == "filename_rule" else ""
+        filename_label = (
+            AUTO_GROUP_TO_LABEL.get(auto_group, "") if auto_source == "filename_rule" else ""
+        )
+        manual_group = str(row.get("stain_group", "")).strip()
+        manual_source = str(row.get("stain_source", "")).strip()
+        manual_label = (
+            REVIEW_GROUP_TO_LABEL.get(manual_group, "")
+            if manual_source == "slide_review" else ""
+        )
+        if filename_label and manual_label:
+            label_relation = "agreement" if filename_label == manual_label else "conflict"
+        elif filename_label:
+            label_relation = "filename_only"
+        elif manual_label:
+            label_relation = "manual_only"
+        else:
+            label_relation = "unlabeled"
         record: dict[str, object] = {
             "slide_id": slide_id,
             "image_path": f"images/{image_name}",
-            "is_labeled": bool(label),
-            "label": label,
-            "label_id": LABEL_IDS.get(label, ""),
-            "label_source": "filename_rule" if label else "unlabeled",
+            "filename_label": filename_label,
+            "filename_label_id": LABEL_IDS.get(filename_label, ""),
+            "manual_label": manual_label,
+            "manual_label_id": LABEL_IDS.get(manual_label, ""),
+            "label_relation": label_relation,
             "stain_detail_auto": auto_raw,
             "stain_group_auto": auto_group,
             "stain_source_auto": auto_source,
@@ -158,25 +185,68 @@ def main() -> int:
     if not records:
         raise RuntimeError("No readable thumbnails were exported")
 
-    dataset = pd.DataFrame(records).sort_values(["is_labeled", "label", "slide_id"], ascending=[False, True, True])
+    dataset = pd.DataFrame(records).sort_values(
+        ["label_relation", "filename_label", "manual_label", "slide_id"]
+    )
     dataset.to_csv(args.output_dir / "dataset_manifest.csv", index=False, encoding="utf-8-sig")
 
-    summary = (
-        dataset.assign(dataset_role=dataset.is_labeled.map({True: "labeled", False: "unlabeled"}))
-        .groupby(["dataset_role", "label"], dropna=False)
-        .size()
-        .rename("slides")
-        .reset_index()
+    filename_labels = dataset[dataset.filename_label.ne("")].copy()
+    filename_labels[
+        ["slide_id", "image_path", "filename_label", "filename_label_id",
+         "stain_detail_auto", "stain_signature", "source_dataset", "slide_rel_path"]
+    ].rename(
+        columns={
+            "filename_label": "label",
+            "filename_label_id": "label_id",
+            "stain_detail_auto": "stain_detail",
+        }
+    ).to_csv(
+        args.output_dir / "filename_rule_labels.csv", index=False, encoding="utf-8-sig"
     )
+
+    manual_labels = dataset[dataset.manual_label.ne("")].copy()
+    manual_columns = [
+        "slide_id", "image_path", "manual_label", "manual_label_id", "stain_raw",
+        "stain_confidence", "stain_note", "stain_signature", "stain_color_cluster",
+        "source_dataset", "slide_rel_path",
+    ]
+    manual_columns = [column for column in manual_columns if column in manual_labels]
+    manual_labels[manual_columns].rename(
+        columns={
+            "manual_label": "label",
+            "manual_label_id": "label_id",
+            "stain_raw": "stain_detail",
+        }
+    ).to_csv(
+        args.output_dir / "manual_review_labels.csv", index=False, encoding="utf-8-sig"
+    )
+
+    summary_parts = []
+    for label_set, column in [
+        ("filename_rule", "filename_label"),
+        ("manual_review", "manual_label"),
+    ]:
+        part = (
+            dataset.loc[dataset[column].ne(""), column]
+            .value_counts()
+            .rename_axis("label")
+            .rename("slides")
+            .reset_index()
+        )
+        part.insert(0, "label_set", label_set)
+        summary_parts.append(part)
+    summary = pd.concat(summary_parts, ignore_index=True)
     summary.to_csv(args.output_dir / "label_summary.csv", index=False, encoding="utf-8-sig")
     if failures:
         pd.DataFrame(failures).to_csv(
             args.output_dir / "thumbnail_failures.csv", index=False, encoding="utf-8-sig"
         )
 
-    labeled = int(dataset.is_labeled.sum())
     print(f"[OK] stain-classifier dataset: {args.output_dir}")
-    print(f"Slides exported: {len(dataset)} (labeled={labeled}, unlabeled={len(dataset) - labeled})")
+    print(
+        f"Slides exported: {len(dataset)} (filename labels={len(filename_labels)}, "
+        f"manual labels={len(manual_labels)}, format={args.image_format})"
+    )
     print(summary.to_string(index=False))
     if failures:
         print(f"[WARN] Thumbnail failures: {len(failures)}")

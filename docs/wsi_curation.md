@@ -156,13 +156,19 @@ python tools/curation/export_stain_classifier_dataset.py \
   --output-dir "$CURATION_ROOT/stain_classifier_dataset_v1"
 ```
 
-The output contains `images/`, `dataset_manifest.csv`, and
-`label_summary.csv`. The three model labels are `HE`, `IHC`, and `other`;
-filename-unresolved slides are exported with a blank label for later inference.
-The automatic stain detail (for example, `C4D`, `CD68`, or `MT`) is preserved
-as metadata but is not used as the primary target. The exporter reapplies the
-current filename rules to `stain_signature`, so a curated manifest produced
-before a rule update does not need to be rebuilt.
+The output contains one shared `images/` directory plus
+`dataset_manifest.csv`, `filename_rule_labels.csv`,
+`manual_review_labels.csv`, and `label_summary.csv`. Filename-rule and direct
+visual-review labels are deliberately kept separate, allowing later experiments
+to decide how to combine or split them. The three model labels are `HE`, `IHC`,
+and `other`; manual `unknown` decisions are also retained. The automatic stain
+detail (for example, `C4D`, `CD68`, or `MT`) is metadata rather than the primary
+target. The exporter reapplies the current filename rules to `stain_signature`,
+so a curated manifest produced before a rule update does not need to be rebuilt.
+
+PNG is the default output format so stain colors are not changed by lossy JPEG
+compression. Use `--image-format jpeg --jpeg-quality 90` only when transfer size
+is more important than retaining the exact thumbnail pixels.
 
 To revisit every slide that was unresolved by the original folder/filename
 rules, including slides later resolved by signature, color-cluster, or manual
