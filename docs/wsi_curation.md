@@ -125,6 +125,58 @@ write decisions immediately to `$CURATION_ROOT/stain_slide_review.csv`; it also
 shows the current slide's color-cluster montage for context. The notebook uses
 only the original `unknown` rows, leaving high-confidence filename rules intact.
 
+To send the unresolved slides to a reviewer who does not have Python or
+Jupyter, export a standalone offline browser package:
+
+```bash
+python tools/curation/export_portable_stain_review.py \
+  --manifest "$CURATION_ROOT/slide_curation_manifest.csv" \
+  --output-dir "$CURATION_ROOT/portable_stain_review" \
+  --title "Heart biopsy slide stain review"
+```
+
+The output directory contains `index.html`, `thumbnails/`, and
+`stain_review_results.csv`. The recipient opens `index.html` directly in a
+modern browser; no server or installation is required. Decisions are retained
+in browser storage while reviewing. The `CSV 저장` button downloads a compatible
+`stain_review_results.csv`, and `CSV 불러오기` resumes from a previously exported
+file. Return the resulting CSV and apply it as `--stain-decisions`.
+
+Use `--decisions existing_stain_slide_review.csv` to preload decisions while
+building the package, or `--selection all` when expert review should cover all
+slides rather than only the unresolved group.
+
+To revisit every slide that was unresolved by the original folder/filename
+rules, including slides later resolved by signature, color-cluster, or manual
+review, use:
+
+```bash
+python tools/curation/export_portable_stain_review.py \
+  --manifest "$CURATION_ROOT/slide_curation_manifest_curated.csv" \
+  --selection filename-unresolved \
+  --output-dir "$CURATION_ROOT/portable_filename_unresolved"
+```
+
+Signature filters can create a focused first pass or remove a signature that
+has already been confirmed. Use the `contains` variants when the extracted
+signature still includes a unique folder identifier:
+
+```bash
+# Inspect PLHE only.
+python tools/curation/export_portable_stain_review.py \
+  --manifest "$CURATION_ROOT/slide_curation_manifest_curated.csv" \
+  --selection filename-unresolved \
+  --signature-contains PLHE \
+  --output-dir "$CURATION_ROOT/portable_plhe"
+
+# Re-export the original filename-unresolved set without confirmed PLHE slides.
+python tools/curation/export_portable_stain_review.py \
+  --manifest "$CURATION_ROOT/slide_curation_manifest_curated.csv" \
+  --selection filename-unresolved \
+  --exclude-signature-contains PLHE \
+  --output-dir "$CURATION_ROOT/portable_filename_unresolved_without_plhe"
+```
+
 ## 3. Produce the curated manifest
 
 ```bash
