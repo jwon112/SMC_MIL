@@ -146,6 +146,22 @@ Use `--decisions existing_stain_slide_review.csv` to preload decisions while
 building the package, or `--selection all` when expert review should cover all
 slides rather than only the unresolved group.
 
+To build a separate machine-learning dataset containing every quality-usable
+thumbnail, while treating only high-confidence filename rules as training
+labels, run:
+
+```bash
+python tools/curation/export_stain_classifier_dataset.py \
+  --manifest "$CURATION_ROOT/slide_curation_manifest_curated.csv" \
+  --output-dir "$CURATION_ROOT/stain_classifier_dataset_v1"
+```
+
+The output contains `images/`, `dataset_manifest.csv`, and
+`label_summary.csv`. The three model labels are `HE`, `IHC`, and `other`;
+filename-unresolved slides are exported with a blank label for later inference.
+The automatic stain detail (for example, `C4D`, `CD68`, or `MT`) is preserved
+as metadata but is not used as the primary target.
+
 To revisit every slide that was unresolved by the original folder/filename
 rules, including slides later resolved by signature, color-cluster, or manual
 review, use:
