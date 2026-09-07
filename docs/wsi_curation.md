@@ -160,7 +160,9 @@ The output contains `images/`, `dataset_manifest.csv`, and
 `label_summary.csv`. The three model labels are `HE`, `IHC`, and `other`;
 filename-unresolved slides are exported with a blank label for later inference.
 The automatic stain detail (for example, `C4D`, `CD68`, or `MT`) is preserved
-as metadata but is not used as the primary target.
+as metadata but is not used as the primary target. The exporter reapplies the
+current filename rules to `stain_signature`, so a curated manifest produced
+before a rule update does not need to be rebuilt.
 
 To revisit every slide that was unresolved by the original folder/filename
 rules, including slides later resolved by signature, color-cluster, or manual

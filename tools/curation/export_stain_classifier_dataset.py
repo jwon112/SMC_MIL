@@ -12,6 +12,8 @@ import shutil
 import pandas as pd
 from PIL import Image
 
+from build_wsi_curation_manifest import automatic_stain_group
+
 
 AUTO_GROUP_TO_LABEL = {
     "HE": "HE",
@@ -43,10 +45,7 @@ def read_manifest(path: Path) -> pd.DataFrame:
     if not path.is_file():
         raise FileNotFoundError(path)
     frame = pd.read_csv(path, dtype=str).fillna("")
-    required = {
-        "slide_id", "thumbnail_path", "stain_group_auto",
-        "stain_source_auto", "stain_raw_auto",
-    }
+    required = {"slide_id", "thumbnail_path", "stain_signature"}
     missing = required.difference(frame.columns)
     if missing:
         raise ValueError(f"Manifest missing columns: {sorted(missing)}")
@@ -136,8 +135,8 @@ def main() -> int:
             })
             continue
 
-        auto_group = str(row["stain_group_auto"]).strip()
-        auto_source = str(row["stain_source_auto"]).strip()
+        signature = str(row["stain_signature"]).strip()
+        auto_group, auto_raw, auto_source, auto_confidence = automatic_stain_group(signature)
         label = AUTO_GROUP_TO_LABEL.get(auto_group, "") if auto_source == "filename_rule" else ""
         record: dict[str, object] = {
             "slide_id": slide_id,
@@ -146,10 +145,12 @@ def main() -> int:
             "label": label,
             "label_id": LABEL_IDS.get(label, ""),
             "label_source": "filename_rule" if label else "unlabeled",
-            "stain_detail_auto": str(row["stain_raw_auto"]).strip(),
+            "stain_detail_auto": auto_raw,
             "stain_group_auto": auto_group,
             "stain_source_auto": auto_source,
-            "stain_confidence_auto": str(row.get("stain_confidence_auto", "")),
+            "stain_confidence_auto": auto_confidence,
+            "manifest_stain_group_auto": str(row.get("stain_group_auto", "")),
+            "manifest_stain_detail_auto": str(row.get("stain_raw_auto", "")),
         }
         record.update({column: str(row.get(column, "")) for column in passthrough})
         records.append(record)
