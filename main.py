@@ -120,6 +120,10 @@ parser.add_argument('--split_dir', type=str, default=None,
 parser.add_argument('--log_data', action='store_true', default=False, help='log data using tensorboard')
 parser.add_argument('--testing', action='store_true', default=False, help='debugging tool')
 parser.add_argument('--early_stopping', action='store_true', default=False, help='enable early stopping')
+parser.add_argument('--early-stop-patience', type=int, default=20,
+                    help='epochs without validation-loss improvement before stopping (default: 20)')
+parser.add_argument('--early-stop-min-epoch', type=int, default=50,
+                    help='earliest zero-based epoch at which early stopping is allowed (default: 50)')
 parser.add_argument('--no_val', action='store_true', default=False,
                     help='skip validation entirely; train to --max_epochs and evaluate only the held-out fold')
 parser.add_argument('--cv-validation', action='store_true', default=False,
@@ -161,6 +165,10 @@ parser.add_argument('--ddpm_num_steps', type=int, default=20,
 parser.add_argument('--distributed', action='store_true', default=False,
                     help='enable DDP multi-GPU training (use with torchrun)')
 args = parser.parse_args()
+if args.early_stop_patience <= 0:
+    parser.error('--early-stop-patience must be a positive integer')
+if args.early_stop_min_epoch < 0:
+    parser.error('--early-stop-min-epoch must be non-negative')
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def seed_torch(seed=7):
@@ -183,6 +191,8 @@ settings = {'num_splits': args.k,
             'k_end': args.k_end,
             'task': args.task,
             'max_epochs': args.max_epochs, 
+            'early_stop_patience': args.early_stop_patience,
+            'early_stop_min_epoch': args.early_stop_min_epoch,
             'results_dir': args.results_dir, 
             'lr': args.lr,
             'experiment': args.exp_code,

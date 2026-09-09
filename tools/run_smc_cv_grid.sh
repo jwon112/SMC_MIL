@@ -8,6 +8,8 @@ GPU=""
 WORKER=""
 FULL_TRAIN_CV=false
 MAX_EPOCHS=200
+EARLY_STOP_PATIENCE=20
+EARLY_STOP_MIN_EPOCH=50
 FOLDS=3
 WEAK_TRAIN_ROOT=""
 STAIN_ROOT=""
@@ -15,7 +17,7 @@ STAIN_COHORT=""
 
 usage() {
   cat <<'EOF'
-Usage: bash tools/run_smc_cv_grid.sh --gpu GPU_ID --worker acr|acr_low|acr_high|amr|significant [--folds 3|5] [--feature-root PATH] [--weak-train-root PATH] [--stain-root PATH --stain-cohort NAME] [--full-train-cv --max-epochs N]
+Usage: bash tools/run_smc_cv_grid.sh --gpu GPU_ID --worker acr|acr_low|acr_high|amr|significant [--folds 3|5] [--feature-root PATH] [--weak-train-root PATH] [--stain-root PATH --stain-cohort NAME] [--full-train-cv --max-epochs N] [--early-stop-patience N --early-stop-min-epoch N]
 
 Workers:
   acr      Runs the two ACR tasks at L0, L1, L2, and L3.
@@ -28,6 +30,10 @@ Modes:
   --full-train-cv  Train on all two outer-training folds without validation or
                    early stopping. Uses cosine LR decay and *_fulltrain splits.
   --max-epochs N   Training epochs (default: 200; use 100 with --full-train-cv).
+  --early-stop-patience N
+                   Epochs without validation-loss improvement (default: 20).
+  --early-stop-min-epoch N
+                   Earliest zero-based epoch allowed to stop (default: 50).
   --folds 3|5      Number of patient-grouped CV folds (default: 3).
   --weak-train-root PATH
                    Root created by build_smc_weak_unique_training.py. Keeps each
@@ -49,6 +55,8 @@ while [[ $# -gt 0 ]]; do
     --stain-cohort) STAIN_COHORT="$2"; shift 2 ;;
     --full-train-cv) FULL_TRAIN_CV=true; shift ;;
     --max-epochs) MAX_EPOCHS="$2"; shift 2 ;;
+    --early-stop-patience) EARLY_STOP_PATIENCE="$2"; shift 2 ;;
+    --early-stop-min-epoch) EARLY_STOP_MIN_EPOCH="$2"; shift 2 ;;
     --folds) FOLDS="$2"; shift 2 ;;
     -h|--help) usage; exit 0 ;;
     *) echo "Unknown argument: $1" >&2; usage >&2; exit 2 ;;
@@ -61,6 +69,8 @@ if [[ -z "$GPU" || ( "$WORKER" != "acr" && "$WORKER" != "acr_low" && "$WORKER" !
 fi
 
 [[ "$MAX_EPOCHS" =~ ^[1-9][0-9]*$ ]] || { echo "--max-epochs must be a positive integer" >&2; exit 2; }
+[[ "$EARLY_STOP_PATIENCE" =~ ^[1-9][0-9]*$ ]] || { echo "--early-stop-patience must be a positive integer" >&2; exit 2; }
+[[ "$EARLY_STOP_MIN_EPOCH" =~ ^[0-9]+$ ]] || { echo "--early-stop-min-epoch must be a non-negative integer" >&2; exit 2; }
 [[ "$FOLDS" == 3 || "$FOLDS" == 5 ]] || { echo "--folds must be 3 or 5" >&2; exit 2; }
 if [[ -n "$STAIN_ROOT" && -z "$STAIN_COHORT" ]] || [[ -z "$STAIN_ROOT" && -n "$STAIN_COHORT" ]]; then
   echo "--stain-root and --stain-cohort must be provided together" >&2
@@ -170,6 +180,8 @@ for scale in "${SCALES[@]}"; do
       --model_type clam_sb \
       --model_size small \
       --max_epochs "$MAX_EPOCHS" \
+      --early-stop-patience "$EARLY_STOP_PATIENCE" \
+      --early-stop-min-epoch "$EARLY_STOP_MIN_EPOCH" \
       --drop_out 0.25 \
       "${mode_args[@]}" \
       --lr 2e-4 \

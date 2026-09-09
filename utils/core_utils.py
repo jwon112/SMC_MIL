@@ -98,7 +98,7 @@ class EarlyStopping:
         elif score < self.best_score:
             self.counter += 1
             print(f'EarlyStopping counter: {self.counter} out of {self.patience}')
-            if self.counter >= self.patience and epoch > self.stop_epoch:
+            if self.counter >= self.patience and epoch >= self.stop_epoch:
                 self.early_stop = True
         else:
             self.best_score = score
@@ -258,7 +258,12 @@ def train(datasets, cur, args, rank=0, world_size=1, local_rank=0):
     if rank == 0:
         print('\nSetup EarlyStopping...', end=' ')
     if args.early_stopping:
-        early_stopping = EarlyStopping(patience=20, stop_epoch=50, verbose=True, rank=rank)
+        early_stopping = EarlyStopping(
+            patience=args.early_stop_patience,
+            stop_epoch=args.early_stop_min_epoch,
+            verbose=True,
+            rank=rank,
+        )
     else:
         early_stopping = None
     if rank == 0:
