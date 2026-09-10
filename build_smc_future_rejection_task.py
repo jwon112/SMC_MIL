@@ -115,6 +115,10 @@ def build_slide_manifest(gold_csv: Path, patients: pd.DataFrame) -> pd.DataFrame
         "observed_followup_days", "future_acr_high", "future_amr_positive", "label",
         "label_text", "days_to_first_positive",
     ]
+    # The gold classification CSV already has contemporaneous label columns.
+    # Remove derived columns before attaching the future-outcome definition.
+    derived_columns = set(patient_columns).difference({"case_id", "baseline_event_key"})
+    bags = bags.drop(columns=[column for column in derived_columns if column in bags.columns])
     manifest = bags.merge(
         patients[patient_columns],
         left_on=["case_id", "event_key"],
