@@ -20,7 +20,7 @@ from sklearn.metrics import (
 
 
 EXPERIMENT_PATTERN = re.compile(
-    r"^smc_(?P<task>acr_0r_vs_rest|acr_high_grade|amr_positive|any_rejection|significant_rejection)_"
+    r"^smc_(?P<task>acr_0r_vs_rest|acr_high_grade|amr_positive|any_rejection|significant_rejection|future_significant)_"
     r"(?P<level>l[0-3])_(?P<mpp>0p25|0p50|1p00|2p00)mpp_(?P<magnification>40x|20x|10x|5x)_"
     r"uni2_clamsb(?P<variant>.+)_s1$"
 )
@@ -30,6 +30,7 @@ TASK_NAMES = {
     "amr_positive": "amr_positive",
     "any_rejection": "any_rejection",
     "significant_rejection": "significant_rejection",
+    "future_significant": "future_significant_rejection",
 }
 
 
@@ -60,7 +61,9 @@ def metadata(experiment: str) -> dict[str, object]:
         }
     values = match.groupdict()
     variant = values["variant"].lstrip("_")
-    fold_match = re.search(r"cv(?P<folds>[35])val", variant)
+    fold_match = re.search(r"cv(?P<folds>[345])val", variant)
+    if fold_match is None:
+        fold_match = re.search(r"gold(?P<folds>[345])cv", variant)
     stain_cohort = next(
         (name for name in ("mixed_known", "he_only", "non_he", "ihc_only") if name in variant),
         "all_stains",
@@ -127,6 +130,7 @@ def collect_internal(results_root: Path, threshold: float) -> list[dict[str, obj
             "evaluation_scope": "internal_cv",
             "evaluation_run": "internal_cv",
             "cohort": "internal_cv",
+            "metric_unit": "slide_bag",
             "patients": "",
             "n": int(metrics["n"].sum()) if not metrics.empty else "",
             "positive_n": int(metrics["positive_n"].sum()) if not metrics.empty else "",
@@ -142,6 +146,16 @@ def collect_internal(results_root: Path, threshold: float) -> list[dict[str, obj
         elif "cv_val_auc" in summary:
             row["auroc"] = float(summary["cv_val_auc"].mean())
             row["auroc_std"] = float(summary["cv_val_auc"].std(ddof=1))
+        patient_metrics_path = experiment_dir / "patient_level_oof" / "pooled_metrics.csv"
+        if info["task"] == "future_significant_rejection" and patient_metrics_path.is_file():
+            patient_metrics = pd.read_csv(patient_metrics_path).iloc[0]
+            row["metric_unit"] = "patient"
+            row["n"] = int(patient_metrics["patients"])
+            row["positive_n"] = int(patient_metrics["positive_patients"])
+            row["negative_n"] = int(patient_metrics["negative_patients"])
+            for column in ("auroc", "pr_auc", "sensitivity", "specificity", "balanced_accuracy", "threshold"):
+                row[column] = float(patient_metrics[column])
+            row["source_path"] = str(patient_metrics_path)
         collected.append(row)
     return collected
 
@@ -214,7 +228,7 @@ def main() -> int:
 
     preferred = [
         "evaluation_scope", "evaluation_run", "experiment", "task", "folds",
-        "training_set", "stain_cohort", "magnification", "mpp", "cohort",
+        "training_set", "stain_cohort", "magnification", "mpp", "cohort", "metric_unit",
         "patients", "n", "positive_n", "negative_n", "auroc", "auroc_std",
         "pr_auc", "pr_auc_std", "sensitivity", "sensitivity_std", "specificity",
         "specificity_std", "balanced_accuracy", "balanced_accuracy_std", "accuracy",
