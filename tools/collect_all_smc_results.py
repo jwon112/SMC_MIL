@@ -22,7 +22,7 @@ from sklearn.metrics import (
 EXPERIMENT_PATTERN = re.compile(
     r"^smc_(?P<task>acr_0r_vs_rest|acr_high_grade|amr_positive|any_rejection|significant_rejection|future_significant)_"
     r"(?P<level>l[0-3])_(?P<mpp>0p25|0p50|1p00|2p00)mpp_(?P<magnification>40x|20x|10x|5x)_"
-    r"uni2_clamsb(?P<variant>.+)_s1$"
+    r"uni2_clamsb(?P<variant>.+)_s(?P<seed>[0-9]+)$"
 )
 TASK_NAMES = {
     "acr_0r_vs_rest": "acr_any",
@@ -58,6 +58,7 @@ def metadata(experiment: str) -> dict[str, object]:
             "magnification": "",
             "mpp": "",
             "variant": "",
+            "seed": "",
         }
     values = match.groupdict()
     variant = values["variant"].lstrip("_")
@@ -77,6 +78,7 @@ def metadata(experiment: str) -> dict[str, object]:
         "magnification": values["magnification"],
         "mpp": values["mpp"].replace("p", "."),
         "variant": variant,
+        "seed": int(values["seed"]),
     }
 
 
@@ -232,7 +234,7 @@ def main() -> int:
         "patients", "n", "positive_n", "negative_n", "auroc", "auroc_std",
         "pr_auc", "pr_auc_std", "sensitivity", "sensitivity_std", "specificity",
         "specificity_std", "balanced_accuracy", "balanced_accuracy_std", "accuracy",
-        "threshold", "variant", "source_path",
+        "threshold", "variant", "seed", "source_path",
     ]
     frame = pd.DataFrame(rows)
     columns = [column for column in preferred if column in frame] + [

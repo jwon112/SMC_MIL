@@ -9,6 +9,7 @@ from all three rotations are the reported cross-validation results.
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 
 import pandas as pd
@@ -73,7 +74,12 @@ def main() -> int:
     default_csv, default_dir = TASKS[args.task]
     csv_path = args.csv_path or Path(default_csv)
     default_dir = default_dir.replace("standard3", f"standard{args.folds}")
-    output_dir = args.output_dir or Path("splits") / default_dir
+    if args.output_dir is not None:
+        output_dir = args.output_dir
+    else:
+        if args.seed != 1:
+            default_dir = f"{default_dir}_seed{args.seed}"
+        output_dir = Path("splits") / default_dir
     data = pd.read_csv(csv_path)
     required = {"case_id", "slide_id", "label"}
     missing = required.difference(data.columns)
@@ -111,9 +117,27 @@ def main() -> int:
 
     if validation_patients != set(patients["case_id"]):
         raise RuntimeError("Validation folds did not cover every patient exactly once")
-    pd.DataFrame(report).to_csv(output_dir / "fold_summary.csv", index=False)
+    summary = pd.DataFrame(report)
+    summary.insert(0, "seed", args.seed)
+    summary.insert(1, "folds", args.folds)
+    summary.to_csv(output_dir / "fold_summary.csv", index=False)
+    (output_dir / "split_config.json").write_text(
+        json.dumps(
+            {
+                "task": args.task,
+                "csv_path": str(csv_path),
+                "folds": args.folds,
+                "seed": args.seed,
+                "patients": len(patients),
+                "bags": len(data),
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     print(f"[OK] standard {args.folds}-fold CV: {args.task}: patients={len(patients)}, bags={len(data)} -> {output_dir}")
-    print(pd.DataFrame(report).to_string(index=False))
+    print(summary.to_string(index=False))
     return 0
 
 
