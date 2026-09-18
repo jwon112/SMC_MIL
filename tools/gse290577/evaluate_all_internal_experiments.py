@@ -27,7 +27,7 @@ SCALES = {
 RESULT_PATTERN = re.compile(
     r"^smc_(?P<prefix>acr_0r_vs_rest|acr_high_grade|amr_positive|any_rejection|significant_rejection)_"
     r"(?P<level>l[0-3])_(?P<mpp>0p25|0p50|1p00|2p00)mpp_(?P<mag>40x|20x|10x|5x)_"
-    r"uni2_clamsb(?P<variant>.+)_s1$"
+    r"uni2_clamsb(?P<variant>.+)_s(?P<seed>[0-9]+)$"
 )
 
 
@@ -50,6 +50,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--threshold", type=float, default=0.5)
     parser.add_argument("--include-task", action="append", choices=sorted(set(TASKS.values())))
     parser.add_argument("--include-variant", action="append", help="Only run variants containing this text; repeatable.")
+    parser.add_argument("--include-seed", action="append", type=int, help="Only evaluate a seed; repeatable.")
+    parser.add_argument(
+        "--worker",
+        choices=("all", "a", "b"),
+        default="all",
+        help="Partition repeated-CV experiments: a=40x ACR/AMR, b=remaining primary experiments.",
+    )
     parser.add_argument("--overwrite", action="store_true")
     return parser.parse_args()
 
@@ -66,12 +73,20 @@ def discover(args: argparse.Namespace) -> list[dict[str, object]]:
         fields = match.groupdict()
         task = TASKS[fields["prefix"]]
         variant = fields["variant"].lstrip("_")
+        seed = int(fields["seed"])
         fold_match = re.search(r"cv(?P<folds>[35])val", variant)
         if fold_match and len(checkpoints) != int(fold_match.group("folds")):
             continue
         if args.include_task and task not in args.include_task:
             continue
         if args.include_variant and not any(value in variant for value in args.include_variant):
+            continue
+        if args.include_seed and seed not in args.include_seed:
+            continue
+        assigned_to_worker_a = fields["mag"] == "40x" and task in {"acr_high", "amr_positive"}
+        if args.worker == "a" and not assigned_to_worker_a:
+            continue
+        if args.worker == "b" and assigned_to_worker_a:
             continue
         tag = SCALES[(fields["level"], fields["mpp"], fields["mag"])]
         experiments.append({
@@ -80,6 +95,7 @@ def discover(args: argparse.Namespace) -> list[dict[str, object]]:
             "checkpoint_count": len(checkpoints),
             "task": task,
             "variant": variant,
+            "seed": seed,
             "level": fields["level"],
             "mpp": fields["mpp"],
             "magnification": fields["mag"],

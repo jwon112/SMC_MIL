@@ -92,3 +92,50 @@ Outputs:
 The threshold-dependent metrics in this initial summary use 0.5. Threshold
 selection must be performed within training data before treating sensitivity
 or specificity as a clinical operating point.
+
+## GSE290577 external validation
+
+Evaluate every seed-level five-fold checkpoint ensemble separately. Worker `a`
+evaluates 40x high-grade ACR and AMR; worker `b` evaluates all remaining
+experiments. Use separate output roots because both processes write an
+experiment inventory and combined CSV.
+
+```bash
+GSE_WORK_ROOT=/home/jupyter/data/image_team/GSE290577_work
+GSE_FEATURE_ROOT=/home/jupyter/image_team/projects/SMC_MIL/data/features/uni_v2/GSE290577
+GSE_OUTPUT_ROOT=results/gse290577_external/gold5_repeated
+
+nohup env CUDA_VISIBLE_DEVICES=1 python -u tools/gse290577/evaluate_all_internal_experiments.py \
+  --results-root results \
+  --work-root "$GSE_WORK_ROOT" \
+  --feature-root "$GSE_FEATURE_ROOT" \
+  --output-root "$GSE_OUTPUT_ROOT/worker_a" \
+  --include-variant cv5val \
+  --include-task acr_high \
+  --include-task amr_positive \
+  --include-task significant_rejection \
+  --include-seed 1 --include-seed 11 --include-seed 21 --include-seed 31 --include-seed 41 \
+  --worker a \
+  --device cuda \
+  --bootstrap 2000 \
+  > results/logs/gse_gold5_repeated_worker_a.log 2>&1 &
+
+nohup env CUDA_VISIBLE_DEVICES=3 python -u tools/gse290577/evaluate_all_internal_experiments.py \
+  --results-root results \
+  --work-root "$GSE_WORK_ROOT" \
+  --feature-root "$GSE_FEATURE_ROOT" \
+  --output-root "$GSE_OUTPUT_ROOT/worker_b" \
+  --include-variant cv5val \
+  --include-task acr_high \
+  --include-task amr_positive \
+  --include-task significant_rejection \
+  --include-seed 1 --include-seed 11 --include-seed 21 --include-seed 31 --include-seed 41 \
+  --worker b \
+  --device cuda \
+  --bootstrap 2000 \
+  > results/logs/gse_gold5_repeated_worker_b.log 2>&1 &
+```
+
+Each experiment evaluates its five fold checkpoints as an ensemble. The result
+therefore contains seed-level external performance, not a single 25-model
+ensemble. Keep GSE results separate from internal model selection.
