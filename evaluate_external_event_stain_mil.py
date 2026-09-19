@@ -12,7 +12,7 @@ from utils.event_mil import normalize_stain_group
 
 TASK_LABELS={"acr_high":"acr_high_label","amr_positive":"amr_positive_label","significant_rejection":"significant_rejection_label"}
 def arguments() -> argparse.Namespace:
-    p=argparse.ArgumentParser(description=__doc__); p.add_argument("--checkpoint-dir",type=Path,required=True); p.add_argument("--cohort",nargs=3,action="append",metavar=("NAME","MANIFEST","FEATURE_DIR"),required=True); p.add_argument("--task",choices=TASK_LABELS,required=True); p.add_argument("--output-dir",type=Path,required=True); p.add_argument("--threshold",type=float,default=.5); p.add_argument("--max-patches-per-slide",type=int,default=2048); p.add_argument("--device",choices=("auto","cuda","cpu"),default="auto"); return p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__); p.add_argument("--checkpoint-dir",type=Path,action="append",required=True, help="Repeat once per seed result directory."); p.add_argument("--cohort",nargs=3,action="append",metavar=("NAME","MANIFEST","FEATURE_DIR"),required=True); p.add_argument("--task",choices=TASK_LABELS,required=True); p.add_argument("--output-dir",type=Path,required=True); p.add_argument("--threshold",type=float,default=.5); p.add_argument("--max-patches-per-slide",type=int,default=2048); p.add_argument("--device",choices=("auto","cuda","cpu"),default="auto"); return p.parse_args()
 def event_column(frame: pd.DataFrame, cohort: str) -> str:
     if cohort.lower().startswith("core"): return "slide_id"
     for name in ("biopsy_id","event_id","case_id","patient_id"):
@@ -22,7 +22,7 @@ def score(y: np.ndarray, p: np.ndarray, threshold: float) -> dict[str,float|int]
     pred=p>=threshold; tn,fp,fn,tp=confusion_matrix(y,pred,labels=[0,1]).ravel(); sens=float(tp/(tp+fn)) if tp+fn else float("nan"); spec=float(tn/(tn+fp)) if tn+fp else float("nan")
     return {"events":len(y),"positive_events":int(y.sum()),"auroc":float(roc_auc_score(y,p)) if len(np.unique(y))==2 else float("nan"),"pr_auc":float(average_precision_score(y,p)) if y.sum() else float("nan"),"accuracy":float(accuracy_score(y,pred)),"sensitivity":sens,"specificity":spec,"balanced_accuracy":float((sens+spec)/2),"threshold":threshold,"tp":int(tp),"tn":int(tn),"fp":int(fp),"fn":int(fn)}
 def main() -> int:
-    args=arguments(); device=torch.device("cuda" if args.device=="auto" and torch.cuda.is_available() else args.device if args.device!="auto" else "cpu"); checkpoints=sorted(args.checkpoint_dir.glob("s_*_checkpoint.pt"))
+    args=arguments(); device=torch.device("cuda" if args.device=="auto" and torch.cuda.is_available() else args.device if args.device!="auto" else "cpu"); checkpoints=[path for directory in args.checkpoint_dir for path in sorted(directory.glob("s_*_checkpoint.pt"))]
     if not checkpoints: raise FileNotFoundError(f"No s_*_checkpoint.pt in {args.checkpoint_dir}")
     models=[]
     for path in checkpoints:
