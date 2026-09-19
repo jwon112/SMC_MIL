@@ -13,7 +13,8 @@ def arguments() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--label-dir", type=Path, required=True); p.add_argument("--curation-manifest", type=Path, required=True)
     p.add_argument("--split-root", type=Path, required=True); p.add_argument("--output-root", type=Path, required=True)
-    p.add_argument("--folds", type=int, choices=(3, 5), default=5); p.add_argument("--tasks", nargs="+", choices=TASKS, default=list(TASKS))
+    p.add_argument("--folds", type=int, choices=(3, 5), default=5); p.add_argument("--seeds", nargs="+", type=int, default=[1])
+    p.add_argument("--tasks", nargs="+", choices=TASKS, default=list(TASKS))
     return p.parse_args()
 
 def curated(path: Path) -> pd.DataFrame:
@@ -42,14 +43,19 @@ def build(task: str, args: argparse.Namespace, stains: pd.DataFrame) -> None:
     events = slides[cols].drop_duplicates("event_id").sort_values("event_id")
     root = args.output_root / task; root.mkdir(parents=True, exist_ok=True); events.to_csv(root / "events.csv", index=False)
     slides[["event_id", "slide_id", "stain_group"]].sort_values(["event_id", "slide_id"]).to_csv(root / "event_slides.csv", index=False)
-    split_root = args.split_root / f"{SPLIT_NAMES[task]}_standard{args.folds}"; out = root / "splits"; out.mkdir(exist_ok=True); report = []
-    for fold in range(args.folds):
-        mapped = split_events(slides, split_root / f"splits_{fold}.csv")
-        saved = {}
-        for part in ("train", "val"): saved[part] = mapped.loc[mapped.split.eq(part), "event_id"].sort_values().reset_index(drop=True)
-        pd.DataFrame(saved).to_csv(out / f"splits_{fold}.csv", index=False)
-        for part, ids in saved.items():
-            event_part = events.loc[events.event_id.isin(ids)]; report.append({"fold": fold, "split": part, "events": len(event_part), "positive_events": int(event_part.label.sum()), "slides": int(slides.event_id.isin(ids).sum())})
+    out = root / "splits"; out.mkdir(exist_ok=True); report = []
+    for seed in args.seeds:
+        suffix = "" if seed == 1 else f"_seed{seed}"
+        split_root = args.split_root / f"{SPLIT_NAMES[task]}_standard{args.folds}{suffix}"
+        if not split_root.is_dir(): raise FileNotFoundError(f"Missing source split directory: {split_root}")
+        seed_out = out / f"seed{seed}"; seed_out.mkdir(exist_ok=True)
+        for fold in range(args.folds):
+            mapped = split_events(slides, split_root / f"splits_{fold}.csv")
+            saved = {}
+            for part in ("train", "val"): saved[part] = mapped.loc[mapped.split.eq(part), "event_id"].sort_values().reset_index(drop=True)
+            pd.DataFrame(saved).to_csv(seed_out / f"splits_{fold}.csv", index=False)
+            for part, ids in saved.items():
+                event_part = events.loc[events.event_id.isin(ids)]; report.append({"seed": seed, "fold": fold, "split": part, "events": len(event_part), "positive_events": int(event_part.label.sum()), "slides": int(slides.event_id.isin(ids).sum())})
     pd.DataFrame(report).to_csv(out / "fold_summary.csv", index=False)
     combinations = slides.groupby("event_id").stain_group.agg(lambda x: "+".join(sorted(set(x))))
     print(f"[OK] {task}: events={len(events)}, positive={int(events.label.sum())}, slides={len(slides)} -> {root}")
