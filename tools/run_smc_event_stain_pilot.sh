@@ -11,6 +11,6 @@ case "$WORKER" in acr) TASKS=(acr_high);; amr) TASKS=(amr_positive);; significan
 for TASK in "${TASKS[@]}"; do
   for SEED in "${SEEDS[@]}"; do
     OUT="$RESULTS_ROOT/${TASK}_l0_0p25mpp_seed${SEED}"; echo "[RUN] task=$TASK seed=$SEED"
-    python train_smc_event_stain_mil.py --event-csv "$MANIFEST_ROOT/$TASK/events.csv" --event-slides-csv "$MANIFEST_ROOT/$TASK/event_slides.csv" --split-dir "$MANIFEST_ROOT/$TASK/splits/seed${SEED}" --feature-dir "$FEATURE_ROOT/0p25mpp" --results-dir "$OUT" --folds 5 --seed "$SEED" --device cuda
+    python train_smc_event_stain_mil.py --event-csv "$MANIFEST_ROOT/$TASK/events.csv" --event-slides-csv "$MANIFEST_ROOT/$TASK/event_slides.csv" --split-dir "$MANIFEST_ROOT/$TASK/splits/seed${SEED}" --feature-dir "$FEATURE_ROOT/l0_0p25mpp_40x" --results-dir "$OUT" --folds 5 --seed "$SEED" --device cuda
   done
 done
