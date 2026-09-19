@@ -7,6 +7,7 @@ import pandas as pd
 from utils.event_mil import normalize_stain_group
 
 TASKS = {"acr_high": "smc_acr_binary_0r1r_vs_2r3r", "amr_positive": "smc_amr_binary_pamr0_vs_positive", "significant_rejection": "smc_significant_rejection_binary"}
+SPLIT_NAMES = {"acr_high": "smc_cv_acr_0r1r_vs_2r3r", "amr_positive": "smc_cv_amr_pamr0_vs_positive", "significant_rejection": "smc_cv_significant_rejection"}
 
 def arguments() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
@@ -41,7 +42,7 @@ def build(task: str, args: argparse.Namespace, stains: pd.DataFrame) -> None:
     events = slides[cols].drop_duplicates("event_id").sort_values("event_id")
     root = args.output_root / task; root.mkdir(parents=True, exist_ok=True); events.to_csv(root / "events.csv", index=False)
     slides[["event_id", "slide_id", "stain_group"]].sort_values(["event_id", "slide_id"]).to_csv(root / "event_slides.csv", index=False)
-    split_root = args.split_root / f"smc_cv_{base.removeprefix('smc_')}_standard{args.folds}"; out = root / "splits"; out.mkdir(exist_ok=True); report = []
+    split_root = args.split_root / f"{SPLIT_NAMES[task]}_standard{args.folds}"; out = root / "splits"; out.mkdir(exist_ok=True); report = []
     for fold in range(args.folds):
         mapped = split_events(slides, split_root / f"splits_{fold}.csv")
         saved = {}
