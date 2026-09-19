@@ -12,8 +12,9 @@ from utils.event_mil import normalize_stain_group
 
 TASK_LABELS={"acr_high":"acr_high_label","amr_positive":"amr_positive_label","significant_rejection":"significant_rejection_label"}
 def arguments() -> argparse.Namespace:
-    p=argparse.ArgumentParser(description=__doc__); p.add_argument("--checkpoint-dir",type=Path,required=True); p.add_argument("--cohort",nargs=3,action="append",metavar=("NAME","MANIFEST","FEATURE_DIR"),required=True); p.add_argument("--task",choices=TASK_LABELS,required=True); p.add_argument("--output-dir",type=Path,required=True); p.add_argument("--threshold",type=float,default=.5); p.add_argument("--device",choices=("auto","cuda","cpu"),default="auto"); return p.parse_args()
-def event_column(frame: pd.DataFrame) -> str:
+    p=argparse.ArgumentParser(description=__doc__); p.add_argument("--checkpoint-dir",type=Path,required=True); p.add_argument("--cohort",nargs=3,action="append",metavar=("NAME","MANIFEST","FEATURE_DIR"),required=True); p.add_argument("--task",choices=TASK_LABELS,required=True); p.add_argument("--output-dir",type=Path,required=True); p.add_argument("--threshold",type=float,default=.5); p.add_argument("--max-patches-per-slide",type=int,default=2048); p.add_argument("--device",choices=("auto","cuda","cpu"),default="auto"); return p.parse_args()
+def event_column(frame: pd.DataFrame, cohort: str) -> str:
+    if cohort.lower().startswith("core"): return "slide_id"
     for name in ("biopsy_id","event_id","case_id","patient_id"):
         if name in frame: return name
     raise ValueError("Manifest requires biopsy_id, event_id, case_id, or patient_id")
@@ -28,7 +29,7 @@ def main() -> int:
         payload=torch.load(path,map_location=device,weights_only=True); model=StainAwareEventMIL(**payload["model_config"]).to(device); model.load_state_dict(payload["state_dict"]); models.append(model.eval())
     print(f"Loaded {len(models)} fold checkpoints"); args.output_dir.mkdir(parents=True,exist_ok=True); summaries=[]; label_col=TASK_LABELS[args.task]
     for cohort, manifest_path, feature_path in args.cohort:
-        frame=pd.read_csv(manifest_path,dtype=str).fillna(""); key=event_column(frame); frame=frame.loc[frame[label_col].astype(str).str.strip().ne("")].copy(); frame["_stain"]=frame.stain_group.map(normalize_stain_group); frame=frame.loc[frame._stain.notna()].copy()
+        frame=pd.read_csv(manifest_path,dtype=str).fillna(""); key=event_column(frame, cohort); frame=frame.loc[frame[label_col].astype(str).str.strip().ne("")].copy(); frame["_stain"]=frame.stain_group.map(normalize_stain_group); frame=frame.loc[frame._stain.notna()].copy()
         if frame.empty: raise ValueError(f"No labeled known-stain rows in {manifest_path}")
         if (frame.groupby(key)[label_col].nunique()>1).any(): raise ValueError(f"{cohort}: inconsistent labels within event")
         rows=[]
@@ -37,7 +38,10 @@ def main() -> int:
             for _,row in group.iterrows():
                 bag=Path(feature_path)/"pt_files"/f"{row['slide_id']}.pt"
                 if not bag.is_file(): raise FileNotFoundError(f"Missing feature bag: {bag}")
-                slides.append((row["_stain"],torch.load(bag,map_location=device,weights_only=True).float().to(device)))
+                features=torch.load(bag,map_location=device,weights_only=True).float()
+                if len(features) > args.max_patches_per_slide:
+                    indices=torch.linspace(0,len(features)-1,args.max_patches_per_slide).long(); features=features[indices]
+                slides.append((row["_stain"],features.to(device)))
             with torch.inference_mode(): probs=[float(torch.softmax(model(slides)[0],1)[0,1].cpu()) for model in models]
             rows.append({"event_id":str(event_id),"label":int(float(group.iloc[0][label_col])),"probability":float(np.mean(probs)),"slides":len(slides),"stain_groups":"+".join(sorted(group._stain.unique())),**{f"probability_fold_{i}":p for i,p in enumerate(probs)}})
         result=pd.DataFrame(rows); result["prediction"]=(result.probability>=args.threshold).astype(int); result.to_csv(args.output_dir/f"{cohort}_event_predictions.csv",index=False); metrics={"cohort":cohort,"task":args.task,**score(result.label.to_numpy(int),result.probability.to_numpy(float),args.threshold)}; summaries.append(metrics); print(f"[OK] {cohort}: n={metrics['events']}, positive={metrics['positive_events']}, AUROC={metrics['auroc']:.3f}, PR-AUC={metrics['pr_auc']:.3f}")
