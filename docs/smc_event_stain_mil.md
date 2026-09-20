@@ -5,3 +5,5 @@ The prediction unit is one pathology event. Its known-stain slides are retained 
 The gold-only experiment uses 40x (`l0_0p25mpp_40x` features), five folds, and seeds 1/11/21/31/41. Existing seed-specific patient-grouped slide folds are mapped to event IDs, so no event or patient crosses validation folds. Unknown-stain slides are excluded. This is a new architecture and should be compared with the established slide-level CLAM baseline as exploratory work.
 
 Presence masks can encode staining-order practice. Follow with an H&E-only event ablation and a no-mask ablation before treating a gain as morphology-driven.
+
+For repeated CV, summarize `oof_predictions.csv` from all five seeds with `tools/summarize_smc_event_stain_mil.py`. It averages the five out-of-fold probabilities for each event; it does not count five predictions of one event as independent observations.
