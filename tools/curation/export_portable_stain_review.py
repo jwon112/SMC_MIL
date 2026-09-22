@@ -316,7 +316,8 @@ HTML_TEMPLATE = r'''<!doctype html>
     .meta-sub { margin-top: 5px; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
     .position { display: flex; align-items: center; gap: 6px; }
     .position input { width: 72px; padding: 6px; border: 1px solid var(--line); }
-    .stage { position: relative; overflow: auto; background: #e7e9ea; border: 1px solid #cbd0d3; }
+    .stage-shell { position: relative; min-height: 0; overflow: hidden; }
+    .stage { width: 100%; height: 100%; overflow: auto; background: #e7e9ea; border: 1px solid #cbd0d3; }
     .image-canvas { min-width: 100%; min-height: 100%; display: flex; align-items: center; justify-content: center; }
     .stage img { display: block; flex: 0 0 auto; max-width: 100%; max-height: calc(100vh - 190px); object-fit: contain; transition: width .1s ease, height .1s ease; }
     .zoom-tools { position: absolute; right: 10px; top: 10px; z-index: 2; display: flex; gap: 5px; }
@@ -375,14 +376,16 @@ HTML_TEMPLATE = r'''<!doctype html>
         </div>
         <label class="position">슬라이드 <input id="positionInput" type="number" min="1"></label>
       </div>
-      <div class="stage" id="stage">
+      <div class="stage-shell">
+        <div class="stage" id="stage">
+          <div class="image-canvas" id="imageCanvas">
+            <img id="slideImage" alt="검토할 슬라이드 썸네일">
+          </div>
+        </div>
         <div class="zoom-tools">
           <button id="zoomOut" title="축소">−</button>
           <button id="zoomReset" title="화면에 맞춤">↺</button>
           <button id="zoomIn" title="확대">+</button>
-        </div>
-        <div class="image-canvas" id="imageCanvas">
-          <img id="slideImage" alt="검토할 슬라이드 썸네일">
         </div>
       </div>
     </section>
