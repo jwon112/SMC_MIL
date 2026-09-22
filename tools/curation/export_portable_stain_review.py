@@ -316,10 +316,9 @@ HTML_TEMPLATE = r'''<!doctype html>
     .meta-sub { margin-top: 5px; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
     .position { display: flex; align-items: center; gap: 6px; }
     .position input { width: 72px; padding: 6px; border: 1px solid var(--line); }
-    .stage { position: relative; overflow: auto; display: flex; align-items: center; justify-content: center; background: #e7e9ea; border: 1px solid #cbd0d3; }
-    .stage.is-zoomed { align-items: flex-start; justify-content: flex-start; }
-    .stage img { display: block; max-width: 100%; max-height: calc(100vh - 190px); object-fit: contain; transition: width .1s ease, height .1s ease; }
-    .stage.is-zoomed img { flex: 0 0 auto; }
+    .stage { position: relative; overflow: auto; background: #e7e9ea; border: 1px solid #cbd0d3; }
+    .image-canvas { min-width: 100%; min-height: 100%; display: flex; align-items: center; justify-content: center; }
+    .stage img { display: block; flex: 0 0 auto; max-width: 100%; max-height: calc(100vh - 190px); object-fit: contain; transition: width .1s ease, height .1s ease; }
     .zoom-tools { position: absolute; right: 10px; top: 10px; z-index: 2; display: flex; gap: 5px; }
     .zoom-tools button { width: 36px; height: 34px; border: 1px solid #8a9196; background: rgba(255,255,255,.94); font-weight: 700; }
     aside { min-height: 0; overflow-y: auto; padding: 14px 14px 14px 0; }
@@ -382,7 +381,9 @@ HTML_TEMPLATE = r'''<!doctype html>
           <button id="zoomReset" title="화면에 맞춤">↺</button>
           <button id="zoomIn" title="확대">+</button>
         </div>
-        <img id="slideImage" alt="검토할 슬라이드 썸네일">
+        <div class="image-canvas" id="imageCanvas">
+          <img id="slideImage" alt="검토할 슬라이드 썸네일">
+        </div>
       </div>
     </section>
 
@@ -500,24 +501,37 @@ function measureBaseImage() {
 function applyZoom() {
   const image = el("slideImage");
   const stage = el("stage");
+  const canvas = el("imageCanvas");
   if (zoom === 1) {
     image.style.width = "";
     image.style.height = "";
     image.style.maxWidth = "";
     image.style.maxHeight = "";
-    stage.classList.remove("is-zoomed");
+    canvas.style.width = "";
+    canvas.style.height = "";
     stage.scrollTop = 0;
     stage.scrollLeft = 0;
-    requestAnimationFrame(measureBaseImage);
+    requestAnimationFrame(() => {
+      canvas.style.width = `${stage.clientWidth}px`;
+      canvas.style.height = `${stage.clientHeight}px`;
+      measureBaseImage();
+    });
     return;
   }
   if (!baseImageSize) measureBaseImage();
   if (!baseImageSize) return;
   image.style.maxWidth = "none";
   image.style.maxHeight = "none";
-  image.style.width = `${Math.round(baseImageSize.width * zoom)}px`;
-  image.style.height = `${Math.round(baseImageSize.height * zoom)}px`;
-  stage.classList.add("is-zoomed");
+  const imageWidth = Math.round(baseImageSize.width * zoom);
+  const imageHeight = Math.round(baseImageSize.height * zoom);
+  image.style.width = `${imageWidth}px`;
+  image.style.height = `${imageHeight}px`;
+  canvas.style.width = `${Math.max(stage.clientWidth, imageWidth)}px`;
+  canvas.style.height = `${Math.max(stage.clientHeight, imageHeight)}px`;
+  requestAnimationFrame(() => {
+    stage.scrollLeft = Math.max(0, (canvas.scrollWidth - stage.clientWidth) / 2);
+    stage.scrollTop = Math.max(0, (canvas.scrollHeight - stage.clientHeight) / 2);
+  });
 }
 
 function resetZoom() {
