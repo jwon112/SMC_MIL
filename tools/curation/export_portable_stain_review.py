@@ -317,7 +317,9 @@ HTML_TEMPLATE = r'''<!doctype html>
     .position { display: flex; align-items: center; gap: 6px; }
     .position input { width: 72px; padding: 6px; border: 1px solid var(--line); }
     .stage { position: relative; overflow: auto; display: flex; align-items: center; justify-content: center; background: #e7e9ea; border: 1px solid #cbd0d3; }
-    .stage img { display: block; max-width: 100%; max-height: calc(100vh - 190px); object-fit: contain; transform-origin: center; transition: transform .1s ease; }
+    .stage.is-zoomed { align-items: flex-start; justify-content: flex-start; }
+    .stage img { display: block; max-width: 100%; max-height: calc(100vh - 190px); object-fit: contain; transition: width .1s ease, height .1s ease; }
+    .stage.is-zoomed img { flex: 0 0 auto; }
     .zoom-tools { position: absolute; right: 10px; top: 10px; z-index: 2; display: flex; gap: 5px; }
     .zoom-tools button { width: 36px; height: 34px; border: 1px solid #8a9196; background: rgba(255,255,255,.94); font-weight: 700; }
     aside { min-height: 0; overflow-y: auto; padding: 14px 14px 14px 0; }
@@ -426,6 +428,7 @@ const validGroups = new Set(["HE", "IHC", "special_other", "unknown"]);
 const storageKey = `stain-review-${packageId}`;
 let index = 0;
 let zoom = 1;
+let baseImageSize = null;
 
 const el = id => document.getElementById(id);
 
@@ -488,9 +491,39 @@ function move(delta) {
   render();
 }
 
+function measureBaseImage() {
+  if (zoom !== 1) return;
+  const rect = el("slideImage").getBoundingClientRect();
+  if (rect.width > 0 && rect.height > 0) baseImageSize = {width: rect.width, height: rect.height};
+}
+
+function applyZoom() {
+  const image = el("slideImage");
+  const stage = el("stage");
+  if (zoom === 1) {
+    image.style.width = "";
+    image.style.height = "";
+    image.style.maxWidth = "";
+    image.style.maxHeight = "";
+    stage.classList.remove("is-zoomed");
+    stage.scrollTop = 0;
+    stage.scrollLeft = 0;
+    requestAnimationFrame(measureBaseImage);
+    return;
+  }
+  if (!baseImageSize) measureBaseImage();
+  if (!baseImageSize) return;
+  image.style.maxWidth = "none";
+  image.style.maxHeight = "none";
+  image.style.width = `${Math.round(baseImageSize.width * zoom)}px`;
+  image.style.height = `${Math.round(baseImageSize.height * zoom)}px`;
+  stage.classList.add("is-zoomed");
+}
+
 function resetZoom() {
   zoom = 1;
-  el("slideImage").style.transform = "scale(1)";
+  baseImageSize = null;
+  applyZoom();
 }
 
 function renderCounts() {
@@ -604,8 +637,9 @@ el("clearButton").addEventListener("click", () => { const item = items[index]; i
 el("positionInput").addEventListener("change", event => { collectForm(); index = Math.max(0, Math.min(items.length - 1, Number(event.target.value) - 1)); saveLocalState(); render(); });
 el("exportButton").addEventListener("click", exportCsv);
 el("csvInput").addEventListener("change", event => { if (event.target.files[0]) importCsv(event.target.files[0]); event.target.value = ""; });
-el("zoomIn").addEventListener("click", () => { zoom = Math.min(4, zoom + .25); el("slideImage").style.transform = `scale(${zoom})`; });
-el("zoomOut").addEventListener("click", () => { zoom = Math.max(.5, zoom - .25); el("slideImage").style.transform = `scale(${zoom})`; });
+el("slideImage").addEventListener("load", () => { baseImageSize = null; if (zoom === 1) requestAnimationFrame(measureBaseImage); });
+el("zoomIn").addEventListener("click", () => { zoom = Math.min(4, zoom + .25); applyZoom(); });
+el("zoomOut").addEventListener("click", () => { zoom = Math.max(.5, zoom - .25); applyZoom(); });
 el("zoomReset").addEventListener("click", resetZoom);
 document.addEventListener("keydown", event => {
   if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName)) return;
