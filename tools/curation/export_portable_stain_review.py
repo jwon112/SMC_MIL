@@ -43,6 +43,13 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--slide-ids-csv", type=Path,
+        help=(
+            "Optional CSV containing a slide_id column. When supplied, exports exactly "
+            "those IDs from --manifest and overrides --selection."
+        ),
+    )
+    parser.add_argument(
         "--only-signature", action="append", default=[], metavar="SIGNATURE",
         help="Export only an exact stain signature; repeat for multiple signatures.",
     )
@@ -118,7 +125,19 @@ def prepare_items(args: argparse.Namespace) -> list[dict[str, str]]:
     if manifest.slide_id.duplicated().any():
         raise ValueError("Manifest contains duplicate slide_id values")
 
-    if args.selection == "unknown":
+    requested_ids: set[str] | None = None
+    if args.slide_ids_csv:
+        requested = read_csv(args.slide_ids_csv)
+        if "slide_id" not in requested:
+            raise ValueError("--slide-ids-csv requires a slide_id column")
+        requested_ids = set(requested.slide_id.str.strip()).difference({""})
+        manifest = manifest[manifest.slide_id.str.strip().isin(requested_ids)].copy()
+        missing_ids = sorted(requested_ids.difference(set(manifest.slide_id.str.strip())))
+        if missing_ids:
+            (args.output_dir / "unmatched_slide_ids.txt").write_text(
+                "\n".join(missing_ids) + "\n", encoding="utf-8"
+            )
+    elif args.selection == "unknown":
         if "stain_group" not in manifest:
             raise ValueError("Selection 'unknown' requires a stain_group column")
         manifest = manifest[manifest.stain_group.str.strip().isin(["", "unknown"])].copy()
@@ -307,8 +326,8 @@ HTML_TEMPLATE = r'''<!doctype html>
     label.field { display: block; margin-bottom: 11px; font-size: 13px; color: var(--muted); }
     .field input, .field select, .field textarea { width: 100%; margin-top: 5px; border: 1px solid #bfc5c9; background: white; padding: 8px; color: var(--text); }
     .field textarea { min-height: 82px; resize: vertical; }
-    .decision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .decision { min-height: 47px; border: 2px solid transparent; color: white; font-weight: 700; }
+    .decision-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .decision { min-height: 58px; border: 2px solid transparent; color: white; font-weight: 700; font-size: 16px; }
     .decision[data-group="HE"] { background: var(--he); }
     .decision[data-group="IHC"] { background: var(--ihc); }
     .decision[data-group="special_other"] { background: var(--special); }
@@ -371,7 +390,7 @@ HTML_TEMPLATE = r'''<!doctype html>
         <div class="decision-grid">
           <button class="decision" data-group="HE" title="단축키 1">H&amp;E</button>
           <button class="decision" data-group="IHC" title="단축키 2">IHC</button>
-          <button class="decision" data-group="special_other" title="단축키 3">Special stain</button>
+          <button class="decision" data-group="special_other" title="단축키 3">Others</button>
           <button class="decision" data-group="unknown" title="단축키 4">보류</button>
         </div>
       </div>
@@ -481,7 +500,7 @@ function renderCounts() {
   el("progressText").textContent = `${reviewed} / ${items.length} 판정 완료`;
   el("pendingText").textContent = `미분류 ${items.length - reviewed}`;
   el("progressBar").style.width = `${items.length ? reviewed / items.length * 100 : 0}%`;
-  const labels = [["H&E", counts.HE], ["IHC", counts.IHC], ["Special", counts.special_other], ["보류", counts.unknown]];
+  const labels = [["H&E", counts.HE], ["IHC", counts.IHC], ["Others", counts.special_other], ["보류", counts.unknown]];
   el("counts").replaceChildren(...labels.map(([label, count]) => {
     const row = document.createElement("div"); row.className = "count-row";
     const name = document.createElement("span"); name.textContent = label;
@@ -627,7 +646,7 @@ def main() -> int:
             raise FileExistsError(
                 f"Output directory is not empty: {args.output_dir}. Use --overwrite to replace the package."
             )
-        for filename in ["index.html", "stain_review_results.csv", "thumbnail_failures.tsv", "package_created_at.txt"]:
+        for filename in ["index.html", "stain_review_results.csv", "thumbnail_failures.tsv", "unmatched_slide_ids.txt", "package_created_at.txt"]:
             path = args.output_dir / filename
             if path.is_file():
                 path.unlink()
@@ -654,6 +673,9 @@ def main() -> int:
     print(f"Initial/results CSV: {args.output_dir / 'stain_review_results.csv'}")
     if failures.is_file():
         print(f"[WARN] Some thumbnails failed: {failures}")
+    unmatched = args.output_dir / "unmatched_slide_ids.txt"
+    if unmatched.is_file():
+        print(f"[WARN] Some requested slide IDs were absent from the manifest: {unmatched}")
     return 0
 
 
