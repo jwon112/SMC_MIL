@@ -38,6 +38,8 @@ def main() -> int:
     if missing := required_event.difference(event.columns):
         raise ValueError(f"Event summary missing columns: {sorted(missing)}")
 
+    requested = event[["task", "scale"]].drop_duplicates()
+    slide = slide.merge(requested, on=["task", "scale"], how="inner", validate="one_to_one")
     slide = slide[["task", "scale", *METRICS]].copy()
     slide["approach"] = "slide_clam_event_mean"
     event = event[["task", "scale", "mode", *METRICS]].copy()
