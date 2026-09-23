@@ -13,6 +13,7 @@ def arguments() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--label-dir", type=Path, required=True); p.add_argument("--curation-manifest", type=Path, required=True)
     p.add_argument("--split-root", type=Path, required=True); p.add_argument("--output-root", type=Path, required=True)
+    p.add_argument("--exclude-slide-ids-csv", type=Path, help="Optional CSV with a slide_id column to omit for stain-label sensitivity analysis.")
     p.add_argument("--folds", type=int, choices=(3, 5), default=5); p.add_argument("--seeds", nargs="+", type=int, default=[1])
     p.add_argument("--tasks", nargs="+", choices=TASKS, default=list(TASKS))
     return p.parse_args()
@@ -63,6 +64,14 @@ def build(task: str, args: argparse.Namespace, stains: pd.DataFrame) -> None:
 
 def main() -> int:
     args = arguments(); stains = curated(args.curation_manifest)
+    if args.exclude_slide_ids_csv:
+        excluded = pd.read_csv(args.exclude_slide_ids_csv, dtype={"slide_id": str})
+        if "slide_id" not in excluded:
+            raise ValueError("Exclusion CSV requires a slide_id column")
+        excluded_ids = set(excluded.slide_id.dropna().astype(str))
+        before = len(stains)
+        stains = stains.loc[~stains.slide_id.isin(excluded_ids)].copy()
+        print(f"[INFO] excluded review slides: {before - len(stains)} matched / {len(excluded_ids)} requested")
     for task in args.tasks: build(task, args, stains)
     return 0
 if __name__ == "__main__": raise SystemExit(main())

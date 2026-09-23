@@ -16,6 +16,8 @@ def arguments() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
     for name in ("event-csv", "event-slides-csv", "split-dir", "feature-dir", "results-dir"): p.add_argument(f"--{name}", type=Path, required=True)
     p.add_argument("--folds", type=int, default=5); p.add_argument("--seed", type=int, default=1); p.add_argument("--input-dim", type=int, default=1536); p.add_argument("--hidden-dim", type=int, default=128); p.add_argument("--dropout", type=float, default=.25)
+    p.add_argument("--stain-mode", choices=("aware", "agnostic"), default="aware", help="Use separate stain branches or pool all slides through one branch.")
+    p.add_argument("--no-presence-mask", action="store_true", help="Do not provide stain-group presence indicators to the event classifier.")
     p.add_argument("--max-patches-per-slide", type=int, default=2048); p.add_argument("--max-epochs", type=int, default=50); p.add_argument("--patience", type=int, default=10); p.add_argument("--min-epochs", type=int, default=10); p.add_argument("--lr", type=float, default=2e-4); p.add_argument("--weight-decay", type=float, default=1e-5); p.add_argument("--device", choices=("auto", "cuda", "cpu"), default="auto")
     return p.parse_args()
 def seed_all(seed: int) -> None:
@@ -40,13 +42,13 @@ def main() -> int:
         split = pd.read_csv(args.split_dir / f"splits_{fold}.csv", dtype=str); train = events.loc[events.event_id.isin(set(split.train.dropna()))]; val = events.loc[events.event_id.isin(set(split.val.dropna()))]
         train_ds = EventFeatureDataset(train, slides, args.feature_dir, args.max_patches_per_slide, True); val_ds = EventFeatureDataset(val, slides, args.feature_dir, args.max_patches_per_slide, False)
         counts=train.label.value_counts(); weights=train.label.map({label: 1.0/count for label, count in counts.items()}).to_numpy(); train_loader=DataLoader(train_ds, batch_size=1, sampler=WeightedRandomSampler(weights, len(weights), replacement=True), collate_fn=collate_event); val_loader=DataLoader(val_ds, batch_size=1, shuffle=False, collate_fn=collate_event)
-        model=StainAwareEventMIL(args.input_dim, args.hidden_dim, args.dropout).to(device); optimizer=torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay); loss_fn=nn.CrossEntropyLoss(); best=float("inf"); stale=0; ckpt=args.results_dir/f"s_{fold}_checkpoint.pt"
+        model=StainAwareEventMIL(args.input_dim, args.hidden_dim, args.dropout, use_stain_branches=args.stain_mode == "aware", include_presence_masks=not args.no_presence_mask).to(device); optimizer=torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay); loss_fn=nn.CrossEntropyLoss(); best=float("inf"); stale=0; ckpt=args.results_dir/f"s_{fold}_checkpoint.pt"
         for epoch in range(args.max_epochs):
             model.train(); losses=[]
             for batch in train_loader:
                 optimizer.zero_grad(); logits,_=model([(stain, feature.to(device)) for stain, feature in batch["slides"]]); loss=loss_fn(logits, torch.tensor([batch["label"]], device=device)); loss.backward(); optimizer.step(); losses.append(float(loss.detach().cpu()))
             val_loss,_=evaluate(model,val_loader,device); print(f"fold={fold} epoch={epoch+1} train_loss={np.mean(losses):.4f} val_loss={val_loss:.4f}")
-            if val_loss < best: best=val_loss; stale=0; torch.save({"state_dict":model.state_dict(),"model_config":{"input_dim":args.input_dim,"hidden_dim":args.hidden_dim,"dropout":args.dropout}},ckpt)
+            if val_loss < best: best=val_loss; stale=0; torch.save({"state_dict":model.state_dict(),"model_config":{"input_dim":args.input_dim,"hidden_dim":args.hidden_dim,"dropout":args.dropout,"use_stain_branches":args.stain_mode == "aware","include_presence_masks":not args.no_presence_mask}},ckpt)
             else: stale += 1
             if epoch+1 >= args.min_epochs and stale >= args.patience: break
         model.load_state_dict(torch.load(ckpt,map_location=device,weights_only=True)["state_dict"]); _,oof=evaluate(model,val_loader,device); oof["fold"]=fold; oof.to_csv(args.results_dir/f"fold_{fold}_oof_predictions.csv",index=False); row={"fold":fold,"best_val_loss":best,**score(oof)}; records.append(row); all_oof.append(oof); print("[OK] "+str(row))

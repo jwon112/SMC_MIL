@@ -8,6 +8,7 @@ import torch.nn.functional as F
 
 
 STAIN_GROUPS = ("HE", "IHC", "other")
+AGNOSTIC_GROUP = "all"
 
 
 class GatedAttentionPool(nn.Module):
@@ -42,44 +43,53 @@ class StainAwareEventMIL(nn.Module):
         hidden_dim: int = 128,
         dropout: float = 0.25,
         n_classes: int = 2,
+        use_stain_branches: bool = True,
+        include_presence_masks: bool = True,
     ) -> None:
         super().__init__()
         self.input_dim = input_dim
         self.hidden_dim = hidden_dim
         self.dropout_rate = dropout
+        self.use_stain_branches = use_stain_branches
+        self.include_presence_masks = include_presence_masks
+        self.branch_groups = STAIN_GROUPS if use_stain_branches else (AGNOSTIC_GROUP,)
         self.patch_encoder = nn.Sequential(
             nn.Linear(input_dim, hidden_dim), nn.ReLU(), nn.Dropout(dropout),
         )
         self.patch_pool = GatedAttentionPool(hidden_dim, max(hidden_dim // 2, 16), dropout)
         self.branch_projection = nn.ModuleDict({
             group: nn.Sequential(nn.Linear(hidden_dim, hidden_dim), nn.ReLU(), nn.Dropout(dropout))
-            for group in STAIN_GROUPS
+            for group in self.branch_groups
         })
         self.branch_pool = nn.ModuleDict({
             group: GatedAttentionPool(hidden_dim, max(hidden_dim // 2, 16), dropout)
-            for group in STAIN_GROUPS
+            for group in self.branch_groups
         })
+        classifier_dimension = hidden_dim * len(self.branch_groups)
+        if include_presence_masks:
+            classifier_dimension += len(self.branch_groups)
         self.classifier = nn.Sequential(
-            nn.Linear(hidden_dim * len(STAIN_GROUPS) + len(STAIN_GROUPS), hidden_dim),
+            nn.Linear(classifier_dimension, hidden_dim),
             nn.ReLU(), nn.Dropout(dropout), nn.Linear(hidden_dim, n_classes),
         )
 
     def forward(self, slides: list[tuple[str, torch.Tensor]]) -> tuple[torch.Tensor, dict[str, object]]:
-        grouped: dict[str, list[torch.Tensor]] = {group: [] for group in STAIN_GROUPS}
+        grouped: dict[str, list[torch.Tensor]] = {group: [] for group in self.branch_groups}
         patch_attention: list[torch.Tensor] = []
         for stain_group, patch_features in slides:
-            if stain_group not in grouped:
+            if self.use_stain_branches and stain_group not in grouped:
                 raise ValueError(f"Unsupported stain group: {stain_group}")
+            branch_group = stain_group if self.use_stain_branches else AGNOSTIC_GROUP
             encoded = self.patch_encoder(patch_features)
             slide_embedding, weights = self.patch_pool(encoded)
-            grouped[stain_group].append(self.branch_projection[stain_group](slide_embedding))
+            grouped[branch_group].append(self.branch_projection[branch_group](slide_embedding))
             patch_attention.append(weights)
 
         branch_embeddings: list[torch.Tensor] = []
         branch_masks: list[torch.Tensor] = []
         slide_attention: dict[str, torch.Tensor | None] = {}
         reference = next(self.parameters())
-        for group in STAIN_GROUPS:
+        for group in self.branch_groups:
             if grouped[group]:
                 stacked = torch.stack(grouped[group], dim=0)
                 embedding, weights = self.branch_pool[group](stacked)
@@ -91,6 +101,9 @@ class StainAwareEventMIL(nn.Module):
                 branch_masks.append(torch.zeros(1, device=reference.device))
                 slide_attention[group] = None
 
-        event_features = torch.cat([*branch_embeddings, *branch_masks], dim=0).unsqueeze(0)
+        components = [*branch_embeddings]
+        if self.include_presence_masks:
+            components.extend(branch_masks)
+        event_features = torch.cat(components, dim=0).unsqueeze(0)
         logits = self.classifier(event_features)
         return logits, {"patch_attention": patch_attention, "slide_attention": slide_attention}
