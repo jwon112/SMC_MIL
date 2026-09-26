@@ -26,7 +26,16 @@ def metrics(frame: pd.DataFrame, threshold: float) -> dict[str,float|int]:
     return {"events":len(y),"positive_events":int(y.sum()),"prevalence":prevalence,"auroc":float(roc_auc_score(y,p)),"pr_auc":pr_auc,"pr_auc_lift":float(pr_auc/prevalence) if prevalence else float("nan"),"sensitivity":float(tp/(tp+fn)) if tp+fn else float("nan"),"specificity":float(tn/(tn+fp)) if tn+fp else float("nan"),"balanced_accuracy":float(((tp/(tp+fn))+(tn/(tn+fp)))/2) if tp+fn and tn+fp else float("nan"),"sensitivity_at_specificity_90":sensitivity_at_specificity(y,p,.90),"sensitivity_at_specificity_95":sensitivity_at_specificity(y,p,.95)}
 def result_path(root: Path, task: str, scale: str, mode: str, seed: int) -> Path:
     suffix="" if mode == "aware" else f"_{mode}"
-    return root/f"{task}_{SCALES[scale]}{suffix}_seed{seed}"/"oof_predictions.csv"
+    current = root/f"{task}_{SCALES[scale]}{suffix}_seed{seed}"/"oof_predictions.csv"
+    if current.is_file():
+        return current
+    # The original 40x stain-aware pilot predates the explicit magnification
+    # suffix in result directory names. Keep those completed runs reusable.
+    if scale == "40x" and mode == "aware":
+        legacy = root/f"{task}_l0_0p25mpp_seed{seed}"/"oof_predictions.csv"
+        if legacy.is_file():
+            return legacy
+    return current
 def main() -> int:
     args=arguments(); args.output_dir.mkdir(parents=True,exist_ok=True); per_seed=[]; final=[]
     for task in args.tasks:
