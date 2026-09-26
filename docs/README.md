@@ -19,6 +19,8 @@ use the topic index below.
 ## Cohort review and external validation
 
 - [`wsi_curation.md`](wsi_curation.md): WSI quality and stain review workflow.
+- [`smc_gold_dataset_audit.md`](smc_gold_dataset_audit.md): reproducible cohort,
+  multiplicity, confounder, split, and metadata-shortcut audit.
 - [`gse290577_external_validation.md`](gse290577_external_validation.md):
   GSE290577 preparation and external evaluation.
 
