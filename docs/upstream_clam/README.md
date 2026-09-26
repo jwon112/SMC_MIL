@@ -26,7 +26,7 @@ Data Efficient and Weakly Supervised Computational Pathology on Whole Slide Imag
 
 **Warning**: the latest update will by default resize image patches to 224 x 224 before extracting features using the pretrained encoder. This change serves to make it more consistent with the evaluation protocol used in UNI, CONCH and other studies. If you wish to preserve the original size of the image patches generated during patching or use a different image size for feature extraction, you can do so by specifying `--target_patch_size` in **extract_features_fp.py**.
 
-**RE update 03/01/21**: note that the README has been updated to use the new, faster pipeline by default. The storage-heavy predecessor is retained only in the [archived saved-patch guide](../../archive/upstream_clam/saved_patch_pipeline/README.md).
+**RE update 03/01/21**: note that the README has been updated to use the new, faster pipeline by default. The storage-heavy predecessor is not included in this focused repository.
 
 ## Installation:
 Please refer to our [Installation guide](INSTALLATION.md) for detailed instructions on how to get started.

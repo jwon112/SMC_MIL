@@ -67,6 +67,7 @@ results/
 # these exploratory label exports and split directories are rebuilt by scripts.
 /dataset_csv/clam_*_within30d.csv
 /splits/smc_cv_*/
+/data/legacy_artifact_synthesis/
 
 # Data directories (uncomment if you don't want to track data)
 # data/

@@ -41,5 +41,3 @@ use the topic index below.
 - [`topk_device_fix.md`](topk_device_fix.md): SmoothTop1SVM device workaround.
 - [`upstream_clam/README.md`](upstream_clam/README.md): original upstream CLAM
   usage guide retained for provenance. It is not the SMC operating manual.
-- [`../archive/README.md`](../archive/README.md): code retained outside the
-  supported pipeline.

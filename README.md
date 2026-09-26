@@ -30,7 +30,6 @@ dataset_csv/                 Gold-cohort CLAM label CSVs
 dataset_modules/             CLAM dataset implementations
 docs/                        Indexed documentation for active workflows
 models/                      Encoder builders and CLAM architectures
-archive/                     Unsupported legacy code retained for provenance
 tools/atlaspatch_mrxs/       AtlasPatch workflow for MRXS slides
 tools/curation/              Quality/stain inventory and review utilities
 tools/run_smc_cv_grid.sh     Four-scale patient-CV training runner
