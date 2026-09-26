@@ -28,8 +28,9 @@ directories are ignored because they are reproducible and/or large.
 ```text
 dataset_csv/                 Gold-cohort CLAM label CSVs
 dataset_modules/             CLAM dataset implementations
-docs/                        Operational notes for each pipeline stage
+docs/                        Indexed documentation for active workflows
 models/                      Encoder builders and CLAM architectures
+archive/                     Unsupported legacy code retained for provenance
 tools/atlaspatch_mrxs/       AtlasPatch workflow for MRXS slides
 tools/curation/              Quality/stain inventory and review utilities
 tools/run_smc_cv_grid.sh     Four-scale patient-CV training runner
@@ -160,6 +161,8 @@ Compare completed experiments with `compare_experiments.py`.
 
 ## Supporting Workflows
 
+- [`docs/README.md`](docs/README.md): topic index for all active pipeline,
+  validation, experiment, and maintenance documentation.
 - [`docs/dicom_feature_pipeline.md`](docs/dicom_feature_pipeline.md): DICOM,
   manual masks, UNI2-h extraction, and multiscale coordinates.
 - [`docs/mrxs_atlaspatch.md`](docs/mrxs_atlaspatch.md): AtlasPatch handling for
@@ -170,6 +173,9 @@ Compare completed experiments with `compare_experiments.py`.
   imbalance handling, and patient-level CV.
 - [`docs/wsi_curation.md`](docs/wsi_curation.md): quality/stain review and
   curation workflow.
+- [`docs/code_handover_guide_ko.md`](docs/code_handover_guide_ko.md): Korean
+  handover guide with exact paths to the core aggregation, training, and
+  task-definition code.
 
 ## Git Synchronization on the Server
 

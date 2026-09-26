@@ -57,6 +57,12 @@ results/
 !splits/**/*.csv
 !heatmaps/process_lists/*.csv
 
+# Local research knowledge workspace. Notes, literature records, source PDFs,
+# extracted text, and the repository-local literature skill stay off Git.
+/experiment_notes/
+/reference/
+/.agents/skills/smc-literature-research/
+
 # Reproducible local SMC outputs. Canonical task CSVs are versioned above;
 # these exploratory label exports and split directories are rebuilt by scripts.
 /dataset_csv/clam_*_within30d.csv

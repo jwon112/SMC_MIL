@@ -21,4 +21,4 @@ conda deactivate clam_latest
 ```
 Please report any issues in the public forum.
 
-[Return to main page.](README.md)
+[Return to the SMC project README.](../../README.md)
