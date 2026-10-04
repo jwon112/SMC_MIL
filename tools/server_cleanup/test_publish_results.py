@@ -76,6 +76,31 @@ class ResultTests(unittest.TestCase):
             results.stage(self.root)
         self.assertEqual(self.git('diff', '--cached', '--name-only'), '')
 
+    def test_deferred_active_run_can_change_without_blocking_other_results(self):
+        neighbor = self.root / 'results/current_finished/metrics.csv'
+        neighbor.parent.mkdir()
+        neighbor.write_bytes(b'auc\n0.95\n')
+        plan = self.plan(excludes=['results/current/'])
+        self.assertEqual(plan['excludes'], ['results/current'])
+        self.assertIn('results/current_finished/metrics.csv', [x['path'] for x in plan['selected']])
+        (self.root / 'results/current/train.log').write_bytes(b'epoch 2\n')
+        (self.root / 'results/current/metrics.csv').write_bytes(b'auc\n0.8\n')
+        with contextlib.redirect_stdout(io.StringIO()):
+            results.stage(self.root)
+        staged = self.git('diff', '--cached', '--name-only').splitlines()
+        self.assertFalse(any(name.startswith('results/current/') for name in staged))
+        self.assertIn('results/current_finished/metrics.csv', staged)
+        self.assertEqual((self.root / 'results/current/train.log').read_bytes(), b'epoch 2\n')
+
+    def test_exact_file_exclusion_and_invalid_paths(self):
+        plan = self.plan(excludes=['results/current/train.log'])
+        names = {item['path'] for item in plan['selected']}
+        self.assertNotIn('results/current/train.log', names)
+        self.assertIn('results/current/metrics.csv', names)
+        for path in ('results/../tools', '/results/current', 'results/*', 'tools'):
+            with self.assertRaisesRegex(ValueError, 'literal repository-relative'):
+                self.plan(excludes=[path])
+
     def test_unrelated_staged_work_blocks(self):
         self.plan()
         (self.root / 'other.py').write_text('# unrelated\n')

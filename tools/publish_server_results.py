@@ -56,8 +56,25 @@ def inspect(root, name, max_file_bytes):
             'blob': result.stdout.decode().strip()}
 
 
-def plan(root, max_file_mib=50, max_total_mib=500):
+def exclusion_paths(paths):
+    normalized = []
+    for raw in paths:
+        name = raw.replace('\\', '/').rstrip('/')
+        if (not name or any(part in ('', '.', '..') for part in name.split('/'))
+                or any(char in name for char in '*?[')
+                or not any(name == base or name.startswith(base + '/') for base in ROOTS)):
+            raise ValueError('Exclude must be a literal repository-relative result path: ' + raw)
+        normalized.append(name)
+    return sorted(set(normalized))
+
+
+def excluded(name, paths):
+    return any(name == path or name.startswith(path + '/') for path in paths)
+
+
+def plan(root, max_file_mib=50, max_total_mib=500, excludes=()):
     head = checkout(root)
+    excludes = exclusion_paths(excludes)
     selected, held = [], []
     totals = defaultdict(lambda: {'files': 0, 'bytes': 0})
     for base in ROOTS:
@@ -74,6 +91,8 @@ def plan(root, max_file_mib=50, max_total_mib=500):
             totals[key]['files'] += 1
             totals[key]['bytes'] += p.stat().st_size
             try:
+                if excluded(name, excludes):
+                    raise ValueError('Explicitly deferred for this plan (file preserved)')
                 if git(root, 'check-ignore', '--no-index', '-q', '--', name, check=False).returncode == 0:
                     raise ValueError('Git ignored (binary, archive or other excluded output)')
                 selected.append(inspect(root, name, int(max_file_mib * MIB)))
@@ -82,10 +101,13 @@ def plan(root, max_file_mib=50, max_total_mib=500):
     size = sum(x['bytes'] for x in selected)
     payload = {'version': 1, 'head': head, 'max_file_bytes': int(max_file_mib * MIB),
                'max_total_bytes': int(max_total_mib * MIB), 'selected': selected, 'held': held,
-               'extensions': dict(totals), 'selected_bytes': size}
+               'extensions': dict(totals), 'selected_bytes': size, 'excludes': excludes}
     write_json(root / STATE / 'plan.json', payload)
     print(f'SELECTED: {len(selected)} files, {size / MIB:.2f} MiB')
     print(f'HELD: {len(held)} files (preserved on server)')
+    for name in excludes:
+        count = sum(excluded(item['path'], [name]) for item in held)
+        print(f'DEFERRED: {name} ({count} files)')
     print('Extension totals, including held files:')
     for ext, item in sorted(totals.items(), key=lambda x: -x[1]['bytes']):
         print(f"  {ext}: {item['files']} files, {item['bytes'] / MIB:.2f} MiB")
@@ -108,6 +130,9 @@ def stage(root):
         raise ValueError('Existing staged changes; finish or unstage them first')
     selected = payload['selected']
     names = [x['path'] for x in selected]
+    excludes = exclusion_paths(payload.get('excludes', []))
+    if any(excluded(name, excludes) for name in names):
+        raise ValueError('Plan contains an explicitly excluded path; run plan again')
     if not names or len(names) != len(set(names)):
         raise ValueError('Empty or duplicate selection')
     if sum(x['bytes'] for x in selected) > payload['max_total_bytes']:
@@ -138,11 +163,15 @@ if __name__ == '__main__':
     parser.add_argument('--action', choices=('plan', 'stage'), default='plan')
     parser.add_argument('--max-file-mib', type=float, default=50)
     parser.add_argument('--max-total-mib', type=float, default=500)
+    parser.add_argument('--exclude', action='append', default=[], metavar='PATH',
+                        help='Plan only: defer an exact result file or directory; repeat as needed')
     args = parser.parse_args()
     root = Path.cwd().resolve()
     if args.max_file_mib <= 0 or args.max_total_mib <= 0:
         parser.error('Size limits must be positive')
     if args.action == 'plan':
-        plan(root, args.max_file_mib, args.max_total_mib)
+        plan(root, args.max_file_mib, args.max_total_mib, args.exclude)
     else:
+        if args.exclude:
+            parser.error('--exclude belongs to --action plan; stage uses the saved plan')
         stage(root)

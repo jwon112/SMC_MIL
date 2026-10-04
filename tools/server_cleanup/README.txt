@@ -139,6 +139,15 @@ plan은 확장자별 전체 용량, 공유 대상 용량, 큰 파일 목록을 �
 아닙니다. 필요하면 용량 확인 후 --max-file-mib / --max-total-mib로 조정합니다.
 후속 stage는 plan 시점 이후 파일 변경을 검사하므로 진행 중인 학습이 로그/결과를
 갱신하면 중단할 수 있습니다. 이때 완료 후 plan부터 다시 실행합니다.
+학습을 계속하면서 완료된 다른 결과부터 공유하려면 진행 중인 실험 폴더를
+이번 plan에서만 제외할 수 있습니다. --exclude는 반복 지정 가능하며 정확한
+저장소 상대 경로를 받습니다(와일드카드 없음). 원본 파일과 .gitignore는 바꾸지 않습니다.
+
+python tools/publish_server_results.py --action plan --max-total-mib 750 --exclude results/smc_event_patch_control_20261004_exclude25
+
+stage는 저장된 제외 목록을 적용합니다. 학습 완료 후 --exclude 없이 새 plan을
+만들어 보류했던 결과도 게시합니다. 계속 실행 중인 다른 실험이 있다면 그 폴더도
+--exclude로 지정합니다. 오류가 파일 변경 검사에서 발생했다면 stage 전 중단된 것입니다.
 
 python tools/publish_server_results.py --action stage
 git diff --cached --stat
