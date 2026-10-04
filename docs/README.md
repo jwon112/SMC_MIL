@@ -58,6 +58,10 @@ use the topic index below.
 
 ## Maintenance and provenance
 
+- Server/local source consolidation: pull shared code first, then run
+  `python tools/publish_server_sources.py --action plan` on the server.
+  `--action publish` commits and pushes the selected current server source.
+  See [`server cleanup README`](../tools/server_cleanup/README.txt) for scope.
 - [`topk_device_fix.md`](topk_device_fix.md): SmoothTop1SVM device workaround.
 - [`upstream_clam/README.md`](upstream_clam/README.md): original upstream CLAM
   usage guide retained for provenance. It is not the SMC operating manual.

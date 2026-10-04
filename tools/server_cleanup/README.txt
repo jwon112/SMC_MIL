@@ -81,3 +81,34 @@ python tools/server_cleanup/audit_workspace.py
 Git에 없는 코드는 먼저 연구 이력으로 보존하고 역할·진입점·의존성을 확인합니다.
 단순 참조 미검출이나 파일 시각은 deprecated 판정의 충분한 근거가 아닙니다.
 CSV의 case_id 반복은 반복 생검·다중 슬라이드에서 정상일 수 있으며 자동 오류로 판정하지 않습니다.
+
+서버·로컬 Git 통합 (서버의 현재 코드가 기준)
+서버에서 최신 관리 도구를 받은 후 실행합니다.
+
+git pull --ff-only origin main
+python tools/publish_server_sources.py --action plan
+python tools/publish_server_sources.py --action publish
+
+plan은 미추적/수정 파일 중 소스·문서·설정·노트북을 선별하고 경로를 출력합니다.
+정확한 목록은 .server_source_sync/plan.json에 있으며 publish는 그 파일 목록과
+해시가 여전히 일치하는지 검증한 뒤 해당 경로만 add, commit, push합니다.
+기존 staged 작업이 있으면 섞어 커밋하지 않고 중단합니다.
+Git 작성자 이름/이메일 및 origin push 권한이 서버에도 필요합니다.
+push가 실패해도 생성한 로컬 커밋은 보존됩니다. 오류 해결 후 git push origin main을
+재시도하면 됩니다. force push는 사용하지 않습니다.
+
+관리 대상: 소스, 실행 shell, README/문서, 환경 설정, 이름으로 식별되는 JSON 설정,
+출력 없는 노트북. 노트북은 원본을 .server_source_sync/notebook_backups/에 보존한 뒤
+출력·실행번호·첨부·일시 메타데이터를 제거합니다. 코드/Markdown 셀 내용은 유지합니다.
+모호한 JSON/TXT, 2MB 초과 파일, credential 의심 문자열은 HOLD로 남겨 별도 검토합니다.
+자동 검사는 모든 비밀정보를 탐지한다는 보장이 없으므로 plan의 경로를 확인하세요.
+
+서버 보존 대상: 원본 데이터, label/split 데이터, feature, 모델 가중치, 학습 결과,
+로그, 설치 ZIP, 백업. 기존에 Git으로 추적하던 task CSV나 split의 이력은 지우지 않으며
+이번 도구가 변경된 CSV/데이터를 새로 커밋하지도 않습니다.
+논문 원문·추출 캐시와 기존 local reference workspace 제외 규칙도 유지됩니다.
+
+서버가 PUSHED 커밋을 출력하면 로컬에서도 git pull --ff-only origin main으로 받습니다.
+이후 같은 브랜치를 번갈아 수정할 때는 작업 전에 pull, 작업 후 commit/push합니다.
+이 단계는 코드의 최신 내용을 하나로 모으는 단계이며 root의 파일 위치는 유지합니다.
+서버 전용 소스를 받은 뒤 역할·의존성을 함께 검토해 코드 폴더 재배치를 진행합니다.

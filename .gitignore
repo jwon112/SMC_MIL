@@ -39,7 +39,6 @@ ENV/
 Thumbs.db
 
 # Jupyter Notebooks
-notebooks/
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 
@@ -52,6 +51,7 @@ results/
 /.smc_result_archive.json
 /.server_cleanup_phase2_20261004/
 /.server_cleanup_phase3/
+/.server_source_sync/
 /smc_cleanup_*20261004*/
 /smc_cleanup_*20261004*.zip
 /stain_presence_mask_control_20261004*/
@@ -82,11 +82,40 @@ results/
 /splits/smc_cv_*/
 /data/legacy_artifact_synthesis/
 
-# Data directories (uncomment if you don't want to track data)
-# data/
-# datasets/
-# slides/
-# masks/
-# patches/
-# stitches/
-# features/
+# Server and local checkouts share source; bulky/generated assets stay external.
+# These rules do not remove any files already tracked by Git.
+data/
+_data/
+datasets/
+slides/
+masks/
+patches/
+stitches/
+features/
+runs/
+ckpts/
+checkpoints/
+/artidiffuser_ckpts/
+/heatmaps/heatmap_raw_results/
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.npy
+*.npz
+*.pkl
+*.pickle
+*.parquet
+*.xlsx
+*.xls
+*.dcm
+*.svs
+*.mrxs
+*.tif
+*.tiff
+*.safetensors
+.env
+.env.*
+!.env.example
+*.pem
+*.key
