@@ -3,6 +3,11 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+import sys as _archive_sys
+_archive_sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from tools.smc_result_paths import iter_result_dirs, resolve_result_path, rglob_result_files
+
 import argparse
 import json
 import pickle
@@ -118,7 +123,7 @@ def fold_metrics(experiment_dir: Path, threshold: float) -> pd.DataFrame:
 
 def collect_internal(results_root: Path, threshold: float) -> list[dict[str, object]]:
     collected = []
-    for experiment_dir in sorted(results_root.iterdir()):
+    for experiment_dir in iter_result_dirs(results_root):
         summary_path = experiment_dir / "summary.csv"
         if not experiment_dir.is_dir() or not summary_path.is_file():
             continue
@@ -185,9 +190,9 @@ def evaluation_run(summary_path: Path, results_root: Path) -> str:
 def collect_external(results_root: Path) -> tuple[list[dict[str, object]], int]:
     candidates: dict[tuple[str, str, str], tuple[float, dict[str, object]]] = {}
     duplicate_count = 0
-    summary_paths = set(results_root.rglob("external_summary.csv"))
-    summary_paths.update(results_root.rglob("all_external_summary.csv"))
-    summary_paths.update(results_root.rglob("combined_external_summary.csv"))
+    summary_paths = set(rglob_result_files(results_root,"external_summary.csv"))
+    summary_paths.update(rglob_result_files(results_root,"all_external_summary.csv"))
+    summary_paths.update(rglob_result_files(results_root,"combined_external_summary.csv"))
     for summary_path in sorted(summary_paths):
         frame = pd.read_csv(summary_path)
         for source in frame.to_dict("records"):

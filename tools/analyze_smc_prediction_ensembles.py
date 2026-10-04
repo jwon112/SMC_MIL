@@ -3,6 +3,11 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+import sys as _archive_sys
+_archive_sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from tools.smc_result_paths import iter_result_dirs, resolve_result_path, rglob_result_files
+
 import argparse
 import pickle
 import re
@@ -83,7 +88,7 @@ def parse_experiment(name: str, folds: int, seeds: set[int]) -> dict[str, object
 
 def read_internal(results_root: Path, folds: int, seeds: set[int]) -> pd.DataFrame:
     rows: list[dict[str, object]] = []
-    for experiment_dir in sorted(results_root.iterdir()):
+    for experiment_dir in iter_result_dirs(results_root):
         if not experiment_dir.is_dir():
             continue
         info = parse_experiment(experiment_dir.name, folds, seeds)

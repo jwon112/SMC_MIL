@@ -1,3 +1,6 @@
+from pathlib import Path
+from tools.smc_result_paths import resolve_result_path
+
 import os
 import argparse
 import pickle
@@ -22,7 +25,7 @@ def collect_summaries(results_dir, experiment_names):
     all_dfs = []
     
     for exp_name in experiment_names:
-        exp_path = os.path.join(results_dir, exp_name)
+        exp_path = str(resolve_result_path(Path(results_dir) / exp_name))
         summary_path = os.path.join(exp_path, 'summary.csv')
         
         if not os.path.exists(summary_path):
@@ -84,7 +87,7 @@ def collect_prediction_rows(results_dir, experiment_names):
     """Read held-out bag probabilities saved by main.py for binary experiments."""
     rows = []
     for experiment in experiment_names:
-        exp_dir = Path(results_dir) / experiment
+        exp_dir = resolve_result_path(Path(results_dir) / experiment)
         for result_path in sorted(exp_dir.glob('split_*_results.pkl')):
             fold = int(result_path.stem.split('_')[1])
             with result_path.open('rb') as handle:

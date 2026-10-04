@@ -45,6 +45,18 @@ notebooks/
 
 # Project specific
 results/
+/archive/
+/backups/
+/results_old/
+/results_old2/
+/.smc_result_archive.json
+/.server_cleanup_phase2_20261004/
+/smc_cleanup_*20261004*/
+/smc_cleanup_*20261004*.zip
+/stain_presence_mask_control_20261004*/
+/stain_presence_mask_control_20261004*.zip
+/stain_patch_sampling_control_20261004*/
+/stain_patch_sampling_control_20261004*.zip
 *.h5
 *.pt
 *.pth

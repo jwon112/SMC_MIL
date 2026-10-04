@@ -1,0 +1,485 @@
+{
+  "version": 1,
+  "moves": [
+    {
+      "source": "results/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1",
+      "target": "archive/experiments/early_cv/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1",
+      "group": "early_cv",
+      "reason": "초기 3-fold 결과; 집계 경로 변경 필요"
+    },
+    {
+      "source": "results/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_he_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_non_he_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    },
+    {
+      "source": "results/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1",
+      "target": "archive/experiments/weak_linkage/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1",
+      "group": "weak_linkage",
+      "reason": "현재 주 분석에서 제외하되 외부 검증·집계의 참조를 먼저 수정"
+    }
+  ]
+}

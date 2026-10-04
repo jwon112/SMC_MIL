@@ -203,6 +203,11 @@ for scale in "${SCALES[@]}"; do
     exp_code="smc_${short_name}_${scale}_uni2_clamsb${exp_mode}"
     log_path="results/logs/${exp_code}_s${SEED}.log"
     result_dir="results/${exp_code}_s${SEED}"
+    resolved_dir=$(python tools/smc_result_paths.py "$result_dir") || exit 1
+    if [[ "$resolved_dir" != "$result_dir" ]]; then
+      echo "[ARCHIVED] $exp_code -> $resolved_dir; use a new experiment name to retrain"
+      continue
+    fi
     if [[ -f "$result_dir/summary.csv" ]]; then
       echo "[SKIP] $exp_code already has summary.csv"
       continue

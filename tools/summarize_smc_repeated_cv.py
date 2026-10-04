@@ -3,6 +3,11 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+import sys as _archive_sys
+_archive_sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from tools.smc_result_paths import iter_result_dirs, resolve_result_path, rglob_result_files
+
 import argparse
 import pickle
 import re
@@ -98,7 +103,7 @@ def main() -> int:
     args = parse_args()
     requested_seeds = set(args.seeds)
     rows: list[dict[str, object]] = []
-    for experiment_dir in sorted(args.results_root.iterdir()):
+    for experiment_dir in iter_result_dirs(args.results_root):
         if not experiment_dir.is_dir() or not (experiment_dir / "summary.csv").is_file():
             continue
         match = PATTERN.match(experiment_dir.name)

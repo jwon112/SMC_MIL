@@ -3,6 +3,9 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+from tools.smc_result_paths import resolve_result_path
+
 import argparse
 import csv
 import json
@@ -78,6 +81,7 @@ def main() -> int:
     parser.add_argument("--bootstrap", type=int, default=2000)
     parser.add_argument("--seed", type=int, default=1)
     args = parser.parse_args()
+    args.checkpoint_dir = resolve_result_path(args.checkpoint_dir)
     if not 0 <= args.threshold <= 1:
         raise ValueError("--threshold must be between zero and one")
     device = torch.device("cuda" if args.device == "auto" and torch.cuda.is_available() else args.device if args.device != "auto" else "cpu")

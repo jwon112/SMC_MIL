@@ -3,6 +3,11 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+import sys as _archive_sys
+_archive_sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from tools.smc_result_paths import iter_result_dirs, resolve_result_path, rglob_result_files
+
 import argparse
 import csv
 import re
@@ -63,7 +68,7 @@ def parse_args() -> argparse.Namespace:
 
 def discover(args: argparse.Namespace) -> list[dict[str, object]]:
     experiments = []
-    for path in sorted(args.results_root.iterdir()):
+    for path in iter_result_dirs(args.results_root):
         checkpoints = list(path.glob("s_*_checkpoint.pt")) if path.is_dir() else []
         if not checkpoints or not (path / "summary.csv").is_file():
             continue
