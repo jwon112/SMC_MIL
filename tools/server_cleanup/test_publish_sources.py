@@ -7,6 +7,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 spec=importlib.util.spec_from_file_location('publish_sources',Path(__file__).resolve().parents[1]/'publish_server_sources.py')
 publisher=importlib.util.module_from_spec(spec);spec.loader.exec_module(publisher)
@@ -53,6 +54,44 @@ class PublishTests(unittest.TestCase):
             publisher.publish(self.root)
         self.assertEqual(self.git('rev-parse','HEAD'),head)
         self.assertEqual(self.git('diff','--cached','--name-only'),'')
+
+    def test_failed_push_retries_same_commit_and_preserves_later_edits(self):
+        self.plan()
+        real_git=publisher.git
+        def fail_push(root,*args,**kwargs):
+            if args[:1]==('push',):
+                return subprocess.CompletedProcess(args,1,b'',b'simulated authentication failure')
+            return real_git(root,*args,**kwargs)
+        with patch.object(publisher,'git',side_effect=fail_push), contextlib.redirect_stdout(io.StringIO()):
+            with self.assertRaisesRegex(RuntimeError,'Commit preserved locally'):
+                publisher.publish(self.root)
+        commit=self.git('rev-parse','HEAD')
+        self.assertNotEqual(self.git('rev-parse','origin/main'),commit)
+        (self.root/'new_research.py').write_text('# later local work\n')
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(publisher.publish(self.root),commit)
+            self.assertEqual(publisher.publish(self.root),commit)
+        self.assertEqual(self.git('rev-parse','HEAD'),commit)
+        self.assertEqual(self.git('rev-parse','origin/main'),commit)
+        self.assertEqual((self.root/'new_research.py').read_text(),'# later local work\n')
+        self.assertEqual(len(list((self.root/publisher.STATE/'notebook_backups').rglob('marker.ipynb'))),1)
+
+    def test_retry_rejects_unrelated_commit_or_changed_plan(self):
+        self.plan()
+        with contextlib.redirect_stdout(io.StringIO()): publisher.publish(self.root)
+        path=self.root/publisher.STATE/'plan.json'
+        original=path.read_text()
+        plan=json.loads(original)
+        plan['selected'][0]['publish_sha256']='0'*64
+        path.write_text(json.dumps(plan))
+        with self.assertRaisesRegex(ValueError,'differs from reviewed plan'):
+            publisher.publish(self.root)
+        path.write_text(original)
+        self.git('commit','--allow-empty','-m','unrelated work')
+        remote_before=self.git('rev-parse','origin/main')
+        with self.assertRaisesRegex(ValueError,'HEAD changed'):
+            publisher.publish(self.root)
+        self.assertEqual(self.git('rev-parse','origin/main'),remote_before)
 
     def test_existing_staged_work_is_not_committed(self):
         self.git('add','new_research.py')

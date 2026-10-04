@@ -144,16 +144,44 @@ def make_plan(root):
     print('Next: python tools/publish_server_sources.py --action publish')
     return plan
 
+def push_commit(root,commit):
+    result=git(root,'push','origin','main',check=False)
+    if result.returncode:
+        print(result.stderr.decode(errors='replace'),flush=True)
+        raise RuntimeError('Commit preserved locally: '+commit+'. Resolve push error, then retry git push origin main or --action publish.')
+    print('PUSHED:',commit)
+    return commit
+
+def retry_reviewed_commit(root,plan,head):
+    """Retry only the recorded commit; never include an unrelated HEAD change."""
+    journal=root/STATE/'last_commit.json'
+    if not journal.is_file(): raise ValueError('HEAD changed; run plan again')
+    last=json.loads(journal.read_text(encoding='utf-8'))
+    parents=git(root,'rev-list','--parents','-n','1',head).stdout.decode().split()
+    if last.get('commit')!=head or parents!=[head,plan['head']]:
+        raise ValueError('HEAD changed beyond the recorded publish commit; run plan again')
+    changed=set(filter(None,git(root,'diff-tree','--no-commit-id','--name-only','-r','-z',head).stdout.decode().split('\0')))
+    reviewed={item['path']:item for item in plan['selected']}
+    if not changed or changed!=set(last.get('files',[])) or not changed.issubset(reviewed):
+        raise ValueError('Recorded commit paths differ from reviewed plan; retry stopped')
+    for name in changed:
+        payload=git(root,'show',head+':'+name).stdout
+        if digest(normalized(payload))!=reviewed[name]['publish_sha256']:
+            raise ValueError('Recorded commit differs from reviewed plan: '+name)
+    print('RETRY PUSH:',head,'(existing reviewed commit; no new commit)',flush=True)
+    return push_commit(root,head)
+
 def publish(root):
     head=check_checkout(root)
     git(root,'var','GIT_AUTHOR_IDENT')
     git(root,'var','GIT_COMMITTER_IDENT')
     path=root/STATE/'plan.json'
     plan=json.loads(path.read_text(encoding='utf-8'))
-    if plan.get('version')!=1 or plan['head']!=head: raise ValueError('HEAD changed; run plan again')
+    if plan.get('version')!=1: raise ValueError('Unsupported plan version; run plan again')
     if not plan['selected']: raise ValueError('No source files selected')
     names=[x['path'] for x in plan['selected']]
     if len(names)!=len(set(names)): raise ValueError('Duplicate plan paths')
+    if plan['head']!=head: return retry_reviewed_commit(root,plan,head)
     for item in plan['selected']:
         current,reason=inspect_file(root,item['path'])
         if current!=item: raise ValueError('File changed or no longer eligible: '+item['path'])
@@ -178,12 +206,7 @@ def publish(root):
     print(result.stdout.decode(errors='replace'),flush=True)
     commit=git(root,'rev-parse','HEAD').stdout.decode().strip()
     write_json(root/STATE/'last_commit.json',{'commit':commit,'files':sorted(staged),'notebook_backup':timestamp})
-    result=git(root,'push','origin','main',check=False)
-    if result.returncode:
-        print(result.stderr.decode(errors='replace'),flush=True)
-        raise RuntimeError('Commit preserved locally: '+commit+'. Resolve push error, then retry git push origin main.')
-    print('PUSHED:',commit)
-    return commit
+    return push_commit(root,commit)
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)

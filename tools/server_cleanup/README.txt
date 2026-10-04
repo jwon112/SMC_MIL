@@ -95,7 +95,10 @@ plan은 미추적/수정 파일 중 소스·문서·설정·노트북을 선별�
 기존 staged 작업이 있으면 섞어 커밋하지 않고 중단합니다.
 Git 작성자 이름/이메일 및 origin push 권한이 서버에도 필요합니다.
 push가 실패해도 생성한 로컬 커밋은 보존됩니다. 오류 해결 후 git push origin main을
-재시도하면 됩니다. force push는 사용하지 않습니다.
+재시도하면 됩니다. --action publish를 다시 실행해도 기록된 커밋의 부모·파일 목록·
+내용이 원래 plan과 일치하면 기존 커밋의 push만 재시도합니다. 이미 push된 경우에도
+추가 커밋이나 노트북 백업을 만들지 않습니다. 다른 커밋이 추가됐다면 새 plan이
+필요합니다. force push는 사용하지 않습니다.
 
 관리 대상: 소스, 실행 shell, README/문서, 환경 설정, 이름으로 식별되는 JSON 설정,
 출력 없는 노트북. 노트북은 원본을 .server_source_sync/notebook_backups/에 보존한 뒤

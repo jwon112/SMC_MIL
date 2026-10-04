@@ -22,9 +22,9 @@ use the topic index below.
 이전 실험의 입력 근거는 보존합니다. 서버에만 있는 augmentation·pathomics·future
 코드도 연구 이력 확인 후 Git 관리 또는 별도 보관 여부를 결정합니다.
 
-## 서버 코드 통합 결과 (300556c)
+## 서버 코드 통합 결과 (300556c, 06d9f99)
 
-서버 전용 파일 39개를 Git으로 받아 로컬과 통합했습니다. 실행 상태나 실험 성능은
+첫 통합의 39개 파일과 추가 pathomics 설정 2개를 Git으로 받아 로컬과 통합했습니다. 실행 상태나 실험 성능은
 코드 존재만으로 판단하지 않으며, 아래 분류는 코드의 역할과 의존성에 근거합니다.
 
 | 계열 | 주 진입점 | 함께 보존할 코드·입력 |
@@ -44,9 +44,18 @@ SHA-256을 검사합니다. 이름에 fast/v2가 붙어도 이전 모듈을 대�
 주므로 실행 파이프라인 재구성과 함께 진행해야 합니다.
 
 `eta.txt`는 `smc.sh`에서 `bash eta.txt`로 참조됩니다. 단순 로그로 분류하지 않습니다.
-`pathomics_all_wsi.json`과 `pathomics_extract_exploratory.json`은 최초 Git 선별에서
-보류됐으므로 서버의 설정 구조를 확인한 뒤 추가합니다. `pathomics_config.json`만으로
-현재 모든 실행 설정이 공유됐다고 볼 수 없습니다.
+`06d9f99`에서 받은 두 설정을 포함하면 pathomics 설정의 용도는 다음과 같습니다.
+
+| 설정 | 대상 범위 | 출력 위치의 마지막 폴더 | review_only |
+|---|---|---|---|
+| `pathomics_config.json` | 기본값 gold_cohort / confirmed_he | `pathomics_v3_measurementqa` | true |
+| `pathomics_extract_exploratory.json` | 기본값 gold_cohort / confirmed_he | `pathomics_exploratory_v1` | false |
+| `pathomics_all_wsi.json` | 명시적 all_feature_wsi / all | `pathomics_all_wsi_v1` | false |
+
+세 설정 모두 기존 `dataset_csv/smc_acr_binary_0r_vs_1r2r3r.csv`와
+`dataset_csv/stain_aug_labels.csv`를 참조합니다. 현재 event 실험의 provisional
+라벨이 pathomics에도 반영됐다고 해석하지 않습니다. 설정 파일의 존재는 실제 실행
+완료의 증거가 아니며, 대상 범위가 달라 중복 설정으로 취급하지 않습니다.
 
 데이터 CSV는 별도 관리하더라도 `dataset_csv/stain_aug_labels.csv`와
 `cohorts/he_manual_acr_v1/technical_train_slides_*.txt` 등은 기존 연구 입력입니다.
