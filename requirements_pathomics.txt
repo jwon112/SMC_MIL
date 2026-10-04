@@ -1,0 +1,10 @@
+# Install in the EXISTING clam_latest environment only if imports fail.
+# WSI readers use its existing torch/pydicom/OpenSlide stack.
+numpy>=1.24,<3
+pandas>=2,<4
+scipy>=1.10,<2
+scikit-image>=0.21,<0.27
+opencv-python-headless>=4.8,<6
+PyWavelets>=1.4,<2
+h5py>=3.8,<4
+Pillow>=10,<13

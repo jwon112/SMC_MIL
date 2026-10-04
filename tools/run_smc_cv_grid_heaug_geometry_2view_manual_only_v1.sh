@@ -1,0 +1,239 @@
+#!/usr/bin/env bash
+# Run one sequential half of the SMC patient-grouped 3-fold CV grid on one physical GPU.
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+FEATURE_ROOT="$ROOT_DIR/data/features/uni_v2"
+GPU=""
+WORKER=""
+SCALE_WORKER="all"
+SEED=1
+FULL_TRAIN_CV=false
+MAX_EPOCHS=200
+EARLY_STOP_PATIENCE=20
+EARLY_STOP_MIN_EPOCH=50
+FOLDS=3
+WEAK_TRAIN_ROOT=""
+STAIN_ROOT=""
+STAIN_COHORT=""
+
+usage() {
+  cat <<'EOF'
+Usage: bash tools/run_smc_cv_grid.sh --gpu GPU_ID --worker acr|acr_low|acr_high|amr|significant|primary [--scale-worker all|a|b|40x|20x|10x|5x] [--seed N] [--folds 3|5] [--feature-root PATH] [--weak-train-root PATH] [--stain-root PATH --stain-cohort NAME] [--full-train-cv --max-epochs N] [--early-stop-patience N --early-stop-min-epoch N]
+
+Workers:
+  acr      Runs the two ACR tasks at L0, L1, L2, and L3.
+  acr_low  Runs ACR 0R vs 1R/2R/3R only at L0, L1, L2, and L3.
+  acr_high Runs ACR 0R/1R vs 2R/3R only at L0, L1, L2, and L3.
+  amr      Runs AMR at L0, L1, L2, and L3.
+  significant Runs significant rejection at L0, L1, L2, and L3.
+  primary  Runs high-grade ACR, AMR, and significant rejection.
+
+Scale workers:
+  all  Runs all four scales (default).
+  a    Runs 40x and 10x.
+  b    Runs 20x and 5x.
+  40x, 20x, 10x, 5x
+       Runs one scale only.
+
+Modes:
+  --full-train-cv  Train on all two outer-training folds without validation or
+                   early stopping. Uses cosine LR decay and *_fulltrain splits.
+  --max-epochs N   Training epochs (default: 200; use 100 with --full-train-cv).
+  --early-stop-patience N
+                   Epochs without validation-loss improvement (default: 20).
+  --early-stop-min-epoch N
+                   Earliest zero-based epoch allowed to stop (default: 50).
+  --folds 3|5      Number of patient-grouped CV folds (default: 3).
+  --seed N         Split and model seed (default: 1). Non-default gold splits
+                   are read from *_standard{folds}_seedN.
+  --weak-train-root PATH
+                   Root created by build_smc_weak_unique_training.py. Keeps each
+                   standard CV validation fold unchanged and augments train only.
+  --stain-root PATH
+  --stain-cohort NAME
+                   Root and cohort created by build_smc_stain_cohorts.py. Both
+                   train and gold-validation bags are restricted to that cohort.
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --gpu) GPU="$2"; shift 2 ;;
+    --worker) WORKER="$2"; shift 2 ;;
+    --scale-worker) SCALE_WORKER="$2"; shift 2 ;;
+    --seed) SEED="$2"; shift 2 ;;
+    --feature-root) FEATURE_ROOT="$2"; shift 2 ;;
+    --weak-train-root) WEAK_TRAIN_ROOT="$2"; shift 2 ;;
+    --stain-root) STAIN_ROOT="$2"; shift 2 ;;
+    --stain-cohort) STAIN_COHORT="$2"; shift 2 ;;
+    --full-train-cv) FULL_TRAIN_CV=true; shift ;;
+    --max-epochs) MAX_EPOCHS="$2"; shift 2 ;;
+    --early-stop-patience) EARLY_STOP_PATIENCE="$2"; shift 2 ;;
+    --early-stop-min-epoch) EARLY_STOP_MIN_EPOCH="$2"; shift 2 ;;
+    --folds) FOLDS="$2"; shift 2 ;;
+    -h|--help) usage; exit 0 ;;
+    *) echo "Unknown argument: $1" >&2; usage >&2; exit 2 ;;
+  esac
+done
+
+if [[ -z "$GPU" || ( "$WORKER" != "acr" && "$WORKER" != "acr_low" && "$WORKER" != "acr_high" && "$WORKER" != "amr" && "$WORKER" != "significant" && "$WORKER" != "primary" ) ]]; then
+  usage >&2
+  exit 2
+fi
+
+[[ "$MAX_EPOCHS" =~ ^[1-9][0-9]*$ ]] || { echo "--max-epochs must be a positive integer" >&2; exit 2; }
+[[ "$EARLY_STOP_PATIENCE" =~ ^[1-9][0-9]*$ ]] || { echo "--early-stop-patience must be a positive integer" >&2; exit 2; }
+[[ "$EARLY_STOP_MIN_EPOCH" =~ ^[0-9]+$ ]] || { echo "--early-stop-min-epoch must be a non-negative integer" >&2; exit 2; }
+[[ "$SEED" =~ ^[0-9]+$ ]] || { echo "--seed must be a non-negative integer" >&2; exit 2; }
+[[ "$FOLDS" == 3 || "$FOLDS" == 5 ]] || { echo "--folds must be 3 or 5" >&2; exit 2; }
+[[ "$SCALE_WORKER" == "all" || "$SCALE_WORKER" == "a" || "$SCALE_WORKER" == "b" || "$SCALE_WORKER" == "40x" || "$SCALE_WORKER" == "20x" || "$SCALE_WORKER" == "10x" || "$SCALE_WORKER" == "5x" ]] || { echo "--scale-worker must be all, a, b, 40x, 20x, 10x, or 5x" >&2; exit 2; }
+if [[ -n "$STAIN_ROOT" && -z "$STAIN_COHORT" ]] || [[ -z "$STAIN_ROOT" && -n "$STAIN_COHORT" ]]; then
+  echo "--stain-root and --stain-cohort must be provided together" >&2
+  exit 2
+fi
+if [[ -n "$WEAK_TRAIN_ROOT" && -n "$STAIN_ROOT" ]]; then
+  echo "Use either --weak-train-root or --stain-root, not both" >&2
+  exit 2
+fi
+if [[ "$SEED" != 1 && ( -n "$WEAK_TRAIN_ROOT" || -n "$STAIN_ROOT" ) ]]; then
+  echo "Repeated non-default seeds currently support gold-only training" >&2
+  exit 2
+fi
+
+case "$WORKER" in
+  acr)
+    TASK_SPECS=(
+      "task_smc_acr_binary_0r_vs_1r2r3r|smc_cv_acr_0r_vs_1r2r3r_standard3|acr_0r_vs_rest"
+      "task_smc_acr_binary_0r1r_vs_2r3r|smc_cv_acr_0r1r_vs_2r3r_standard3|acr_high_grade"
+    )
+    ;;
+  acr_low)
+    TASK_SPECS=(
+      "task_smc_acr_binary_0r_vs_1r2r3r|smc_cv_acr_0r_vs_1r2r3r_standard3|acr_0r_vs_rest"
+    )
+    ;;
+  acr_high)
+    TASK_SPECS=(
+      "task_smc_acr_binary_0r1r_vs_2r3r|smc_cv_acr_0r1r_vs_2r3r_standard3|acr_high_grade"
+    )
+    ;;
+  amr)
+    TASK_SPECS=(
+      "task_smc_amr_binary_pamr0_vs_positive|smc_cv_amr_pamr0_vs_positive_standard3|amr_positive"
+    )
+    ;;
+  significant)
+    TASK_SPECS=(
+      "task_smc_significant_rejection_binary|smc_cv_significant_rejection_standard3|significant_rejection"
+    )
+    ;;
+  primary)
+    TASK_SPECS=(
+      "task_smc_acr_binary_0r1r_vs_2r3r|smc_cv_acr_0r1r_vs_2r3r_standard3|acr_high_grade"
+      "task_smc_amr_binary_pamr0_vs_positive|smc_cv_amr_pamr0_vs_positive_standard3|amr_positive"
+      "task_smc_significant_rejection_binary|smc_cv_significant_rejection_standard3|significant_rejection"
+    )
+    ;;
+esac
+
+ALL_SCALES=(
+  "l0_0p25mpp_40x"
+  "l1_0p50mpp_20x"
+  "l2_1p00mpp_10x"
+  "l3_2p00mpp_5x"
+)
+case "$SCALE_WORKER" in
+  all) SCALES=("${ALL_SCALES[@]}") ;;
+  a) SCALES=("${ALL_SCALES[0]}" "${ALL_SCALES[2]}") ;;
+  b) SCALES=("${ALL_SCALES[1]}" "${ALL_SCALES[3]}") ;;
+  40x) SCALES=("${ALL_SCALES[0]}") ;;
+  20x) SCALES=("${ALL_SCALES[1]}") ;;
+  10x) SCALES=("${ALL_SCALES[2]}") ;;
+  5x) SCALES=("${ALL_SCALES[3]}") ;;
+esac
+
+cd "$ROOT_DIR"
+mkdir -p results/logs
+
+for scale in "${SCALES[@]}"; do
+  feature_dir="$FEATURE_ROOT/$scale"
+  [[ -d "$feature_dir/pt_files" ]] || { echo "Missing feature directory: $feature_dir/pt_files" >&2; exit 1; }
+
+  for spec in "${TASK_SPECS[@]}"; do
+    IFS='|' read -r task split_dir short_name <<< "$spec"
+    mode_args=(--early_stopping --cv-validation)
+    split_dir="${split_dir%_standard3}_standard${FOLDS}"
+    if [[ "$SEED" != 1 ]]; then
+      split_dir="${split_dir}_seed${SEED}"
+    fi
+    exp_mode="_cv${FOLDS}val"
+    if [[ "$FULL_TRAIN_CV" == true ]]; then
+      split_dir="${split_dir%_standard${FOLDS}}_fulltrain"
+      mode_args=(--no_val --lr-scheduler cosine --min-lr 0)
+      exp_mode="_fulltrain${MAX_EPOCHS}cosine"
+    fi
+
+    csv_args=()
+    if [[ -n "$WEAK_TRAIN_ROOT" || -n "$STAIN_ROOT" ]]; then
+      [[ "$FULL_TRAIN_CV" == false ]] || { echo "--weak-train-root cannot be combined with --full-train-cv" >&2; exit 2; }
+      weak_csv_task="${task#task_}"
+      if [[ -n "$STAIN_ROOT" ]]; then
+        cohort_suffix="weak_unique_0to3_${STAIN_COHORT}"
+        weak_csv="$STAIN_ROOT/dataset_csv/${weak_csv_task}_${cohort_suffix}.csv"
+        split_dir="${split_dir}_${cohort_suffix}"
+        exp_mode="${exp_mode}_weakunique3_${STAIN_COHORT}"
+      else
+        split_dir="${split_dir}_weak_unique_0to3"
+        weak_csv="$WEAK_TRAIN_ROOT/dataset_csv/${weak_csv_task}_weak_unique_0to3.csv"
+        exp_mode="${exp_mode}_weakunique3"
+      fi
+      [[ -f "$weak_csv" ]] || { echo "Missing weak-label CSV: $weak_csv" >&2; exit 1; }
+      csv_args=(--csv_path "$weak_csv")
+    fi
+    if [[ -n "$WEAK_TRAIN_ROOT" || -n "$STAIN_ROOT" ]]; then
+      cohort_root="${STAIN_ROOT:-$WEAK_TRAIN_ROOT}"
+      split_path="$cohort_root/splits/$split_dir"
+      split_dir="$split_path"
+    else
+      split_path="splits/$split_dir"
+    fi
+    [[ -d "$split_path" ]] || { echo "Missing CV splits: $split_path" >&2; exit 1; }
+
+    exp_code="smc_${short_name}_${scale}_uni2_clamsb${exp_mode}_${SMC_HE_AUG_TAG:?}"
+    log_path="results/logs/${exp_code}_s${SEED}.log"
+    result_dir="results/${exp_code}_s${SEED}"
+    if [[ -f "$result_dir/summary.csv" ]]; then
+      echo "[SKIP] $exp_code already has summary.csv"
+      continue
+    fi
+    echo "[RUN] GPU $GPU | $task | $scale"
+
+    CUDA_VISIBLE_DEVICES="$GPU" python smc_he_aug.py \
+      --data_root_dir "$feature_dir" \
+      --task "$task" \
+      --split_dir "$split_dir" \
+      --seed "$SEED" \
+      "${csv_args[@]}" \
+      --k "$FOLDS" \
+      --exp_code "$exp_code" \
+      --model_type clam_sb \
+      --model_size small \
+      --max_epochs "$MAX_EPOCHS" \
+      --early-stop-patience "$EARLY_STOP_PATIENCE" \
+      --early-stop-min-epoch "$EARLY_STOP_MIN_EPOCH" \
+      --drop_out 0.25 \
+      "${mode_args[@]}" \
+      --lr 2e-4 \
+      --reg 1e-5 \
+      --bag_loss ce \
+      --inst_loss svm \
+      --bag_weight 0.7 \
+      --B 8 \
+      --weighted_sample \
+      --embed_dim 1536 \
+      > "$log_path" 2>&1
+
+    echo "[DONE] $exp_code"
+  done
+done
