@@ -184,3 +184,7 @@ checkpoints/
 !/archive/experiments/**/*.svg
 !/archive/experiments/**/*.pdf
 !/archive/experiments/**/*.html
+
+# Keep automatic notebook backups excluded after the result allow rules.
+.ipynb_checkpoints/
+*.ipynb_checkpoints

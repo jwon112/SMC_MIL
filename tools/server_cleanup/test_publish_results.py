@@ -68,6 +68,26 @@ class ResultTests(unittest.TestCase):
             results.stage(self.root)
         self.assertEqual(self.git('diff', '--cached', '--name-only'), '')
 
+    def test_notebook_backups_stay_ignored_and_can_be_unstaged_without_deletion(self):
+        backups = []
+        for base in results.ROOTS:
+            name = base + '/run/.ipynb_checkpoints/summary-checkpoint.csv'
+            p = self.root / name
+            p.parent.mkdir(parents=True)
+            p.write_bytes(b'backup\n')
+            backups.append(name)
+            self.assertEqual(results.git(self.root, 'check-ignore', '-q', '--', name,
+                                         check=False).returncode, 0)
+        plan = self.plan()
+        self.assertFalse(set(backups) & {x['path'] for x in plan['selected']})
+        # Simulate the index produced by the previous ignore rules.
+        self.git('add', '-f', '--', *backups)
+        self.git('add', '--', 'results/current/metrics.csv')
+        self.git('restore', '--staged', '--', ':(glob)**/.ipynb_checkpoints/**')
+        self.assertEqual(self.git('diff', '--cached', '--name-only'), 'results/current/metrics.csv')
+        for name in backups:
+            self.assertEqual((self.root / name).read_bytes(), b'backup\n')
+
     def test_size_limits(self):
         p = self.plan(max_file_mib=1 / results.MIB)
         self.assertEqual(p['selected'], [])
