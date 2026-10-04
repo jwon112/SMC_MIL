@@ -11,6 +11,7 @@ MAX_EPOCHS=50
 PATIENCE=10
 MIN_EPOCHS=10
 SEEDS=(1 11 21 31 41)
+PAIRED_ARGS=()
 MODES=(aware aware_nomask agnostic)
 SCALES=(40x 20x 10x 5x)
 
@@ -21,6 +22,7 @@ while [[ $# -gt 0 ]]; do
     --feature-root) FEATURE_ROOT="$2"; shift 2 ;;
     --manifest-root) MANIFEST_ROOT="$2"; shift 2 ;;
     --results-root) RESULTS_ROOT="$2"; shift 2 ;;
+    --paired-fold-seeding) PAIRED_ARGS=(--paired-fold-seeding); shift ;;
     --folds) FOLDS="$2"; shift 2 ;;
     --max-epochs) MAX_EPOCHS="$2"; shift 2 ;;
     --patience) PATIENCE="$2"; shift 2 ;;
@@ -64,7 +66,7 @@ scale_dir() {
 }
 
 for MODE in "${MODES[@]}"; do
-  [[ "$MODE" == "aware" || "$MODE" == "aware_nomask" || "$MODE" == "agnostic" ]] || { echo "Unsupported mode: $MODE" >&2; exit 2; }
+  [[ "$MODE" == "aware" || "$MODE" == "aware_nomask" || "$MODE" == "aware_zero_mask" || "$MODE" == "agnostic" ]] || { echo "Unsupported mode: $MODE" >&2; exit 2; }
   for SCALE in "${SCALES[@]}"; do
     SCALE_DIR="$(scale_dir "$SCALE")"
     FEATURE_DIR="$FEATURE_ROOT/$SCALE_DIR"
@@ -79,6 +81,10 @@ for MODE in "${MODES[@]}"; do
           SUFFIX="_aware_nomask"
           TRAIN_MODE="aware"
           MODE_ARGS=(--no-presence-mask)
+        elif [[ "$MODE" == "aware_zero_mask" ]]; then
+          SUFFIX="_aware_zero_mask"
+          TRAIN_MODE="aware"
+          MODE_ARGS=(--presence-mask-values zero)
         elif [[ "$MODE" == "agnostic" ]]; then
           SUFFIX="_agnostic"
         fi
@@ -101,6 +107,7 @@ for MODE in "${MODES[@]}"; do
           --seed "$SEED" \
           --stain-mode "$TRAIN_MODE" \
           "${MODE_ARGS[@]}" \
+          "${PAIRED_ARGS[@]}" \
           --max-epochs "$MAX_EPOCHS" \
           --patience "$PATIENCE" \
           --min-epochs "$MIN_EPOCHS" \

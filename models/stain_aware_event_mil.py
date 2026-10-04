@@ -45,6 +45,7 @@ class StainAwareEventMIL(nn.Module):
         n_classes: int = 2,
         use_stain_branches: bool = True,
         include_presence_masks: bool = True,
+        presence_mask_values: str = "observed",
     ) -> None:
         super().__init__()
         self.input_dim = input_dim
@@ -52,6 +53,11 @@ class StainAwareEventMIL(nn.Module):
         self.dropout_rate = dropout
         self.use_stain_branches = use_stain_branches
         self.include_presence_masks = include_presence_masks
+        if presence_mask_values not in {"observed", "zero"}:
+            raise ValueError("presence_mask_values must be observed or zero")
+        if presence_mask_values == "zero" and not include_presence_masks:
+            raise ValueError("Zero-mask control requires mask input dimensions")
+        self.presence_mask_values = presence_mask_values
         self.branch_groups = STAIN_GROUPS if use_stain_branches else (AGNOSTIC_GROUP,)
         self.patch_encoder = nn.Sequential(
             nn.Linear(input_dim, hidden_dim), nn.ReLU(), nn.Dropout(dropout),
@@ -103,7 +109,8 @@ class StainAwareEventMIL(nn.Module):
 
         components = [*branch_embeddings]
         if self.include_presence_masks:
-            components.extend(branch_masks)
+            components.extend(branch_masks if self.presence_mask_values == "observed"
+                              else [torch.zeros_like(mask) for mask in branch_masks])
         event_features = torch.cat(components, dim=0).unsqueeze(0)
         logits = self.classifier(event_features)
         return logits, {"patch_attention": patch_attention, "slide_attention": slide_attention}

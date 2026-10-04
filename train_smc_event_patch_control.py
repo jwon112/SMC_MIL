@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Train hierarchical stain-aware event MIL on patient-grouped gold folds."""
+"""Dedicated paired patch-cap experiment; existing presence experiments are untouched."""
 from __future__ import annotations
-import argparse, json, random
+import argparse, json, random, hashlib
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -11,6 +11,7 @@ from torch import nn
 from torch.utils.data import DataLoader, WeightedRandomSampler
 from models.stain_aware_event_mil import StainAwareEventMIL
 from utils.event_mil import EventFeatureDataset, collate_event, load_event_tables, verify_feature_bags
+from utils.patch_sampling_control import ControlledPatchDataset
 
 def arguments() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
@@ -21,7 +22,10 @@ def arguments() -> argparse.Namespace:
     p.add_argument("--presence-mask-values", choices=("observed", "zero"), default="observed", help="Keep mask input dimensions; use real presence or constant zero values.")
     p.add_argument("--paired-fold-seeding", action="store_true", help="Reset RNG before each fold so earlier early stopping does not change later fold initialization.")
     p.add_argument("--max-patches-per-slide", type=int, default=2048); p.add_argument("--max-epochs", type=int, default=50); p.add_argument("--patience", type=int, default=10); p.add_argument("--min-epochs", type=int, default=10); p.add_argument("--lr", type=float, default=2e-4); p.add_argument("--weight-decay", type=float, default=1e-5); p.add_argument("--device", choices=("auto", "cuda", "cpu"), default="auto")
-    return p.parse_args()
+    p.add_argument("--eval-max-patches-per-slide", type=int, default=2048)
+    args = p.parse_args()
+    if args.max_patches_per_slide < 1 or args.eval_max_patches_per_slide < 1: p.error("Patch caps must be positive")
+    return args
 def seed_all(seed: int) -> None:
     random.seed(seed); np.random.seed(seed); torch.manual_seed(seed)
     if torch.cuda.is_available(): torch.cuda.manual_seed_all(seed)
@@ -39,13 +43,21 @@ def score(frame: pd.DataFrame) -> dict[str, float | int]:
 def main() -> int:
     args = arguments(); seed_all(args.seed); device = torch.device("cuda" if args.device == "auto" and torch.cuda.is_available() else args.device if args.device != "auto" else "cpu")
     events, slides = load_event_tables(args.event_csv, args.event_slides_csv); verify_feature_bags(slides, args.feature_dir); args.results_dir.mkdir(parents=True, exist_ok=True); (args.results_dir / "run_config.json").write_text(json.dumps(vars(args), default=str, indent=2), encoding="utf-8")
-    all_oof=[]; records=[]
+    all_oof=[]; records=[]; initializations=[]
     for fold in range(args.folds):
-        if args.paired_fold_seeding: seed_all(args.seed + 100003 * fold)
+        fold_seed = args.seed + 100003 * fold
+        seed_all(fold_seed)
         split = pd.read_csv(args.split_dir / f"splits_{fold}.csv", dtype=str); train = events.loc[events.event_id.isin(set(split.train.dropna()))]; val = events.loc[events.event_id.isin(set(split.val.dropna()))]
-        train_ds = EventFeatureDataset(train, slides, args.feature_dir, args.max_patches_per_slide, True); val_ds = EventFeatureDataset(val, slides, args.feature_dir, args.max_patches_per_slide, False)
-        counts=train.label.value_counts(); weights=train.label.map({label: 1.0/count for label, count in counts.items()}).to_numpy(); train_loader=DataLoader(train_ds, batch_size=1, sampler=WeightedRandomSampler(weights, len(weights), replacement=True), collate_fn=collate_event); val_loader=DataLoader(val_ds, batch_size=1, shuffle=False, collate_fn=collate_event)
+        train_ds = ControlledPatchDataset(train, slides, args.feature_dir, args.max_patches_per_slide, True, sampling_seed=fold_seed); val_ds = EventFeatureDataset(val, slides, args.feature_dir, args.eval_max_patches_per_slide, False)
+        event_rng = torch.Generator().manual_seed(fold_seed + 1)
+        loader_rng = torch.Generator().manual_seed(fold_seed + 2)
+        val_rng = torch.Generator().manual_seed(fold_seed + 3)
+        counts=train.label.value_counts(); weights=train.label.map({label: 1.0/count for label, count in counts.items()}).to_numpy(); train_loader=DataLoader(train_ds, batch_size=1, sampler=WeightedRandomSampler(weights, len(weights), replacement=True, generator=event_rng), collate_fn=collate_event, generator=loader_rng); val_loader=DataLoader(val_ds, batch_size=1, shuffle=False, collate_fn=collate_event, generator=val_rng)
         model=StainAwareEventMIL(args.input_dim, args.hidden_dim, args.dropout, use_stain_branches=args.stain_mode == "aware", include_presence_masks=not args.no_presence_mask, presence_mask_values=args.presence_mask_values).to(device); optimizer=torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay); loss_fn=nn.CrossEntropyLoss(); best=float("inf"); stale=0; ckpt=args.results_dir/f"s_{fold}_checkpoint.pt"
+        digest = hashlib.sha256()
+        for name, tensor in model.state_dict().items(): digest.update(name.encode()); digest.update(tensor.detach().cpu().numpy().tobytes())
+        initializations.append({"fold":fold,"seed":fold_seed,"sha256":digest.hexdigest()})
+        (args.results_dir/"initialization_hashes.json").write_text(json.dumps(initializations,indent=2))
         for epoch in range(args.max_epochs):
             model.train(); losses=[]
             for batch in train_loader:

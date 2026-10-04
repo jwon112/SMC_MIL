@@ -81,3 +81,37 @@ Events that lose every usable slide are omitted and reported in the new
 manifest counts. Final comparisons should restrict both full and excluded
 predictions to their common event IDs, because a raw metric difference would
 otherwise mix model sensitivity with a changed evaluation population.
+
+## Same-architecture presence-mask control (2026-10-04)
+
+`aware_zero_mask` retains the exact aware architecture, including three mask
+input columns, but supplies constant zeros in those columns. Zero embeddings
+for missing stains remain in both conditions; this tests the additional explicit
+presence signal, not removal of all missingness information.
+
+Run both `aware` and `aware_zero_mask` in a new results root with
+`--paired-fold-seeding`. It resets Python, NumPy and Torch RNGs at the start of
+each fold using `seed + 100003 * fold`, so early stopping in a preceding fold
+cannot change the next fold's initial weights. Both conditions have the same
+parameter shapes, initialization, slides, splits, patch sampling protocol and
+training settings. Epoch counts can still differ through validation-loss early
+stopping. Constant-zero mask columns receive no data gradient (optimizer weight
+decay may still affect their unused weights).
+
+```bash
+bash tools/run_smc_presence_mask_control.sh --gpu 1 --worker acr
+```
+
+This wrapper runs 40x, seeds 1/11/21/31/41, two modes, and uses the 575-event
+provisional exclude25 manifests. It writes to a new `presence_control` results
+root. Prior aware/nomask results were not generated with paired fold seeding and
+must not serve as the matched control. Checkpoint model_config stores
+`presence_mask_values`; older checkpoints default to observed values.
+
+```bash
+python tools/summarize_smc_event_stain_mil.py \
+  --results-root results/smc_event_presence_control_20261004_exclude25 \
+  --output-dir results/smc_event_presence_control_20261004_exclude25/acr_40x_summary \
+  --tasks acr_high --scales 40x --modes aware aware_zero_mask \
+  --seeds 1 11 21 31 41
+```

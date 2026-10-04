@@ -15,7 +15,7 @@ SCALES = {
     "5x": "l3_2p00mpp_5x",
 }
 def arguments() -> argparse.Namespace:
-    p=argparse.ArgumentParser(description=__doc__); p.add_argument("--results-root",type=Path,required=True); p.add_argument("--output-dir",type=Path,required=True); p.add_argument("--seeds",nargs="+",type=int,default=[1,11,21,31,41]); p.add_argument("--threshold",type=float,default=.5); p.add_argument("--tasks",nargs="+",choices=TASKS,default=list(TASKS)); p.add_argument("--scales",nargs="+",choices=SCALES,default=["40x"]); p.add_argument("--modes",nargs="+",choices=("aware","aware_nomask","agnostic"),default=["aware"]); return p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__); p.add_argument("--results-root",type=Path,required=True); p.add_argument("--output-dir",type=Path,required=True); p.add_argument("--seeds",nargs="+",type=int,default=[1,11,21,31,41]); p.add_argument("--threshold",type=float,default=.5); p.add_argument("--tasks",nargs="+",choices=TASKS,default=list(TASKS)); p.add_argument("--scales",nargs="+",choices=SCALES,default=["40x"]); p.add_argument("--modes",nargs="+",choices=("aware","aware_nomask","aware_zero_mask","agnostic"),default=["aware"]); return p.parse_args()
 def sensitivity_at_specificity(y: np.ndarray, p: np.ndarray, target: float) -> float:
     fpr, tpr, _ = roc_curve(y, p)
     eligible = tpr[(1.0 - fpr) >= target]
