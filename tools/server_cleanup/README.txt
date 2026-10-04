@@ -106,8 +106,9 @@ push가 실패해도 생성한 로컬 커밋은 보존됩니다. 오류 해결 �
 모호한 JSON/TXT, 2MB 초과 파일, credential 의심 문자열은 HOLD로 남겨 별도 검토합니다.
 자동 검사는 모든 비밀정보를 탐지한다는 보장이 없으므로 plan의 경로를 확인하세요.
 
-서버 보존 대상: 원본 데이터, label/split 데이터, feature, 모델 가중치, 학습 결과,
-로그, 설치 ZIP, 백업. 기존에 Git으로 추적하던 task CSV나 split의 이력은 지우지 않으며
+서버 보존 대상: 원본 데이터, label/split 데이터, feature, 모델 가중치,
+설치 ZIP, 백업. 학습 결과·로그의 Git 공유는 아래 결과 전용 도구로 진행합니다.
+기존에 Git으로 추적하던 task CSV나 split의 이력은 지우지 않으며
 이번 도구가 변경된 CSV/데이터를 새로 커밋하지도 않습니다.
 논문 원문·추출 캐시와 기존 local reference workspace 제외 규칙도 유지됩니다.
 
@@ -122,3 +123,29 @@ pathomics_all_wsi.json / pathomics_extract_exploratory.json은 파일명에 conf
 경우에만 설정으로 선별하며, 행/환자 ID 목록이 포함된 JSON은 계속 보류합니다.
 eta.txt는 smc.sh에서 참조합니다. shebang이 있는 실행 스크립트일 때만 코드로
 선별하고 그렇지 않으면 내용 확인 대상으로 보존합니다.
+
+실험 결과 공유 (가중치·feature 제외)
+results/, results_old/, results_old2/, archive/experiments/의 CSV/TSV, JSON/YAML,
+TXT/Markdown, 로그, PNG/JPEG/SVG/PDF/HTML을 Git 공유 대상으로 엽니다.
+설치 보관 폴더와 checkpoint/feature 바이너리, ZIP 등은 계속 제외합니다.
+소스 게시 도구는 결과를 자동으로 포함하지 않습니다. 서버에서 다음 순서로 진행합니다.
+
+git pull --ff-only origin main
+python tools/publish_server_results.py --action plan
+
+plan은 확장자별 전체 용량, 공유 대상 용량, 큰 파일 목록을 출력합니다.
+전체 파일 목록·보류 이유는 .server_result_sync/plan.json에 서버 로컬로 기록됩니다.
+단일 50MiB, 공유 대상 합계 500MiB는 검토용 기본 한도이며 Git 서비스의 제한값은
+아닙니다. 필요하면 용량 확인 후 --max-file-mib / --max-total-mib로 조정합니다.
+후속 stage는 plan 시점 이후 파일 변경을 검사하므로 진행 중인 학습이 로그/결과를
+갱신하면 중단할 수 있습니다. 이때 완료 후 plan부터 다시 실행합니다.
+
+python tools/publish_server_results.py --action stage
+git diff --cached --stat
+git commit -m "Share research results without model weights"
+git push origin main
+
+stage는 명시된 결과 경로만 추가하며 원본 파일을 변경하거나 commit/push하지 않습니다.
+이미 staged된 다른 작업이 있으면 중단합니다. push 실패 시 git push만 재시도합니다.
+서버 게시가 완료된 뒤 로컬에서 pull하여 기존 로컬 결과와의 차이를 확인합니다.
+로컬 결과를 먼저 게시해 서버의 동일 경로 파일을 덮어쓰는 방식은 사용하지 않습니다.

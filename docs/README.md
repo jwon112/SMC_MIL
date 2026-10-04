@@ -97,6 +97,11 @@ SHA-256을 검사합니다. 이름에 fast/v2가 붙어도 이전 모듈을 대�
 
 ## Maintenance and provenance
 
+- Research results: `python tools/publish_server_results.py --action plan` inventories
+  results, historical results and archived experiments before sharing tables, configs,
+  figures and logs. `--action stage` checks the saved file hashes and stages those
+  outputs for a normal Git commit/push. Weights and feature binaries stay on the server.
+  Server inventory is required before judging the total size; local results are only a subset.
 - Server/local source consolidation: pull shared code first, then run
   `python tools/publish_server_sources.py --action plan` on the server.
   `--action publish` commits and pushes the selected current server source.
