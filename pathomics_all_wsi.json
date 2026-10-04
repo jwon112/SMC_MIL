@@ -1,0 +1,37 @@
+{
+  "project": "/home/jupyter/image_team/projects/SMC_MIL",
+  "cohort_csv": "/home/jupyter/image_team/projects/SMC_MIL/dataset_csv/smc_acr_binary_0r_vs_1r2r3r.csv",
+  "stain_csv": "/home/jupyter/image_team/projects/SMC_MIL/dataset_csv/stain_aug_labels.csv",
+  "baseline_dir": "/home/jupyter/data/image_team/exp3_features/uni_v2/l0_0p25mpp_40x",
+  "population": "all_feature_wsi",
+  "stain_scope": "all",
+  "output": "/home/jupyter/data/image_team/pathomics_all_wsi_v1",
+  "review_only": false,
+  "label_source": "manual_only",
+  "preview_count": 1,
+  "smoke_patches": 8,
+  "smoke_slides_per_source": 1,
+  "sources": {
+    "exp3": {
+      "kind": "dicom",
+      "root": "/home/jupyter/data/image_team/exp3_inbox",
+      "manifest": "/home/jupyter/data/image_team/exp3_inbox/_clam/dicom_feature_manifest.csv"
+    },
+    "mrxs13": {
+      "kind": "mrxs",
+      "root": "/home/jupyter/data/image_team/mrxs13_inbox",
+      "manifest": "/home/jupyter/data/image_team/mrxs13_inbox/_clam/mrxs_feature_manifest_l0.csv"
+    }
+  },
+  "settings": {
+    "target_mpp": 0.25,
+    "halo_um": 8.0,
+    "stain_normalization": "none",
+    "min_tissue_fraction": 0.25,
+    "min_blur_var": 0.0,
+    "max_dark_fraction": 0.3,
+    "tissue_mask_method": "he_od_saturation_v1",
+    "tissue_min_saturation": 0.04,
+    "tissue_min_mean_od": 0.04
+  }
+}
