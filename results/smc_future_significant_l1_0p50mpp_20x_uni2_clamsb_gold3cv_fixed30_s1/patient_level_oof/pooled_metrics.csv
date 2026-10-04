@@ -1,0 +1,2 @@
+﻿scope,patients,positive_patients,negative_patients,auroc,pr_auc,sensitivity,specificity,balanced_accuracy,threshold,tp,tn,fp,fn,auroc_ci_low,auroc_ci_high,pr_auc_ci_low,pr_auc_ci_high,sensitivity_ci_low,sensitivity_ci_high,specificity_ci_low,specificity_ci_high,balanced_accuracy_ci_low,balanced_accuracy_ci_high
+pooled_oof,102,12,90,0.6055555555555555,0.20876674393327632,0.0,0.9666666666666667,0.48333333333333334,0.5,0,87,3,12,0.41620742953854656,0.7932135798983625,0.09784159045287667,0.4484327542233041,0.0,0.0,0.9247311827956989,1.0,0.46236559139784944,0.5

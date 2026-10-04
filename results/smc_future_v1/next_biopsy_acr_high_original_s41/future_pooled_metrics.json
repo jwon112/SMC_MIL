@@ -1,0 +1,9 @@
+{
+  "events": 484,
+  "positive_events": 8,
+  "event_average_precision": 0.019059772220834856,
+  "event_roc_auc": 0.5404411764705883,
+  "event_brier": 0.030114250587262064,
+  "exploratory_cv_not_independent_final_test": true,
+  "note": "Pooled OOF ranking can differ from fold-wise ranking; use paired fold comparisons too."
+}

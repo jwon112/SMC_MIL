@@ -1,0 +1,9 @@
+{
+  "prepared_index_sha256": "1946459472edc346485a1b4d7a67b63299a51438cdc6fa0ae7fc494c20c7659e",
+  "seed": 11,
+  "worker": "acr_high",
+  "max_epochs": 50,
+  "early_stop_patience": 10,
+  "early_stop_min_epoch": 10,
+  "adapted_grid_sha256": "a6b855d9e31f1d467c32c33ee433509a0070a8d09688aebef4f8355848572ef0"
+}

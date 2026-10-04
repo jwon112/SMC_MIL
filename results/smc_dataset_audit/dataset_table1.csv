@@ -1,0 +1,10 @@
+task,analysis_level,total,positive,negative,positive_fraction
+acr_high,patient,136,14,122,0.10294117647058823
+acr_high,event,578,17,561,0.029411764705882353
+acr_high,slide,1269,40,1229,0.03152088258471237
+amr_positive,patient,136,14,122,0.10294117647058823
+amr_positive,event,578,19,559,0.0328719723183391
+amr_positive,slide,1269,71,1198,0.05594956658786446
+significant_rejection,patient,136,28,108,0.20588235294117646
+significant_rejection,event,578,36,542,0.06228373702422145
+significant_rejection,slide,1269,111,1158,0.08747044917257683

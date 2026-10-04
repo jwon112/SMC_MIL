@@ -1,0 +1,2 @@
+cohort,task,patients,n,positive_n,negative_n,accuracy,balanced_accuracy,auroc,pr_auc,sensitivity,specificity,tp,tn,fp,fn,threshold,auroc_ci_low,auroc_ci_high,pr_auc_ci_low,pr_auc_ci_high,accuracy_ci_low,accuracy_ci_high,balanced_accuracy_ci_low,balanced_accuracy_ci_high,sensitivity_ci_low,sensitivity_ci_high,specificity_ci_low,specificity_ci_high
+wsi_he,acr_high,15,15,5,10,0.8,0.7,1.0,1.0,0.4,1.0,2,10,0,3,0.5,1.0,1.0,0.9999999999999999,1.0,0.6,1.0,0.5,1.0,0.0,1.0,1.0,1.0

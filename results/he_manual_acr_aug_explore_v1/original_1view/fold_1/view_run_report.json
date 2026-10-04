@@ -1,0 +1,29 @@
+{
+  "technical_smoke": false,
+  "exploratory_cv_not_independent_final_test": true,
+  "fold": 1,
+  "policy": "original",
+  "total_views": 1,
+  "original_probability": 1.0,
+  "sampler": "weighted",
+  "max_epochs": 200,
+  "early_stopping": false,
+  "train_draws": 11000,
+  "view_exposure_counts": {
+    "0": 11000
+  },
+  "slide_roc_auc": 0.6655844155844155,
+  "cohort_sha256": "fec12e98c4b563690accf9421feeff083ed2d556c7a3178138818080370ea555",
+  "split_sha256": "5e22c40ac0ce6eb0ff2a5ea4803f29eaa49cf10da6d0b94c52bb8934264052f4",
+  "view_bank_preflight": {
+    "slides": 55,
+    "augmented_view_files": 0
+  },
+  "slides": 29,
+  "events": 26,
+  "positive_events": 6,
+  "event_average_precision": 0.4666666666666666,
+  "event_roc_auc": 0.7291666666666666,
+  "event_brier": 0.229396457048907,
+  "aggregation": "mean positive-class probability of same-stain slides within (case_id,event_id)"
+}

@@ -1,0 +1,81 @@
+nohup: ignoring input
+[RUN 1/12] smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.920, PR-AUC=0.876
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.860, PR-AUC=0.726
+[OK] core: n=189, positive=65, AUROC=0.682, PR-AUC=0.574
+Summary: results/gse290577_external/gold5/smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 2/12] smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.560, PR-AUC=0.431
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.753, PR-AUC=0.630
+Summary: results/gse290577_external/gold5/smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 3/12] smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.460, PR-AUC=0.340
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.571, PR-AUC=0.413
+Summary: results/gse290577_external/gold5/smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 4/12] smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.840, PR-AUC=0.696
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.718, PR-AUC=0.535
+Summary: results/gse290577_external/gold5/smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 5/12] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.800, PR-AUC=0.835
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.742, PR-AUC=0.777
+[OK] core: n=187, positive=70, AUROC=0.586, PR-AUC=0.473
+Summary: results/gse290577_external/gold5/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 6/12] smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.840, PR-AUC=0.876
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.658, PR-AUC=0.645
+Summary: results/gse290577_external/gold5/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 7/12] smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.800, PR-AUC=0.710
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.796, PR-AUC=0.845
+Summary: results/gse290577_external/gold5/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 8/12] smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.720, PR-AUC=0.754
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.724, PR-AUC=0.815
+Summary: results/gse290577_external/gold5/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 9/12] smc_significant_rejection_l0_0p25mpp_40x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+Traceback (most recent call last):
+  File "/home/jupyter/image_team/projects/SMC_MIL/evaluate_external_clam.py", line 150, in <module>
+    raise SystemExit(main())
+  File "/home/jupyter/image_team/projects/SMC_MIL/evaluate_external_clam.py", line 128, in main
+    raise ValueError(f"No labeled rows for task {args.task} in {manifest}")
+ValueError: No labeled rows for task significant_rejection in /home/jupyter/data/image_team/GSE290577_work/manifests/gse290577_wsi_he.csv
+[FAIL] exit_code=1: smc_significant_rejection_l0_0p25mpp_40x_uni2_clamsb_cv5val_s1
+[RUN 10/12] smc_significant_rejection_l1_0p50mpp_20x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+Traceback (most recent call last):
+  File "/home/jupyter/image_team/projects/SMC_MIL/evaluate_external_clam.py", line 150, in <module>
+    raise SystemExit(main())
+  File "/home/jupyter/image_team/projects/SMC_MIL/evaluate_external_clam.py", line 128, in main
+    raise ValueError(f"No labeled rows for task {args.task} in {manifest}")
+ValueError: No labeled rows for task significant_rejection in /home/jupyter/data/image_team/GSE290577_work/manifests/gse290577_wsi_he.csv
+[FAIL] exit_code=1: smc_significant_rejection_l1_0p50mpp_20x_uni2_clamsb_cv5val_s1
+[RUN 11/12] smc_significant_rejection_l2_1p00mpp_10x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+Traceback (most recent call last):
+  File "/home/jupyter/image_team/projects/SMC_MIL/evaluate_external_clam.py", line 150, in <module>
+    raise SystemExit(main())
+  File "/home/jupyter/image_team/projects/SMC_MIL/evaluate_external_clam.py", line 128, in main
+    raise ValueError(f"No labeled rows for task {args.task} in {manifest}")
+ValueError: No labeled rows for task significant_rejection in /home/jupyter/data/image_team/GSE290577_work/manifests/gse290577_wsi_he.csv
+[FAIL] exit_code=1: smc_significant_rejection_l2_1p00mpp_10x_uni2_clamsb_cv5val_s1
+[RUN 12/12] smc_significant_rejection_l3_2p00mpp_5x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+Traceback (most recent call last):
+  File "/home/jupyter/image_team/projects/SMC_MIL/evaluate_external_clam.py", line 150, in <module>
+    raise SystemExit(main())
+  File "/home/jupyter/image_team/projects/SMC_MIL/evaluate_external_clam.py", line 128, in main
+    raise ValueError(f"No labeled rows for task {args.task} in {manifest}")
+ValueError: No labeled rows for task significant_rejection in /home/jupyter/data/image_team/GSE290577_work/manifests/gse290577_wsi_he.csv
+[FAIL] exit_code=1: smc_significant_rejection_l3_2p00mpp_5x_uni2_clamsb_cv5val_s1
+[DONE] experiments=12 summaries=18 failures=4
+Combined summary: results/gse290577_external/gold5/all_external_summary.csv

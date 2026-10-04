@@ -1,0 +1,17 @@
+{
+  "pair_manifest": "/home/jupyter/data/image_team/labels/derived/future_significant_pair_gold_v1/future_pair_manifest.csv",
+  "patient_folds": "/home/jupyter/data/image_team/labels/derived/future_significant_pair_gold_v1/splits/future_pair_patient_folds_3.csv",
+  "gold_csv": "dataset_csv/smc_significant_rejection_binary.csv",
+  "feature_dir": "/home/jupyter/image_team/projects/SMC_MIL/data/features/uni_v2/l3_2p00mpp_5x",
+  "folds": 3,
+  "inner_folds": 3,
+  "c_values": [
+    0.001,
+    0.01,
+    0.1,
+    1.0
+  ],
+  "seed": 1,
+  "event_pooling": "mean patches per slide, then equal-weight mean across slides",
+  "training_weighting": "patient-total-one, then equal pair-label mass"
+}

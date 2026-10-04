@@ -1,0 +1,22 @@
+{
+  "fold": 3,
+  "seed": 1,
+  "train_slides": 891,
+  "eligible_he_train": 50,
+  "unchanged_train": 841,
+  "policy": "geometry",
+  "total_views": 2,
+  "he_original_probability": 0.5,
+  "view_seed": 20561936,
+  "val_test_original_only": true,
+  "split_sha256": "e8e44b23ffa651cae0d60b22500812ca07be1e4bf47883881f905909604b2c17",
+  "validation_used_for_checkpoint_selection": true,
+  "independent_final_test": false,
+  "completed": true,
+  "draw_counts": {
+    "unchanged_view_0": 11041,
+    "HE_view_0": 267,
+    "HE_view_1": 275
+  },
+  "draws": 11583
+}

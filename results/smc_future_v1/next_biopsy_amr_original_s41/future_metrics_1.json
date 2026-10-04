@@ -1,0 +1,10 @@
+{
+  "fold": 1,
+  "events": 93,
+  "positive_events": 2,
+  "event_average_precision": 0.17843137254901958,
+  "event_roc_auc": 0.532967032967033,
+  "event_brier": 0.02086393657172335,
+  "aggregation": "mean probability across all included stains/slides of same patient/anchor date",
+  "exploratory_cv_not_independent_final_test": true
+}

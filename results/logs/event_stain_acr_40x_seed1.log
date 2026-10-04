@@ -1,0 +1,10 @@
+nohup: ignoring input
+[RUN] task=acr_high seed=1
+Traceback (most recent call last):
+  File "/home/jupyter/image_team/projects/SMC_MIL/train_smc_event_stain_mil.py", line 54, in <module>
+    if __name__ == "__main__": raise SystemExit(main())
+  File "/home/jupyter/image_team/projects/SMC_MIL/train_smc_event_stain_mil.py", line 37, in main
+    events, slides = load_event_tables(args.event_csv, args.event_slides_csv); verify_feature_bags(slides, args.feature_dir); args.results_dir.mkdir(parents=True, exist_ok=True); (args.results_dir / "run_config.json").write_text(json.dumps(vars(args), default=str, indent=2), encoding="utf-8")
+  File "/home/jupyter/image_team/projects/SMC_MIL/utils/event_mil.py", line 103, in verify_feature_bags
+    raise FileNotFoundError(f"Missing {len(missing)} feature bags; first: {missing[:5]}")
+FileNotFoundError: Missing 1261 feature bags; first: ['S16-17719__S16-17719', 'S17-42935__S17-42935', 'S18-18746__S18-18746', 'S1818746__S1818746-C-CHROM.A', 'S1818746__S1818746-C-KI67']

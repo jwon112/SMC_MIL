@@ -1,0 +1,9 @@
+stage,parent_stage,slides,events,patients,definition
+wsi_inventory,,2668,859,,All slides in the curated WSI inventory
+exact_pathology_match,wsi_inventory,1270,578,,Filename pathology ID exactly matched to the label workbook
+quality_usable_exact_match,exact_pathology_match,1269,578,,Exact matches retained by final quality curation
+gold_analysis_cohort,quality_usable_exact_match,1269,578,136.0,Gold task CSV after label matching and exclusions
+feature_available_40x,gold_analysis_cohort,1269,578,136.0,Gold slides with 40x UNI v2 feature bags
+feature_available_20x,gold_analysis_cohort,1269,578,136.0,Gold slides with 20x UNI v2 feature bags
+feature_available_10x,gold_analysis_cohort,1269,578,136.0,Gold slides with 10x UNI v2 feature bags
+feature_available_5x,gold_analysis_cohort,1269,578,136.0,Gold slides with 5x UNI v2 feature bags

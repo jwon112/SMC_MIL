@@ -1,0 +1,79 @@
+nohup: ignoring input
+[RUN] l1_0p50mpp_20x
+[EMBED] 25/388 source events
+[EMBED] 50/388 source events
+[EMBED] 75/388 source events
+[EMBED] 100/388 source events
+[EMBED] 125/388 source events
+[EMBED] 150/388 source events
+[EMBED] 175/388 source events
+[EMBED] 200/388 source events
+[EMBED] 225/388 source events
+[EMBED] 250/388 source events
+[EMBED] 275/388 source events
+[EMBED] 300/388 source events
+[EMBED] 325/388 source events
+[EMBED] 350/388 source events
+[EMBED] 375/388 source events
+[EMBED] 388/388 source events
+[RUN] time_only
+[FOLD 0] C=0.001 threshold=0.4987
+[FOLD 1] C=0.01 threshold=0.5002
+[FOLD 2] C=1 threshold=0.3476
+[RUN] image_only
+[FOLD 0] C=0.01 threshold=0.6813
+[FOLD 1] C=1 threshold=0.1169
+[FOLD 2] C=0.1 threshold=0.8990
+[RUN] image_plus_time
+[FOLD 0] C=0.01 threshold=0.7236
+[FOLD 1] C=0.1 threshold=0.4821
+[FOLD 2] C=1 threshold=0.8551
+
+  model_variant evaluation_unit  pairs  patients  positive_pairs  positive_patients  raw_prevalence  patient_weighted_prevalence    auroc   pr_auc  sensitivity  specificity  balanced_accuracy  threshold  tp   tn  fp  fn  auroc_ci_low  auroc_ci_high  pr_auc_ci_low  pr_auc_ci_high  sensitivity_ci_low  sensitivity_ci_high  specificity_ci_low  specificity_ci_high  balanced_accuracy_ci_low  balanced_accuracy_ci_high  target_events  positive_target_events
+      time_only            pair 1181.0       102            38.0                 12        0.032176                     0.051464 0.329259 0.039536     0.511752     0.352923           0.432337        NaN  19  360 783  19      0.215844       0.480413       0.020774        0.072508            0.202874             0.807920            0.289866             0.415749                  0.274004                   0.580720            NaN                     NaN
+      time_only    target_event    NaN       102             NaN                 12        0.038741                     0.046522 0.282948 0.034562     0.495735     0.331077           0.413406        NaN   8  124 273   8      0.168154       0.454134       0.017083        0.064723            0.155757             0.825584            0.261012             0.401527                  0.243704                   0.579001          413.0                    16.0
+     image_only            pair 1181.0       102            38.0                 12        0.032176                     0.051464 0.512930 0.076328     0.367475     0.824263           0.595869        NaN   9  965 178  29      0.337203       0.701798       0.027205        0.175115            0.058107             0.693898            0.761128             0.881668                  0.438236                   0.758583            NaN                     NaN
+     image_only    target_event    NaN       102             NaN                 12        0.038741                     0.046522 0.513150 0.077270     0.379328     0.822141           0.600734        NaN   5  335  62  11      0.314998       0.752649       0.028335        0.197938            0.000000             0.737425            0.748141             0.888357                  0.416309                   0.784275          413.0                    16.0
+image_plus_time            pair 1181.0       102            38.0                 12        0.032176                     0.051464 0.510423 0.080861     0.276678     0.893077           0.584878        NaN   5 1029 114  33      0.277435       0.723207       0.031238        0.186249            0.000000             0.601654            0.843252             0.936402                  0.449319                   0.743284            NaN                     NaN
+image_plus_time    target_event    NaN       102             NaN                 12        0.038741                     0.046522 0.526150 0.068005     0.210738     0.913959           0.562348        NaN   1  369  28  15      0.244492       0.776660       0.024302        0.182050            0.000000             0.576408            0.862682             0.957139                  0.437343                   0.743560          413.0                    16.0
+[OK] Future-pair baseline: results/smc_future_pair_l1_0p50mpp_20x_uni2_meanpool_gold3cv_s1
+[DONE] l1_0p50mpp_20x
+[RUN] l3_2p00mpp_5x
+[EMBED] 25/388 source events
+[EMBED] 50/388 source events
+[EMBED] 75/388 source events
+[EMBED] 100/388 source events
+[EMBED] 125/388 source events
+[EMBED] 150/388 source events
+[EMBED] 175/388 source events
+[EMBED] 200/388 source events
+[EMBED] 225/388 source events
+[EMBED] 250/388 source events
+[EMBED] 275/388 source events
+[EMBED] 300/388 source events
+[EMBED] 325/388 source events
+[EMBED] 350/388 source events
+[EMBED] 375/388 source events
+[EMBED] 388/388 source events
+[RUN] time_only
+[FOLD 0] C=0.001 threshold=0.4987
+[FOLD 1] C=0.01 threshold=0.5002
+[FOLD 2] C=1 threshold=0.3476
+[RUN] image_only
+[FOLD 0] C=0.01 threshold=0.6335
+[FOLD 1] C=0.01 threshold=0.5536
+[FOLD 2] C=0.1 threshold=0.7680
+[RUN] image_plus_time
+[FOLD 0] C=1 threshold=0.6398
+[FOLD 1] C=0.01 threshold=0.5959
+[FOLD 2] C=0.01 threshold=0.7754
+
+  model_variant evaluation_unit  pairs  patients  positive_pairs  positive_patients  raw_prevalence  patient_weighted_prevalence    auroc   pr_auc  sensitivity  specificity  balanced_accuracy  threshold  tp   tn  fp  fn  auroc_ci_low  auroc_ci_high  pr_auc_ci_low  pr_auc_ci_high  sensitivity_ci_low  sensitivity_ci_high  specificity_ci_low  specificity_ci_high  balanced_accuracy_ci_low  balanced_accuracy_ci_high  target_events  positive_target_events
+      time_only            pair 1181.0       102            38.0                 12        0.032176                     0.051464 0.329259 0.039536     0.511752     0.352923           0.432337        NaN  19  360 783  19      0.215844       0.480413       0.020774        0.072508            0.202874             0.807920            0.289866             0.415749                  0.274004                   0.580720            NaN                     NaN
+      time_only    target_event    NaN       102             NaN                 12        0.038741                     0.046522 0.282948 0.034562     0.495735     0.331077           0.413406        NaN   8  124 273   8      0.168154       0.454134       0.017083        0.064723            0.155757             0.825584            0.261012             0.401527                  0.243704                   0.579001          413.0                    16.0
+     image_only            pair 1181.0       102            38.0                 12        0.032176                     0.051464 0.564574 0.087621     0.367475     0.799654           0.583564        NaN   9  956 187  29      0.329570       0.763320       0.027392        0.217841            0.058107             0.693898            0.736319             0.859080                  0.427429                   0.743401            NaN                     NaN
+     image_only    target_event    NaN       102             NaN                 12        0.038741                     0.046522 0.569423 0.098413     0.379328     0.830979           0.605153        NaN   5  344  53  11      0.280447       0.810264       0.028178        0.266422            0.000000             0.737425            0.764987             0.889952                  0.420104                   0.787200          413.0                    16.0
+image_plus_time            pair 1181.0       102            38.0                 12        0.032176                     0.051464 0.590651 0.071207     0.013607     0.886486           0.450047        NaN   1 1027 116  37      0.411406       0.741702       0.026250        0.168730            0.000000             0.051284            0.832965             0.934315                  0.422846                   0.478298            NaN                     NaN
+image_plus_time    target_event    NaN       102             NaN                 12        0.038741                     0.046522 0.596756 0.071832     0.000000     0.899038           0.449519        NaN   0  364  33  16      0.381621       0.772126       0.023262        0.176993            0.000000             0.000000            0.840582             0.949558                  0.420291                   0.474779          413.0                    16.0
+[OK] Future-pair baseline: results/smc_future_pair_l3_2p00mpp_5x_uni2_meanpool_gold3cv_s1
+[DONE] l3_2p00mpp_5x

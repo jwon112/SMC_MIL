@@ -1,0 +1,16 @@
+[RUN] GPU 3 | task_smc_amr_binary_pamr0_vs_positive | l0_0p25mpp_40x
+[DONE] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_mixed_known
+[RUN] GPU 3 | task_smc_any_rejection_binary | l0_0p25mpp_40x
+[DONE] smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_mixed_known
+[RUN] GPU 3 | task_smc_amr_binary_pamr0_vs_positive | l1_0p50mpp_20x
+[DONE] smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_mixed_known
+[RUN] GPU 3 | task_smc_any_rejection_binary | l1_0p50mpp_20x
+[DONE] smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_mixed_known
+[RUN] GPU 3 | task_smc_amr_binary_pamr0_vs_positive | l2_1p00mpp_10x
+[DONE] smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_mixed_known
+[RUN] GPU 3 | task_smc_any_rejection_binary | l2_1p00mpp_10x
+[DONE] smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_mixed_known
+[RUN] GPU 3 | task_smc_amr_binary_pamr0_vs_positive | l3_2p00mpp_5x
+[DONE] smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_mixed_known
+[RUN] GPU 3 | task_smc_any_rejection_binary | l3_2p00mpp_5x
+[DONE] smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_mixed_known

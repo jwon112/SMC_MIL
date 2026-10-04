@@ -1,0 +1,6 @@
+fold,events,positive_events,event_average_precision,event_roc_auc,event_brier,aggregation,exploratory_cv_not_independent_final_test
+0,109,3,0.05954831332189823,0.6289308176100629,0.04817385114621317,mean probability across all included stains/slides of same patient/anchor date,True
+1,90,4,0.3373076923076923,0.7674418604651163,0.038152552573828664,mean probability across all included stains/slides of same patient/anchor date,True
+2,103,5,0.18630739415623138,0.7224489795918367,0.07418118123755471,mean probability across all included stains/slides of same patient/anchor date,True
+3,96,5,0.06849629483900584,0.5648351648351648,0.09379761104951397,mean probability across all included stains/slides of same patient/anchor date,True
+4,86,2,0.025856389986824768,0.34523809523809523,0.0675524433704998,mean probability across all included stains/slides of same patient/anchor date,True

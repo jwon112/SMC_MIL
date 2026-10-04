@@ -1,0 +1,86 @@
+nohup: ignoring input
+[RUN] task=acr_any resolution=0p25mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.536, PR-AUC=0.585
+[OK] core: n=189, positive=116, AUROC=0.578, PR-AUC=0.704
+Summary: results/gse290577_external/weakunique3/acr_any_0p25mpp/external_summary.csv
+[DONE] task=acr_any resolution=0p25mpp
+[RUN] task=acr_any resolution=0p5mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.679, PR-AUC=0.734
+Summary: results/gse290577_external/weakunique3/acr_any_0p5mpp/external_summary.csv
+[DONE] task=acr_any resolution=0p5mpp
+[RUN] task=acr_any resolution=1mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.554, PR-AUC=0.676
+Summary: results/gse290577_external/weakunique3/acr_any_1mpp/external_summary.csv
+[DONE] task=acr_any resolution=1mpp
+[RUN] task=acr_any resolution=2mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.679, PR-AUC=0.802
+Summary: results/gse290577_external/weakunique3/acr_any_2mpp/external_summary.csv
+[DONE] task=acr_any resolution=2mpp
+[RUN] task=acr_high resolution=0p25mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.960, PR-AUC=0.927
+[OK] core: n=189, positive=65, AUROC=0.773, PR-AUC=0.678
+Summary: results/gse290577_external/weakunique3/acr_high_0p25mpp/external_summary.csv
+[DONE] task=acr_high resolution=0p25mpp
+[RUN] task=acr_high resolution=0p5mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.940, PR-AUC=0.903
+Summary: results/gse290577_external/weakunique3/acr_high_0p5mpp/external_summary.csv
+[DONE] task=acr_high resolution=0p5mpp
+[RUN] task=acr_high resolution=1mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=1.000, PR-AUC=1.000
+Summary: results/gse290577_external/weakunique3/acr_high_1mpp/external_summary.csv
+[DONE] task=acr_high resolution=1mpp
+[RUN] task=acr_high resolution=2mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.860, PR-AUC=0.742
+Summary: results/gse290577_external/weakunique3/acr_high_2mpp/external_summary.csv
+[DONE] task=acr_high resolution=2mpp
+[RUN] task=amr_positive resolution=0p25mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.720, PR-AUC=0.789
+[OK] core: n=187, positive=70, AUROC=0.513, PR-AUC=0.378
+Summary: results/gse290577_external/weakunique3/amr_positive_0p25mpp/external_summary.csv
+[DONE] task=amr_positive resolution=0p25mpp
+[RUN] task=amr_positive resolution=0p5mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.360, PR-AUC=0.563
+Summary: results/gse290577_external/weakunique3/amr_positive_0p5mpp/external_summary.csv
+[DONE] task=amr_positive resolution=0p5mpp
+[RUN] task=amr_positive resolution=1mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.600, PR-AUC=0.659
+Summary: results/gse290577_external/weakunique3/amr_positive_1mpp/external_summary.csv
+[DONE] task=amr_positive resolution=1mpp
+[RUN] task=amr_positive resolution=2mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.600, PR-AUC=0.659
+Summary: results/gse290577_external/weakunique3/amr_positive_2mpp/external_summary.csv
+[DONE] task=amr_positive resolution=2mpp
+[RUN] task=any_rejection resolution=0p25mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.660, PR-AUC=0.819
+[OK] core: n=186, positive=136, AUROC=0.726, PR-AUC=0.881
+Summary: results/gse290577_external/weakunique3/any_rejection_0p25mpp/external_summary.csv
+[DONE] task=any_rejection resolution=0p25mpp
+[RUN] task=any_rejection resolution=0p5mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.620, PR-AUC=0.805
+Summary: results/gse290577_external/weakunique3/any_rejection_0p5mpp/external_summary.csv
+[DONE] task=any_rejection resolution=0p5mpp
+[RUN] task=any_rejection resolution=1mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.460, PR-AUC=0.772
+Summary: results/gse290577_external/weakunique3/any_rejection_1mpp/external_summary.csv
+[DONE] task=any_rejection resolution=1mpp
+[RUN] task=any_rejection resolution=2mpp
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.700, PR-AUC=0.874
+Summary: results/gse290577_external/weakunique3/any_rejection_2mpp/external_summary.csv
+[DONE] task=any_rejection resolution=2mpp
+Completed grid with 0 failed evaluation(s)

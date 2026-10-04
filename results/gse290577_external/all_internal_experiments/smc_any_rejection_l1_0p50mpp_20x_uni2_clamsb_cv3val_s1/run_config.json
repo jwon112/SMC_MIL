@@ -1,0 +1,24 @@
+{
+  "checkpoint_dir": "results/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1",
+  "cohort": [
+    [
+      "wsi_he",
+      "/home/jupyter/data/image_team/GSE290577_work/manifests/gse290577_wsi_he.csv",
+      "/home/jupyter/image_team/projects/SMC_MIL/data/features/uni_v2/GSE290577/0p5mpp/wsi"
+    ],
+    [
+      "wsi_ihc",
+      "/home/jupyter/data/image_team/GSE290577_work/manifests/gse290577_wsi_ihc.csv",
+      "/home/jupyter/image_team/projects/SMC_MIL/data/features/uni_v2/GSE290577/0p5mpp/wsi"
+    ]
+  ],
+  "task": "any_rejection",
+  "output_dir": "results/gse290577_external/all_internal_experiments/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1",
+  "embed_dim": 1536,
+  "model_size": "small",
+  "dropout": 0.25,
+  "threshold": 0.5,
+  "device": "cuda",
+  "bootstrap": 2000,
+  "seed": 1
+}

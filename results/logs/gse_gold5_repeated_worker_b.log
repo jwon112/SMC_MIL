@@ -1,0 +1,258 @@
+nohup: ignoring input
+[RUN 1/50] smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.560, PR-AUC=0.431
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.753, PR-AUC=0.630
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 2/50] smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv5val_s11
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.820, PR-AUC=0.612
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.849, PR-AUC=0.724
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv5val_s11/external_summary.csv
+[RUN 3/50] smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv5val_s21
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.740, PR-AUC=0.630
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.831, PR-AUC=0.692
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv5val_s21/external_summary.csv
+[RUN 4/50] smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv5val_s31
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.860, PR-AUC=0.660
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.924, PR-AUC=0.874
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv5val_s31/external_summary.csv
+[RUN 5/50] smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv5val_s41
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.640, PR-AUC=0.435
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.729, PR-AUC=0.597
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv5val_s41/external_summary.csv
+[RUN 6/50] smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.460, PR-AUC=0.340
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.571, PR-AUC=0.413
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 7/50] smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv5val_s11
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.580, PR-AUC=0.425
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.600, PR-AUC=0.464
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv5val_s11/external_summary.csv
+[RUN 8/50] smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv5val_s21
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.840, PR-AUC=0.630
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.818, PR-AUC=0.692
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv5val_s21/external_summary.csv
+[RUN 9/50] smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv5val_s31
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.640, PR-AUC=0.555
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.769, PR-AUC=0.596
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv5val_s31/external_summary.csv
+[RUN 10/50] smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv5val_s41
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.560, PR-AUC=0.381
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.449, PR-AUC=0.382
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv5val_s41/external_summary.csv
+[RUN 11/50] smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.840, PR-AUC=0.696
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.718, PR-AUC=0.535
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 12/50] smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv5val_s11
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.860, PR-AUC=0.668
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.682, PR-AUC=0.472
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv5val_s11/external_summary.csv
+[RUN 13/50] smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv5val_s21
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.900, PR-AUC=0.786
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.798, PR-AUC=0.668
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv5val_s21/external_summary.csv
+[RUN 14/50] smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv5val_s31
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.600, PR-AUC=0.435
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.718, PR-AUC=0.628
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv5val_s31/external_summary.csv
+[RUN 15/50] smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv5val_s41
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.700, PR-AUC=0.519
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.733, PR-AUC=0.586
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv5val_s41/external_summary.csv
+[RUN 16/50] smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.840, PR-AUC=0.876
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.658, PR-AUC=0.645
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 17/50] smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv5val_s11
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.840, PR-AUC=0.853
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.796, PR-AUC=0.816
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv5val_s11/external_summary.csv
+[RUN 18/50] smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv5val_s21
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.760, PR-AUC=0.839
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.724, PR-AUC=0.760
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv5val_s21/external_summary.csv
+[RUN 19/50] smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv5val_s31
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.920, PR-AUC=0.927
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.764, PR-AUC=0.785
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv5val_s31/external_summary.csv
+[RUN 20/50] smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv5val_s41
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.840, PR-AUC=0.885
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.649, PR-AUC=0.699
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv5val_s41/external_summary.csv
+[RUN 21/50] smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.800, PR-AUC=0.710
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.796, PR-AUC=0.845
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 22/50] smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv5val_s11
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.600, PR-AUC=0.593
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.791, PR-AUC=0.801
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv5val_s11/external_summary.csv
+[RUN 23/50] smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv5val_s21
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.720, PR-AUC=0.660
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.787, PR-AUC=0.834
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv5val_s21/external_summary.csv
+[RUN 24/50] smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv5val_s31
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.560, PR-AUC=0.545
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.796, PR-AUC=0.845
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv5val_s31/external_summary.csv
+[RUN 25/50] smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv5val_s41
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.560, PR-AUC=0.545
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.822, PR-AUC=0.865
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv5val_s41/external_summary.csv
+[RUN 26/50] smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.720, PR-AUC=0.754
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.724, PR-AUC=0.815
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 27/50] smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv5val_s11
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.720, PR-AUC=0.833
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.698, PR-AUC=0.765
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv5val_s11/external_summary.csv
+[RUN 28/50] smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv5val_s21
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.760, PR-AUC=0.768
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.782, PR-AUC=0.820
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv5val_s21/external_summary.csv
+[RUN 29/50] smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv5val_s31
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.640, PR-AUC=0.612
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.733, PR-AUC=0.794
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv5val_s31/external_summary.csv
+[RUN 30/50] smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv5val_s41
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.760, PR-AUC=0.821
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.849, PR-AUC=0.857
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv5val_s41/external_summary.csv
+[RUN 31/50] smc_significant_rejection_l0_0p25mpp_40x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.760, PR-AUC=0.854
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.860, PR-AUC=0.943
+[OK] core: n=186, positive=107, AUROC=0.747, PR-AUC=0.788
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l0_0p25mpp_40x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 32/50] smc_significant_rejection_l0_0p25mpp_40x_uni2_clamsb_cv5val_s11
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.760, PR-AUC=0.854
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.836, PR-AUC=0.929
+[OK] core: n=186, positive=107, AUROC=0.734, PR-AUC=0.790
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l0_0p25mpp_40x_uni2_clamsb_cv5val_s11/external_summary.csv
+[RUN 33/50] smc_significant_rejection_l0_0p25mpp_40x_uni2_clamsb_cv5val_s21
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.820, PR-AUC=0.925
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.833, PR-AUC=0.930
+[OK] core: n=186, positive=107, AUROC=0.763, PR-AUC=0.815
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l0_0p25mpp_40x_uni2_clamsb_cv5val_s21/external_summary.csv
+[RUN 34/50] smc_significant_rejection_l0_0p25mpp_40x_uni2_clamsb_cv5val_s31
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.800, PR-AUC=0.887
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.867, PR-AUC=0.946
+[OK] core: n=186, positive=107, AUROC=0.717, PR-AUC=0.734
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l0_0p25mpp_40x_uni2_clamsb_cv5val_s31/external_summary.csv
+[RUN 35/50] smc_significant_rejection_l0_0p25mpp_40x_uni2_clamsb_cv5val_s41
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.800, PR-AUC=0.884
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.858, PR-AUC=0.942
+[OK] core: n=186, positive=107, AUROC=0.741, PR-AUC=0.794
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l0_0p25mpp_40x_uni2_clamsb_cv5val_s41/external_summary.csv
+[RUN 36/50] smc_significant_rejection_l1_0p50mpp_20x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.580, PR-AUC=0.683
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.880, PR-AUC=0.949
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l1_0p50mpp_20x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 37/50] smc_significant_rejection_l1_0p50mpp_20x_uni2_clamsb_cv5val_s11
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.680, PR-AUC=0.831
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.822, PR-AUC=0.926
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l1_0p50mpp_20x_uni2_clamsb_cv5val_s11/external_summary.csv
+[RUN 38/50] smc_significant_rejection_l1_0p50mpp_20x_uni2_clamsb_cv5val_s21
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.780, PR-AUC=0.881
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.833, PR-AUC=0.931
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l1_0p50mpp_20x_uni2_clamsb_cv5val_s21/external_summary.csv
+[RUN 39/50] smc_significant_rejection_l1_0p50mpp_20x_uni2_clamsb_cv5val_s31
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.600, PR-AUC=0.812
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.787, PR-AUC=0.906
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l1_0p50mpp_20x_uni2_clamsb_cv5val_s31/external_summary.csv
+[RUN 40/50] smc_significant_rejection_l1_0p50mpp_20x_uni2_clamsb_cv5val_s41
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.680, PR-AUC=0.800
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.849, PR-AUC=0.929
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l1_0p50mpp_20x_uni2_clamsb_cv5val_s41/external_summary.csv
+[RUN 41/50] smc_significant_rejection_l2_1p00mpp_10x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.620, PR-AUC=0.714
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.882, PR-AUC=0.951
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l2_1p00mpp_10x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 42/50] smc_significant_rejection_l2_1p00mpp_10x_uni2_clamsb_cv5val_s11
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.820, PR-AUC=0.915
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.871, PR-AUC=0.950
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l2_1p00mpp_10x_uni2_clamsb_cv5val_s11/external_summary.csv
+[RUN 43/50] smc_significant_rejection_l2_1p00mpp_10x_uni2_clamsb_cv5val_s21
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.760, PR-AUC=0.850
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.882, PR-AUC=0.952
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l2_1p00mpp_10x_uni2_clamsb_cv5val_s21/external_summary.csv
+[RUN 44/50] smc_significant_rejection_l2_1p00mpp_10x_uni2_clamsb_cv5val_s31
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.920, PR-AUC=0.967
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.898, PR-AUC=0.959
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l2_1p00mpp_10x_uni2_clamsb_cv5val_s31/external_summary.csv
+[RUN 45/50] smc_significant_rejection_l2_1p00mpp_10x_uni2_clamsb_cv5val_s41
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.820, PR-AUC=0.912
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.873, PR-AUC=0.942
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l2_1p00mpp_10x_uni2_clamsb_cv5val_s41/external_summary.csv
+[RUN 46/50] smc_significant_rejection_l3_2p00mpp_5x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.820, PR-AUC=0.925
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.893, PR-AUC=0.957
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l3_2p00mpp_5x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 47/50] smc_significant_rejection_l3_2p00mpp_5x_uni2_clamsb_cv5val_s11
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.780, PR-AUC=0.909
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.891, PR-AUC=0.950
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l3_2p00mpp_5x_uni2_clamsb_cv5val_s11/external_summary.csv
+[RUN 48/50] smc_significant_rejection_l3_2p00mpp_5x_uni2_clamsb_cv5val_s21
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.800, PR-AUC=0.911
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.913, PR-AUC=0.967
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l3_2p00mpp_5x_uni2_clamsb_cv5val_s21/external_summary.csv
+[RUN 49/50] smc_significant_rejection_l3_2p00mpp_5x_uni2_clamsb_cv5val_s31
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.860, PR-AUC=0.946
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.902, PR-AUC=0.957
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l3_2p00mpp_5x_uni2_clamsb_cv5val_s31/external_summary.csv
+[RUN 50/50] smc_significant_rejection_l3_2p00mpp_5x_uni2_clamsb_cv5val_s41
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.840, PR-AUC=0.926
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.940, PR-AUC=0.979
+Summary: results/gse290577_external/gold5_repeated/worker_b/smc_significant_rejection_l3_2p00mpp_5x_uni2_clamsb_cv5val_s41/external_summary.csv
+[DONE] experiments=50 summaries=105 failures=0
+Combined summary: results/gse290577_external/gold5_repeated/worker_b/all_external_summary.csv

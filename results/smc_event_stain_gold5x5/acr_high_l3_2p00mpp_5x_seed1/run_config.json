@@ -1,0 +1,21 @@
+{
+  "event_csv": "/home/jupyter/data/image_team/labels/derived/event_stain_mil_gold_v1/acr_high/events.csv",
+  "event_slides_csv": "/home/jupyter/data/image_team/labels/derived/event_stain_mil_gold_v1/acr_high/event_slides.csv",
+  "split_dir": "/home/jupyter/data/image_team/labels/derived/event_stain_mil_gold_v1/acr_high/splits/seed1",
+  "feature_dir": "/home/jupyter/image_team/projects/SMC_MIL/data/features/uni_v2/l3_2p00mpp_5x",
+  "results_dir": "results/smc_event_stain_gold5x5/acr_high_l3_2p00mpp_5x_seed1",
+  "folds": 5,
+  "seed": 1,
+  "input_dim": 1536,
+  "hidden_dim": 128,
+  "dropout": 0.25,
+  "stain_mode": "aware",
+  "no_presence_mask": false,
+  "max_patches_per_slide": 2048,
+  "max_epochs": 50,
+  "patience": 10,
+  "min_epochs": 10,
+  "lr": 0.0002,
+  "weight_decay": 1e-05,
+  "device": "cuda"
+}

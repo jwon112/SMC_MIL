@@ -1,0 +1,63 @@
+nohup: ignoring input
+[RUN 1/10] smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.920, PR-AUC=0.876
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.860, PR-AUC=0.726
+[OK] core: n=189, positive=65, AUROC=0.682, PR-AUC=0.574
+Summary: results/gse290577_external/gold5_repeated/worker_a/smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 2/10] smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val_s11
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.960, PR-AUC=0.943
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.596, PR-AUC=0.540
+[OK] core: n=189, positive=65, AUROC=0.762, PR-AUC=0.682
+Summary: results/gse290577_external/gold5_repeated/worker_a/smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val_s11/external_summary.csv
+[RUN 3/10] smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val_s21
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.980, PR-AUC=0.967
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.933, PR-AUC=0.898
+[OK] core: n=189, positive=65, AUROC=0.813, PR-AUC=0.741
+Summary: results/gse290577_external/gold5_repeated/worker_a/smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val_s21/external_summary.csv
+[RUN 4/10] smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val_s31
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.800, PR-AUC=0.831
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.607, PR-AUC=0.496
+[OK] core: n=189, positive=65, AUROC=0.772, PR-AUC=0.597
+Summary: results/gse290577_external/gold5_repeated/worker_a/smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val_s31/external_summary.csv
+[RUN 5/10] smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val_s41
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.820, PR-AUC=0.817
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.731, PR-AUC=0.515
+[OK] core: n=189, positive=65, AUROC=0.803, PR-AUC=0.667
+Summary: results/gse290577_external/gold5_repeated/worker_a/smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val_s41/external_summary.csv
+[RUN 6/10] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val_s1
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.800, PR-AUC=0.835
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.742, PR-AUC=0.777
+[OK] core: n=187, positive=70, AUROC=0.586, PR-AUC=0.473
+Summary: results/gse290577_external/gold5_repeated/worker_a/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val_s1/external_summary.csv
+[RUN 7/10] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val_s11
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.720, PR-AUC=0.754
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.747, PR-AUC=0.788
+[OK] core: n=187, positive=70, AUROC=0.561, PR-AUC=0.446
+Summary: results/gse290577_external/gold5_repeated/worker_a/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val_s11/external_summary.csv
+[RUN 8/10] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val_s21
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.560, PR-AUC=0.598
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.724, PR-AUC=0.788
+[OK] core: n=187, positive=70, AUROC=0.532, PR-AUC=0.402
+Summary: results/gse290577_external/gold5_repeated/worker_a/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val_s21/external_summary.csv
+[RUN 9/10] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val_s31
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.640, PR-AUC=0.628
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.747, PR-AUC=0.788
+[OK] core: n=187, positive=70, AUROC=0.571, PR-AUC=0.420
+Summary: results/gse290577_external/gold5_repeated/worker_a/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val_s31/external_summary.csv
+[RUN 10/10] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val_s41
+Loaded 5 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.560, PR-AUC=0.598
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.782, PR-AUC=0.846
+[OK] core: n=187, positive=70, AUROC=0.577, PR-AUC=0.441
+Summary: results/gse290577_external/gold5_repeated/worker_a/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val_s41/external_summary.csv
+[DONE] experiments=10 summaries=30 failures=0
+Combined summary: results/gse290577_external/gold5_repeated/worker_a/all_external_summary.csv

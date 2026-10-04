@@ -1,0 +1,13 @@
+nohup: ignoring input
+[SKIP] smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_nested3 already has summary.csv
+[SKIP] smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_nested3 already has summary.csv
+[SKIP] smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_nested3 already has summary.csv
+[SKIP] smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_nested3 already has summary.csv
+[RUN] GPU 1 | task_smc_acr_binary_0r_vs_1r2r3r | l2_1p00mpp_10x
+[DONE] smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_nested3
+[RUN] GPU 1 | task_smc_acr_binary_0r1r_vs_2r3r | l2_1p00mpp_10x
+[DONE] smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_nested3
+[RUN] GPU 1 | task_smc_acr_binary_0r_vs_1r2r3r | l3_2p00mpp_5x
+[DONE] smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_nested3
+[RUN] GPU 1 | task_smc_acr_binary_0r1r_vs_2r3r | l3_2p00mpp_5x
+[DONE] smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_nested3

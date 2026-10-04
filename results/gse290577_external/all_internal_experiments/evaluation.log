@@ -1,0 +1,423 @@
+nohup: ignoring input
+[RUN 1/80] smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.321, PR-AUC=0.528
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.583, PR-AUC=0.634
+[OK] core: n=189, positive=116, AUROC=0.490, PR-AUC=0.597
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 2/80] smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_he_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.357, PR-AUC=0.467
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.464, PR-AUC=0.553
+[OK] core: n=189, positive=116, AUROC=0.523, PR-AUC=0.611
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_he_only_s1/external_summary.csv
+[RUN 3/80] smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.607, PR-AUC=0.676
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.845, PR-AUC=0.868
+[OK] core: n=189, positive=116, AUROC=0.607, PR-AUC=0.706
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1/external_summary.csv
+[RUN 4/80] smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.589, PR-AUC=0.576
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.625, PR-AUC=0.696
+[OK] core: n=189, positive=116, AUROC=0.617, PR-AUC=0.712
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1/external_summary.csv
+[RUN 5/80] smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_non_he_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.554, PR-AUC=0.680
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.831, PR-AUC=0.844
+[OK] core: n=189, positive=116, AUROC=0.695, PR-AUC=0.778
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_non_he_s1/external_summary.csv
+[RUN 6/80] smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.536, PR-AUC=0.585
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.871, PR-AUC=0.900
+[OK] core: n=189, positive=116, AUROC=0.578, PR-AUC=0.704
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 7/80] smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.375, PR-AUC=0.484
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.825, PR-AUC=0.842
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 8/80] smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_he_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.464, PR-AUC=0.657
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.685, PR-AUC=0.737
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_he_only_s1/external_summary.csv
+[RUN 9/80] smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.679, PR-AUC=0.747
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.550, PR-AUC=0.685
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1/external_summary.csv
+[RUN 10/80] smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.589, PR-AUC=0.697
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.661, PR-AUC=0.713
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1/external_summary.csv
+[RUN 11/80] smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_non_he_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.357, PR-AUC=0.553
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.944, PR-AUC=0.953
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_non_he_s1/external_summary.csv
+[RUN 12/80] smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.679, PR-AUC=0.734
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.889, PR-AUC=0.911
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 13/80] smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.357, PR-AUC=0.485
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.698, PR-AUC=0.786
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 14/80] smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_he_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.375, PR-AUC=0.501
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.446, PR-AUC=0.519
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_he_only_s1/external_summary.csv
+[RUN 15/80] smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.714, PR-AUC=0.769
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.819, PR-AUC=0.788
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1/external_summary.csv
+[RUN 16/80] smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.411, PR-AUC=0.565
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.508, PR-AUC=0.550
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1/external_summary.csv
+[RUN 17/80] smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_non_he_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.464, PR-AUC=0.687
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.909, PR-AUC=0.935
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_non_he_s1/external_summary.csv
+[RUN 18/80] smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.554, PR-AUC=0.676
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.696, PR-AUC=0.726
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 19/80] smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.786, PR-AUC=0.861
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.950, PR-AUC=0.966
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 20/80] smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_he_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.643, PR-AUC=0.777
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.440, PR-AUC=0.575
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_he_only_s1/external_summary.csv
+[RUN 21/80] smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.464, PR-AUC=0.511
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.903, PR-AUC=0.932
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1/external_summary.csv
+[RUN 22/80] smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.696, PR-AUC=0.837
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.637, PR-AUC=0.687
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1/external_summary.csv
+[RUN 23/80] smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_non_he_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.643, PR-AUC=0.760
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.639, PR-AUC=0.680
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_non_he_s1/external_summary.csv
+[RUN 24/80] smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=8, AUROC=0.679, PR-AUC=0.802
+[OK] wsi_ihc: n=45, positive=24, AUROC=0.617, PR-AUC=0.661
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_0r_vs_rest_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 25/80] smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.940, PR-AUC=0.925
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.733, PR-AUC=0.635
+[OK] core: n=189, positive=65, AUROC=0.741, PR-AUC=0.607
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 26/80] smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.960, PR-AUC=0.927
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.800, PR-AUC=0.691
+[OK] core: n=189, positive=65, AUROC=0.773, PR-AUC=0.678
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 27/80] smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.920, PR-AUC=0.810
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.780, PR-AUC=0.620
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 28/80] smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.940, PR-AUC=0.903
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.947, PR-AUC=0.871
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_high_grade_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 29/80] smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.740, PR-AUC=0.544
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.651, PR-AUC=0.533
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 30/80] smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=1.000, PR-AUC=1.000
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.838, PR-AUC=0.684
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_high_grade_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 31/80] smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.900, PR-AUC=0.710
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.742, PR-AUC=0.512
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 32/80] smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=5, AUROC=0.860, PR-AUC=0.742
+[OK] wsi_ihc: n=45, positive=15, AUROC=0.824, PR-AUC=0.673
+Summary: results/gse290577_external/all_internal_experiments/smc_acr_high_grade_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 33/80] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.600, PR-AUC=0.598
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.693, PR-AUC=0.753
+[OK] core: n=187, positive=70, AUROC=0.547, PR-AUC=0.424
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 34/80] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_he_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.480, PR-AUC=0.531
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.338, PR-AUC=0.421
+[OK] core: n=187, positive=70, AUROC=0.541, PR-AUC=0.455
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_he_only_s1/external_summary.csv
+[RUN 35/80] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.440, PR-AUC=0.591
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.782, PR-AUC=0.854
+[OK] core: n=187, positive=70, AUROC=0.579, PR-AUC=0.407
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1/external_summary.csv
+[RUN 36/80] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.600, PR-AUC=0.725
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.742, PR-AUC=0.805
+[OK] core: n=187, positive=70, AUROC=0.538, PR-AUC=0.389
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1/external_summary.csv
+[RUN 37/80] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_non_he_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.440, PR-AUC=0.514
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.756, PR-AUC=0.811
+[OK] core: n=187, positive=70, AUROC=0.558, PR-AUC=0.440
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_non_he_s1/external_summary.csv
+[RUN 38/80] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.720, PR-AUC=0.789
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.738, PR-AUC=0.815
+[OK] core: n=187, positive=70, AUROC=0.513, PR-AUC=0.378
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 39/80] smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.720, PR-AUC=0.742
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.738, PR-AUC=0.730
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 40/80] smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_he_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.480, PR-AUC=0.686
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.413, PR-AUC=0.528
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_he_only_s1/external_summary.csv
+[RUN 41/80] smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.280, PR-AUC=0.452
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.640, PR-AUC=0.723
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1/external_summary.csv
+[RUN 42/80] smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.720, PR-AUC=0.825
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.676, PR-AUC=0.757
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1/external_summary.csv
+[RUN 43/80] smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_non_he_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.520, PR-AUC=0.526
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.538, PR-AUC=0.636
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_non_he_s1/external_summary.csv
+[RUN 44/80] smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.360, PR-AUC=0.563
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.671, PR-AUC=0.736
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 45/80] smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.560, PR-AUC=0.564
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.649, PR-AUC=0.588
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 46/80] smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_he_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.680, PR-AUC=0.712
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.582, PR-AUC=0.718
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_he_only_s1/external_summary.csv
+[RUN 47/80] smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.480, PR-AUC=0.519
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.716, PR-AUC=0.783
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1/external_summary.csv
+[RUN 48/80] smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.680, PR-AUC=0.743
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.773, PR-AUC=0.840
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1/external_summary.csv
+[RUN 49/80] smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_non_he_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.440, PR-AUC=0.486
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.587, PR-AUC=0.738
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_non_he_s1/external_summary.csv
+[RUN 50/80] smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.600, PR-AUC=0.659
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.693, PR-AUC=0.772
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 51/80] smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.680, PR-AUC=0.814
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.711, PR-AUC=0.800
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 52/80] smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_he_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.800, PR-AUC=0.858
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.613, PR-AUC=0.685
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_he_only_s1/external_summary.csv
+[RUN 53/80] smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.600, PR-AUC=0.659
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.676, PR-AUC=0.765
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1/external_summary.csv
+[RUN 54/80] smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.760, PR-AUC=0.796
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.747, PR-AUC=0.815
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1/external_summary.csv
+[RUN 55/80] smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_non_he_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.440, PR-AUC=0.501
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.529, PR-AUC=0.572
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_non_he_s1/external_summary.csv
+[RUN 56/80] smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=10, positive=5, AUROC=0.600, PR-AUC=0.659
+[OK] wsi_ihc: n=30, positive=15, AUROC=0.702, PR-AUC=0.807
+Summary: results/gse290577_external/all_internal_experiments/smc_amr_positive_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 57/80] smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.580, PR-AUC=0.746
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.798, PR-AUC=0.889
+[OK] core: n=186, positive=136, AUROC=0.547, PR-AUC=0.745
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 58/80] smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_he_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.580, PR-AUC=0.804
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.340, PR-AUC=0.611
+[OK] core: n=186, positive=136, AUROC=0.647, PR-AUC=0.822
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_he_only_s1/external_summary.csv
+[RUN 59/80] smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.820, PR-AUC=0.904
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.813, PR-AUC=0.904
+[OK] core: n=186, positive=136, AUROC=0.597, PR-AUC=0.795
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1/external_summary.csv
+[RUN 60/80] smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.580, PR-AUC=0.721
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.802, PR-AUC=0.896
+[OK] core: n=186, positive=136, AUROC=0.616, PR-AUC=0.830
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1/external_summary.csv
+[RUN 61/80] smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_non_he_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.400, PR-AUC=0.715
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.847, PR-AUC=0.928
+[OK] core: n=186, positive=136, AUROC=0.476, PR-AUC=0.738
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_non_he_s1/external_summary.csv
+[RUN 62/80] smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.660, PR-AUC=0.819
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.853, PR-AUC=0.929
+[OK] core: n=186, positive=136, AUROC=0.726, PR-AUC=0.881
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 63/80] smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.720, PR-AUC=0.864
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.880, PR-AUC=0.941
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 64/80] smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_he_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.620, PR-AUC=0.843
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.571, PR-AUC=0.759
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_he_only_s1/external_summary.csv
+[RUN 65/80] smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.660, PR-AUC=0.838
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.856, PR-AUC=0.933
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1/external_summary.csv
+[RUN 66/80] smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.600, PR-AUC=0.824
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.878, PR-AUC=0.945
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1/external_summary.csv
+[RUN 67/80] smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_non_he_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.440, PR-AUC=0.741
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.867, PR-AUC=0.942
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_non_he_s1/external_summary.csv
+[RUN 68/80] smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.620, PR-AUC=0.805
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.840, PR-AUC=0.934
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 69/80] smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.540, PR-AUC=0.699
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.713, PR-AUC=0.837
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 70/80] smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_he_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.480, PR-AUC=0.762
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.684, PR-AUC=0.860
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_he_only_s1/external_summary.csv
+[RUN 71/80] smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.520, PR-AUC=0.685
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.798, PR-AUC=0.903
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1/external_summary.csv
+[RUN 72/80] smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.340, PR-AUC=0.677
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.727, PR-AUC=0.858
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1/external_summary.csv
+[RUN 73/80] smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_non_he_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.660, PR-AUC=0.798
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.856, PR-AUC=0.933
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_non_he_s1/external_summary.csv
+[RUN 74/80] smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.460, PR-AUC=0.772
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.782, PR-AUC=0.889
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l2_1p00mpp_10x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[RUN 75/80] smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.660, PR-AUC=0.820
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.856, PR-AUC=0.920
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_s1/external_summary.csv
+[RUN 76/80] smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_he_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.580, PR-AUC=0.814
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.498, PR-AUC=0.633
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_he_only_s1/external_summary.csv
+[RUN 77/80] smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.680, PR-AUC=0.841
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.724, PR-AUC=0.872
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_ihc_only_s1/external_summary.csv
+[RUN 78/80] smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.660, PR-AUC=0.859
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.749, PR-AUC=0.866
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_mixed_known_s1/external_summary.csv
+[RUN 79/80] smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_non_he_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.560, PR-AUC=0.707
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.838, PR-AUC=0.931
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_non_he_s1/external_summary.csv
+[RUN 80/80] smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1
+Loaded 3 fold checkpoint(s)
+[OK] wsi_he: n=15, positive=10, AUROC=0.700, PR-AUC=0.874
+[OK] wsi_ihc: n=45, positive=30, AUROC=0.744, PR-AUC=0.867
+Summary: results/gse290577_external/all_internal_experiments/smc_any_rejection_l3_2p00mpp_5x_uni2_clamsb_cv3val_weakunique3_s1/external_summary.csv
+[DONE] experiments=80 summaries=180 failures=0
+Combined summary: results/gse290577_external/all_internal_experiments/all_external_summary.csv

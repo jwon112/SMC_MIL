@@ -1,0 +1,9 @@
+{
+  "epoch": 14,
+  "best_epoch": 2,
+  "best_val_loss": 0.7595109113588415,
+  "bad_epochs": 12,
+  "lr_next": 2.5e-05,
+  "stopped_early": false,
+  "complete": false
+}

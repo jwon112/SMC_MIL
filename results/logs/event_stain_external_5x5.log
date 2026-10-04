@@ -1,0 +1,10 @@
+nohup: ignoring input
+Loaded 25 fold checkpoints
+[OK] wsi_event: n=15, positive=5, AUROC=0.640, PR-AUC=0.469
+[OK] core: n=189, positive=65, AUROC=0.785, PR-AUC=0.700
+Loaded 25 fold checkpoints
+[OK] wsi_event: n=10, positive=5, AUROC=0.720, PR-AUC=0.789
+[OK] core: n=187, positive=70, AUROC=0.510, PR-AUC=0.386
+Loaded 25 fold checkpoints
+[OK] wsi_event: n=15, positive=10, AUROC=0.880, PR-AUC=0.952
+[OK] core: n=186, positive=107, AUROC=0.747, PR-AUC=0.812

@@ -1,0 +1,10 @@
+nohup: ignoring input
+[RUN] GPU 3 | task_smc_amr_binary_pamr0_vs_positive | l0_0p25mpp_40x
+[DONE] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_nested3
+[RUN] GPU 3 | task_smc_any_rejection_binary | l0_0p25mpp_40x
+[DONE] smc_any_rejection_l0_0p25mpp_40x_uni2_clamsb_nested3
+[RUN] GPU 3 | task_smc_amr_binary_pamr0_vs_positive | l1_0p50mpp_20x
+[DONE] smc_amr_positive_l1_0p50mpp_20x_uni2_clamsb_nested3
+[RUN] GPU 3 | task_smc_any_rejection_binary | l1_0p50mpp_20x
+[DONE] smc_any_rejection_l1_0p50mpp_20x_uni2_clamsb_nested3
+[RUN] GPU 3 | task_smc_amr_binary_pamr0_vs_positive | l2_1p00mpp_10x

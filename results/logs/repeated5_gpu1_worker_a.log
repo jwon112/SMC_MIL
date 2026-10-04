@@ -1,0 +1,22 @@
+nohup: ignoring input
+[REPEAT] seed=11 worker=a
+[RUN] GPU 1 | task_smc_acr_binary_0r1r_vs_2r3r | l0_0p25mpp_40x
+[DONE] smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val
+[RUN] GPU 1 | task_smc_amr_binary_pamr0_vs_positive | l0_0p25mpp_40x
+[DONE] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val
+[REPEAT] seed=21 worker=a
+[RUN] GPU 1 | task_smc_acr_binary_0r1r_vs_2r3r | l0_0p25mpp_40x
+[DONE] smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val
+[RUN] GPU 1 | task_smc_amr_binary_pamr0_vs_positive | l0_0p25mpp_40x
+[DONE] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val
+[REPEAT] seed=31 worker=a
+[RUN] GPU 1 | task_smc_acr_binary_0r1r_vs_2r3r | l0_0p25mpp_40x
+[DONE] smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val
+[RUN] GPU 1 | task_smc_amr_binary_pamr0_vs_positive | l0_0p25mpp_40x
+[DONE] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val
+[REPEAT] seed=41 worker=a
+[RUN] GPU 1 | task_smc_acr_binary_0r1r_vs_2r3r | l0_0p25mpp_40x
+[DONE] smc_acr_high_grade_l0_0p25mpp_40x_uni2_clamsb_cv5val
+[RUN] GPU 1 | task_smc_amr_binary_pamr0_vs_positive | l0_0p25mpp_40x
+[DONE] smc_amr_positive_l0_0p25mpp_40x_uni2_clamsb_cv5val
+[DONE] repeated CV seeds=11,21,31,41 worker=a

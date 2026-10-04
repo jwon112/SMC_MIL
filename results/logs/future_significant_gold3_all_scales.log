@@ -1,0 +1,9 @@
+nohup: ignoring input
+[RUN] l0_0p25mpp_40x on GPU 1
+[DONE] results/smc_future_significant_l0_0p25mpp_40x_uni2_clamsb_gold3cv_fixed30_s1
+[RUN] l1_0p50mpp_20x on GPU 1
+[DONE] results/smc_future_significant_l1_0p50mpp_20x_uni2_clamsb_gold3cv_fixed30_s1
+[RUN] l2_1p00mpp_10x on GPU 1
+[DONE] results/smc_future_significant_l2_1p00mpp_10x_uni2_clamsb_gold3cv_fixed30_s1
+[RUN] l3_2p00mpp_5x on GPU 1
+[DONE] results/smc_future_significant_l3_2p00mpp_5x_uni2_clamsb_gold3cv_fixed30_s1

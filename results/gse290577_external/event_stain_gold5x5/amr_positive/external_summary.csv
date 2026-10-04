@@ -1,0 +1,3 @@
+cohort,task,events,positive_events,auroc,pr_auc,accuracy,sensitivity,specificity,balanced_accuracy,threshold,tp,tn,fp,fn
+wsi_event,amr_positive,10,5,0.72,0.7892857142857141,0.5,1.0,0.0,0.5,0.5,5,0,5,0
+core,amr_positive,187,70,0.5095238095238095,0.3860576730465477,0.6256684491978609,0.0,1.0,0.5,0.5,0,117,0,70
