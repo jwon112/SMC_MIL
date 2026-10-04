@@ -51,6 +51,7 @@ results/
 /results_old2/
 /.smc_result_archive.json
 /.server_cleanup_phase2_20261004/
+/.server_cleanup_phase3/
 /smc_cleanup_*20261004*/
 /smc_cleanup_*20261004*.zip
 /stain_presence_mask_control_20261004*/

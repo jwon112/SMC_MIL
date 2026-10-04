@@ -64,3 +64,20 @@ python tools/server_cleanup/test_migration.py
 python tools/server_cleanup/test_sync.py
 첫 테스트는 synthetic 결과의 이동 전후 지표·OOF·검증 대상 일치와 복구를 확인합니다.
 프로세스 검사는 로컬 테스트에서 mock하고 서버 plan/apply에서 실제 /proc를 검사합니다.
+
+3차: 루트 코드·로그·라벨 버전의 추가 검토
+python tools/server_cleanup/audit_workspace.py
+
+결과는 .server_cleanup_phase3/<UTC timestamp>/workspace_audit.zip 입니다.
+출력의 bundle 경로를 확인해 ZIP을 로컬 Project root로 가져오면 추가 분석에 쓸 수 있습니다.
+이 ZIP은 서버에서 수집한 검토 자료입니다. 실행 코드 전달은 계속 Git으로 합니다.
+
+수집 내용: 루트 파일 목록·Git 추적 여부, 실행 프로세스의 프로젝트 경로 참조,
+코드 import 및 문자열 참조, 현재/보관 실험 설정의 라벨 참조,
+라벨 파일 스키마·행 수·식별자 개수·SHA-256 및 코드 사본.
+현재 루트와 mini의 notebook은 코드 셀만 추출하며 출력 셀은 포함하지 않습니다.
+라벨 CSV 행, 원본 Excel 내용, feature, WSI, checkpoint, 전체 로그는 복사하지 않습니다.
+파일 이동·삭제·라벨 수정은 수행하지 않습니다.
+Git에 없는 코드는 먼저 연구 이력으로 보존하고 역할·진입점·의존성을 확인합니다.
+단순 참조 미검출이나 파일 시각은 deprecated 판정의 충분한 근거가 아닙니다.
+CSV의 case_id 반복은 반복 생검·다중 슬라이드에서 정상일 수 있으며 자동 오류로 판정하지 않습니다.

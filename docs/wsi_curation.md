@@ -1,5 +1,12 @@
 # WSI Quality and Stain Curation
 
+> Version note (2026-10-04): the `wsi_curation_v1` commands below describe the
+> original review workflow. Current experiments use
+> `wsi_curation_v2_provisional_20260930` and exclude `pending_review_25.csv` when
+> creating event manifests. See [current experiment inputs](smc_event_stain_mil.md).
+> Preserve earlier curation versions as provenance until their references and
+> contents have been reviewed.
+
 This workflow creates review material before quality filtering or stain-based
 ablation. It does not make clinical or image-quality exclusion decisions from
 automation alone.

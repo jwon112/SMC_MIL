@@ -1,5 +1,32 @@
 # Stain-Aware Event MIL Pilot
 
+## 현재 실행 기준 (2026-10-04)
+
+서버 라벨 루트는 `/home/jupyter/data/image_team/labels/derived`입니다.
+
+| 목적 | 현재 위치 |
+|---|---|
+| 전체 stain curation | `wsi_curation_v2_provisional_20260930/slide_curation_manifest_curated.csv` |
+| 학습 event 및 환자별 splits | `event_stain_mil_gold_provisional_20260930/{task}/` |
+| event 생성 시 제외 목록 | `wsi_stain_provisional_20260930_upload/pending_review_25.csv` |
+| provisional 적용 원본 | `wsi_curation_v2_final/slide_curation_manifest_curated.csv` |
+| 이전 event baseline | `event_stain_mil_gold_v1/{task}/` |
+
+서버 생성 결과는 575 events / 1,262 slides이며 ACR high 양성은 14 events,
+11 patients입니다. 전체 curation 2,668행과 학습 event cohort는 범위가 다릅니다.
+현재 사용 stain 판정에는 잠정 검토 결과가 포함돼 있습니다.
+
+현재 실행 진입점은 `tools/run_smc_presence_mask_control.sh`와
+`tools/run_smc_patch_sampling_control.py`입니다. 이전 ablation 결과는
+`results/smc_event_stain_provisional_20260930_exclude25`에 있습니다.
+두 대조실험의 완료 여부는 각 결과 파일로 확인합니다.
+
+feature는 프로젝트 `data/features/uni_v2` 경로를 사용합니다. 실제 위치와의
+심볼릭 링크 관계는 서버 점검 결과를 확인하며 별도 복사본이라고 단정하지 않습니다.
+아래 초기 pilot 및 `v2_final` 예제는 이전 실험 재현 절차로 보존합니다.
+
+## Original pilot and baseline protocol
+
 The prediction unit is one pathology event. Its known-stain slides are retained as H&E, IHC, or other. Patch features are pooled into a slide embedding with shared gated attention; slide embeddings are pooled within each stain branch; the three branch embeddings and branch-presence masks feed an event classifier.
 
 The gold-only experiment uses 40x (`l0_0p25mpp_40x` features), five folds, and seeds 1/11/21/31/41. Existing seed-specific patient-grouped slide folds are mapped to event IDs, so no event or patient crosses validation folds. Unknown-stain slides are excluded. This is a new architecture and should be compared with the established slide-level CLAM baseline as exploratory work.
