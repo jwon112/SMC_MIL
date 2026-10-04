@@ -59,4 +59,18 @@ class PublishTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'staged'):
             self.plan()
 
+    def test_known_pathomics_configs_require_schema_and_eta_requires_shebang(self):
+        cfg={'cohort_csv':'data/cohort.csv','stain_csv':'data/stain.csv','baseline_dir':'data/features','output':'results/pathomics','sources':{}}
+        p=self.root/'pathomics_all_wsi.json'
+        p.write_text(json.dumps(cfg))
+        self.assertEqual(publisher.inspect_file(self.root,p.name)[0]['kind'],'configuration')
+        cfg['rows']=[{'patient_id':'PRIVATE'}]
+        p.write_text(json.dumps(cfg))
+        self.assertIsNone(publisher.inspect_file(self.root,p.name)[0])
+        eta=self.root/'eta.txt'
+        eta.write_text('#!/usr/bin/env bash\nps -ef\n')
+        self.assertEqual(publisher.inspect_file(self.root,eta.name)[0]['kind'],'code')
+        eta.write_text('last run ended at 12:00')
+        self.assertIsNone(publisher.inspect_file(self.root,eta.name)[0])
+
 if __name__=='__main__': unittest.main()

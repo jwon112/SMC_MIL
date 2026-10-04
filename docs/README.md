@@ -22,6 +22,36 @@ use the topic index below.
 이전 실험의 입력 근거는 보존합니다. 서버에만 있는 augmentation·pathomics·future
 코드도 연구 이력 확인 후 Git 관리 또는 별도 보관 여부를 결정합니다.
 
+## 서버 코드 통합 결과 (300556c)
+
+서버 전용 파일 39개를 Git으로 받아 로컬과 통합했습니다. 실행 상태나 실험 성능은
+코드 존재만으로 판단하지 않으며, 아래 분류는 코드의 역할과 의존성에 근거합니다.
+
+| 계열 | 주 진입점 | 함께 보존할 코드·입력 |
+|---|---|---|
+| 현재 event 대조실험 | `tools/run_smc_presence_mask_control.sh`, `tools/run_smc_patch_sampling_control.py` | provisional event/split, event trainer, models/utils |
+| 기존 HE augmentation 비교 | `run_smc_gold_he_aug.py`, `run_smc_gold_he_aug_gpu0.sh` | `audit_smc_aug_reuse.py`, `augment_uni2_wsi.py`, `smc_he_aug.py`, `feature_view_bank.py`, `results/he_aug_inputs` |
+| 초기 HE augmentation 탐색 | `run_he_aug_full.py`, `run_he_aug_technical.py`, `run_he_lr_check.py` | `train_clam_feature_views.py`, `clam_view_training.py`, `cohorts/he_manual_acr_v1`, `dataset_csv/stain_aug_labels.csv` |
+| WSI 정량 특징 추출 | `run_wsi_pathomics.py`, `run_pathomics_parallel.py`, `run_pathomics_fast.py` | `pathomics_core.py`, `pathomics_fast.py`, `pathology_feature_extractor_v2.py`, 실행 config |
+| pathomics 실행·점검 | `fast_run.sh`, `fast_check.sh`, `fast_eta.sh`, `check_eta.sh` | `pathomics_all_wsi.json`, extraction receipt 및 로그 |
+| 미래 예측 | `prepare_smc_future.py`, `run_smc_future.py` | `cohorts/smc_future_v1`, augmentation config·feature bank |
+| 염색·영상 점검 | `train_stain_family_uni.py`, `diagnose_dicom_pixels.py`, `diagnose_feature_coordinate_alignment.py`, review notebooks | 검토 라벨·원본 영상·좌표 |
+| 환경·내보내기 | `smc.sh`, `export_pathomics.mjs`, `marker_static.ipynb` | 기존 conda, `eta.txt` 참조, workbook 입력 및 별도 Node exporter 환경 |
+
+특히 `run_pathomics_fast.py`는 parallel launcher를 import하고 기존 engine 4개 파일의
+SHA-256을 검사합니다. 이름에 fast/v2가 붙어도 이전 모듈을 대체한 독립 구현으로
+간주할 수 없습니다. 해당 핵심 모듈의 이동·편집은 parity 및 signature 검증에 영향을
+주므로 실행 파이프라인 재구성과 함께 진행해야 합니다.
+
+`eta.txt`는 `smc.sh`에서 `bash eta.txt`로 참조됩니다. 단순 로그로 분류하지 않습니다.
+`pathomics_all_wsi.json`과 `pathomics_extract_exploratory.json`은 최초 Git 선별에서
+보류됐으므로 서버의 설정 구조를 확인한 뒤 추가합니다. `pathomics_config.json`만으로
+현재 모든 실행 설정이 공유됐다고 볼 수 없습니다.
+
+데이터 CSV는 별도 관리하더라도 `dataset_csv/stain_aug_labels.csv`와
+`cohorts/he_manual_acr_v1/technical_train_slides_*.txt` 등은 기존 연구 입력입니다.
+서버 선별의 HOLD는 미사용/삭제 대상이라는 뜻이 아닙니다.
+
 ## Core pipeline
 
 - [`dicom_feature_pipeline.md`](dicom_feature_pipeline.md): DICOM manifests,

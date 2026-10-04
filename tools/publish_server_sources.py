@@ -19,6 +19,7 @@ CODE={'.py','.sh','.bash','.mjs','.js','.ts','.tsx','.jsx','.r','.jl','.c','.cpp
 DOC={'.md','.rst'}
 CONFIG={'.yaml','.yml','.toml','.ini','.cfg'}
 MAX_BYTES=2_000_000
+PATHOMICS_CONFIGS={'pathomics_all_wsi.json','pathomics_extract_exploratory.json'}
 SECRETS=[
  ('private key',re.compile(r'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----')),
  ('GitHub token',re.compile(r'\b(?:gh[pousr]_[A-Za-z0-9]{25,}|github_pat_[A-Za-z0-9_]{30,})\b')),
@@ -80,9 +81,24 @@ def inspect_file(root,name):
     if p.is_symlink() or not p.resolve().is_relative_to(root): return None,'symlink or path outside checkout'
     if not p.is_file(): return None,'deletion/directory needs explicit review'
     kind=classify(name)
-    if kind is None: return None,'dataset/output or unclassified file'
     if p.stat().st_size>MAX_BYTES: return None,'over 2 MB; review separately'
+    if kind is None and name not in PATHOMICS_CONFIGS and name!='eta.txt':
+        return None,'dataset/output or unclassified file'
     raw=p.read_bytes()
+    if name in PATHOMICS_CONFIGS:
+        try: config=json.loads(raw.decode('utf-8-sig'))
+        except (UnicodeError,ValueError): return None,'invalid pathomics configuration JSON'
+        if (not isinstance(config,dict) or not all(isinstance(config.get(k),str) for k in ('cohort_csv','stain_csv','baseline_dir','output'))
+                or not isinstance(config.get('sources'),dict)
+                or any(k in config for k in ('rows','records','patients','slide_ids','patient_ids'))):
+            return None,'pathomics configuration schema not recognized; review separately'
+        kind='configuration'
+    if name=='eta.txt':
+        first=raw.splitlines()[0] if raw else b''
+        if first.startswith(b'#!') and any(x in first for x in (b'/bash',b'/sh',b'env bash',b'env sh',b'python')):
+            kind='code'
+        else:
+            return None,'referenced by smc.sh; preserve and inspect as possible shell script'
     try:
         payload=notebook_clean(raw) if kind=='notebook' else raw
         text=payload.decode('utf-8-sig')
