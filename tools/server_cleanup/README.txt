@@ -158,3 +158,19 @@ stage는 명시된 결과 경로만 추가하며 원본 파일을 변경하거�
 이미 staged된 다른 작업이 있으면 중단합니다. push 실패 시 git push만 재시도합니다.
 서버 게시가 완료된 뒤 로컬에서 pull하여 기존 로컬 결과와의 차이를 확인합니다.
 로컬 결과를 먼저 게시해 서버의 동일 경로 파일을 덮어쓰는 방식은 사용하지 않습니다.
+
+서버 결과 수신 후 로컬 복사본 통합
+801c5db 결과와 로컬 전용 결과를 비교해 result_copy_plan.json에 27개 동일 CSV와
+2개 이름 변경을 기록했습니다. 현재 로컬에서는 적용 완료했습니다.
+서버에는 대표 파일이 이미 있고 로컬 복사본은 없으므로 일반적으로 git pull만 하면
+됩니다. 같은 복사본이 남아 있는 별도 checkout에서만 아래 도구를 사용합니다.
+
+python tools/server_cleanup/consolidate_result_copies.py --action plan
+python tools/server_cleanup/consolidate_result_copies.py --action apply
+
+CSV는 열 순서·모든 값·중복 행 수가 같아야 통합합니다. source SHA가 달라졌거나
+이동 대상이 이미 있으면 중단합니다. 원본은 .server_result_sync/consolidation_20261004/
+copies/에 보관되며 moves.jsonl에 이동 전후 경로와 SHA를 기록합니다.
+복구하려면 journal의 destination 파일을 source 위치로 되돌립니다. 이미 source가
+존재할 경우 덮어쓰지 말고 먼저 비교해야 합니다. 이 도구는 실험 디렉터리, 라벨,
+split, checkpoint를 일괄 삭제하지 않습니다.

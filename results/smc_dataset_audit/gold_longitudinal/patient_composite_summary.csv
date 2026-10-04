@@ -1,0 +1,111 @@
+case_id,event_count,slide_count,first_biopsy_date,last_biopsy_date,ever_acr_positive,ever_acr_high_grade,ever_amr_positive,ever_any_rejection,observed_span_days,mean_interval_days,median_interval_days,min_interval_days,max_interval_days,acr_0R_events,acr_1R_events,acr_2R_events,acr_3R_events,amr_pAMR0_events,amr_pAMR1_events,amr_pAMR1_Iplus_events,amr_pAMR2_events,first_composite_positive_date,ever_high_grade_or_amr,baseline_high_grade_or_amr,incident_after_negative_baseline,days_to_first_composite_positive,composite_phenotype
+patient_005b214a5e658965,2,2,2021-08-17,2021-11-16,True,False,False,True,91,91.0,91.0,91.0,91.0,1,1,0,0,2,0,0,0,,False,False,False,,negative
+patient_0349492572c92ab0,3,12,2023-07-11,2023-10-05,True,False,False,True,86,43.0,43.0,14.0,72.0,2,1,0,0,3,0,0,0,,False,False,False,,negative
+patient_0941abb556cbec79,7,22,2023-02-14,2024-02-06,True,False,False,True,357,59.5,66.0,14.0,91.0,4,3,0,0,7,0,0,0,,False,False,False,,negative
+patient_0cf9d90c530cbd0b,7,9,2021-07-12,2022-06-14,True,False,False,True,337,56.166666666666664,45.5,36.0,91.0,3,4,0,0,7,0,0,0,,False,False,False,,negative
+patient_110e1e825f43e305,7,16,2023-04-04,2024-03-26,True,False,False,True,357,59.5,52.5,21.0,98.0,3,4,0,0,7,0,0,0,,False,False,False,,negative
+patient_19d05fccc0aac48d,2,6,2020-07-07,2020-07-21,True,False,True,True,14,14.0,14.0,14.0,14.0,0,2,0,0,1,1,0,0,2020-07-21,True,False,True,14.0,AMR>=pAMR1 only
+patient_1bb6673f07107d9c,5,6,2022-07-12,2023-03-14,True,False,False,True,245,61.25,31.5,14.0,168.0,4,1,0,0,5,0,0,0,,False,False,False,,negative
+patient_1d9bc9798ff5fad2,6,28,2024-10-08,2025-09-09,True,False,False,True,336,67.2,56.0,42.0,105.0,5,1,0,0,6,0,0,0,,False,False,False,,negative
+patient_1db7fb03763dab37,6,12,2024-06-11,2025-05-13,False,False,False,False,336,67.2,42.0,28.0,175.0,6,0,0,0,6,0,0,0,,False,False,False,,negative
+patient_1f1d5d53d578938e,7,16,2024-11-19,2025-07-29,False,False,False,False,252,42.0,35.0,14.0,98.0,7,0,0,0,7,0,0,0,,False,False,False,,negative
+patient_228507d0242d624c,8,16,2022-05-31,2023-05-16,True,True,False,True,350,50.0,42.0,21.0,91.0,3,3,2,0,8,0,0,0,2022-11-15,True,False,True,168.0,ACR>=2R only
+patient_23ee3df4f656b033,7,7,2021-12-20,2022-11-22,True,False,False,True,337,56.166666666666664,49.0,29.0,98.0,6,1,0,0,7,0,0,0,,False,False,False,,negative
+patient_26f6ecd90ed41f9d,5,18,2022-07-05,2023-05-30,True,False,False,True,329,82.25,87.0,49.0,106.0,2,3,0,0,5,0,0,0,,False,False,False,,negative
+patient_2999b7afa4f16b6d,3,3,2021-03-02,2021-10-12,True,False,False,True,224,112.0,112.0,84.0,140.0,2,1,0,0,3,0,0,0,,False,False,False,,negative
+patient_29c1ec61f11c3c6d,4,4,2021-08-03,2022-03-15,False,False,False,False,224,74.66666666666667,77.0,63.0,84.0,4,0,0,0,4,0,0,0,,False,False,False,,negative
+patient_2b3a49d49419f139,4,4,2021-08-03,2022-03-08,False,False,False,False,217,72.33333333333333,77.0,63.0,77.0,4,0,0,0,4,0,0,0,,False,False,False,,negative
+patient_2c0945e38263a664,7,25,2022-08-09,2023-07-25,True,True,False,True,350,58.333333333333336,63.0,14.0,84.0,5,1,1,0,7,0,0,0,2023-05-02,True,False,True,266.0,ACR>=2R only
+patient_2e5d461d7873e6f4,6,18,2020-10-20,2023-03-14,True,False,True,True,875,175.0,84.0,56.0,385.0,3,3,0,0,5,1,0,0,2022-10-25,True,False,True,735.0,AMR>=pAMR1 only
+patient_2f50930b460ea9d0,5,9,2022-10-18,2023-07-18,True,False,True,True,273,68.25,73.5,7.0,119.0,4,1,0,0,4,1,0,0,2022-10-18,True,True,False,0.0,AMR>=pAMR1 only
+patient_30b34f698447ae86,9,13,2022-01-18,2023-06-20,True,False,False,True,518,64.75,42.0,21.0,168.0,7,2,0,0,9,0,0,0,,False,False,False,,negative
+patient_31c1f5ecc6982b2b,4,7,2021-08-10,2022-07-26,True,True,False,True,350,116.66666666666667,49.0,7.0,294.0,2,1,1,0,4,0,0,0,2021-08-10,True,True,False,0.0,ACR>=2R only
+patient_33180b505ac426fd,6,23,2024-11-28,2025-07-15,True,False,False,True,229,45.8,47.0,21.0,70.0,4,2,0,0,6,0,0,0,,False,False,False,,negative
+patient_331a649dfec3ede4,3,3,2021-07-13,2022-03-15,True,False,False,True,245,122.5,122.5,63.0,182.0,2,1,0,0,3,0,0,0,,False,False,False,,negative
+patient_37a67c1ae4e8ad43,8,9,2022-11-01,2024-02-27,True,False,False,True,483,69.0,63.0,28.0,119.0,7,1,0,0,8,0,0,0,,False,False,False,,negative
+patient_3840f67f21017b79,8,18,2022-06-07,2023-05-30,True,False,False,True,357,51.0,42.0,14.0,98.0,3,5,0,0,8,0,0,0,,False,False,False,,negative
+patient_3b33f0c3a0f54d90,2,4,2020-08-11,2020-11-27,True,False,True,True,108,108.0,108.0,108.0,108.0,1,1,0,0,1,0,0,1,2020-11-27,True,False,True,108.0,AMR>=pAMR1 only
+patient_3fc4b14a03335d7f,7,19,2022-01-18,2022-09-27,True,False,False,True,252,42.0,38.5,7.0,98.0,3,4,0,0,7,0,0,0,,False,False,False,,negative
+patient_441646021a546773,9,12,2022-03-02,2023-05-26,False,False,False,False,450,56.25,49.0,13.0,101.0,9,0,0,0,9,0,0,0,,False,False,False,,negative
+patient_4610d334819bbd61,3,13,2025-03-11,2025-05-13,False,False,False,False,63,31.5,31.5,21.0,42.0,3,0,0,0,3,0,0,0,,False,False,False,,negative
+patient_46cfa1714c823433,4,6,2023-11-28,2024-08-13,False,False,False,False,259,86.33333333333333,84.0,21.0,154.0,4,0,0,0,4,0,0,0,,False,False,False,,negative
+patient_4a2bd6cb3f9d710c,5,11,2023-02-14,2024-02-13,True,False,False,True,364,91.0,42.0,21.0,259.0,4,1,0,0,5,0,0,0,,False,False,False,,negative
+patient_4a9f4346155f3b62,6,12,2022-04-12,2023-03-21,True,True,False,True,343,68.6,49.0,13.0,161.0,4,1,1,0,6,0,0,0,2022-08-23,True,False,True,133.0,ACR>=2R only
+patient_4ab30837cfd3692a,4,8,2024-05-28,2025-02-25,True,False,False,True,273,91.0,98.0,21.0,154.0,2,2,0,0,4,0,0,0,,False,False,False,,negative
+patient_4af3110fd801b611,7,11,2023-10-24,2024-10-15,False,False,False,False,357,59.5,52.5,28.0,91.0,7,0,0,0,7,0,0,0,,False,False,False,,negative
+patient_4cb9dbad2d74486f,5,5,2021-11-16,2022-09-20,True,False,False,True,308,77.0,91.0,14.0,112.0,4,1,0,0,5,0,0,0,,False,False,False,,negative
+patient_503148ddee5b72e0,4,8,2022-07-15,2023-06-27,True,False,False,True,347,115.66666666666667,98.0,53.0,196.0,2,2,0,0,4,0,0,0,,False,False,False,,negative
+patient_5a68de4c65c56662,5,12,2022-08-24,2022-12-28,True,False,False,True,126,31.5,28.0,20.0,50.0,4,1,0,0,5,0,0,0,,False,False,False,,negative
+patient_5ad31502c2708b1a,3,9,2023-08-08,2023-10-04,False,False,False,False,57,28.5,28.5,28.0,29.0,3,0,0,0,3,0,0,0,,False,False,False,,negative
+patient_5d35983cfd191fff,4,5,2021-09-07,2022-04-26,True,False,False,True,231,77.0,77.0,42.0,112.0,3,1,0,0,4,0,0,0,,False,False,False,,negative
+patient_5ee21afd8d2dea4c,6,9,2023-04-11,2024-03-05,True,False,False,True,329,65.8,42.0,21.0,182.0,3,3,0,0,6,0,0,0,,False,False,False,,negative
+patient_61128f527d32178f,2,2,2021-07-27,2021-10-19,False,False,False,False,84,84.0,84.0,84.0,84.0,2,0,0,0,2,0,0,0,,False,False,False,,negative
+patient_69d6941869afda05,8,13,2022-02-15,2022-12-20,True,True,False,True,308,44.0,35.0,28.0,77.0,3,4,1,0,8,0,0,0,2022-03-15,True,False,True,28.0,ACR>=2R only
+patient_6d8c27caf7586f64,3,10,2023-05-30,2023-07-18,True,False,False,True,49,24.5,24.5,21.0,28.0,2,1,0,0,3,0,0,0,,False,False,False,,negative
+patient_6e23f91caa098b84,6,16,2024-07-09,2025-03-11,True,False,False,True,245,49.0,56.0,21.0,70.0,5,1,0,0,6,0,0,0,,False,False,False,,negative
+patient_6e852ae1e67cc6a5,4,9,2025-07-15,2025-09-23,False,False,False,False,70,23.333333333333332,28.0,14.0,28.0,4,0,0,0,4,0,0,0,,False,False,False,,negative
+patient_70289ea84b1dd193,5,18,2025-03-25,2025-10-14,True,False,False,True,203,50.75,45.5,21.0,91.0,4,1,0,0,5,0,0,0,,False,False,False,,negative
+patient_71270218daad69ca,2,7,2022-06-07,2023-08-08,False,False,False,False,427,427.0,427.0,427.0,427.0,2,0,0,0,2,0,0,0,,False,False,False,,negative
+patient_718a20df543bc4dd,6,12,2024-03-12,2025-02-18,False,False,False,False,343,68.6,29.0,14.0,182.0,6,0,0,0,6,0,0,0,,False,False,False,,negative
+patient_71a52624c9074da6,6,7,2023-05-17,2023-12-12,False,False,False,False,209,41.8,35.0,27.0,56.0,6,0,0,0,6,0,0,0,,False,False,False,,negative
+patient_780d5b318208b01a,3,12,2023-09-12,2024-08-13,True,False,False,True,336,168.0,168.0,154.0,182.0,2,1,0,0,3,0,0,0,,False,False,False,,negative
+patient_78e356d1740b4e11,2,6,2021-11-23,2022-07-15,True,False,False,True,234,234.0,234.0,234.0,234.0,0,2,0,0,2,0,0,0,,False,False,False,,negative
+patient_79f0ef3e7f376fdb,5,17,2023-12-08,2024-11-05,False,False,False,False,333,83.25,58.0,35.0,182.0,5,0,0,0,5,0,0,0,,False,False,False,,negative
+patient_7b8c5e3e158230df,3,14,2024-07-23,2024-09-10,False,False,False,False,49,24.5,24.5,21.0,28.0,3,0,0,0,3,0,0,0,,False,False,False,,negative
+patient_7d29fcd258114554,7,11,2021-09-28,2022-09-20,True,False,False,True,357,59.5,35.0,14.0,189.0,4,3,0,0,7,0,0,0,,False,False,False,,negative
+patient_7e13e7a4752983ed,4,23,2023-03-07,2023-05-16,True,False,True,True,70,23.333333333333332,21.0,14.0,35.0,3,1,0,0,1,3,0,0,2023-03-07,True,True,False,0.0,AMR>=pAMR1 only
+patient_7ea5ec2f6c847fc5,3,6,2021-08-24,2022-02-22,True,False,False,True,182,91.0,91.0,76.0,106.0,2,1,0,0,3,0,0,0,,False,False,False,,negative
+patient_7fb8c2b1e117173f,2,10,2025-09-23,2025-10-21,False,False,False,False,28,28.0,28.0,28.0,28.0,2,0,0,0,2,0,0,0,,False,False,False,,negative
+patient_88518ae12a01280d,3,7,2025-09-02,2025-11-11,False,False,False,False,70,35.0,35.0,28.0,42.0,3,0,0,0,3,0,0,0,,False,False,False,,negative
+patient_886cef649f01f586,2,4,2021-01-19,2022-01-04,False,False,False,False,350,350.0,350.0,350.0,350.0,2,0,0,0,2,0,0,0,,False,False,False,,negative
+patient_895c9f3c4b1870d6,6,10,2021-02-23,2022-02-08,True,True,False,True,350,70.0,49.0,35.0,133.0,1,2,3,0,6,0,0,0,2021-07-06,True,False,True,133.0,ACR>=2R only
+patient_897fc368fe7593b2,8,22,2024-03-12,2025-02-18,False,False,False,False,343,49.0,43.0,14.0,105.0,8,0,0,0,8,0,0,0,,False,False,False,,negative
+patient_8a989ce38f711fa1,8,12,2021-11-30,2022-11-22,False,False,False,False,357,51.0,42.0,21.0,98.0,8,0,0,0,8,0,0,0,,False,False,False,,negative
+patient_937267369badf303,4,5,2023-01-03,2023-05-09,True,False,False,True,126,42.0,49.0,28.0,49.0,3,1,0,0,4,0,0,0,,False,False,False,,negative
+patient_93ac78fffd137473,2,4,2022-11-29,2023-07-11,True,False,False,True,224,224.0,224.0,224.0,224.0,1,1,0,0,2,0,0,0,,False,False,False,,negative
+patient_9665aa8b62656cf9,2,2,2025-09-30,2025-10-14,False,False,False,False,14,14.0,14.0,14.0,14.0,2,0,0,0,2,0,0,0,,False,False,False,,negative
+patient_98877b8b3d3e8763,6,8,2021-08-03,2022-06-21,True,False,False,True,322,64.4,69.0,41.0,91.0,4,2,0,0,6,0,0,0,,False,False,False,,negative
+patient_9b81a2766f087b27,5,13,2021-03-16,2022-03-08,True,False,True,True,357,89.25,70.0,21.0,196.0,3,2,0,0,3,1,0,1,2021-05-11,True,False,True,56.0,AMR>=pAMR1 only
+patient_a533d77edf530d7d,9,25,2023-07-25,2024-07-16,True,False,False,True,357,44.625,28.0,14.0,182.0,6,3,0,0,9,0,0,0,,False,False,False,,negative
+patient_ab45843e8e5c5823,8,10,2022-12-20,2023-12-05,True,False,False,True,350,50.0,36.0,14.0,91.0,5,3,0,0,8,0,0,0,,False,False,False,,negative
+patient_aca1fffca0191542,3,6,2021-10-05,2023-08-01,False,False,False,False,665,332.5,332.5,168.0,497.0,3,0,0,0,3,0,0,0,,False,False,False,,negative
+patient_ad7be783b5ff7f03,4,8,2023-04-04,2024-03-26,True,False,False,True,357,119.0,84.0,14.0,259.0,3,1,0,0,4,0,0,0,,False,False,False,,negative
+patient_ae0f85572ff16638,2,2,2021-12-14,2023-03-14,False,False,False,False,455,455.0,455.0,455.0,455.0,2,0,0,0,2,0,0,0,,False,False,False,,negative
+patient_b824bfb064fb2de4,5,13,2021-11-16,2022-04-26,True,False,False,True,161,40.25,42.0,28.0,49.0,2,3,0,0,5,0,0,0,,False,False,False,,negative
+patient_bdc3f4ebb82da82e,5,24,2024-12-17,2025-06-10,True,False,True,True,175,43.75,35.0,14.0,91.0,2,3,0,0,4,1,0,0,2024-12-31,True,False,True,14.0,AMR>=pAMR1 only
+patient_c18ca7616a5ad1b6,6,9,2024-01-02,2024-11-26,False,False,False,False,329,65.8,35.0,27.0,189.0,6,0,0,0,6,0,0,0,,False,False,False,,negative
+patient_c2ec040a2ccee825,5,10,2024-07-16,2025-07-08,True,False,False,True,357,89.25,84.0,21.0,168.0,4,1,0,0,5,0,0,0,,False,False,False,,negative
+patient_c37c171d859fe24a,7,9,2022-07-12,2023-06-20,True,False,False,True,343,57.166666666666664,52.5,42.0,84.0,5,2,0,0,7,0,0,0,,False,False,False,,negative
+patient_c78561b4938dbb4c,5,8,2021-11-02,2022-10-25,True,False,False,True,357,89.25,73.5,21.0,189.0,4,1,0,0,5,0,0,0,,False,False,False,,negative
+patient_c85fe67257ac09be,7,12,2022-01-18,2022-10-04,True,False,False,True,259,43.166666666666664,38.5,21.0,91.0,3,4,0,0,7,0,0,0,,False,False,False,,negative
+patient_c9e9f5e0f0aab167,6,21,2022-08-02,2023-09-05,True,False,True,True,399,79.8,35.0,14.0,273.0,4,2,0,0,5,1,0,0,2022-08-02,True,True,False,0.0,AMR>=pAMR1 only
+patient_cafa503bd84738e6,8,8,2022-03-29,2023-03-21,True,False,False,True,357,51.0,49.0,21.0,91.0,5,3,0,0,8,0,0,0,,False,False,False,,negative
+patient_d074d89175786c47,8,19,2022-07-05,2023-06-27,False,False,False,False,357,51.0,49.0,21.0,77.0,8,0,0,0,8,0,0,0,,False,False,False,,negative
+patient_d0ac17aca0bf514d,2,6,2020-06-30,2020-07-21,False,False,True,True,21,21.0,21.0,21.0,21.0,2,0,0,0,0,2,0,0,2020-06-30,True,True,False,0.0,AMR>=pAMR1 only
+patient_d4019523cc8c8335,5,22,2024-02-13,2024-10-17,False,False,False,False,247,61.75,63.0,14.0,107.0,5,0,0,0,5,0,0,0,,False,False,False,,negative
+patient_d48fc489086a470f,6,14,2023-06-28,2024-04-23,True,True,False,True,300,60.0,49.0,20.0,147.0,3,2,1,0,6,0,0,0,2023-11-28,True,False,True,153.0,ACR>=2R only
+patient_d4c07874dec8cc11,4,22,2024-05-07,2025-02-25,True,False,False,True,294,98.0,91.0,77.0,126.0,3,1,0,0,4,0,0,0,,False,False,False,,negative
+patient_d66d976aaae8f399,7,9,2021-08-03,2022-07-12,True,False,False,True,343,57.166666666666664,52.5,14.0,99.0,4,3,0,0,7,0,0,0,,False,False,False,,negative
+patient_d772dd268706e1cf,4,4,2021-08-03,2022-04-19,True,False,False,True,259,86.33333333333333,84.0,63.0,112.0,1,3,0,0,4,0,0,0,,False,False,False,,negative
+patient_d7b8077abb2db045,5,7,2025-04-15,2025-09-30,False,False,False,False,168,42.0,42.0,14.0,70.0,5,0,0,0,5,0,0,0,,False,False,False,,negative
+patient_d82abebcfaf082f8,3,6,2024-01-30,2024-08-06,False,False,False,False,189,94.5,94.5,21.0,168.0,3,0,0,0,3,0,0,0,,False,False,False,,negative
+patient_d8e20f6cc2cd90d6,3,3,2021-03-02,2021-10-05,True,False,False,True,217,108.5,108.5,49.0,168.0,1,2,0,0,3,0,0,0,,False,False,False,,negative
+patient_dd2e6df63e5c36b4,6,12,2023-07-18,2024-07-23,False,False,False,False,371,74.2,35.0,21.0,154.0,6,0,0,0,6,0,0,0,,False,False,False,,negative
+patient_dd7e0e39c92e25b4,7,9,2021-10-12,2022-09-27,True,False,False,True,350,58.333333333333336,45.5,28.0,125.0,3,4,0,0,7,0,0,0,,False,False,False,,negative
+patient_dfafa5c41a0ad944,3,5,2021-07-13,2022-03-08,True,False,False,True,238,119.0,119.0,98.0,140.0,1,2,0,0,3,0,0,0,,False,False,False,,negative
+patient_e21a88b284b1508e,3,9,2024-12-10,2025-01-17,False,False,False,False,38,19.0,19.0,14.0,24.0,3,0,0,0,3,0,0,0,,False,False,False,,negative
+patient_e430ff1077ac4267,6,25,2024-06-26,2025-01-21,False,False,True,True,209,41.8,35.0,27.0,77.0,6,0,0,0,5,1,0,0,2024-12-17,True,False,True,174.0,AMR>=pAMR1 only
+patient_e6981a9104ac664d,7,12,2023-01-31,2024-01-16,True,False,False,True,350,58.333333333333336,63.0,15.0,91.0,4,3,0,0,7,0,0,0,,False,False,False,,negative
+patient_e918692d7c80e65c,4,4,2023-06-28,2023-09-26,False,False,False,False,90,30.0,27.0,20.0,43.0,4,0,0,0,4,0,0,0,,False,False,False,,negative
+patient_e9984333ac68159c,5,11,2022-07-12,2023-03-28,True,False,False,True,259,64.75,52.5,21.0,133.0,2,3,0,0,5,0,0,0,,False,False,False,,negative
+patient_ead6420f83248981,4,15,2024-02-07,2024-04-23,False,False,False,False,76,25.333333333333332,21.0,13.0,42.0,4,0,0,0,4,0,0,0,,False,False,False,,negative
+patient_f02086679c6d7438,3,5,2025-03-11,2025-04-15,False,False,False,False,35,17.5,17.5,14.0,21.0,3,0,0,0,3,0,0,0,,False,False,False,,negative
+patient_f1bc2d6d2b5c3421,6,9,2023-10-17,2024-05-28,True,False,False,True,224,44.8,42.0,21.0,70.0,4,2,0,0,6,0,0,0,,False,False,False,,negative
+patient_f4a709d12cad57f1,6,17,2022-12-06,2023-11-21,True,False,False,True,350,70.0,63.0,14.0,112.0,3,3,0,0,6,0,0,0,,False,False,False,,negative
+patient_f5bca2eea3be8059,2,6,2020-04-21,2020-07-21,True,False,True,True,91,91.0,91.0,91.0,91.0,1,1,0,0,1,0,0,1,2020-04-21,True,True,False,0.0,AMR>=pAMR1 only
+patient_f73f7e4dab64291c,4,7,2024-04-02,2024-08-27,False,False,False,False,147,49.0,49.0,42.0,56.0,4,0,0,0,4,0,0,0,,False,False,False,,negative
+patient_f78d4288245eabd8,5,14,2024-09-03,2025-09-16,False,False,False,False,378,94.5,73.5,21.0,210.0,5,0,0,0,5,0,0,0,,False,False,False,,negative
+patient_f96b1f74a7f01e5a,7,24,2024-01-09,2024-12-17,True,False,True,True,343,57.166666666666664,45.5,14.0,147.0,4,3,0,0,5,2,0,0,2024-01-09,True,True,False,0.0,AMR>=pAMR1 only
+patient_fc51a062525b3f86,3,5,2020-11-03,2021-10-19,True,False,False,True,350,175.0,175.0,91.0,259.0,1,2,0,0,3,0,0,0,,False,False,False,,negative
+patient_fe8ccc87e7ab7c65,7,12,2022-03-02,2023-02-21,True,False,False,True,356,59.333333333333336,56.0,13.0,98.0,3,4,0,0,7,0,0,0,,False,False,False,,negative
+patient_fee157011de45399,7,14,2021-09-28,2022-09-20,True,False,True,True,357,59.5,56.0,42.0,84.0,4,3,0,0,6,0,0,1,2021-09-28,True,True,False,0.0,AMR>=pAMR1 only

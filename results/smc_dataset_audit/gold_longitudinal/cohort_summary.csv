@@ -1,0 +1,13 @@
+metric,value,denominator,definition
+Patients,136.0,136,Unique pseudonymous patients
+Biopsy events,578.0,578,One exact pathology-ID event per row
+Slide bags,1269.0,1269,Multiple stains/slides may belong to one event
+Patients with >=2 events,110.0,136,Patients contributing at least one longitudinal pair
+Patients with 1 event,26.0,136,Not usable for within-patient future targets
+Mean events per patient,4.25,136,"Event-level, not slide-level"
+Median events per patient,4.0,136,"Event-level, not slide-level"
+Mean inter-biopsy interval (days),66.9841628959276,442,All consecutive event pairs
+Median inter-biopsy interval (days),49.0,442,All consecutive event pairs
+Mean observed span among repeated patients (days),269.1545454545454,110,First to last matched biopsy
+Median observed span among repeated patients (days),304.0,110,First to last matched biopsy
+Consecutive event pairs,442.0,442,Correlated within 110 patients

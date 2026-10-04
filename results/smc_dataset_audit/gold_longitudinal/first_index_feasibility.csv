@@ -1,0 +1,5 @@
+target,patients_with_next_biopsy,next_event_positive,next_event_positive_fraction,baseline_negative_patients,incident_next_event_positive,incident_next_event_fraction,median_days_to_next,min_days_to_next,max_days_to_next
+acr_positive,110,40,0.36363636363636365,79,24,0.3037974683544304,21.0,7.0,455.0
+acr_high_grade,110,2,0.01818181818181818,109,2,0.01834862385321101,21.0,7.0,455.0
+amr_positive,110,6,0.05454545454545454,103,3,0.02912621359223301,21.0,7.0,455.0
+any_rejection,110,43,0.39090909090909093,72,20,0.2777777777777778,21.0,7.0,455.0

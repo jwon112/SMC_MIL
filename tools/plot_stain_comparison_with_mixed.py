@@ -11,8 +11,8 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULT_DIR = ROOT / "results" / "smc_cv_comparison"
-MIXED_CSV = RESULT_DIR / "averaged_summary (3).csv"
-STAIN_CSV = RESULT_DIR / "averaged_summary (4).csv"
+MIXED_CSV = RESULT_DIR / "weakunique3_partial" / "averaged_summary.csv"
+STAIN_CSV = ROOT / "results" / "smc_stain_comparison" / "averaged_summary.csv"
 OUTPUT_CSV = RESULT_DIR / "stain_comparison_with_unfiltered_mixed.csv"
 OUTPUT_PNG = RESULT_DIR / "stain_comparison_with_unfiltered_mixed.png"
 

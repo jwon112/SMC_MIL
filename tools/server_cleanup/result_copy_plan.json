@@ -1,0 +1,276 @@
+{
+  "version": 1,
+  "reviewed_against_commit": "801c5db",
+  "files": [
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/all_results_master.csv",
+      "target": "results/smc_all_results/all_results_master.csv",
+      "source_sha256": "f8a000f02cd633cd6d5428d41b4963ad267cbc4f23afec0fc62c23b7276195b1",
+      "rows": 479,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/averaged_summary (2).csv",
+      "target": "results/smc_cv_standard3_comparison/averaged_summary.csv",
+      "source_sha256": "1bed30b0edccefbf931c305d70c830a70eb953a4e96df2c3a54fcce125444633",
+      "rows": 16,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/averaged_summary (3).csv",
+      "target": "results/smc_cv_comparison/weakunique3_partial/averaged_summary.csv",
+      "source_sha256": "b2f320e1dace19908ce82ab14a8a885d45c3d6327ccce0535376f7b993071ca5",
+      "rows": 16,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/averaged_summary (4).csv",
+      "target": "results/smc_stain_comparison/averaged_summary.csv",
+      "source_sha256": "0a632f44e29a8c9e6d3d27d5dc90e1cc8ca5dcaa6a7646c6b59b4c185407953f",
+      "rows": 48,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/averaged_summary.csv",
+      "target": "results_old2/smc_cv_comparison/averaged_summary.csv",
+      "source_sha256": "d920c71db600be8698cf6b24f5149b8f761309623f33be6445f4c706b198b261",
+      "rows": 16,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/combined_summary.csv",
+      "target": "results_old2/smc_cv_comparison/combined_summary.csv",
+      "source_sha256": "666fef28d937dedebd30d99b7428c95b22122ed81c8bc25e6f9d66208f611378",
+      "rows": 48,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/gse290577_external/combined_external_summary.csv",
+      "target": "results/gse290577_external/weakunique3/combined_external_summary.csv",
+      "source_sha256": "a80063de007c56a1a1e285e5fcf11bc448f319699533af571eff60e7c2f0b9a8",
+      "rows": 20,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/gse290577_external/event_stain_gold5x5/acr_high/external_summary.csv",
+      "target": "results/gse290577_external/event_stain_gold5x5/acr_high/external_summary.csv",
+      "source_sha256": "629a80ef5cbca9c745fbb0bddb9bb3a8dd5c455f85375472a12a9295f6de8889",
+      "rows": 2,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/gse290577_external/event_stain_gold5x5/amr_positive/external_summary.csv",
+      "target": "results/gse290577_external/event_stain_gold5x5/amr_positive/external_summary.csv",
+      "source_sha256": "0bad4c0365b9c188279986d3d9db17cb7bcf6646b264757c95abeff2f923743f",
+      "rows": 2,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/gse290577_external/event_stain_gold5x5/significant_rejection/external_summary.csv",
+      "target": "results/gse290577_external/event_stain_gold5x5/significant_rejection/external_summary.csv",
+      "source_sha256": "448ab624ca8944e11c416ac97b1f5c043753ea29ccf161569b0a474857fdd27b",
+      "rows": 2,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/repeated cv/paired_scale_differences.csv",
+      "target": "results/smc_repeated_cv_summary/paired_scale_differences.csv",
+      "source_sha256": "446340b856bb68116b24a61291f7466d17d51a70df68f485c70e09e1a6ea4dc9",
+      "rows": 54,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/repeated cv/per_seed_oof_metrics.csv",
+      "target": "results/smc_repeated_cv_summary/per_seed_oof_metrics.csv",
+      "source_sha256": "cdef82557ae521ee29e9ea5ca0f0ce83141c96adab3ad47bc776e6bef5079646",
+      "rows": 60,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/repeated cv/repeated_cv_summary.csv",
+      "target": "results/smc_repeated_cv_summary/repeated_cv_summary.csv",
+      "source_sha256": "517a22a81b64fa3c0249eed1e0a3f21c9928bc7bf082834f70fffb564ec31118",
+      "rows": 12,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/smc_event_stain_summary/acr_high_seed_ensemble_oof.csv",
+      "target": "results/smc_event_stain_summary/acr_high_seed_ensemble_oof.csv",
+      "source_sha256": "f12e83d129710c2f3b5b0ad0d0c3a4572f0dc063946e8d4c97e1ca6f15157aa7",
+      "rows": 578,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/smc_event_stain_summary/amr_positive_seed_ensemble_oof.csv",
+      "target": "results/smc_event_stain_summary/amr_positive_seed_ensemble_oof.csv",
+      "source_sha256": "554ee4c152c0a329bf5e239fa1afffb3231666db18cb7ffad7a3814b4dcfef03",
+      "rows": 578,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/smc_event_stain_summary/per_seed_oof_metrics.csv",
+      "target": "results/smc_event_stain_summary/per_seed_oof_metrics.csv",
+      "source_sha256": "7886e7b0f74967aee21254246c7e5378715354aa16d7062198ab9019d0d5467e",
+      "rows": 15,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/smc_event_stain_summary/repeated_seed_ensemble_summary.csv",
+      "target": "results/smc_event_stain_summary/repeated_seed_ensemble_summary.csv",
+      "source_sha256": "c836df6e53f4bc5ba3df93b92c5d7382b704a287a889500daba70f71d2c91b60",
+      "rows": 3,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/smc_event_stain_summary/significant_rejection_seed_ensemble_oof.csv",
+      "target": "results/smc_event_stain_summary/significant_rejection_seed_ensemble_oof.csv",
+      "source_sha256": "0caff2980d74bd1b2a488c4a0e075c84b8489a8cb0ceefece0069b8a1bd0fd3b",
+      "rows": 578,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/smc_future_pair_summary/combined_horizon_metrics.csv",
+      "target": "results/smc_future_pair_summary/combined_horizon_metrics.csv",
+      "source_sha256": "41c5f032cca546c9f109b2b5ba91ffae4d835d0d5b5da9a03e2dacb73573f3b0",
+      "rows": 48,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/smc_future_pair_summary/combined_pooled_metrics.csv",
+      "target": "results/smc_future_pair_summary/combined_pooled_metrics.csv",
+      "source_sha256": "d3361983ec63293db0f5ebe2624540cfb29112b818cb7b3a9d855e8ba85e37fc",
+      "rows": 24,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/smc_prediction_ensembles/ensemble_size/ensemble_size_summary.csv",
+      "target": "results/smc_prediction_ensembles/ensemble_size/ensemble_size_summary.csv",
+      "source_sha256": "b19c6fcaa2e872811ede676e1cdd01735d2a999407662cd2a6dbdacdc8dde4a3",
+      "rows": 330,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/smc_prediction_ensembles/ensemble_size/five_seed_gain_summary.csv",
+      "target": "results/smc_prediction_ensembles/ensemble_size/five_seed_gain_summary.csv",
+      "source_sha256": "72b0330936b8e128a57651a42c7ecfe443237610be989f4dc89225a21f474b5e",
+      "rows": 66,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/smc_prediction_ensembles/multiscale_gain_vs_40x.csv",
+      "target": "results/smc_prediction_ensembles/multiscale_gain_vs_40x.csv",
+      "source_sha256": "ffa60b2800af09d7a21a880e59724e7cf800cc375ad10950f3fd475d0b4913eb",
+      "rows": 27,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/smc_prediction_ensembles/multiscale_per_seed_summary.csv",
+      "target": "results/smc_prediction_ensembles/multiscale_per_seed_summary.csv",
+      "source_sha256": "d650899fe0bb4740e1b048199b3b75449fd1414972c306f021983f4e6480a466",
+      "rows": 27,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/smc_prediction_ensembles/seed_ensemble_gain.csv",
+      "target": "results/smc_prediction_ensembles/seed_ensemble_gain.csv",
+      "source_sha256": "2b5b000d2785c6b9ae23a073ecde1c83c193c481c8df2122f60e226e2c456be7",
+      "rows": 39,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/smc_prediction_ensembles/threshold_calibration/primary_candidate_external_transfer.csv",
+      "target": "results/smc_prediction_ensembles/threshold_calibration/primary_candidate_external_transfer.csv",
+      "source_sha256": "9b1618fdcfa3acfe303286829091214409f13b22b7e2616604ac60d90f2eb003",
+      "rows": 32,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "deduplicate_csv",
+      "source": "results/smc_cv_comparison/smc_prediction_ensembles/threshold_calibration/primary_candidate_thresholds.csv",
+      "target": "results/smc_prediction_ensembles/threshold_calibration/primary_candidate_thresholds.csv",
+      "source_sha256": "a060b8b653f8184951f3662a71693edc5067d400a37fedf20293843d7f4efbb6",
+      "rows": 12,
+      "same_row_order": true,
+      "evidence": "Identical column order and every cell value, including duplicate-row counts."
+    },
+    {
+      "action": "rename",
+      "source": "results/smc_cv_comparison/averaged_summary (1).csv",
+      "target": "results/smc_cv_fulltrain100cosine_comparison/averaged_summary.csv",
+      "source_sha256": "066699ff2a1eb9744cb2d341e38c657aedd32004f4c7e9e47656b0468d3e78a5",
+      "evidence": "Retain distinct historical protocol; descriptive location matches experiment names/content."
+    },
+    {
+      "action": "rename",
+      "source": "results/smc_cv_comparison/baseline_experiment_summary.md",
+      "target": "results_old2/smc_cv_comparison/baseline_experiment_summary.md",
+      "source_sha256": "2ece24d16adce1416ac9578c020ead22caeab01cd8f82b62c133b5de92562c0c",
+      "evidence": "Retain distinct historical protocol; descriptive location matches experiment names/content."
+    }
+  ],
+  "summary": {
+    "files_compared": 4557,
+    "local_only": 49,
+    "redundant_local_csv": 27,
+    "unique_local_artifacts": 22,
+    "renamed_unique_artifacts": 2,
+    "exact_duplicate_groups_reviewed": 283
+  },
+  "retained": [
+    "Experiment split/config copies: identical bytes across folds, seeds or magnifications are not sufficient evidence of a redundant experiment.",
+    "he_aug_int64_backup.aGq9UT: input_sha256 for smc_he_aug.py differs from the active he_aug_inputs configuration.",
+    "Server-only PKL/NPZ/checkpoints not compared; split_*_results.pkl are prediction outputs required by legacy metric readers."
+  ]
+}

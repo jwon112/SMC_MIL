@@ -61,6 +61,48 @@ SHA-256을 검사합니다. 이름에 fast/v2가 붙어도 이전 모듈을 대�
 `cohorts/he_manual_acr_v1/technical_train_slides_*.txt` 등은 기존 연구 입력입니다.
 서버 선별의 HOLD는 미사용/삭제 대상이라는 뜻이 아닙니다.
 
+## 결과 복사본 통합 (2026-10-04)
+
+서버 결과 커밋 `801c5db`를 받은 뒤 결과 파일 4,557개를 대조했습니다.
+로컬 전용 파일 49개 중 CSV 27개는 대표 파일과 열 순서, 모든 셀 값, 행 순서,
+중복 행 수까지 일치했습니다. 인코딩/BOM·줄바꿈 차이는 내용 차이로 보지 않았습니다.
+해당 복사본은 작업 폴더에서 빼고 `.server_result_sync/consolidation_20261004/copies/`에
+원본 그대로 보관했습니다. [파일별 대응표](../tools/server_cleanup/result_copy_plan.json)에
+이전 경로·대표 경로·원본 SHA-256·행 수가 기록되어 있습니다.
+
+| 자료 | 사용할 대표 위치 | 정리한 로컬 복사본 수 |
+|---|---|---:|
+| 통합 성능표·과거 protocol별 요약 | `smc_all_results/`, `smc_cv_standard3_comparison/`, `smc_stain_comparison/`, `smc_cv_comparison/weakunique3_partial/`, `results_old2/smc_cv_comparison/` | 6 |
+| 외부 검증 | `results/gse290577_external/` | 4 |
+| 반복 CV | `results/smc_repeated_cv_summary/` | 3 |
+| 기존 gold event 결과 | `results/smc_event_stain_summary/` | 5 |
+| 미래 예측 pair 결과 | `results/smc_future_pair_summary/` | 2 |
+| 앙상블·임계값 비교 | `results/smc_prediction_ensembles/` | 7 |
+
+첫 행의 `smc_*` 경로는 `results/` 아래입니다. 기존 gold event 결과는 578 events를
+사용한 이력이며, 현재 575-event provisional 결과와 합쳐 덮어쓰지 않습니다.
+
+중복이 아닌 로컬 자료 22개(그림 11개, CSV 10개, 설명 문서 1개)는 Git 공유에
+포함했습니다. 그중 이름만으로 구별하기 어려웠던 자료 두 개는 다음처럼 정리했습니다.
+
+- `averaged_summary (1).csv` → `results/smc_cv_fulltrain100cosine_comparison/averaged_summary.csv`:
+  16개 nested3 fulltrain100cosine 실험 요약.
+- `baseline_experiment_summary.md` → `results_old2/smc_cv_comparison/baseline_experiment_summary.md`:
+  초기 nested3 early-stopping 실험 설명. 해당 폴더의 성능표와 함께 보존.
+
+`tools/plot_stain_comparison_with_mixed.py`는 `(3)`, `(4)` 복사본 대신 대표 CSV를
+읽습니다. 변경 전후 생성한 비교표 8행의 SHA-256이 일치했습니다.
+복사본 정리 도구의 테스트 3개는 동일 셀/줄바꿈 차이, 중복 행 수 불일치 차단,
+이름 변경 충돌 및 원본 보존을 검사합니다.
+
+바이트가 같은 파일 그룹 283개도 발견했지만, 서로 다른 배율·seed 실험에 보관된
+동일 split/config는 실험 재현의 근거이므로 일괄 제거하지 않았습니다.
+`he_aug_int64_backup.aGq9UT`의 JSON은 현재 `he_aug_inputs` JSON과
+`smc_he_aug.py`의 입력 코드 해시가 달라 복구 이력으로 유지했습니다.
+서버에서 제외된 PKL/NPZ/가중치와 진행 중인 두 대조실험은 이번 내용 비교 범위에
+포함되지 않습니다. 특히 `split_*_results.pkl`은 기존 집계 코드가 읽는 예측 출력으로,
+불필요한 가중치 파일로 분류하면 안 됩니다.
+
 ## Core pipeline
 
 - [`dicom_feature_pipeline.md`](dicom_feature_pipeline.md): DICOM manifests,

@@ -1,0 +1,31 @@
+section,category,count,denominator,fraction
+Events per patient,1,26,136,0.19117647058823528
+Events per patient,2,13,136,0.09558823529411764
+Events per patient,3,17,136,0.125
+Events per patient,4,16,136,0.11764705882352941
+Events per patient,5,17,136,0.125
+Events per patient,6,18,136,0.1323529411764706
+Events per patient,7,17,136,0.125
+Events per patient,8,9,136,0.0661764705882353
+Events per patient,9,3,136,0.022058823529411766
+Inter-biopsy interval,1-30 days,121,442,0.2737556561085973
+Inter-biopsy interval,31-90 days,215,442,0.48642533936651583
+Inter-biopsy interval,91-180 days,81,442,0.1832579185520362
+Inter-biopsy interval,181-365 days,21,442,0.04751131221719457
+Inter-biopsy interval,>365 days,4,442,0.00904977375565611
+ACR event grade,0R,409,578,0.7076124567474048
+Patients ever ACR grade,0R,124,136,0.9117647058823529
+ACR event grade,1R,152,578,0.2629757785467128
+Patients ever ACR grade,1R,75,136,0.5514705882352942
+ACR event grade,2R,17,578,0.029411764705882353
+Patients ever ACR grade,2R,14,136,0.10294117647058823
+ACR event grade,3R,0,578,0.0
+Patients ever ACR grade,3R,0,136,0.0
+AMR event grade,pAMR0,559,578,0.967128027681661
+Patients ever AMR grade,pAMR0,134,136,0.9852941176470589
+AMR event grade,pAMR1,14,578,0.02422145328719723
+Patients ever AMR grade,pAMR1,10,136,0.07352941176470588
+AMR event grade,pAMR1(I+),0,578,0.0
+Patients ever AMR grade,pAMR1(I+),0,136,0.0
+AMR event grade,pAMR2,5,578,0.00865051903114187
+Patients ever AMR grade,pAMR2,5,136,0.03676470588235294
