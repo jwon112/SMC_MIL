@@ -24,6 +24,7 @@ def main():
     p.add_argument('--results-root', type=Path, default=PROJECT/'results/smc_event_patch_control_20261004_exclude25')
     p.add_argument('--seeds', nargs='+', type=int, default=[1, 11, 21, 31, 41])
     p.add_argument('--conditions', nargs='+', choices=['cap2048', 'cap4096'], default=['cap2048', 'cap4096'])
+    p.add_argument('--threshold', type=float, default=.5, help='Fixed threshold for summary metrics; choose independently of held-out OOF labels')
     args = p.parse_args()
     task = args.manifest_root.resolve()/'acr_high'
     features = args.feature_dir.resolve()
@@ -104,16 +105,16 @@ def main():
             if len(hashes)!=5:raise ValueError('Incomplete initialization hashes')
             if seed in initializations and initializations[seed]!=hashes:raise ValueError('Paired initializations differ')
             initializations[seed]=hashes
-            per_seed.append({'condition':condition,'seed':seed,**metrics(f,.5)})
+            per_seed.append({'condition':condition,'seed':seed,**metrics(f,args.threshold)})
             f['seed']=seed;frames.append(f)
         merged=pd.concat(frames)
         ensemble=merged.groupby('event_id',as_index=False).agg(case_id=('case_id','first'),label=('label','first'),probability=('probability','mean'))
         ensemble.to_csv(output/f'{condition}_ensemble_oof.csv',index=False)
-        ensembles.append({'condition':condition,**metrics(ensemble,.5)})
+        ensembles.append({'condition':condition,**metrics(ensemble,args.threshold)})
     pd.DataFrame(per_seed).to_csv(output/'per_seed_metrics.csv',index=False)
     pd.DataFrame(ensembles).to_csv(output/'ensemble_summary.csv',index=False)
     print(pd.DataFrame(ensembles).to_string(index=False))
-    print(pd.DataFrame(per_seed).groupby('condition')[['auroc','pr_auc']].agg(['mean','std']).to_string())
+    print(pd.DataFrame(per_seed).groupby('condition')[['auroc','pr_auc','precision','f1','mcc','sensitivity','specificity','balanced_accuracy']].agg(['mean','std']).to_string())
 
 
 if __name__=='__main__':main()
