@@ -71,9 +71,9 @@ Thumbs.db
 !splits/**/*.csv
 !heatmaps/process_lists/*.csv
 
-# Local research knowledge workspace. Notes, literature records, source PDFs,
-# extracted text, and the repository-local literature skill stay off Git.
-/experiment_notes/
+# Share curated Markdown research notes; literature and extraction assets stay local.
+/experiment_notes/*
+!/experiment_notes/*.md
 /reference/
 /.agents/skills/smc-literature-research/
 

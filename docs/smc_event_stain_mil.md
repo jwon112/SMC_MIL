@@ -109,6 +109,18 @@ manifest counts. Final comparisons should restrict both full and excluded
 predictions to their common event IDs, because a raw metric difference would
 otherwise mix model sensitivity with a changed evaluation population.
 
+## Completed-control reanalysis (2026-10-05)
+
+Completed OOF predictions and historical event/slide runs were re-evaluated with
+positive F1, precision, MCC, F2, NPV, Brier/log loss and paired patient-cluster
+intervals. See the [dated research note](../experiment_notes/2026-10-05-event-controls-multimetric-reanalysis.md)
+and `results/smc_metric_review_20261005/`. Run `python tools/reanalyze_smc_event_controls.py`
+and `python tools/plot_smc_metric_review.py` to reproduce the review.
+Patch 4096 improved ensemble AP but reduced AP in four of five paired seeds;
+mask removal did not consistently improve the matched architecture comparison.
+Retain 2048 as the reference cap and defer a final mask decision. Intervals hold
+fitted OOF predictions fixed and exclude retraining/model-selection uncertainty.
+
 ## Evaluation metrics (2026-10-05)
 
 The event and patch-control summaries report positive-class `f1`, `precision`,
