@@ -109,6 +109,25 @@ manifest counts. Final comparisons should restrict both full and excluded
 predictions to their common event IDs, because a raw metric difference would
 otherwise mix model sensitivity with a changed evaluation population.
 
+## Evaluation metrics (2026-10-05)
+
+The event and patch-control summaries report positive-class `f1`, `precision`,
+`mcc`, `tp`, `fp`, `tn`, `fn`, and the prediction `threshold`, alongside AUROC,
+PR-AUC (average precision), sensitivity, specificity and balanced accuracy.
+The default threshold remains 0.5. Presence summaries include per-seed mean/std
+for precision, F1 and MCC; patch summaries include these in per_seed_metrics.csv
+and ensemble_summary.csv and the printed mean/std table.
+F1 is `2*TP/(2*TP+FP+FN)`. It describes the positive class, not a weighted
+average dominated by negative events. Precision is NaN when no events are
+predicted positive; F1 is zero if actual positives are all missed.
+These threshold-dependent metrics complement PR-AUC; they do not replace it.
+Do not select a threshold by maximizing F1 on held-out OOF labels and then
+report that optimized value as unbiased evaluation. Choose a threshold using
+training/inner validation data or a prespecified operating rule.
+With 14 positive events, one additional detected positive changes sensitivity
+by 1/14. Report confusion counts and paired seed results when comparing models.
+Existing OOF files can be summarized again; no model retraining is needed.
+
 ## Same-architecture presence-mask control (2026-10-04)
 
 `aware_zero_mask` retains the exact aware architecture, including three mask

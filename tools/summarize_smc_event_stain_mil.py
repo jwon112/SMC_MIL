@@ -5,7 +5,7 @@ import argparse
 from pathlib import Path
 import numpy as np
 import pandas as pd
-from sklearn.metrics import average_precision_score, confusion_matrix, roc_auc_score, roc_curve
+from sklearn.metrics import average_precision_score, confusion_matrix, matthews_corrcoef, roc_auc_score, roc_curve
 
 TASKS = ("acr_high", "amr_positive", "significant_rejection")
 SCALES = {
@@ -21,9 +21,24 @@ def sensitivity_at_specificity(y: np.ndarray, p: np.ndarray, target: float) -> f
     eligible = tpr[(1.0 - fpr) >= target]
     return float(eligible.max()) if len(eligible) else float("nan")
 def metrics(frame: pd.DataFrame, threshold: float) -> dict[str,float|int]:
-    y=frame.label.to_numpy(int); p=frame.probability.to_numpy(float); tn,fp,fn,tp=confusion_matrix(y,p>=threshold,labels=[0,1]).ravel()
+    y=frame.label.to_numpy(int); p=frame.probability.to_numpy(float); prediction=p>=threshold
+    tn,fp,fn,tp=map(int,confusion_matrix(y,prediction,labels=[0,1]).ravel())
     prevalence=float(y.mean()); pr_auc=float(average_precision_score(y,p))
-    return {"events":len(y),"positive_events":int(y.sum()),"prevalence":prevalence,"auroc":float(roc_auc_score(y,p)),"pr_auc":pr_auc,"pr_auc_lift":float(pr_auc/prevalence) if prevalence else float("nan"),"sensitivity":float(tp/(tp+fn)) if tp+fn else float("nan"),"specificity":float(tn/(tn+fp)) if tn+fp else float("nan"),"balanced_accuracy":float(((tp/(tp+fn))+(tn/(tn+fp)))/2) if tp+fn and tn+fp else float("nan"),"sensitivity_at_specificity_90":sensitivity_at_specificity(y,p,.90),"sensitivity_at_specificity_95":sensitivity_at_specificity(y,p,.95)}
+    return {
+        "events":len(y),"positive_events":int(y.sum()),"prevalence":prevalence,
+        "auroc":float(roc_auc_score(y,p)),"pr_auc":pr_auc,
+        "pr_auc_lift":float(pr_auc/prevalence) if prevalence else float("nan"),
+        "threshold":threshold,"tp":tp,"fp":fp,"tn":tn,"fn":fn,
+        "precision":float(tp/(tp+fp)) if tp+fp else float("nan"),
+        # Positive-class F1, calculated from counts even when precision is undefined.
+        "f1":float(2*tp/(2*tp+fp+fn)) if 2*tp+fp+fn else float("nan"),
+        "mcc":float(matthews_corrcoef(y,prediction)),
+        "sensitivity":float(tp/(tp+fn)) if tp+fn else float("nan"),
+        "specificity":float(tn/(tn+fp)) if tn+fp else float("nan"),
+        "balanced_accuracy":float(((tp/(tp+fn))+(tn/(tn+fp)))/2) if tp+fn and tn+fp else float("nan"),
+        "sensitivity_at_specificity_90":sensitivity_at_specificity(y,p,.90),
+        "sensitivity_at_specificity_95":sensitivity_at_specificity(y,p,.95),
+    }
 def result_path(root: Path, task: str, scale: str, mode: str, seed: int) -> Path:
     suffix="" if mode == "aware" else f"_{mode}"
     current = root/f"{task}_{SCALES[scale]}{suffix}_seed{seed}"/"oof_predictions.csv"
@@ -52,7 +67,7 @@ def main() -> int:
                 if not ensemble.seed_predictions.eq(len(args.seeds)).all(): raise ValueError(f"{task}/{scale}/{mode}: incomplete seed coverage")
                 ensemble["prediction"]=(ensemble.probability>=args.threshold).astype(int); ensemble.to_csv(args.output_dir/f"{task}_{scale}_{mode}_seed_ensemble_oof.csv",index=False)
                 seed_frame=pd.DataFrame([x for x in per_seed if x["task"]==task and x["scale"]==scale and x["mode"]==mode]); row={"task":task,"scale":scale,"mode":mode,"seeds":len(args.seeds),**metrics(ensemble,args.threshold)}
-                for col in ("auroc","pr_auc","pr_auc_lift","sensitivity","specificity","balanced_accuracy","sensitivity_at_specificity_90","sensitivity_at_specificity_95"): row[f"seed_mean_{col}"]=float(seed_frame[col].mean()); row[f"seed_std_{col}"]=float(seed_frame[col].std(ddof=1))
+                for col in ("auroc","pr_auc","pr_auc_lift","precision","f1","mcc","sensitivity","specificity","balanced_accuracy","sensitivity_at_specificity_90","sensitivity_at_specificity_95"): row[f"seed_mean_{col}"]=float(seed_frame[col].mean()); row[f"seed_std_{col}"]=float(seed_frame[col].std(ddof=1))
                 final.append(row)
     pd.DataFrame(per_seed).to_csv(args.output_dir/"per_seed_oof_metrics.csv",index=False); summary=pd.DataFrame(final); summary.to_csv(args.output_dir/"repeated_seed_ensemble_summary.csv",index=False); print(summary.to_string(index=False)); return 0
 if __name__=="__main__": raise SystemExit(main())
