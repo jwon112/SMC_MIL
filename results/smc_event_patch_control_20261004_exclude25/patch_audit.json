@@ -1,0 +1,12 @@
+{
+  "events": 575,
+  "positive_events": 14,
+  "slides": 1262,
+  "affected_slides": 1123,
+  "affected_events": 530,
+  "affected_positive_events": 14,
+  "positive_patients": 11,
+  "validation_cap": 2048,
+  "stain_mode": "aware_nomask",
+  "scope": "Training patch cap only; not new patient diversity or pixel augmentation."
+}

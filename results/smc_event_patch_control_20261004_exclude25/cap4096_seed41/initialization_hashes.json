@@ -1,0 +1,27 @@
+[
+  {
+    "fold": 0,
+    "seed": 41,
+    "sha256": "446125e61fdd5bd20e85d40b0bfa86353653a00e7b0119c5d09ec2c882eb3f47"
+  },
+  {
+    "fold": 1,
+    "seed": 100044,
+    "sha256": "5d2b03d9b536d7d5ca862a27dc66a4549b8875a9559eed04f56e7459680195ff"
+  },
+  {
+    "fold": 2,
+    "seed": 200047,
+    "sha256": "11729dd0f0a304ba630622c328257fe35d6b9f096f53ef09731075013c0b82c8"
+  },
+  {
+    "fold": 3,
+    "seed": 300050,
+    "sha256": "d296986bf9116ba456217e320f26618e638130df74de6462aca5cacefef28fff"
+  },
+  {
+    "fold": 4,
+    "seed": 400053,
+    "sha256": "7b41965bab62e71557b373b598ba080a34dd8d2eb70bcad7597850e8ab423638"
+  }
+]
