@@ -173,3 +173,22 @@ python tools/summarize_smc_event_stain_mil.py \
   --tasks acr_high --scales 40x --modes aware aware_zero_mask \
   --seeds 1 11 21 31 41
 ```
+
+## Nested threshold control (2026-10-05)
+
+Run `python tools/run_smc_threshold_control.py --action audit`, then `--action run --gpu 1`.
+The new control keeps the observed mask and patch cap 2048. Within each outer
+training set, three patient-grouped calibration folds each have a separate
+early-stopping patient subset. Inner cross-fitted scores select F1/F2 thresholds;
+the median inner best epoch fixes the full outer-training refit duration.
+Outer patients select neither checkpoints nor thresholds. Fixed 0.5, inner F1,
+and inner F2 use identical outer predictions. F2 is the prespecified primary
+comparison, with extra false positives reported alongside recovered positives.
+
+Five seeds require 100 model fits. Completed outer folds support resume; changed
+inputs or code require a new result root. Existing outer-validation-selected
+checkpoints are not used for this experiment. Results contain paired seed deltas,
+fold-specific thresholds and changed calls; no pooled cutoff is fitted to outer OOF.
+
+Execution and interpretation details:
+[threshold control research plan](../experiment_notes/2026-10-05-nested-threshold-control-plan.md).
