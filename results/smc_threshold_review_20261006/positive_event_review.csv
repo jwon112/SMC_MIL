@@ -1,0 +1,15 @@
+event_id,case_id,fixed_0p5_detected_seeds,inner_f1_detected_seeds,inner_f2_detected_seeds,f2_rescue_seeds,f2_lost_seeds
+S1818746,patient_0e0a62c163c44d2b,5,5,5,0,0
+S1940316,patient_7ff6d1678a27a551,5,5,5,0,0
+S1952033,patient_bcb7482156d628d4,0,1,3,3,0
+S2026719,patient_c3e63af2007e7042,1,1,1,0,0
+S2128633,patient_895c9f3c4b1870d6,0,0,1,1,0
+S2134277,patient_31c1f5ecc6982b2b,4,3,5,1,0
+S2134279,patient_895c9f3c4b1870d6,0,0,2,2,0
+S2148221,patient_895c9f3c4b1870d6,0,0,0,0,0
+S2210209,patient_69d6941869afda05,0,0,1,1,0
+S2235319,patient_4a9f4346155f3b62,4,4,5,1,0
+S2247860,patient_228507d0242d624c,2,2,3,1,0
+S2318956,patient_2c0945e38263a664,2,1,3,1,0
+S2320993,patient_228507d0242d624c,1,2,3,2,0
+S2350730,patient_d48fc489086a470f,4,3,5,1,0

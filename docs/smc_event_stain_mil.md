@@ -192,3 +192,14 @@ fold-specific thresholds and changed calls; no pooled cutoff is fitted to outer 
 
 Execution and interpretation details:
 [threshold control research plan](../experiment_notes/2026-10-05-nested-threshold-control-plan.md).
+
+Completed results (2026-10-06): inner F2 recovered an additional 1–4 positive
+events in every seed, but added 13–86 false positives. Mean sensitivity rose
+from 0.40 to 0.60; mean precision fell from 0.196 to 0.137. Inner F1 showed no
+consistent improvement. Neither tuned rule is adopted as the default.
+Refit epochs ranged from 1 to 29 (median 3); 20/25 fits used at most four epochs.
+Earlier outer-validation-selected checkpoint metrics and the new nested/refit
+metrics describe different selection procedures. Their difference cannot be
+attributed to cutoff tuning. See the
+[verified result note](../experiment_notes/2026-10-06-nested-threshold-control-results.md)
+for patient review tables, conditional uncertainty and proposed duration control.

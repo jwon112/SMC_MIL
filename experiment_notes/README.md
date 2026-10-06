@@ -29,6 +29,7 @@ literature store.
 
 ## Recent records
 
+- [2026-10-06: nested threshold control results and decisions](2026-10-06-nested-threshold-control-results.md)
 - [2026-10-05: nested patient-grouped threshold control plan](2026-10-05-nested-threshold-control-plan.md)
 - [2026-10-05: event controls and historical experiments, multimetric reanalysis](2026-10-05-event-controls-multimetric-reanalysis.md)
 
