@@ -203,3 +203,20 @@ metrics describe different selection procedures. Their difference cannot be
 attributed to cutoff tuning. See the
 [verified result note](../experiment_notes/2026-10-06-nested-threshold-control-results.md)
 for patient review tables, conditional uncertainty and proposed duration control.
+
+## Imbalance sampling/loss control (2026-10-06)
+
+The follow-up selected with the user compares inverse-frequency sampling plus
+plain CE, natural sampling plus plain CE, and natural sampling plus class-weighted
+CE. It does not execute the proposed duration control. Separate stopping patients
+are shared across the three conditions; outer patients do not select checkpoints.
+Observed masks, patch cap 2048, architecture and initial parameter hashes are paired.
+Cutoff stays at 0.5, and checkpoints are evaluated without an outer-training refit.
+
+Run `python tools/run_smc_imbalance_control.py --action audit`, then
+`--action run --gpu 1`. Five seeds require 75 fits. Summaries compare per-seed AP,
+AUROC and confusion-count/precision/recall/F1/F2/MCC metrics. Weighted CE uses
+unreduced loss times N_fit/(2*N_fit_class), averaged over samples, because the
+default weighted-mean CE cancels class weights at batch size one. Actual sampling
+draws are recorded for exposure audits. See the
+[imbalance control plan](../experiment_notes/2026-10-06-imbalance-handling-control-plan.md).
