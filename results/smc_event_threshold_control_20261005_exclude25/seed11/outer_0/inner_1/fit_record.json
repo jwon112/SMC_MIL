@@ -1,0 +1,5 @@
+{
+  "seed": 2029,
+  "selected_epoch": 8,
+  "selection": "stopping_loss"
+}

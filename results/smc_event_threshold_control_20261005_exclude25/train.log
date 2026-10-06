@@ -1,0 +1,1298 @@
+nohup: ignoring input
+[RUN] seed=1 outer=0 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.6454918395461244, 'stop_loss': 0.7218879276797885}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.4118977263102652, 'stop_loss': 0.3154245039045308}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.06830471644890668, 'stop_loss': 0.09861606815781078}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.0970957196280759, 'stop_loss': 0.1750634007562331}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.02565806213788479, 'stop_loss': 0.09783059203033868}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.05495658896525017, 'stop_loss': 0.17864249138009716}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.04390058370391528, 'stop_loss': 0.15245507242364875}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.003552651794389672, 'stop_loss': 0.13939410535490168}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.13828561974029732, 'stop_loss': 0.1101588177953442}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.043019864951088754, 'stop_loss': 0.20075894570482497}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.044307965622509854, 'stop_loss': 0.11430528243844316}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.02975265993564393, 'stop_loss': 0.13556229506499273}
+[EPOCH] inner_0 {'epoch': 13, 'train_loss': 0.0024457311685656445, 'stop_loss': 0.11541472070088986}
+[EPOCH] inner_0 {'epoch': 14, 'train_loss': 0.0011763368244831522, 'stop_loss': 0.119737754124055}
+[EPOCH] inner_0 {'epoch': 15, 'train_loss': 0.0005257758194174056, 'stop_loss': 0.1065535630694517}
+[RUN] seed=1 outer=0 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.49305323748057894, 'stop_loss': 0.18212201388277968}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.3320189851988199, 'stop_loss': 0.18410443322977327}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.07954232377736262, 'stop_loss': 0.11944928528965483}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.04704831050706337, 'stop_loss': 0.12556838626247166}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.0037958312538961254, 'stop_loss': 0.14685594596603999}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.04292448243174161, 'stop_loss': 0.14975304300151784}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.032552292340364636, 'stop_loss': 0.14679080812722575}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.0018717176472955218, 'stop_loss': 0.15635843388099788}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.057167885029759405, 'stop_loss': 0.13902012286938562}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.004400204926420304, 'stop_loss': 0.13247932460319403}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.01086704099096195, 'stop_loss': 0.14455911576283237}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.000651930322252764, 'stop_loss': 0.15141496958727232}
+[EPOCH] inner_1 {'epoch': 13, 'train_loss': 0.000653904092285147, 'stop_loss': 0.16260554016850823}
+[RUN] seed=1 outer=0 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.6285268963055074, 'stop_loss': 0.7248151706111047}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.20240897035700228, 'stop_loss': 0.2903620918467265}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.036173167558851346, 'stop_loss': 0.2677454413826361}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.017333430618991244, 'stop_loss': 0.35492306693415177}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.08039266523347749, 'stop_loss': 0.2930707216170706}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.026120938488053018, 'stop_loss': 0.3844663986688465}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.0021325497566776694, 'stop_loss': 0.31757491754850486}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.02506774516474356, 'stop_loss': 0.34419889964950257}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.034482562110798844, 'stop_loss': 0.27066457707183295}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.0004937771844265884, 'stop_loss': 0.2892502882219707}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.000410570426164354, 'stop_loss': 0.28572266849415456}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.0002925712402819484, 'stop_loss': 0.3343563717998349}
+[EPOCH] inner_2 {'epoch': 13, 'train_loss': 0.00021378672656172137, 'stop_loss': 0.33414175154824044}
+[REFIT] seed=1 outer=0 epochs=3 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.054845165461301804, 'inner_f2': 0.02666439861059189}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5750268143676023}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.1397325329960253}
+[EPOCH] refit {'epoch': 3, 'train_loss': 0.06787459786806828}
+[OK] seed=1 outer=0
+[RUN] seed=1 outer=1 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.6374716728317494, 'stop_loss': 0.4891234992788388}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.14425427841024988, 'stop_loss': 0.29828788690860025}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.06829148325631074, 'stop_loss': 0.1898626739725072}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.08497520348347902, 'stop_loss': 0.1443631765511222}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.04975519233363248, 'stop_loss': 0.23352318925032986}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.015097837964665725, 'stop_loss': 0.2759384285944197}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.001136255287946867, 'stop_loss': 0.4094260459120693}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.07088265718413651, 'stop_loss': 0.3272571371888716}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.07724153776295632, 'stop_loss': 0.30597377093480155}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.007367947509539227, 'stop_loss': 0.25988041864393896}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.06894645030438143, 'stop_loss': 0.26726864601733513}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.06585091070256585, 'stop_loss': 0.9542764315889284}
+[EPOCH] inner_0 {'epoch': 13, 'train_loss': 0.015037179165215969, 'stop_loss': 0.4219145743360352}
+[EPOCH] inner_0 {'epoch': 14, 'train_loss': 0.004081168557724725, 'stop_loss': 0.35301260687472946}
+[RUN] seed=1 outer=1 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.5487058630501932, 'stop_loss': 0.17959827886124913}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.15166821977499695, 'stop_loss': 0.12942721311010974}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.07435143147936675, 'stop_loss': 0.15264242975502196}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.016568656747919245, 'stop_loss': 0.1362714474174731}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.0025204824540208583, 'stop_loss': 0.13304894845247595}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.001416735274420499, 'stop_loss': 0.13584791732641155}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.000593114217550625, 'stop_loss': 0.1345745137298323}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.00029368930946988047, 'stop_loss': 0.13359196877674595}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.0002690954807894256, 'stop_loss': 0.12906414004502553}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.0004682518353734776, 'stop_loss': 0.1169968716562505}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 5.518467967249885e-05, 'stop_loss': 0.12375526572628048}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 5.470638448453015e-05, 'stop_loss': 0.11786695184559015}
+[EPOCH] inner_1 {'epoch': 13, 'train_loss': 4.590758333853597e-05, 'stop_loss': 0.11622776720816397}
+[EPOCH] inner_1 {'epoch': 14, 'train_loss': 4.68768534941278e-05, 'stop_loss': 0.11834018547783942}
+[EPOCH] inner_1 {'epoch': 15, 'train_loss': 4.198083874935425e-05, 'stop_loss': 0.1202383773638821}
+[EPOCH] inner_1 {'epoch': 16, 'train_loss': 0.09263446412868416, 'stop_loss': 0.13723811380280337}
+[EPOCH] inner_1 {'epoch': 17, 'train_loss': 0.038598543672508645, 'stop_loss': 0.1343284730231724}
+[EPOCH] inner_1 {'epoch': 18, 'train_loss': 0.001044498531691556, 'stop_loss': 0.14654477373142638}
+[EPOCH] inner_1 {'epoch': 19, 'train_loss': 0.006044429146603473, 'stop_loss': 0.18930671801270804}
+[EPOCH] inner_1 {'epoch': 20, 'train_loss': 0.0006799579396285175, 'stop_loss': 0.19904371247941022}
+[EPOCH] inner_1 {'epoch': 21, 'train_loss': 0.0003342090837691334, 'stop_loss': 0.1958862402052629}
+[EPOCH] inner_1 {'epoch': 22, 'train_loss': 0.0001572961577983544, 'stop_loss': 0.20173355025291517}
+[EPOCH] inner_1 {'epoch': 23, 'train_loss': 0.0007788923260895712, 'stop_loss': 0.19457525911093465}
+[RUN] seed=1 outer=1 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.4731643399721349, 'stop_loss': 0.4006191188227156}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.12681523964033295, 'stop_loss': 0.3959094230002522}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.126878570942389, 'stop_loss': 0.37580240363671485}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.03269654840818557, 'stop_loss': 0.4521353332266958}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.030543530756229263, 'stop_loss': 0.564672505090952}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.04056375160324917, 'stop_loss': 0.6566085749627097}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.019247089016432396, 'stop_loss': 0.6577428508035166}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.03805876887975275, 'stop_loss': 0.6655549707562717}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.004500062466661234, 'stop_loss': 0.7426403637226884}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.06067496904005807, 'stop_loss': 0.6527825963510103}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.03820248401832074, 'stop_loss': 0.7063370235311852}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.003453869672908276, 'stop_loss': 0.7979064848536593}
+[EPOCH] inner_2 {'epoch': 13, 'train_loss': 0.021013330538093906, 'stop_loss': 0.807880068692332}
+[REFIT] seed=1 outer=1 epochs=4 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.9518315196037292, 'inner_f2': 0.000461376243038103}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5135042590590403}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.1275965261996221}
+[EPOCH] refit {'epoch': 3, 'train_loss': 0.09485118205319482}
+[EPOCH] refit {'epoch': 4, 'train_loss': 0.05642365400822723}
+[OK] seed=1 outer=1
+[RUN] seed=1 outer=2 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.34084061564197893, 'stop_loss': 0.3921436446358829}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.039501691803298614, 'stop_loss': 0.4520304088924428}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.010645404189389068, 'stop_loss': 0.4964268491451195}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.0007655366707273497, 'stop_loss': 0.535033788824684}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.0004899714439343867, 'stop_loss': 0.5796484215198254}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.0013929259726248031, 'stop_loss': 0.5851882698593518}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.00028011376725978616, 'stop_loss': 0.6447642221725896}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.0021050610714447608, 'stop_loss': 0.6169882698583707}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.0003357004260197459, 'stop_loss': 0.7262771602600739}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 3.282038063642278e-05, 'stop_loss': 0.7411357889803305}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.00010896057759787178, 'stop_loss': 0.7797191334337477}
+[RUN] seed=1 outer=2 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.40197577977530663, 'stop_loss': 0.0582184286153885}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.05540269376461201, 'stop_loss': 0.04096695013555897}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.01917611661222505, 'stop_loss': 0.04255944450250884}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.015649665694945414, 'stop_loss': 0.07215885925784041}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.0012417310689353542, 'stop_loss': 0.059042396745690104}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.0006411595451625032, 'stop_loss': 0.06078389146611762}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.04797207957442605, 'stop_loss': 0.04070729530589716}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.018864819558727177, 'stop_loss': 0.05600598468713992}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.004987868072818566, 'stop_loss': 0.14929956072332556}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.0006590326620961367, 'stop_loss': 0.1009237655069653}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.00017700581047321563, 'stop_loss': 0.09695839244396952}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.00011055016466445593, 'stop_loss': 0.09293290854637087}
+[EPOCH] inner_1 {'epoch': 13, 'train_loss': 0.031891294082338234, 'stop_loss': 0.0656585117149683}
+[EPOCH] inner_1 {'epoch': 14, 'train_loss': 0.002212057775105894, 'stop_loss': 0.07575023152168611}
+[EPOCH] inner_1 {'epoch': 15, 'train_loss': 0.00010847301577032824, 'stop_loss': 0.07617345530636684}
+[EPOCH] inner_1 {'epoch': 16, 'train_loss': 0.0004523381192094532, 'stop_loss': 0.05993914802231792}
+[EPOCH] inner_1 {'epoch': 17, 'train_loss': 8.73126617764353e-05, 'stop_loss': 0.06097794770535595}
+[RUN] seed=1 outer=2 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.638456117911417, 'stop_loss': 0.6087443682054678}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.3081702891781117, 'stop_loss': 0.07796589570255795}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.08118141629523967, 'stop_loss': 0.10022520519129709}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.02214713584834877, 'stop_loss': 0.11825970409256949}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.03747204831379244, 'stop_loss': 0.13405465246474815}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.08053368723993141, 'stop_loss': 0.05806278972995536}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.13649841216297542, 'stop_loss': 0.15498276804879652}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.0208062461497583, 'stop_loss': 0.09406084249867905}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.03980711412413894, 'stop_loss': 0.09055358687601243}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.01938546663243143, 'stop_loss': 0.06125337715723684}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.03282522121338499, 'stop_loss': 0.11048229381343866}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.030556205153301614, 'stop_loss': 0.185466840568555}
+[EPOCH] inner_2 {'epoch': 13, 'train_loss': 0.0016094344162027596, 'stop_loss': 0.1911742153464554}
+[EPOCH] inner_2 {'epoch': 14, 'train_loss': 0.07113686296389905, 'stop_loss': 0.08990519473142365}
+[EPOCH] inner_2 {'epoch': 15, 'train_loss': 0.015596454468041322, 'stop_loss': 0.6807361582458408}
+[EPOCH] inner_2 {'epoch': 16, 'train_loss': 0.08373580876710751, 'stop_loss': 0.1589710011620326}
+[REFIT] seed=1 outer=2 epochs=6 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.9902750253677368, 'inner_f2': 0.0650755912065506}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.4960210385845025}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.12458087049224825}
+[EPOCH] refit {'epoch': 3, 'train_loss': 0.08840996402251768}
+[EPOCH] refit {'epoch': 4, 'train_loss': 0.046240303499101326}
+[EPOCH] refit {'epoch': 5, 'train_loss': 0.03793458038897853}
+[EPOCH] refit {'epoch': 6, 'train_loss': 0.059570257746713165}
+[OK] seed=1 outer=2
+[RUN] seed=1 outer=3 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.6211329151006523, 'stop_loss': 0.2518303352408111}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.21696645822100608, 'stop_loss': 0.2640239676335113}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.039302148067219884, 'stop_loss': 0.14246034652962672}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.004715905058877198, 'stop_loss': 0.1701524965274037}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.0035481722019349653, 'stop_loss': 0.22871414629127476}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.0008131531558644429, 'stop_loss': 0.1855254096641385}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.0009947200011668617, 'stop_loss': 0.2826700649748826}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.0002563316907617099, 'stop_loss': 0.2748544976572808}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.00017798727766548677, 'stop_loss': 0.29982913050677795}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.00010244384704502622, 'stop_loss': 0.3093520357454673}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 5.43987598695562e-05, 'stop_loss': 0.31082088433365673}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.0001786483462013768, 'stop_loss': 0.36800789195668837}
+[EPOCH] inner_0 {'epoch': 13, 'train_loss': 5.7892511672607564e-05, 'stop_loss': 0.38481676465280057}
+[RUN] seed=1 outer=3 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.6271078252209887, 'stop_loss': 0.5153489291667939}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.2941070307096182, 'stop_loss': 0.041991209241314206}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.10762097307864124, 'stop_loss': 0.05501830874793541}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.01475994461192027, 'stop_loss': 0.06268772026814998}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.0024226093607350794, 'stop_loss': 0.07080955038514235}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.12903533934372266, 'stop_loss': 0.34595894215405376}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.02751958137048802, 'stop_loss': 0.04555150740254324}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.0239483959685098, 'stop_loss': 0.050508542490222415}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.03292763177680672, 'stop_loss': 0.056593105932402445}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.01803456339276384, 'stop_loss': 0.050003330520571036}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.052518483110083544, 'stop_loss': 0.047165145104296376}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.024551828826285278, 'stop_loss': 0.05386635924410506}
+[RUN] seed=1 outer=3 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.4614971819315496, 'stop_loss': 0.14986532192550978}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.05770173015914804, 'stop_loss': 0.13301344551254554}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.07966662026136057, 'stop_loss': 0.1536647431549697}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.015230864197389147, 'stop_loss': 0.19579785422713214}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.007075891010624184, 'stop_loss': 0.37634249010267506}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.08989806526114318, 'stop_loss': 0.41824960487289736}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.0017550261251390597, 'stop_loss': 0.3807430224556136}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.023480602830084036, 'stop_loss': 0.36415042231306816}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.017813611324441106, 'stop_loss': 0.3986201897645037}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.03539309774292354, 'stop_loss': 0.40364830535490603}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.0009997313902698063, 'stop_loss': 0.4061114244284626}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.0007935496964577977, 'stop_loss': 0.4571799482036219}
+[REFIT] seed=1 outer=3 epochs=2 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.4383687674999237, 'inner_f2': 0.10524304956197739}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.4475562869864076}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.13608815276699027}
+[OK] seed=1 outer=3
+[RUN] seed=1 outer=4 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.6506516508037045, 'stop_loss': 0.36943418658696686}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.38629369826465393, 'stop_loss': 0.31556900516868786}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.151056144529746, 'stop_loss': 0.4188013047677592}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.1305643374240461, 'stop_loss': 0.28255822926975566}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.044753798174834686, 'stop_loss': 0.3449176068785409}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.05290069940197435, 'stop_loss': 0.2461996224604377}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.01030094954659227, 'stop_loss': 0.3540886802552673}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.08176328442301098, 'stop_loss': 0.3008546885290587}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.014825718087724024, 'stop_loss': 0.37647141076008434}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.02551002487786205, 'stop_loss': 0.3520316190719764}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.0031684363072617917, 'stop_loss': 0.43454749583589575}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.002824736524751047, 'stop_loss': 0.45173457044516546}
+[EPOCH] inner_0 {'epoch': 13, 'train_loss': 0.0009467480393310428, 'stop_loss': 0.4695159848300111}
+[EPOCH] inner_0 {'epoch': 14, 'train_loss': 0.001000114254755525, 'stop_loss': 0.5135326305404162}
+[EPOCH] inner_0 {'epoch': 15, 'train_loss': 0.04245673104287364, 'stop_loss': 0.6321550296623015}
+[EPOCH] inner_0 {'epoch': 16, 'train_loss': 0.20848892814078804, 'stop_loss': 0.308102274605345}
+[RUN] seed=1 outer=4 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.41204840026519496, 'stop_loss': 0.2714882297333903}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.03661888815886266, 'stop_loss': 0.4131222840726528}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.012579737674298678, 'stop_loss': 0.4350014616255766}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.000719114104471973, 'stop_loss': 0.5155088812093114}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.0005525668486903439, 'stop_loss': 0.5746314492161428}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.09193250601251676, 'stop_loss': 0.36805980278687245}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.018234588761542603, 'stop_loss': 0.3657945246952295}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.004861696830485365, 'stop_loss': 0.5980461187181066}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.028001825244446908, 'stop_loss': 0.5128120297461669}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.00153477904271614, 'stop_loss': 0.6300951812093005}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.0005069014140722507, 'stop_loss': 0.6530404584199552}
+[RUN] seed=1 outer=4 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.6533882871822074, 'stop_loss': 0.3818118516069192}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.20344612103170207, 'stop_loss': 0.08201614730686953}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.056010457963102195, 'stop_loss': 0.1268787447013892}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.02620582620800356, 'stop_loss': 0.07673204452568405}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.04677292087036996, 'stop_loss': 0.09563775165175824}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.02232777947999915, 'stop_loss': 0.11692871291785335}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.001762403261503221, 'stop_loss': 0.1398744599346838}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.000495281655874689, 'stop_loss': 0.14494741073548223}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.08558628573908118, 'stop_loss': 0.08470268655006434}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.002961620008478375, 'stop_loss': 0.10452976898307567}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.0008675419681066844, 'stop_loss': 0.10406065737765507}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.00176116437217559, 'stop_loss': 0.10731476364748092}
+[EPOCH] inner_2 {'epoch': 13, 'train_loss': 0.0003079800882767546, 'stop_loss': 0.11954644319424775}
+[EPOCH] inner_2 {'epoch': 14, 'train_loss': 0.042932950414177065, 'stop_loss': 0.09614530914709926}
+[REFIT] seed=1 outer=4 epochs=4 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.9849919676780701, 'inner_f2': 0.06716356426477432}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5081212541664043}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.14918779970412435}
+[EPOCH] refit {'epoch': 3, 'train_loss': 0.0424413583737795}
+[EPOCH] refit {'epoch': 4, 'train_loss': 0.0858316048324657}
+[OK] seed=1 outer=4
+[RUN] seed=11 outer=0 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.49714361663282625, 'stop_loss': 0.26019160952762566}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.10350993003481637, 'stop_loss': 0.23014641853858633}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.006796431044830151, 'stop_loss': 0.2906744321153638}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.0012150434788029251, 'stop_loss': 0.362180835214334}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.0011939139171405582, 'stop_loss': 0.3310228182205679}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.00013562654081870806, 'stop_loss': 0.31804655549822697}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.00010586029331297786, 'stop_loss': 0.3511367797510374}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 6.564627775149711e-05, 'stop_loss': 0.3411832963169735}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 7.136559322243713e-05, 'stop_loss': 0.3769255582224533}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.00011762154240876606, 'stop_loss': 0.4178736600668076}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 2.2551858574331156e-05, 'stop_loss': 0.3988092609970505}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 3.0502830981338394e-05, 'stop_loss': 0.4112247424004801}
+[RUN] seed=11 outer=0 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.45795574785276716, 'stop_loss': 0.28523682411787377}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.04746107217168621, 'stop_loss': 0.23568368479479984}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.05644629249073176, 'stop_loss': 0.2406864319886467}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.0041891283349552765, 'stop_loss': 0.29899663620431793}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.0006396049169390378, 'stop_loss': 0.36414152933001576}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.0005217475568003073, 'stop_loss': 0.4988821800504648}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.04501464029185256, 'stop_loss': 0.587976724511005}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.0026374335640208437, 'stop_loss': 0.1448665890108879}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.0009285224818042632, 'stop_loss': 0.2217156368540527}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.0004230517205974544, 'stop_loss': 0.2999443073245991}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.00033351077026288307, 'stop_loss': 0.360686467804593}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.00015768085857515923, 'stop_loss': 0.35353039744514214}
+[EPOCH] inner_1 {'epoch': 13, 'train_loss': 6.340568451559755e-05, 'stop_loss': 0.3556143888011778}
+[EPOCH] inner_1 {'epoch': 14, 'train_loss': 3.25311326452386e-05, 'stop_loss': 0.37790229653523544}
+[EPOCH] inner_1 {'epoch': 15, 'train_loss': 3.679428315894377e-05, 'stop_loss': 0.4039251184140269}
+[EPOCH] inner_1 {'epoch': 16, 'train_loss': 4.1510170844279696e-05, 'stop_loss': 0.42372761793955493}
+[EPOCH] inner_1 {'epoch': 17, 'train_loss': 0.08409917151252659, 'stop_loss': 0.27489337201672726}
+[EPOCH] inner_1 {'epoch': 18, 'train_loss': 0.001687750367489754, 'stop_loss': 0.322222619700017}
+[RUN] seed=11 outer=0 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.5728643661357402, 'stop_loss': 0.27399276659406463}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.11937673390541513, 'stop_loss': 0.1883429934727401}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.036065158377219804, 'stop_loss': 0.17553833668444083}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.06225691117719837, 'stop_loss': 0.15710153651683784}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.030028283688043157, 'stop_loss': 0.18192302473188643}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.034033909448570425, 'stop_loss': 0.2239252066081226}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.0019497691405093757, 'stop_loss': 0.26413227942268785}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.002897817692684587, 'stop_loss': 0.2942480895246268}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.00030828610293015356, 'stop_loss': 0.28841249670966634}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.00016874821147470147, 'stop_loss': 0.2931253620453401}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.0002677540486000075, 'stop_loss': 0.2999145859971756}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.0001350951294680769, 'stop_loss': 0.30090071402413004}
+[EPOCH] inner_2 {'epoch': 13, 'train_loss': 0.00013438883735310405, 'stop_loss': 0.30151698279725364}
+[EPOCH] inner_2 {'epoch': 14, 'train_loss': 0.00011123151718104009, 'stop_loss': 0.3203869893230609}
+[REFIT] seed=11 outer=0 epochs=4 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.8895178437232971, 'inner_f2': 0.0044018179178237915}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.41565801503683225}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.11593196078511994}
+[EPOCH] refit {'epoch': 3, 'train_loss': 0.03562342118731289}
+[EPOCH] refit {'epoch': 4, 'train_loss': 0.028062591070449238}
+[OK] seed=11 outer=0
+[RUN] seed=11 outer=1 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.4592704037292198, 'stop_loss': 0.26302813838942557}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.1328477367933609, 'stop_loss': 0.30020906258593233}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.05133332969526315, 'stop_loss': 0.3183376032611077}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.019050444425452895, 'stop_loss': 0.2554510725094274}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.0028415114049293176, 'stop_loss': 0.4540942135334474}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.0015321191058398544, 'stop_loss': 0.5659582814965848}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.0003369171536529924, 'stop_loss': 0.5377991078686243}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.0002783792216841778, 'stop_loss': 0.5812108933247597}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.00014653966308312015, 'stop_loss': 0.5796169780344727}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.00031955632735692946, 'stop_loss': 0.638112931386339}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.0003500465241008436, 'stop_loss': 0.714276810054082}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.00031794804207689646, 'stop_loss': 0.770465517162188}
+[EPOCH] inner_0 {'epoch': 13, 'train_loss': 7.284719809878873e-05, 'stop_loss': 0.7867665621966468}
+[EPOCH] inner_0 {'epoch': 14, 'train_loss': 5.3866965545143956e-05, 'stop_loss': 0.7522611841738933}
+[RUN] seed=11 outer=1 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.5328818418663638, 'stop_loss': 0.40594207190923276}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.18932232031349863, 'stop_loss': 0.19168354355601228}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.022719297550082482, 'stop_loss': 0.2212915463036893}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.0031305332420958746, 'stop_loss': 0.30719784830643376}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.11237639275686541, 'stop_loss': 0.42744414490772137}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.004504182516365265, 'stop_loss': 0.5213986032821267}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.0021908677769105576, 'stop_loss': 0.570527166948382}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.0005850074440216713, 'stop_loss': 0.5737856774136155}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.0006512533439423641, 'stop_loss': 0.6637185259774921}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.00035903365709092093, 'stop_loss': 0.6847480689636268}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.00033096712696300716, 'stop_loss': 0.6832744341497073}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.00014378680020444117, 'stop_loss': 0.6870446436194925}
+[RUN] seed=11 outer=1 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.6028281931072014, 'stop_loss': 0.3985621564000124}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.3131189811046198, 'stop_loss': 0.3380400686859972}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.15400355007178537, 'stop_loss': 0.3968613671156315}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.06264138775437118, 'stop_loss': 0.4388221511793412}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.008639457280784562, 'stop_loss': 0.4525677187387599}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.090398850464122, 'stop_loss': 0.41285250516057925}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.0252293875835012, 'stop_loss': 0.44172175870725766}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.035621166699925016, 'stop_loss': 0.5409171276947559}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.04391997258076507, 'stop_loss': 0.7848849438688054}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.02174872148110963, 'stop_loss': 0.9308418560433535}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.058604721313491065, 'stop_loss': 0.6688445326285398}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.027021799717467095, 'stop_loss': 0.8116637398686781}
+[REFIT] seed=11 outer=1 epochs=2 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.18029068410396576, 'inner_f2': 0.18029068410396576}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5111526029505935}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.2033745427001272}
+[OK] seed=11 outer=1
+[RUN] seed=11 outer=2 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.37079270589525265, 'stop_loss': 0.24789320018144434}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.04532536893216029, 'stop_loss': 0.20942012099262916}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.0035823173273930014, 'stop_loss': 0.12912990081006287}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.07155634021308063, 'stop_loss': 0.15617224362921325}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.0018136095480258106, 'stop_loss': 0.18733669937275912}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.00044029536357765366, 'stop_loss': 0.22115507102540816}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.000127378554204532, 'stop_loss': 0.2202586049692737}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.0001802493114767909, 'stop_loss': 0.22089589444973798}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.00014834244421804918, 'stop_loss': 0.21922765140243114}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 7.766158226145892e-05, 'stop_loss': 0.2278181392876782}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 4.730553699959051e-05, 'stop_loss': 0.23228027239128482}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.00012470741777465702, 'stop_loss': 0.2314655821125359}
+[EPOCH] inner_0 {'epoch': 13, 'train_loss': 0.00010699770134610854, 'stop_loss': 0.2542823145031911}
+[RUN] seed=11 outer=2 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.6625774586731095, 'stop_loss': 0.5139324559615208}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.33520266503282364, 'stop_loss': 0.20397434858448552}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.17896833733265163, 'stop_loss': 0.5850287123457887}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.19538272825845884, 'stop_loss': 0.11196948536892776}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.044937765562776795, 'stop_loss': 0.1668503826502624}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.05823824685398928, 'stop_loss': 0.1175174829020333}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.011913400064599112, 'stop_loss': 0.13089601532088133}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.024660535696629994, 'stop_loss': 0.12987483985066636}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.024032355124626016, 'stop_loss': 0.12363151246512022}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.051446965105297636, 'stop_loss': 0.1124536998893118}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.0036457752933205787, 'stop_loss': 0.12897633758911073}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.0009526490486720958, 'stop_loss': 0.13541526689118413}
+[EPOCH] inner_1 {'epoch': 13, 'train_loss': 0.0006743930767416601, 'stop_loss': 0.13789604153084695}
+[EPOCH] inner_1 {'epoch': 14, 'train_loss': 0.0003836861049424303, 'stop_loss': 0.14701270979474096}
+[RUN] seed=11 outer=2 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.671493751787338, 'stop_loss': 0.7813223240867494}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.4763964554500383, 'stop_loss': 0.1122316877608971}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.1805954364792663, 'stop_loss': 0.14345578825385827}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.07824717692978644, 'stop_loss': 0.2833978508613885}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.03180144057833182, 'stop_loss': 0.016484792865686892}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.007111298015906018, 'stop_loss': 0.01169755762875938}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.0019348841973714954, 'stop_loss': 0.014971205971006738}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.08773996251855411, 'stop_loss': 0.2352922139721303}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.03625893993770228, 'stop_loss': 0.0273548492189508}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.005536730922356849, 'stop_loss': 0.04263564500275712}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.0012238236393059944, 'stop_loss': 0.043915413246212426}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.001007501311287144, 'stop_loss': 0.03494993200654953}
+[EPOCH] inner_2 {'epoch': 13, 'train_loss': 0.0004274490574762739, 'stop_loss': 0.0463699052724544}
+[EPOCH] inner_2 {'epoch': 14, 'train_loss': 0.0003374863786248321, 'stop_loss': 0.05399803578455581}
+[EPOCH] inner_2 {'epoch': 15, 'train_loss': 0.0010678909838593119, 'stop_loss': 0.0901546904561743}
+[EPOCH] inner_2 {'epoch': 16, 'train_loss': 0.0002986769650726442, 'stop_loss': 0.07083020721343562}
+[REFIT] seed=11 outer=2 epochs=4 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.077778160572052, 'inner_f2': 0.077778160572052}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5016340044637284}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.14507132949282442}
+[EPOCH] refit {'epoch': 3, 'train_loss': 0.10484539632238164}
+[EPOCH] refit {'epoch': 4, 'train_loss': 0.04525310616068163}
+[OK] seed=11 outer=2
+[RUN] seed=11 outer=3 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.41671261552346195, 'stop_loss': 0.28512271796537947}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.07560844861178402, 'stop_loss': 0.39315413940668864}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.0612046730770433, 'stop_loss': 0.4592918767507339}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.003955749714858694, 'stop_loss': 0.5354208846966365}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.006769638430432247, 'stop_loss': 0.5460893350484458}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.0016251171798945128, 'stop_loss': 0.6531899912052922}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.0007673937739873932, 'stop_loss': 0.7274579119971446}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.0005603408472519241, 'stop_loss': 0.769659415568818}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.002391636597398009, 'stop_loss': 0.6680343279227325}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.1099321361196029, 'stop_loss': 0.714622587152621}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.012628046004070293, 'stop_loss': 0.5744402672617963}
+[RUN] seed=11 outer=3 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.558858229694082, 'stop_loss': 0.477857285672577}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.062068339901774405, 'stop_loss': 0.18272105462961494}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.029797850565142937, 'stop_loss': 0.24844676631518528}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.002900641950477451, 'stop_loss': 0.25351636727366256}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.02365785763415382, 'stop_loss': 0.3357394762974946}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.008396172549071788, 'stop_loss': 0.28315731862094645}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.0002200042721051377, 'stop_loss': 0.3102877957214743}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.00014560240298436064, 'stop_loss': 0.3318789265674409}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.031442364562846235, 'stop_loss': 0.28761941398204316}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.04366307233090556, 'stop_loss': 0.2720444663769176}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.052415034933719684, 'stop_loss': 0.1937452934297419}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.006205615748357884, 'stop_loss': 0.26560807918424034}
+[RUN] seed=11 outer=3 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.6038867511935098, 'stop_loss': 1.0556714489575825}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.41703254488389213, 'stop_loss': 0.6204631550671422}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.17674534007522674, 'stop_loss': 0.44914463998729914}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.1409842798136534, 'stop_loss': 0.41944099730621964}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.016258035615068247, 'stop_loss': 0.5830809376610218}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.00508882166061273, 'stop_loss': 0.6540962341630916}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.0029163192590044144, 'stop_loss': 0.6414184830869347}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.06430579796451293, 'stop_loss': 0.5312417757470032}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.04223096458156903, 'stop_loss': 0.5807919795147114}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.03455902242629225, 'stop_loss': 0.6159860159162814}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.021758806031349002, 'stop_loss': 0.6709793754177492}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.001352443282959394, 'stop_loss': 0.7354835694963996}
+[EPOCH] inner_2 {'epoch': 13, 'train_loss': 0.011917600694535246, 'stop_loss': 0.7391576511194978}
+[EPOCH] inner_2 {'epoch': 14, 'train_loss': 0.07261682826772455, 'stop_loss': 0.49767750555384005}
+[REFIT] seed=11 outer=3 epochs=2 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.4197750389575958, 'inner_f2': 0.4197750389575958}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5461903580100655}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.18639444727630736}
+[OK] seed=11 outer=3
+[RUN] seed=11 outer=4 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.4515724825137295, 'stop_loss': 0.21919843315013818}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.13782668128528167, 'stop_loss': 0.0952539187581149}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.010550591059913359, 'stop_loss': 0.15426319918417772}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.08596660038780528, 'stop_loss': 0.17895803189466394}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.028822961278762223, 'stop_loss': 0.20802701837151794}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.002224183871937413, 'stop_loss': 0.25810710930217823}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.004712920073038845, 'stop_loss': 0.23677733663518688}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.0024956442182014487, 'stop_loss': 0.25120077911152366}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.0002588359478426412, 'stop_loss': 0.26188192674083954}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.062161048401011554, 'stop_loss': 0.24897694803406392}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.030206524115223517, 'stop_loss': 0.2727929918787128}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.016940603714736283, 'stop_loss': 0.26030913686038626}
+[RUN] seed=11 outer=4 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.6359448628911532, 'stop_loss': 1.5912010609622924}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.3314491033813674, 'stop_loss': 0.17947309978849407}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.12049049060852944, 'stop_loss': 0.2400703074322557}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.0475402783133191, 'stop_loss': 0.17284250317807495}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.058145513072813106, 'stop_loss': 0.1674315775444227}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.024436540762384842, 'stop_loss': 0.1984899912243587}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.0033735849079873383, 'stop_loss': 0.22200443465494216}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.040256216989019655, 'stop_loss': 0.17917340403414414}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.029099263418007053, 'stop_loss': 0.18507396202695503}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.035813481660623, 'stop_loss': 0.24267631249113292}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.03912454931014928, 'stop_loss': 0.21620292736484484}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.017621497471482832, 'stop_loss': 0.2401348079731144}
+[EPOCH] inner_1 {'epoch': 13, 'train_loss': 0.01764894426957937, 'stop_loss': 0.23998836945595117}
+[EPOCH] inner_1 {'epoch': 14, 'train_loss': 0.0011807557174223922, 'stop_loss': 0.2471274504822448}
+[EPOCH] inner_1 {'epoch': 15, 'train_loss': 0.03869331268034666, 'stop_loss': 0.21968061582686796}
+[RUN] seed=11 outer=4 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.4769644118210976, 'stop_loss': 0.32599017349263976}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.07391243033153766, 'stop_loss': 0.38639751556982244}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.06739551113578744, 'stop_loss': 0.31803654404393455}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.04469027086795984, 'stop_loss': 0.37704920147593335}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.03625562430909609, 'stop_loss': 0.2794604013850968}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.057601888409935575, 'stop_loss': 0.4121511341538222}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.02634052131626784, 'stop_loss': 0.5237629617157916}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.046341462842627405, 'stop_loss': 0.35890784886653276}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.021472252838172355, 'stop_loss': 0.5632708904688951}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.022233497778307375, 'stop_loss': 0.6321319735129901}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.017321892718192122, 'stop_loss': 0.6509434557684568}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.020690319041466173, 'stop_loss': 0.6472178858541233}
+[EPOCH] inner_2 {'epoch': 13, 'train_loss': 0.02812306918818076, 'stop_loss': 0.6996601507258524}
+[EPOCH] inner_2 {'epoch': 14, 'train_loss': 0.02966640116858349, 'stop_loss': 0.6575841129808332}
+[EPOCH] inner_2 {'epoch': 15, 'train_loss': 0.0037679755773913745, 'stop_loss': 0.6044479764013273}
+[REFIT] seed=11 outer=4 epochs=5 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.1840502768754959, 'inner_f2': 0.11476925760507584}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.4655001988909495}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.13270947594091456}
+[EPOCH] refit {'epoch': 3, 'train_loss': 0.05705716593385231}
+[EPOCH] refit {'epoch': 4, 'train_loss': 0.028280464212159365}
+[EPOCH] refit {'epoch': 5, 'train_loss': 0.07797830734672914}
+[OK] seed=11 outer=4
+[RUN] seed=21 outer=0 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.43134886083018253, 'stop_loss': 0.08317296110276327}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.025562977570718685, 'stop_loss': 0.07708892407495216}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.002722405818218716, 'stop_loss': 0.08181434975419549}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.0005200135269087447, 'stop_loss': 0.08528303401675628}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.00030968101810481416, 'stop_loss': 0.08745050718719681}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.0001348717232000133, 'stop_loss': 0.08819312637921742}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.00010092235074503827, 'stop_loss': 0.08905516329118128}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 3.937084301119146e-05, 'stop_loss': 0.08928409703890303}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 2.5532254047746204e-05, 'stop_loss': 0.08927892220153467}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 2.4993511378682126e-05, 'stop_loss': 0.08992584006982045}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 2.3822940358059466e-05, 'stop_loss': 0.08931646950817336}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 2.752741283621739e-05, 'stop_loss': 0.08937655497536039}
+[RUN] seed=21 outer=0 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.6485852987012443, 'stop_loss': 0.7029758511531737}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.385943390862398, 'stop_loss': 0.12008941775533341}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.07994192808957365, 'stop_loss': 0.20723058785411158}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.07297578044430927, 'stop_loss': 0.5651453359227044}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.06362063380812698, 'stop_loss': 0.2143131209679613}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.03464789854595059, 'stop_loss': 0.1348928826330665}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.036372602259304596, 'stop_loss': 0.32711578970086175}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.02701263104902492, 'stop_loss': 0.3595009916239235}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.004547134857575445, 'stop_loss': 0.34440848614164155}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.0008391009533698362, 'stop_loss': 0.3933169769291725}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.03556172907233634, 'stop_loss': 0.2862375606811964}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.03307852106285561, 'stop_loss': 0.20164571977410456}
+[RUN] seed=21 outer=0 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.4779636208550073, 'stop_loss': 0.365567613641421}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.24945940077210133, 'stop_loss': 0.26463758206615845}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.015100335982866826, 'stop_loss': 0.44617502481363164}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.03489228032195751, 'stop_loss': 0.4484953406110132}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.014874362349997384, 'stop_loss': 0.4843381705200874}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.001356599378813833, 'stop_loss': 0.6341161728321527}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.0007905148720862372, 'stop_loss': 0.6581378917839855}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.003708616749829327, 'stop_loss': 0.4800319278732406}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.06701191422763286, 'stop_loss': 0.5311729274353496}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.0007677244358353866, 'stop_loss': 0.5898498382337104}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.000422190491658399, 'stop_loss': 0.6226398957113252}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.0005067778388952334, 'stop_loss': 0.6764429988475673}
+[REFIT] seed=21 outer=0 epochs=2 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.3066578209400177, 'inner_f2': 0.3066578209400177}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5219204521109593}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.14383419457945568}
+[OK] seed=21 outer=0
+[RUN] seed=21 outer=1 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.44827702825634996, 'stop_loss': 0.05259452877558827}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.07929706555830104, 'stop_loss': 0.07616357553220474}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.018956277247431593, 'stop_loss': 0.0428120769993834}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.03114858765189689, 'stop_loss': 0.03742285919892426}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.08070464050646327, 'stop_loss': 0.0604434287812067}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.02434096911804808, 'stop_loss': 0.03071411380523069}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.00582557173818502, 'stop_loss': 0.09777912939002528}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.0008596692180292567, 'stop_loss': 0.13531304215831505}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.0002491386554930712, 'stop_loss': 0.12511693385449488}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.00018647190226828424, 'stop_loss': 0.13082425422830812}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.00012802723995431747, 'stop_loss': 0.1183026202704372}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.000109704419347878, 'stop_loss': 0.13313405863599515}
+[EPOCH] inner_0 {'epoch': 13, 'train_loss': 0.0001328589947485041, 'stop_loss': 0.1683445292443584}
+[EPOCH] inner_0 {'epoch': 14, 'train_loss': 9.239243832578743e-05, 'stop_loss': 0.17367225281188145}
+[EPOCH] inner_0 {'epoch': 15, 'train_loss': 5.446304739508877e-05, 'stop_loss': 0.19234954886156735}
+[EPOCH] inner_0 {'epoch': 16, 'train_loss': 2.975861067062107e-05, 'stop_loss': 0.1879889412933914}
+[RUN] seed=21 outer=1 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.5914420364501555, 'stop_loss': 0.41653873144634185}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.21400862871760634, 'stop_loss': 0.09950271603837979}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.07236979864759903, 'stop_loss': 0.07877216883328704}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.035823111219179485, 'stop_loss': 0.18510785021184317}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.07478225252378276, 'stop_loss': 0.1349831174279571}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.0036360895325027597, 'stop_loss': 0.16675730873835382}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.0011326379815280593, 'stop_loss': 0.19805949064141484}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.0007336676711109435, 'stop_loss': 0.2218536311200466}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.0004649512150073209, 'stop_loss': 0.23949530776243008}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.0006072871294616562, 'stop_loss': 0.20885445154568924}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.0003000932023879176, 'stop_loss': 0.2358989473873085}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.0002090016915411799, 'stop_loss': 0.2411129195023646}
+[EPOCH] inner_1 {'epoch': 13, 'train_loss': 0.00024017849509872508, 'stop_loss': 0.2607741200754232}
+[RUN] seed=21 outer=1 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.4426614269580406, 'stop_loss': 0.5460581895984853}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.05644454577908999, 'stop_loss': 0.19098421085888662}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.008980974647260139, 'stop_loss': 0.2037855233565525}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.0013832194588290268, 'stop_loss': 0.21744510617708168}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.0007774714336244085, 'stop_loss': 0.24670303568772234}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.00021114296901234757, 'stop_loss': 0.25679537873301606}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.00031457305418379125, 'stop_loss': 0.26818214654680594}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 4.8162222715498696e-05, 'stop_loss': 0.27518217277964657}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 6.781507427996681e-05, 'stop_loss': 0.2790923071209089}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.05051624751649662, 'stop_loss': 0.22910233008039493}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.003571046863532579, 'stop_loss': 0.27561044933619677}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.0015544928207021098, 'stop_loss': 0.28312020284492373}
+[REFIT] seed=21 outer=1 epochs=3 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.06642615795135498, 'inner_f2': 0.014896528795361519}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.4229137011615973}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.08372054260834455}
+[EPOCH] refit {'epoch': 3, 'train_loss': 0.08288010362011958}
+[OK] seed=21 outer=1
+[RUN] seed=21 outer=2 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.4598660777148798, 'stop_loss': 0.09392300230776152}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.022355570866680656, 'stop_loss': 0.09309914267044131}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.036803194517009676, 'stop_loss': 0.10185183485887209}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.002176262339482036, 'stop_loss': 0.13311855720409282}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.00046792037998446683, 'stop_loss': 0.14304291801447255}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.07500439553819971, 'stop_loss': 0.15451084045887564}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.008626969055996896, 'stop_loss': 0.15599286293402365}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.0011397851396098898, 'stop_loss': 0.17478889333810016}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.0007433092993548034, 'stop_loss': 0.20800701715301967}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.00034710738156416425, 'stop_loss': 0.2152796585266841}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.000130767465280331, 'stop_loss': 0.21389555325231888}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.00020314942793327195, 'stop_loss': 0.21989747436462045}
+[RUN] seed=21 outer=2 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.6523043430713286, 'stop_loss': 0.5949921578657432}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.2945808052863137, 'stop_loss': 0.10607713838890348}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.1525588212038307, 'stop_loss': 0.03197598369810234}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.09305553235836203, 'stop_loss': 0.05991395114288622}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.011644366482915943, 'stop_loss': 0.0648233304140093}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.02925834120222471, 'stop_loss': 0.07623191944107602}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.006112776522666293, 'stop_loss': 0.0668306357473402}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.0015936651039507854, 'stop_loss': 0.08020772474637342}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.003946152532096856, 'stop_loss': 0.08754742424383395}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.0017946001447716145, 'stop_loss': 0.11089566852370884}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.0006376576735515056, 'stop_loss': 0.12228177346468469}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.0005179540572865437, 'stop_loss': 0.12915257694738533}
+[EPOCH] inner_1 {'epoch': 13, 'train_loss': 0.00024885605429302064, 'stop_loss': 0.12983142846043544}
+[RUN] seed=21 outer=2 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.6615704719022096, 'stop_loss': 0.3565792603225544}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.19322899159931284, 'stop_loss': 0.12475024821820814}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.07133073230020036, 'stop_loss': 0.12380793663710235}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.06283456291049538, 'stop_loss': 0.15183458267585656}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.03100404783764859, 'stop_loss': 0.14491342760155038}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.0031980721602667198, 'stop_loss': 0.1883079892283206}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.0705542924299611, 'stop_loss': 0.18160331932617266}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.018425730457390568, 'stop_loss': 0.15430850015140837}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.024147668572253932, 'stop_loss': 0.17273510274899279}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.02098634267458189, 'stop_loss': 0.13115935627078212}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.03840495462196437, 'stop_loss': 0.11921520863569804}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.003206424087126527, 'stop_loss': 0.15212830597826266}
+[EPOCH] inner_2 {'epoch': 13, 'train_loss': 0.0027496974609364376, 'stop_loss': 0.16022215908961307}
+[EPOCH] inner_2 {'epoch': 14, 'train_loss': 0.023004372959384112, 'stop_loss': 0.15413064486824243}
+[EPOCH] inner_2 {'epoch': 15, 'train_loss': 0.0020861793425553973, 'stop_loss': 0.17480750755927796}
+[EPOCH] inner_2 {'epoch': 16, 'train_loss': 0.00034206484909601664, 'stop_loss': 0.17621488149459685}
+[EPOCH] inner_2 {'epoch': 17, 'train_loss': 0.0002306979825616043, 'stop_loss': 0.1846914972849768}
+[EPOCH] inner_2 {'epoch': 18, 'train_loss': 0.0007570421228559191, 'stop_loss': 0.21604915893183388}
+[EPOCH] inner_2 {'epoch': 19, 'train_loss': 0.0543107571359691, 'stop_loss': 0.18467608168831545}
+[EPOCH] inner_2 {'epoch': 20, 'train_loss': 0.0007766779298139006, 'stop_loss': 0.188383364287497}
+[EPOCH] inner_2 {'epoch': 21, 'train_loss': 0.00021879985093380423, 'stop_loss': 0.19884508340816204}
+[REFIT] seed=21 outer=2 epochs=3 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.44222429394721985, 'inner_f2': 0.44222429394721985}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.49931583124500567}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.13540149605635932}
+[EPOCH] refit {'epoch': 3, 'train_loss': 0.0815013085672486}
+[OK] seed=21 outer=2
+[RUN] seed=21 outer=3 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.48703034015417823, 'stop_loss': 0.27567259099571007}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.07069474013374796, 'stop_loss': 0.26115156656600275}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.01818576657507265, 'stop_loss': 0.41628215898576637}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.0010565147463278838, 'stop_loss': 0.42487575910629655}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.00036107237660937036, 'stop_loss': 0.4640515491074693}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.0002324122602893635, 'stop_loss': 0.5175065459947042}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.049830032414876144, 'stop_loss': 0.4179782804230502}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.0009557716733932622, 'stop_loss': 0.4585921474152236}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.0005282943964565722, 'stop_loss': 0.5263758782910606}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.00042154614883935574, 'stop_loss': 0.5843655997971865}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.00011139256630271443, 'stop_loss': 0.5914826103571115}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.00011048404118835096, 'stop_loss': 0.6056143910968823}
+[RUN] seed=21 outer=3 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.46073068551174023, 'stop_loss': 0.5435178757446711}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.18181811346684618, 'stop_loss': 0.6367801777311991}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.11550654272461326, 'stop_loss': 0.6036694147423688}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.05149160842613137, 'stop_loss': 0.7418248396034127}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.010924930533890221, 'stop_loss': 0.8360519445841358}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.01077443600005812, 'stop_loss': 0.8765118183630439}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.0007673410779296649, 'stop_loss': 0.9614818674346314}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.0019819830991715274, 'stop_loss': 1.107867644854557}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.007166997184977237, 'stop_loss': 1.2498558905712447}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.01854161433853821, 'stop_loss': 1.173666306645974}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.0012222917275308228, 'stop_loss': 1.3453581211101968}
+[RUN] seed=21 outer=3 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.5466977224596776, 'stop_loss': 0.18421336689498274}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.03506022090638589, 'stop_loss': 0.11902230090399826}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.06759318539298328, 'stop_loss': 0.10379589998944236}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.07285480259624069, 'stop_loss': 0.13220088306416453}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.02437661949590023, 'stop_loss': 0.4392533984549913}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.0016905914874218695, 'stop_loss': 0.3647468826090641}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.004010006232510989, 'stop_loss': 0.37901768144829795}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.0006720524833401953, 'stop_loss': 0.4091674961655009}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.0004466579404739548, 'stop_loss': 0.43078608566474513}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.00015948960060603668, 'stop_loss': 0.4245824528705986}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.00014638987713928487, 'stop_loss': 0.4103903988052512}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.0015282243889986375, 'stop_loss': 0.4467612723294557}
+[EPOCH] inner_2 {'epoch': 13, 'train_loss': 0.00016057560219582, 'stop_loss': 0.4570926278738642}
+[REFIT] seed=21 outer=3 epochs=2 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.990715503692627, 'inner_f2': 0.08544836938381195}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5614105101523964}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.18446125176480022}
+[OK] seed=21 outer=3
+[RUN] seed=21 outer=4 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.6150536186359672, 'stop_loss': 0.4068117468130021}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.35824407023004906, 'stop_loss': 0.19517708688028276}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.11107455480812027, 'stop_loss': 0.08904741989112702}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.01744027877018015, 'stop_loss': 0.1539818842752863}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.004109084167468912, 'stop_loss': 0.17173912380417458}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.11477870556715315, 'stop_loss': 0.17634177230165515}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.01276708114884788, 'stop_loss': 0.1898006121037744}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.003397387683831347, 'stop_loss': 0.21168974183559536}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.001470804323362345, 'stop_loss': 0.22180706226597685}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.005076041664632818, 'stop_loss': 0.21504079962566405}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.0007718915887893574, 'stop_loss': 0.22340419627893673}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.0007424294009973825, 'stop_loss': 0.24031923650770137}
+[EPOCH] inner_0 {'epoch': 13, 'train_loss': 0.0006573536459871821, 'stop_loss': 0.2533522767498996}
+[RUN] seed=21 outer=4 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.5382744458301233, 'stop_loss': 0.45354636835436973}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.0882410396474656, 'stop_loss': 0.47283516623814476}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.007139292208114615, 'stop_loss': 0.5427687576317971}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.0009726252340246127, 'stop_loss': 0.6371481211092657}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.00028645584059762105, 'stop_loss': 0.6626736669018024}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.0003648061506617758, 'stop_loss': 0.7249048324975266}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.00020311324738724897, 'stop_loss': 0.7568056813506991}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 9.372441841362029e-05, 'stop_loss': 0.7854285202089419}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 9.384290697191145e-05, 'stop_loss': 0.8725688073967908}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 3.416479550065421e-05, 'stop_loss': 0.852391310428311}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 3.076505838625889e-05, 'stop_loss': 0.8766648407051217}
+[RUN] seed=21 outer=4 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.4305935524040833, 'stop_loss': 0.15719591656157778}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.013302903776470885, 'stop_loss': 0.3041113126085248}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.057984022084920865, 'stop_loss': 0.26360343848756335}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.02496316187778382, 'stop_loss': 0.3095795407819938}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.023803672256425556, 'stop_loss': 0.3183336032799116}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.002930482551414997, 'stop_loss': 0.32764063143830413}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.024580006604740332, 'stop_loss': 0.2567148377415237}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.029202944598844538, 'stop_loss': 0.2699868158804852}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.0011981160123651477, 'stop_loss': 0.33038207878541637}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.000971276292757949, 'stop_loss': 0.37191902327306803}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.0002907669708839649, 'stop_loss': 0.38179621697213684}
+[REFIT] seed=21 outer=4 epochs=1 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.517153263092041, 'inner_f2': 0.20895223319530487}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5422909382623363}
+[OK] seed=21 outer=4
+[RUN] seed=31 outer=0 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.4120963928772763, 'stop_loss': 0.17013701149018393}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.04937982334708708, 'stop_loss': 0.19090730525855296}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.03578213840848865, 'stop_loss': 0.2525527242400811}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.008816455866787889, 'stop_loss': 0.31362544031194023}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.0011180527098441355, 'stop_loss': 0.33535155250213816}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.00040255971837204315, 'stop_loss': 0.38138345211008035}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.000322788572092076, 'stop_loss': 0.4063216277675077}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.0001555221423883903, 'stop_loss': 0.4070683990900706}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.1551285847779657, 'stop_loss': 0.2916753935905138}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.025047650685231643, 'stop_loss': 0.23573347172555992}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.002790697950002199, 'stop_loss': 0.31658395008265605}
+[RUN] seed=31 outer=0 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.41900377038265924, 'stop_loss': 0.5759185115638815}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.07995575111111193, 'stop_loss': 0.19379007029515305}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.021766727985080298, 'stop_loss': 0.22478714618099}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.004406028458099989, 'stop_loss': 0.23537010365683853}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.015843194557633677, 'stop_loss': 0.2846602036494263}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.03284376095484869, 'stop_loss': 0.2705194149751013}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.0011053599711050228, 'stop_loss': 0.30874472399458214}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.004988840646357124, 'stop_loss': 0.30075816572898406}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.046861636831421735, 'stop_loss': 0.24289371839010418}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.0017207446084145162, 'stop_loss': 0.28311204422047026}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.008520479612245823, 'stop_loss': 0.2689744191008291}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.0006272330958137593, 'stop_loss': 0.29422345458175936}
+[RUN] seed=31 outer=0 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.5576405987468127, 'stop_loss': 0.1704800491007503}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.13458396716386037, 'stop_loss': 0.21579896244366253}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.044003248536348204, 'stop_loss': 0.2569486697452144}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.006809524408995778, 'stop_loss': 0.2750199139566251}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.06903499456834154, 'stop_loss': 0.24892129526499196}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.026907660526601852, 'stop_loss': 0.2622489207416329}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.07309643319519442, 'stop_loss': 0.272551103830876}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.03139412439910268, 'stop_loss': 0.29119730757663786}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.006563620954948406, 'stop_loss': 0.31186290135477646}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.006372839663895572, 'stop_loss': 0.3347356210992959}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.0007003662246020368, 'stop_loss': 0.3496536977723313}
+[REFIT] seed=31 outer=0 epochs=1 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.49788156151771545, 'inner_f2': 0.2758433520793915}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.4549127018058263}
+[OK] seed=31 outer=0
+[RUN] seed=31 outer=1 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.45429311978054465, 'stop_loss': 0.34720081486543747}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.1036834631835418, 'stop_loss': 0.5534408126918776}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.013699859930407768, 'stop_loss': 0.6136831798818361}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.08558342273795577, 'stop_loss': 0.6391965366323527}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.004400404370871172, 'stop_loss': 0.7326353478701312}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.0011800045744566887, 'stop_loss': 0.7708020328159733}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.0005266173443094715, 'stop_loss': 0.8132343313111573}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.000495039900696412, 'stop_loss': 0.8327412234414501}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.06960028578832586, 'stop_loss': 0.6073416666927718}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.0008987695120782746, 'stop_loss': 0.6968799460745972}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.001815815744372287, 'stop_loss': 0.7938322719675922}
+[RUN] seed=31 outer=1 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.4724829807171538, 'stop_loss': 0.2827302634501113}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.10414494576318042, 'stop_loss': 0.08479634755293283}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.025257475320864052, 'stop_loss': 0.05761644951989874}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.002824524841018196, 'stop_loss': 0.06275013163789352}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.0020000191146963865, 'stop_loss': 0.0687039075687716}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.002492830509508265, 'stop_loss': 0.1308689700570886}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.07376986754218927, 'stop_loss': 0.08335676765388594}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.0010296262216212863, 'stop_loss': 0.06570020768604956}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.002307276719267688, 'stop_loss': 0.060383847098491227}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.00021504804415998832, 'stop_loss': 0.0629632122931216}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.00014390471821033106, 'stop_loss': 0.06548787818388549}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.00015235854560288664, 'stop_loss': 0.06623281549232019}
+[EPOCH] inner_1 {'epoch': 13, 'train_loss': 3.227052729940398e-05, 'stop_loss': 0.0658540702406219}
+[RUN] seed=31 outer=1 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.4940593037380272, 'stop_loss': 0.3072678942233324}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.08397811669482577, 'stop_loss': 0.27033293328926306}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.025093542281547893, 'stop_loss': 0.5599841923200581}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.0035153451220514475, 'stop_loss': 0.6486417812055226}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.0005083741220514744, 'stop_loss': 0.7040171910493033}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.00026448142664773505, 'stop_loss': 0.7383931929146358}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.060376148046890045, 'stop_loss': 0.3294348165019143}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.026144104760129558, 'stop_loss': 0.5237342023903452}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.0009021241608353314, 'stop_loss': 0.5965544779378181}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.0007348376370042884, 'stop_loss': 0.6433896748567313}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.0005535670659493502, 'stop_loss': 0.7042947306337187}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.000225325580305634, 'stop_loss': 0.7236159597846932}
+[REFIT] seed=31 outer=1 epochs=2 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.7615751028060913, 'inner_f2': 0.5000199675559998}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5626244246520662}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.22113497263136211}
+[OK] seed=31 outer=1
+[RUN] seed=31 outer=2 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.5971677532277331, 'stop_loss': 0.3712369762934171}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.4109591931847112, 'stop_loss': 0.3098028778528365}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.17255885511667848, 'stop_loss': 0.11392746128192532}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.025054461076133135, 'stop_loss': 0.05623285441497632}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.18058142095570265, 'stop_loss': 0.10061204274158907}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.045948720131583264, 'stop_loss': 0.07738613112417345}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.008233063180283526, 'stop_loss': 0.07725984719665145}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.021836369576691356, 'stop_loss': 0.09057645379278796}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.04794396813907479, 'stop_loss': 0.09502086670363923}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.019286374610731648, 'stop_loss': 0.06985126751114253}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.053694829641328295, 'stop_loss': 0.1607901645758951}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.004589422966692619, 'stop_loss': 0.09344371128486918}
+[EPOCH] inner_0 {'epoch': 13, 'train_loss': 0.0059272639610085595, 'stop_loss': 0.11073569713271814}
+[EPOCH] inner_0 {'epoch': 14, 'train_loss': 0.050955592827309465, 'stop_loss': 0.11992455466526064}
+[RUN] seed=31 outer=2 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.557473205960802, 'stop_loss': 0.31211213839067625}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.21053143060403107, 'stop_loss': 0.03645300090295956}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.02123789169844601, 'stop_loss': 0.1644600037756435}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.013697802073224026, 'stop_loss': 0.0561034802392978}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.023785901103195634, 'stop_loss': 0.12602262470561748}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.07000111284895295, 'stop_loss': 0.0665098891732896}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.05851229597268285, 'stop_loss': 0.05853481278352035}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.003169910079909351, 'stop_loss': 0.06527277202385914}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.0015523781988369715, 'stop_loss': 0.0924548710699753}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.054934386965053976, 'stop_loss': 0.09316338712280886}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.036901849126631525, 'stop_loss': 0.05712567118204913}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.0023493222078249626, 'stop_loss': 0.04918546936480565}
+[RUN] seed=31 outer=2 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.4940047504923617, 'stop_loss': 0.22863591698308786}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.1668288414645455, 'stop_loss': 0.16505266726471746}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.011606537064233891, 'stop_loss': 0.2179302611117502}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.0014889783902982678, 'stop_loss': 0.2498024647840604}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.042233601807427114, 'stop_loss': 0.22437901635854918}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.000864454552078205, 'stop_loss': 0.26961369297761045}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.0010898734895589495, 'stop_loss': 0.2777005152005488}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.0003463980998700637, 'stop_loss': 0.3252489230999893}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.0004997479772262873, 'stop_loss': 0.36483091620344404}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.00026212109373933143, 'stop_loss': 0.3756405167444495}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 8.157231508961378e-05, 'stop_loss': 0.37584025367206986}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 6.64783228757848e-05, 'stop_loss': 0.37103240845796237}
+[REFIT] seed=31 outer=2 epochs=2 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.4597180187702179, 'inner_f2': 0.016867853701114655}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5571300558184087}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.1583066764180687}
+[OK] seed=31 outer=2
+[RUN] seed=31 outer=3 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.39388848437330504, 'stop_loss': 0.3036626172104308}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.00467353861588463, 'stop_loss': 0.47752579563778574}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.0003919621655488752, 'stop_loss': 0.5198185483466102}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.02658325115659227, 'stop_loss': 0.5176364870528347}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.035539979238293565, 'stop_loss': 0.6543888142455019}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.0005897102639703644, 'stop_loss': 0.6095835528129095}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 8.355223272216656e-05, 'stop_loss': 0.6209357718112334}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.0002891849010195335, 'stop_loss': 0.702224189248438}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.009117036143847932, 'stop_loss': 0.7342110249303138}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.012809072540302857, 'stop_loss': 0.8199348506228598}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.00011769188876999267, 'stop_loss': 0.7977746243651574}
+[RUN] seed=31 outer=3 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.3672916091852805, 'stop_loss': 0.13623779492847848}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.02785626636398136, 'stop_loss': 0.23190464919260498}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.048184294878420436, 'stop_loss': 0.23461359416058492}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.0009860181652579245, 'stop_loss': 0.22208563543242552}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.03055210913181185, 'stop_loss': 0.22328751641470207}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.03110440347827186, 'stop_loss': 0.22853630658926852}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.000525275906900002, 'stop_loss': 0.25836249612986767}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.00015106910820141746, 'stop_loss': 0.2639656218388365}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.00015567881658110162, 'stop_loss': 0.27103295233958213}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.09007777727318261, 'stop_loss': 0.2171995373889493}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.05456228527052282, 'stop_loss': 0.3247230709186475}
+[RUN] seed=31 outer=3 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.5846364979620978, 'stop_loss': 0.5264550369519454}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.23621086333784833, 'stop_loss': 0.21088491395303907}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.06058058228497529, 'stop_loss': 0.21757971455612837}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.07415087570854714, 'stop_loss': 0.21799140670131098}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.01832174903883861, 'stop_loss': 0.21398499435008664}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.0021691024793242778, 'stop_loss': 0.24314390394906685}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.001339643457865938, 'stop_loss': 0.2651825282293526}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.1073558271135357, 'stop_loss': 0.3554560770566715}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.012116211291415232, 'stop_loss': 0.3451414031421729}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.0020602960939329596, 'stop_loss': 0.3680182329393327}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.0012130624385004792, 'stop_loss': 0.377015727809037}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.0003831649134909755, 'stop_loss': 0.37280373334533795}
+[REFIT] seed=31 outer=3 epochs=1 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.5556184649467468, 'inner_f2': 0.09748395532369614}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5242875953026476}
+[OK] seed=31 outer=3
+[RUN] seed=31 outer=4 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.5684823094395663, 'stop_loss': 0.587069852552453}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.22202948803549963, 'stop_loss': 0.09634885111571763}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.03991406018991317, 'stop_loss': 0.2401586020846797}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.04358516429693255, 'stop_loss': 0.1366526099891789}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.004271936797353968, 'stop_loss': 0.1564434535046858}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.0014662339866222506, 'stop_loss': 0.20186383794483104}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.0003928852676811759, 'stop_loss': 0.19045989949058373}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.0002449820723278894, 'stop_loss': 0.1980367652727875}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.00031547072079834027, 'stop_loss': 0.2111939018104945}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.00034709888277988023, 'stop_loss': 0.22931409622214238}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.0001182113809790053, 'stop_loss': 0.23008447731494036}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.0001229476684994886, 'stop_loss': 0.2505706069323418}
+[RUN] seed=31 outer=4 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.6611702054862149, 'stop_loss': 0.6122150491859953}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.28655597544894584, 'stop_loss': 0.09985476095496748}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.14641949061731507, 'stop_loss': 0.17136463344958414}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.06954191002903992, 'stop_loss': 0.11879419146638827}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.010996045017272315, 'stop_loss': 0.1568122771640007}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.10199787112505934, 'stop_loss': 0.15871682593018718}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.06982388122580727, 'stop_loss': 0.12795344010977797}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.048869987885060855, 'stop_loss': 0.16823243218296907}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.018666896583800534, 'stop_loss': 0.15424077348699333}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.0029521079290224387, 'stop_loss': 0.17657204079104072}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.07700497662438942, 'stop_loss': 0.4383053791998926}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.040649126052456165, 'stop_loss': 0.26742047677668657}
+[RUN] seed=31 outer=4 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.5367004860802984, 'stop_loss': 0.3329135417693951}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.13819679946357633, 'stop_loss': 0.33970387738635077}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.05587007118223188, 'stop_loss': 0.38407728025416216}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.036697556279160826, 'stop_loss': 0.5969073315349032}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.03554787266735394, 'stop_loss': 0.5328996427454319}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.013700400956397242, 'stop_loss': 0.5550916994961927}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.04638728619824685, 'stop_loss': 0.6225677280925803}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.0024588022962191876, 'stop_loss': 0.6707241855708383}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.0007232520983169532, 'stop_loss': 0.7253905930478366}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.03673541233197387, 'stop_loss': 0.5496638158568857}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.026977744206522866, 'stop_loss': 0.6656880814864431}
+[REFIT] seed=31 outer=4 epochs=2 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.4726344048976898, 'inner_f2': 0.25715336203575134}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5743812261744299}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.19493360928711304}
+[OK] seed=31 outer=4
+[RUN] seed=41 outer=0 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.6522179044416694, 'stop_loss': 0.6727384448051452}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.33508425917558476, 'stop_loss': 0.1294584899710921}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.11965105916321785, 'stop_loss': 0.3355201943911827}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.02862613965276087, 'stop_loss': 0.13899081126454313}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.07924344367406365, 'stop_loss': 0.06573314341994074}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.003780166399143, 'stop_loss': 0.03130262655612079}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.0014792772133288867, 'stop_loss': 0.03483400619077901}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.08979429761485619, 'stop_loss': 0.02735320424026213}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.0032184975145574434, 'stop_loss': 0.03426442965758969}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.0016182957966856327, 'stop_loss': 0.030613119333215238}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.0009143105473561996, 'stop_loss': 0.052068239607444756}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.0005030728666684115, 'stop_loss': 0.04225016006032132}
+[EPOCH] inner_0 {'epoch': 13, 'train_loss': 0.0002661367917026221, 'stop_loss': 0.03773163131081488}
+[EPOCH] inner_0 {'epoch': 14, 'train_loss': 0.0001623355375669434, 'stop_loss': 0.03996965510461763}
+[EPOCH] inner_0 {'epoch': 15, 'train_loss': 0.0018092133672991044, 'stop_loss': 0.023181370912589747}
+[EPOCH] inner_0 {'epoch': 16, 'train_loss': 0.0006272729919655891, 'stop_loss': 0.037222247838269704}
+[EPOCH] inner_0 {'epoch': 17, 'train_loss': 9.153517973010745e-05, 'stop_loss': 0.04052231968313447}
+[EPOCH] inner_0 {'epoch': 18, 'train_loss': 0.00011479778111263796, 'stop_loss': 0.051519134218469056}
+[EPOCH] inner_0 {'epoch': 19, 'train_loss': 8.430997237689402e-05, 'stop_loss': 0.06637039500665458}
+[EPOCH] inner_0 {'epoch': 20, 'train_loss': 4.9328045426355426e-05, 'stop_loss': 0.06485646557931189}
+[EPOCH] inner_0 {'epoch': 21, 'train_loss': 3.687268089101315e-05, 'stop_loss': 0.05451408544349378}
+[EPOCH] inner_0 {'epoch': 22, 'train_loss': 3.496117767481295e-05, 'stop_loss': 0.0627600241079496}
+[EPOCH] inner_0 {'epoch': 23, 'train_loss': 2.0266877249567275e-05, 'stop_loss': 0.06504850252955335}
+[EPOCH] inner_0 {'epoch': 24, 'train_loss': 2.5957902857697478e-05, 'stop_loss': 0.064580389229487}
+[EPOCH] inner_0 {'epoch': 25, 'train_loss': 1.4611330993294233e-05, 'stop_loss': 0.06593691846579737}
+[RUN] seed=41 outer=0 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.5591965456780924, 'stop_loss': 0.2525221957344442}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.16905228535499628, 'stop_loss': 0.23521997715937276}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.06774969993570658, 'stop_loss': 0.18351161149159576}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.06600078599554005, 'stop_loss': 0.11078155951707157}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.029588087058347364, 'stop_loss': 0.15238305242687514}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.039152380321316876, 'stop_loss': 0.12483534327822855}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.04096872153198104, 'stop_loss': 0.19536369714379193}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.0035233750643721786, 'stop_loss': 0.23713655345109236}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.020146993004372952, 'stop_loss': 0.23611960484697406}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.0015921389374792395, 'stop_loss': 0.2736975522272986}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.0014785695942311924, 'stop_loss': 0.3279254118456674}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.028837513550059684, 'stop_loss': 0.2835418610562877}
+[EPOCH] inner_1 {'epoch': 13, 'train_loss': 0.0015867786098538708, 'stop_loss': 0.2579267795887558}
+[EPOCH] inner_1 {'epoch': 14, 'train_loss': 0.0005935491257541387, 'stop_loss': 0.26576657315892116}
+[RUN] seed=41 outer=0 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.6398108817148404, 'stop_loss': 0.23130130914391064}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.28214879103050733, 'stop_loss': 0.053759511096925915}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.06439334062264096, 'stop_loss': 0.24989701434242306}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.14435669886221883, 'stop_loss': 0.11066201300995179}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.03700022541981719, 'stop_loss': 0.1323757830428714}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.06784774967790695, 'stop_loss': 0.12995974098434926}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.03172380823724549, 'stop_loss': 0.20091962605056324}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.06623712445770394, 'stop_loss': 0.16061860403113046}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.005174748863470849, 'stop_loss': 0.19901306357852994}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.035658855829467456, 'stop_loss': 0.13547747550795766}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.044705228892497846, 'stop_loss': 0.11148867965585686}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.10832982331621716, 'stop_loss': 0.07795114277857956}
+[REFIT] seed=41 outer=0 epochs=4 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.049765266478061676, 'inner_f2': 0.049765266478061676}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5442999467710002}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.17124260395885674}
+[EPOCH] refit {'epoch': 3, 'train_loss': 0.0883982481954105}
+[EPOCH] refit {'epoch': 4, 'train_loss': 0.09103311498696406}
+[OK] seed=41 outer=0
+[RUN] seed=41 outer=1 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.6158481966401261, 'stop_loss': 0.39160702092340216}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.13025573991599712, 'stop_loss': 0.17900293364493614}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.07958630895402939, 'stop_loss': 0.23457895695790398}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.029420798368740876, 'stop_loss': 0.22422675135615622}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.0314546165797105, 'stop_loss': 0.22929616030277378}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.056288831368338586, 'stop_loss': 0.22742989103323696}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.013748257300022599, 'stop_loss': 0.25939731714137193}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.016709054566405458, 'stop_loss': 0.2490384577540482}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.003448742882431038, 'stop_loss': 0.28082160277906953}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.028094117358208114, 'stop_loss': 0.21157254818534033}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.0013788552629537937, 'stop_loss': 0.2383920045354635}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.0007545499719843359, 'stop_loss': 0.25704712410821207}
+[RUN] seed=41 outer=1 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.4906061276411638, 'stop_loss': 0.19768388131858722}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.025690722815182424, 'stop_loss': 0.33210028284267884}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.033312213755690635, 'stop_loss': 0.2583667291018386}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.07123882441395063, 'stop_loss': 0.3117048571301767}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.030687225217533465, 'stop_loss': 0.39292592557556677}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.001549443655750025, 'stop_loss': 0.33199808826970506}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.03408608532010905, 'stop_loss': 0.3094361977982047}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.026626301723630376, 'stop_loss': 0.33783203297466097}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.10755668976580589, 'stop_loss': 0.22497551103864563}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.026550528071179542, 'stop_loss': 0.26922042980426614}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.0037542421468685348, 'stop_loss': 0.2781826577060957}
+[RUN] seed=41 outer=1 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.6196407769476214, 'stop_loss': 0.8879247019688289}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.3504080535528755, 'stop_loss': 0.539539163109536}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.10757915044050037, 'stop_loss': 0.10512925238460108}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.03880140866183884, 'stop_loss': 0.16557098545078286}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.03404581602496983, 'stop_loss': 0.21702790616891435}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.06003645180449552, 'stop_loss': 0.22473313766192102}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.03788418068133444, 'stop_loss': 0.1282642651628142}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.008877544350684151, 'stop_loss': 0.23054593153081746}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.0032251410489563905, 'stop_loss': 0.22081116556987582}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.0010533339444591314, 'stop_loss': 0.204642913595985}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.000590123266842537, 'stop_loss': 0.20442283949968357}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.043539425632633674, 'stop_loss': 0.17903335627475853}
+[EPOCH] inner_2 {'epoch': 13, 'train_loss': 0.027972179847766006, 'stop_loss': 0.1592881821536641}
+[REFIT] seed=41 outer=1 epochs=2 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.13074292242527008, 'inner_f2': 0.13074292242527008}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5208241886789761}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.21004276402242686}
+[OK] seed=41 outer=1
+[RUN] seed=41 outer=2 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.6049498491841605, 'stop_loss': 0.35202027977474276}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.1584736041835856, 'stop_loss': 0.021828063693734998}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.08598122391381309, 'stop_loss': 0.033923170818055834}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.011913470644466065, 'stop_loss': 0.02182968677586007}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.002809007413245175, 'stop_loss': 0.023370341243970607}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.0008244378825232953, 'stop_loss': 0.010375350953168092}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.0005108274618128685, 'stop_loss': 0.027249147965195005}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.0003356165030444648, 'stop_loss': 0.02219516497745904}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.13936647087275886, 'stop_loss': 0.09531510612578131}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.02396352587290876, 'stop_loss': 0.009337247857494672}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.0066306952976584056, 'stop_loss': 0.01920548683257046}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.0008860209200507263, 'stop_loss': 0.018600619974372255}
+[EPOCH] inner_0 {'epoch': 13, 'train_loss': 0.0008115547764391048, 'stop_loss': 0.011772141028819462}
+[EPOCH] inner_0 {'epoch': 14, 'train_loss': 0.000297709451839117, 'stop_loss': 0.01572039954951452}
+[EPOCH] inner_0 {'epoch': 15, 'train_loss': 0.0001991410182449269, 'stop_loss': 0.009578836849011585}
+[EPOCH] inner_0 {'epoch': 16, 'train_loss': 0.00013779517465340084, 'stop_loss': 0.004975160641371927}
+[EPOCH] inner_0 {'epoch': 17, 'train_loss': 9.138887155088435e-05, 'stop_loss': 0.003510340670341029}
+[EPOCH] inner_0 {'epoch': 18, 'train_loss': 0.00011688117247192464, 'stop_loss': 0.00177578417047733}
+[EPOCH] inner_0 {'epoch': 19, 'train_loss': 0.00012306295822850743, 'stop_loss': 0.006149079616741869}
+[EPOCH] inner_0 {'epoch': 20, 'train_loss': 6.121667160774258e-05, 'stop_loss': 0.0025401237193304017}
+[EPOCH] inner_0 {'epoch': 21, 'train_loss': 3.4505757973018744e-05, 'stop_loss': 0.0024158402034278343}
+[EPOCH] inner_0 {'epoch': 22, 'train_loss': 2.8628367472405082e-05, 'stop_loss': 0.0014350893344719166}
+[EPOCH] inner_0 {'epoch': 23, 'train_loss': 2.5148528399540015e-05, 'stop_loss': 0.0015627368658831914}
+[EPOCH] inner_0 {'epoch': 24, 'train_loss': 1.6257954556977465e-05, 'stop_loss': 0.0012098225944781908}
+[EPOCH] inner_0 {'epoch': 25, 'train_loss': 1.5009424940982504e-05, 'stop_loss': 0.0008525617992582572}
+[EPOCH] inner_0 {'epoch': 26, 'train_loss': 2.1932516194221478e-05, 'stop_loss': 0.0016364514002114743}
+[EPOCH] inner_0 {'epoch': 27, 'train_loss': 9.569315634342813e-06, 'stop_loss': 0.003045552914456027}
+[EPOCH] inner_0 {'epoch': 28, 'train_loss': 2.8911389070938947e-05, 'stop_loss': 0.0008662612144970553}
+[EPOCH] inner_0 {'epoch': 29, 'train_loss': 9.232625027889404e-06, 'stop_loss': 0.00032685326225226444}
+[EPOCH] inner_0 {'epoch': 30, 'train_loss': 2.4318849309333416e-05, 'stop_loss': 0.000903966141327985}
+[EPOCH] inner_0 {'epoch': 31, 'train_loss': 2.1575071448750537e-05, 'stop_loss': 0.0020966750941706063}
+[EPOCH] inner_0 {'epoch': 32, 'train_loss': 5.266700667989734e-06, 'stop_loss': 0.0011492492903397854}
+[EPOCH] inner_0 {'epoch': 33, 'train_loss': 0.08088816227170093, 'stop_loss': 0.07663487806046869}
+[EPOCH] inner_0 {'epoch': 34, 'train_loss': 0.01199816759245173, 'stop_loss': 0.1652687613441322}
+[EPOCH] inner_0 {'epoch': 35, 'train_loss': 0.00028184821250179, 'stop_loss': 0.1551575697597146}
+[EPOCH] inner_0 {'epoch': 36, 'train_loss': 0.00010147601846732236, 'stop_loss': 0.14913833895004008}
+[EPOCH] inner_0 {'epoch': 37, 'train_loss': 0.00010152762616282548, 'stop_loss': 0.13755142861156783}
+[EPOCH] inner_0 {'epoch': 38, 'train_loss': 0.0001639133876582459, 'stop_loss': 0.14687447389039518}
+[EPOCH] inner_0 {'epoch': 39, 'train_loss': 4.660606573043981e-05, 'stop_loss': 0.14151728340363506}
+[RUN] seed=41 outer=2 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.60379617917159, 'stop_loss': 0.26942053337891897}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.34889234226603016, 'stop_loss': 0.34490997206109264}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.1545074585763825, 'stop_loss': 0.03780875082647981}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.047147935042198594, 'stop_loss': 0.031163736791101352}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.11927049485505598, 'stop_loss': 0.051205515990451055}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.012156344829813223, 'stop_loss': 0.07545325189227098}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.028546496569961267, 'stop_loss': 0.08404796234697708}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.0032959953531146043, 'stop_loss': 0.04133447049982415}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.0016694152757949668, 'stop_loss': 0.034916109136615366}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.018948217482399086, 'stop_loss': 0.16647119873979505}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.03821426401966345, 'stop_loss': 0.0646819902282027}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.06754752145115711, 'stop_loss': 1.022318927768356}
+[EPOCH] inner_1 {'epoch': 13, 'train_loss': 0.11329680166971298, 'stop_loss': 0.05035920393244832}
+[EPOCH] inner_1 {'epoch': 14, 'train_loss': 0.03066733110535897, 'stop_loss': 0.0067626885747757845}
+[EPOCH] inner_1 {'epoch': 15, 'train_loss': 0.0035472937920789345, 'stop_loss': 0.04782280831628647}
+[EPOCH] inner_1 {'epoch': 16, 'train_loss': 0.03532532613301131, 'stop_loss': 0.1235900649794336}
+[EPOCH] inner_1 {'epoch': 17, 'train_loss': 0.009126824869020162, 'stop_loss': 0.006034871787400675}
+[EPOCH] inner_1 {'epoch': 18, 'train_loss': 0.001133751678225413, 'stop_loss': 0.014768852352245669}
+[EPOCH] inner_1 {'epoch': 19, 'train_loss': 0.006740439072656803, 'stop_loss': 0.0013747998324782648}
+[EPOCH] inner_1 {'epoch': 20, 'train_loss': 0.001136752145685813, 'stop_loss': 0.0032967326087742777}
+[EPOCH] inner_1 {'epoch': 21, 'train_loss': 0.0014787222945099902, 'stop_loss': 0.007623795239407964}
+[EPOCH] inner_1 {'epoch': 22, 'train_loss': 0.0004530706191327656, 'stop_loss': 0.004476250376839986}
+[EPOCH] inner_1 {'epoch': 23, 'train_loss': 0.000874078272872695, 'stop_loss': 0.003689306933933878}
+[EPOCH] inner_1 {'epoch': 24, 'train_loss': 7.179274409828142e-05, 'stop_loss': 0.004678729644248018}
+[EPOCH] inner_1 {'epoch': 25, 'train_loss': 0.0004027984402186617, 'stop_loss': 0.0005491925855479233}
+[EPOCH] inner_1 {'epoch': 26, 'train_loss': 0.00016604795362745682, 'stop_loss': 0.002615232441938531}
+[EPOCH] inner_1 {'epoch': 27, 'train_loss': 0.00043184206804431307, 'stop_loss': 0.00028022464202817805}
+[EPOCH] inner_1 {'epoch': 28, 'train_loss': 0.00016080370948175343, 'stop_loss': 0.0020783170750667307}
+[EPOCH] inner_1 {'epoch': 29, 'train_loss': 5.068695956951656e-05, 'stop_loss': 0.0016307257689951152}
+[EPOCH] inner_1 {'epoch': 30, 'train_loss': 2.3757833957299278e-05, 'stop_loss': 0.002890864536868776}
+[EPOCH] inner_1 {'epoch': 31, 'train_loss': 3.068445356285377e-05, 'stop_loss': 0.004679905443407506}
+[EPOCH] inner_1 {'epoch': 32, 'train_loss': 1.4304517324110425e-05, 'stop_loss': 0.006918391130992063}
+[EPOCH] inner_1 {'epoch': 33, 'train_loss': 0.00031383044467882157, 'stop_loss': 0.00027804252519937714}
+[EPOCH] inner_1 {'epoch': 34, 'train_loss': 5.6830660906056604e-05, 'stop_loss': 0.00043788430835682844}
+[EPOCH] inner_1 {'epoch': 35, 'train_loss': 2.9543730332921423e-05, 'stop_loss': 0.0007342275372065406}
+[EPOCH] inner_1 {'epoch': 36, 'train_loss': 0.08976960981580993, 'stop_loss': 0.03747263734777964}
+[EPOCH] inner_1 {'epoch': 37, 'train_loss': 0.04687150377153882, 'stop_loss': 0.020221828927903474}
+[EPOCH] inner_1 {'epoch': 38, 'train_loss': 0.0004923929996132154, 'stop_loss': 0.015204903990228875}
+[EPOCH] inner_1 {'epoch': 39, 'train_loss': 0.003013250027957053, 'stop_loss': 0.025537829756023575}
+[EPOCH] inner_1 {'epoch': 40, 'train_loss': 0.00037807807903049223, 'stop_loss': 0.007690912096288471}
+[EPOCH] inner_1 {'epoch': 41, 'train_loss': 0.0003519863145527853, 'stop_loss': 0.004889308775172078}
+[EPOCH] inner_1 {'epoch': 42, 'train_loss': 0.00043819585113060886, 'stop_loss': 0.004904525280168907}
+[EPOCH] inner_1 {'epoch': 43, 'train_loss': 0.00021449852071879643, 'stop_loss': 0.0029912587743068523}
+[RUN] seed=41 outer=2 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.3923616847842287, 'stop_loss': 0.28187191876054}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.04422389719282527, 'stop_loss': 0.28759575779450275}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.002261196892065797, 'stop_loss': 0.39592734299822124}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.07216284993167232, 'stop_loss': 0.410412089821408}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.06386633109182034, 'stop_loss': 0.33337874041281}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.0012860000638612334, 'stop_loss': 0.42604515103365576}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.00025938748190076487, 'stop_loss': 0.5118600845887566}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.0005833330646766354, 'stop_loss': 0.6163172478677512}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 9.660593679888098e-05, 'stop_loss': 0.6232621931804806}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 2.9234998377023098e-05, 'stop_loss': 0.6218677960612653}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.06268296387597837, 'stop_loss': 0.4285190624388516}
+[REFIT] seed=41 outer=2 epochs=29 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.9503154158592224, 'inner_f2': 0.09203322231769562}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.46172025488243496}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.14579765113614562}
+[EPOCH] refit {'epoch': 3, 'train_loss': 0.042103428176040805}
+[EPOCH] refit {'epoch': 4, 'train_loss': 0.04686806202501401}
+[EPOCH] refit {'epoch': 5, 'train_loss': 0.0726423774227136}
+[EPOCH] refit {'epoch': 6, 'train_loss': 0.0509026740194373}
+[EPOCH] refit {'epoch': 7, 'train_loss': 0.06187815492210807}
+[EPOCH] refit {'epoch': 8, 'train_loss': 0.020325161021013068}
+[EPOCH] refit {'epoch': 9, 'train_loss': 0.02532680630162609}
+[EPOCH] refit {'epoch': 10, 'train_loss': 0.007484030132302752}
+[EPOCH] refit {'epoch': 11, 'train_loss': 0.010247101392384467}
+[EPOCH] refit {'epoch': 12, 'train_loss': 0.01853822224305444}
+[EPOCH] refit {'epoch': 13, 'train_loss': 0.08721111173487563}
+[EPOCH] refit {'epoch': 14, 'train_loss': 0.015747510359356287}
+[EPOCH] refit {'epoch': 15, 'train_loss': 0.027198604247346967}
+[EPOCH] refit {'epoch': 16, 'train_loss': 0.05188747365033227}
+[EPOCH] refit {'epoch': 17, 'train_loss': 0.027709579678660334}
+[EPOCH] refit {'epoch': 18, 'train_loss': 0.012954712076609013}
+[EPOCH] refit {'epoch': 19, 'train_loss': 0.03703787399938467}
+[EPOCH] refit {'epoch': 20, 'train_loss': 0.032397589490875574}
+[EPOCH] refit {'epoch': 21, 'train_loss': 0.0007691592995450928}
+[EPOCH] refit {'epoch': 22, 'train_loss': 0.014380634719133175}
+[EPOCH] refit {'epoch': 23, 'train_loss': 0.051750520119082516}
+[EPOCH] refit {'epoch': 24, 'train_loss': 0.0017989568623574842}
+[EPOCH] refit {'epoch': 25, 'train_loss': 0.0005390330068140178}
+[EPOCH] refit {'epoch': 26, 'train_loss': 0.00027246673465057666}
+[EPOCH] refit {'epoch': 27, 'train_loss': 0.030643103764690236}
+[EPOCH] refit {'epoch': 28, 'train_loss': 0.00024106813254655085}
+[EPOCH] refit {'epoch': 29, 'train_loss': 0.030379620455652772}
+[OK] seed=41 outer=2
+[RUN] seed=41 outer=3 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.6424769661839931, 'stop_loss': 0.49142208060280224}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.1490649264669628, 'stop_loss': 0.2720705577054015}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.011176571430173827, 'stop_loss': 0.4384542687595192}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.05272100631604482, 'stop_loss': 0.49446742952795086}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.04568877013586035, 'stop_loss': 0.3772866143055401}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.013882273983668827, 'stop_loss': 0.2343572882033842}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.005378617770881229, 'stop_loss': 0.561614593313398}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.07020897378937328, 'stop_loss': 0.799208453188929}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.0023405435731792437, 'stop_loss': 0.4166563235792294}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.004754599219769463, 'stop_loss': 0.28067429750481243}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.00039410312681963414, 'stop_loss': 0.3812105627803509}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.0002641252991435615, 'stop_loss': 0.4138532766036644}
+[EPOCH] inner_0 {'epoch': 13, 'train_loss': 0.00025075502696114335, 'stop_loss': 0.4512300849039697}
+[EPOCH] inner_0 {'epoch': 14, 'train_loss': 0.00023125441064228693, 'stop_loss': 0.4263445407511229}
+[EPOCH] inner_0 {'epoch': 15, 'train_loss': 0.00011492995621380365, 'stop_loss': 0.4479556811193768}
+[EPOCH] inner_0 {'epoch': 16, 'train_loss': 0.00010441618448929088, 'stop_loss': 0.4686655983828989}
+[RUN] seed=41 outer=3 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.41031093934772445, 'stop_loss': 0.1095128447762621}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.07569920032119626, 'stop_loss': 0.09219256206665365}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.035460077450964814, 'stop_loss': 0.09947865586028497}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.056275321667265336, 'stop_loss': 0.10503451346503154}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.03264646218795666, 'stop_loss': 0.08306329406476115}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.004418917721800314, 'stop_loss': 0.10872893907200919}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.00842174944203884, 'stop_loss': 0.11050653667891727}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.055531517674606484, 'stop_loss': 0.11156299498113742}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.020003099351442993, 'stop_loss': 0.10349500214898126}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.0013053954324403877, 'stop_loss': 0.11366714602115184}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.0012296730056263068, 'stop_loss': 0.11880995434321105}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.0004374745363294275, 'stop_loss': 0.11609905678838572}
+[EPOCH] inner_1 {'epoch': 13, 'train_loss': 0.0021166226332416022, 'stop_loss': 0.13137995609510203}
+[EPOCH] inner_1 {'epoch': 14, 'train_loss': 0.00018998277074212138, 'stop_loss': 0.13140326809697658}
+[EPOCH] inner_1 {'epoch': 15, 'train_loss': 0.00046804847394936233, 'stop_loss': 0.15198811641876406}
+[RUN] seed=41 outer=3 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.6455980406900649, 'stop_loss': 0.6026252223895147}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.2437786204062268, 'stop_loss': 0.15454768228989382}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.08706081834060594, 'stop_loss': 0.21262299939771764}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.13675377651204257, 'stop_loss': 0.18444820276658552}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.05561131798870921, 'stop_loss': 0.21558876271206268}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.04566778239214444, 'stop_loss': 0.2310545226618615}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.06694327455325627, 'stop_loss': 0.25248463462113213}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.04461001766838734, 'stop_loss': 0.24759034716784858}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.012880066646130586, 'stop_loss': 0.29146242677081946}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 0.0635866499231915, 'stop_loss': 0.3005448820619229}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 0.005180111904483327, 'stop_loss': 0.2935527650084246}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 0.02774953008518243, 'stop_loss': 0.4168818424944535}
+[REFIT] seed=41 outer=3 epochs=5 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.08435418456792831, 'inner_f2': 0.08435418456792831}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.5286821669542716}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.1254075716205367}
+[EPOCH] refit {'epoch': 3, 'train_loss': 0.07676020898013741}
+[EPOCH] refit {'epoch': 4, 'train_loss': 0.07176584945604379}
+[EPOCH] refit {'epoch': 5, 'train_loss': 0.020954531561679292}
+[OK] seed=41 outer=3
+[RUN] seed=41 outer=4 inner=0
+[EPOCH] inner_0 {'epoch': 1, 'train_loss': 0.5466046123574645, 'stop_loss': 0.29820805478763457}
+[EPOCH] inner_0 {'epoch': 2, 'train_loss': 0.20425350344737103, 'stop_loss': 0.12048556497019831}
+[EPOCH] inner_0 {'epoch': 3, 'train_loss': 0.06563831960510448, 'stop_loss': 0.15827632320929902}
+[EPOCH] inner_0 {'epoch': 4, 'train_loss': 0.012530581815660946, 'stop_loss': 0.11558702482591225}
+[EPOCH] inner_0 {'epoch': 5, 'train_loss': 0.009956639671583358, 'stop_loss': 0.112708158383334}
+[EPOCH] inner_0 {'epoch': 6, 'train_loss': 0.0022848563559727717, 'stop_loss': 0.115144173118149}
+[EPOCH] inner_0 {'epoch': 7, 'train_loss': 0.06719074691262823, 'stop_loss': 0.11149837180948871}
+[EPOCH] inner_0 {'epoch': 8, 'train_loss': 0.04286783935562491, 'stop_loss': 0.09629929937284806}
+[EPOCH] inner_0 {'epoch': 9, 'train_loss': 0.0010337948603553785, 'stop_loss': 0.0985448818141523}
+[EPOCH] inner_0 {'epoch': 10, 'train_loss': 0.00039764582456081336, 'stop_loss': 0.09981731418065773}
+[EPOCH] inner_0 {'epoch': 11, 'train_loss': 0.00028576442356836174, 'stop_loss': 0.10271767793668865}
+[EPOCH] inner_0 {'epoch': 12, 'train_loss': 0.0005396780082927755, 'stop_loss': 0.10380102595529372}
+[EPOCH] inner_0 {'epoch': 13, 'train_loss': 0.00012898109606469308, 'stop_loss': 0.10406729035499597}
+[EPOCH] inner_0 {'epoch': 14, 'train_loss': 0.0007630158082874766, 'stop_loss': 0.10447656451800948}
+[EPOCH] inner_0 {'epoch': 15, 'train_loss': 0.0001343693160079567, 'stop_loss': 0.10440028301429649}
+[EPOCH] inner_0 {'epoch': 16, 'train_loss': 5.6736549914577735e-05, 'stop_loss': 0.1043489101900087}
+[EPOCH] inner_0 {'epoch': 17, 'train_loss': 0.05651166228281583, 'stop_loss': 0.11662943397184773}
+[EPOCH] inner_0 {'epoch': 18, 'train_loss': 0.08892579914399189, 'stop_loss': 0.1597228126980344}
+[RUN] seed=41 outer=4 inner=1
+[EPOCH] inner_1 {'epoch': 1, 'train_loss': 0.46445966637276903, 'stop_loss': 0.4330294390344837}
+[EPOCH] inner_1 {'epoch': 2, 'train_loss': 0.19461441285366016, 'stop_loss': 0.4841624038211042}
+[EPOCH] inner_1 {'epoch': 3, 'train_loss': 0.10401270976215192, 'stop_loss': 0.3298266196729773}
+[EPOCH] inner_1 {'epoch': 4, 'train_loss': 0.08850968237805325, 'stop_loss': 0.29457076914746094}
+[EPOCH] inner_1 {'epoch': 5, 'train_loss': 0.0171333697935656, 'stop_loss': 0.17129104184259253}
+[EPOCH] inner_1 {'epoch': 6, 'train_loss': 0.004065215041888557, 'stop_loss': 0.18055394354149285}
+[EPOCH] inner_1 {'epoch': 7, 'train_loss': 0.0023903102948095094, 'stop_loss': 0.1845945329179204}
+[EPOCH] inner_1 {'epoch': 8, 'train_loss': 0.00125978365165532, 'stop_loss': 0.1358812624789247}
+[EPOCH] inner_1 {'epoch': 9, 'train_loss': 0.0007343358671201337, 'stop_loss': 0.137833002382168}
+[EPOCH] inner_1 {'epoch': 10, 'train_loss': 0.0004711469737803278, 'stop_loss': 0.16236701441731138}
+[EPOCH] inner_1 {'epoch': 11, 'train_loss': 0.0007783271623923242, 'stop_loss': 0.17703099578407422}
+[EPOCH] inner_1 {'epoch': 12, 'train_loss': 0.0005827879926709618, 'stop_loss': 0.11136451371715476}
+[EPOCH] inner_1 {'epoch': 13, 'train_loss': 0.0003051452694214313, 'stop_loss': 0.1178331970557199}
+[EPOCH] inner_1 {'epoch': 14, 'train_loss': 0.00019073728332161323, 'stop_loss': 0.15808065435591465}
+[EPOCH] inner_1 {'epoch': 15, 'train_loss': 0.0002485479121830685, 'stop_loss': 0.1765046267785884}
+[EPOCH] inner_1 {'epoch': 16, 'train_loss': 3.2099330700466535e-05, 'stop_loss': 0.17713077189613222}
+[EPOCH] inner_1 {'epoch': 17, 'train_loss': 8.167723849664607e-05, 'stop_loss': 0.1608292158407661}
+[EPOCH] inner_1 {'epoch': 18, 'train_loss': 3.844573780300059e-05, 'stop_loss': 0.1572812763337519}
+[EPOCH] inner_1 {'epoch': 19, 'train_loss': 3.841277316484863e-05, 'stop_loss': 0.17840328432968539}
+[EPOCH] inner_1 {'epoch': 20, 'train_loss': 2.503274118389185e-05, 'stop_loss': 0.15871835713589585}
+[EPOCH] inner_1 {'epoch': 21, 'train_loss': 2.5495261434515e-05, 'stop_loss': 0.17790854186340954}
+[EPOCH] inner_1 {'epoch': 22, 'train_loss': 1.4900760920775516e-05, 'stop_loss': 0.17596414379703826}
+[RUN] seed=41 outer=4 inner=2
+[EPOCH] inner_2 {'epoch': 1, 'train_loss': 0.4453219455904365, 'stop_loss': 0.2557921118006624}
+[EPOCH] inner_2 {'epoch': 2, 'train_loss': 0.024249420502355273, 'stop_loss': 0.11199179257948408}
+[EPOCH] inner_2 {'epoch': 3, 'train_loss': 0.0016761827710478055, 'stop_loss': 0.150957670019893}
+[EPOCH] inner_2 {'epoch': 4, 'train_loss': 0.0008020166924829423, 'stop_loss': 0.16375364529061825}
+[EPOCH] inner_2 {'epoch': 5, 'train_loss': 0.00037357370914616094, 'stop_loss': 0.19255871721668427}
+[EPOCH] inner_2 {'epoch': 6, 'train_loss': 0.0004666062696320159, 'stop_loss': 0.21554487950067697}
+[EPOCH] inner_2 {'epoch': 7, 'train_loss': 0.00029019304161930073, 'stop_loss': 0.2397101912784395}
+[EPOCH] inner_2 {'epoch': 8, 'train_loss': 0.00011176305049873014, 'stop_loss': 0.21875502559337323}
+[EPOCH] inner_2 {'epoch': 9, 'train_loss': 0.0001493127646191046, 'stop_loss': 0.2254500173375927}
+[EPOCH] inner_2 {'epoch': 10, 'train_loss': 3.798048720344265e-05, 'stop_loss': 0.2249771580244399}
+[EPOCH] inner_2 {'epoch': 11, 'train_loss': 2.8463106470092676e-05, 'stop_loss': 0.2267301225321609}
+[EPOCH] inner_2 {'epoch': 12, 'train_loss': 8.65783199824852e-05, 'stop_loss': 0.26316131385189556}
+[REFIT] seed=41 outer=4 epochs=8 thresholds={'fixed_0p5': 0.5, 'inner_f1': 0.08321070671081543, 'inner_f2': 0.010708755813539028}
+[EPOCH] refit {'epoch': 1, 'train_loss': 0.41517231733183846}
+[EPOCH] refit {'epoch': 2, 'train_loss': 0.08945181331930045}
+[EPOCH] refit {'epoch': 3, 'train_loss': 0.027996399609547636}
+[EPOCH] refit {'epoch': 4, 'train_loss': 0.05355193389510365}
+[EPOCH] refit {'epoch': 5, 'train_loss': 0.05964917326462815}
+[EPOCH] refit {'epoch': 6, 'train_loss': 0.010943952171968205}
+[EPOCH] refit {'epoch': 7, 'train_loss': 0.023139166408867547}
+[EPOCH] refit {'epoch': 8, 'train_loss': 0.02666198901684159}
+[OK] seed=41 outer=4
+            tp              fp              fn           precision           sensitivity           specificity                  f1                  f2                 mcc               auroc              pr_auc         
+          mean       std  mean        std mean       std      mean       std        mean       std        mean       std      mean       std      mean       std      mean       std      mean       std      mean      std
+rule                                                                                                                                                                                                                       
+fixed_0p5  5.6  1.516575  26.2  16.300307  8.4  1.516575  0.195786  0.053614    0.400000  0.108327    0.953298  0.029056  0.252616  0.038942  0.316485  0.035232  0.247302  0.031899  0.798243  0.050221  0.185762  0.05317
+inner_f1   5.4  2.073644  26.2  14.289857  8.6  2.073644  0.180659  0.027978    0.385714  0.148117    0.953298  0.025472  0.234789  0.024379  0.299698  0.066835  0.230891  0.035480  0.798243  0.050221  0.185762  0.05317
+inner_f2   8.4  2.073644  63.6  44.433096  5.6  2.073644  0.137308  0.043974    0.600000  0.148117    0.886631  0.079203  0.216125  0.054300  0.338499  0.057887  0.243084  0.045922  0.798243  0.050221  0.185762  0.05317

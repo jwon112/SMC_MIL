@@ -1,0 +1,14 @@
+{
+  "thresholds": {
+    "fixed_0p5": 0.5,
+    "inner_f1": 0.4197750389575958,
+    "inner_f2": 0.4197750389575958
+  },
+  "inner_best_epochs": [
+    1,
+    2,
+    4
+  ],
+  "refit_epochs": 2,
+  "primary": "inner_f2"
+}

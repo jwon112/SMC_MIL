@@ -1,0 +1,5 @@
+{
+  "seed": 400013,
+  "selected_epoch": 4,
+  "selection": "fixed_inner_median"
+}
