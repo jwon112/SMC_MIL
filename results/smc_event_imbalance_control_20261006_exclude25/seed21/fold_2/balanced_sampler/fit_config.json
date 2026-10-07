@@ -1,0 +1,15 @@
+{
+  "seed": 21,
+  "fold": 2,
+  "condition": "balanced_sampler",
+  "initialization_sha256": "d868e17c290f01ec28d4c8a0e77301cd81d28a8bc9289f51a806ead863789c6d",
+  "class_weights": [
+    0.511049747467041,
+    23.125
+  ],
+  "fit_events": 370,
+  "fit_positive": 8,
+  "stopping_objective": "unweighted CE",
+  "mask": "observed",
+  "patch_cap": 2048
+}
