@@ -1,0 +1,11 @@
+{
+  "seed": 11,
+  "fold": 2,
+  "selected_C": 0.1,
+  "stop_log_loss": 0.06138867208435568,
+  "fit_events": 361,
+  "stop_events": 90,
+  "test_events": 124,
+  "coefficients": 1537,
+  "no_refit": true
+}

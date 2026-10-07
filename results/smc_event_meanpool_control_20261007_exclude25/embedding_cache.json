@@ -1,0 +1,8 @@
+{
+  "sha256": "d902c2d5b2fa8efcbd105062d24df10d1141423cfaef436fa6841ed1dacb0fc9",
+  "protocol_sha256": "4c7409c028680bc8f5101e15e5a087cf0449e6f9009044f85c5f463429bbc045",
+  "events": 575,
+  "dimension": 1536,
+  "supervised_fit": false,
+  "scope": "Fixed per-event feature averages; no label fitting or cohort-wide normalization"
+}
