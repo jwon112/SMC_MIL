@@ -29,6 +29,7 @@ literature store.
 
 ## Recent records
 
+- [2026-10-07: mean-pooling logistic baseline control plan](2026-10-07-meanpool-baseline-control-plan.md)
 - [2026-10-07: stain comparison feasibility and next experiment](2026-10-07-stain-feasibility-and-next-experiment.md)
 - [2026-10-07: literature and experiment synthesis](2026-10-07-literature-and-experiment-synthesis.md)
 - [Current WSI research synthesis](../docs/smc_wsi_research_synthesis_20261007.md)
