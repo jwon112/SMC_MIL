@@ -1,0 +1,6 @@
+group,events,patients,positive_events,positive_patients,slides,positive_fraction,persistent_miss_events,persistent_miss_patients
+HE,303,106,5,4,309,0.0165016501650165,3,2
+HE+IHC,126,71,6,6,479,0.047619047619047616,2,2
+HE+other,95,57,1,1,198,0.010526315789473684,1,1
+HE+IHC+other,50,34,1,1,275,0.02,0,0
+other,1,1,1,1,1,1.0,1,1

@@ -1,0 +1,6 @@
+group,events,patients,positive_events,positive_patients,slides,positive_fraction,persistent_miss_events,persistent_miss_patients
+all_current,575,133,14,11,1262,0.02434782608695652,7,5
+HE_available,574,132,13,10,1261,0.02264808362369338,6,4
+HE_and_IHC_available,176,87,7,6,754,0.03977272727272727,2,2
+HE_and_other_available,145,73,2,2,473,0.013793103448275862,1,1
+HE_IHC_other_available,50,34,1,1,275,0.02,0,0
