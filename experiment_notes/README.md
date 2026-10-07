@@ -29,6 +29,7 @@ literature store.
 
 ## Recent records
 
+- [2026-10-07: imbalance control results and exposure audit](2026-10-07-imbalance-control-results.md)
 - [2026-10-06: imbalance sampling and loss control plan](2026-10-06-imbalance-handling-control-plan.md)
 - [2026-10-06: nested threshold control results and decisions](2026-10-06-nested-threshold-control-results.md)
 - [2026-10-05: nested patient-grouped threshold control plan](2026-10-05-nested-threshold-control-plan.md)

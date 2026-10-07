@@ -220,3 +220,13 @@ unreduced loss times N_fit/(2*N_fit_class), averaged over samples, because the
 default weighted-mean CE cancels class weights at batch size one. Actual sampling
 draws are recorded for exposure audits. See the
 [imbalance control plan](../experiment_notes/2026-10-06-imbalance-handling-control-plan.md).
+
+Completed imbalance control (2026-10-07): balanced sampling had higher mean AP
+(0.1764 vs natural CE 0.1645), but natural CE had higher AP in four of five seeds.
+The mean ordering was sensitive to seed 31; neither method is established as
+superior in AP. At cutoff 0.5, balanced sampling detected more positives in four
+seeds (one tie) at a higher false-positive count in all seeds. Weighted CE lowered
+AUROC in all five seeds relative to balanced sampling. Actual draw audits confirmed
+about 50% positive exposure with repetition vs 2.3% with natural sampling.
+See the [verified result note](../experiment_notes/2026-10-07-imbalance-control-results.md)
+for exposure, checkpoint selection, patient-cluster uncertainty and positive-case failures.
