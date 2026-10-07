@@ -1,0 +1,43 @@
+{
+  "paper_id": "peyster2024_clinical_trajectory",
+  "title": "Failing to Make the Grade: Conventional Cardiac Allograft Rejection Grading Criteria Are Inadequate for Predicting Rejection Severity",
+  "authors": [
+    "Sara Arabyarmohammadi",
+    "Cai Yuan",
+    "Vidya Sankar Viswanathan",
+    "et al."
+  ],
+  "year": 2024,
+  "venue": "Circulation: Heart Failure",
+  "doi_or_identifier": "10.1161/CIRCHEARTFAILURE.123.010950",
+  "source_pdf": "../paper_origin/peyster2024_clinical_trajectory.pdf",
+  "source_text": "../extracted_text/peyster2024_clinical_trajectory.md",
+  "study_context": "Cardiac biopsy grade versus clinically evident rejection.",
+  "population_or_data": "Retrospective endomyocardial biopsy images and clinical trajectory labels.",
+  "task": "Cardiac biopsy grade versus clinically evident rejection.",
+  "method": "CARE quantitative morphology pipeline.",
+  "main_findings": [
+    "Morphology associated with conventional grades differs from morphology associated with clinical injury."
+  ],
+  "limitations": [
+    "Clinical trajectory classification is a different target from our pathology-label classifier.",
+    "Review covers the cited pages; quantitative tables require further source verification."
+  ],
+  "does_not_establish": [
+    "No proof our pathology-label model predicts future rejection or clinical benefit."
+  ],
+  "relevance_to_project": "State clearly what predicting ACR/AMR grades establishes.",
+  "tags": [
+    "label_validity",
+    "cardiac"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1,2",
+      "section": "Abstract",
+      "extracted_text_lines": "9-97"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-30"
+}

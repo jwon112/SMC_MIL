@@ -1,0 +1,282 @@
+{
+  "schema_version": "1.0",
+  "downloaded_on": "2026-09-26",
+  "papers": [
+    {
+      "paper_id": "stewart2005_ishlt_acr",
+      "filename": "stewart2005_ishlt_acr.pdf",
+      "sha256": "51c6e69539b3ca17164d09c060c9dd603550483e0accc048c13723f5c65981e8",
+      "source_url": "https://www.ishlt.org/docs/default-source/standards-guidelines/2005_standardsstatement_ishlt_nomenclatureinheartrejection.pdf?sfvrsn=65707b21_1",
+      "provenance": "ISHLT official guideline PDF",
+      "access_note": "Local PDF is ignored by git; retain for research reference under source terms."
+    },
+    {
+      "paper_id": "colvin2015_aha_amr",
+      "filename": "colvin2015_aha_amr.pdf",
+      "sha256": "ee8be9f983aec83563719747279a6d00f54117155da6d6f430e0d8d66850c883",
+      "source_url": "https://www.ishlt.org/docs/default-source/standards-guidelines/2015_endorsement_aha_amrinhtx.pdf?sfvrsn=dc06666e_1",
+      "provenance": "ISHLT official endorsed statement PDF",
+      "access_note": "Local PDF is ignored by git; retain for research reference under source terms."
+    },
+    {
+      "paper_id": "lipkova2022_crane",
+      "filename": "lipkova2022_crane.pdf",
+      "sha256": "8792a1b6f4567587edc5d2d27e6f14cdbe450567cdd7aa0f0df622e66c88bb67",
+      "source_url": "https://www.nature.com/articles/s41591-022-01709-2.pdf",
+      "provenance": "Nature publisher web article exported as PDF",
+      "access_note": "Research-reference copy; do not redistribute from the repository."
+    },
+    {
+      "paper_id": "seraphin2023_cardiac_ssl",
+      "filename": "seraphin2023_cardiac_ssl.pdf",
+      "sha256": "774f4b3d1e139e6d2189c44b6ff3b77710a055db6dfe17f503d72ee39c8efebc",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10232288.1/PMC10232288.1.pdf",
+      "provenance": "NCBI PMC Open Data PDF",
+      "access_note": "Article states CC BY-NC 4.0."
+    },
+    {
+      "paper_id": "peyster2021_cache_grader",
+      "filename": "peyster2021_cache_grader.pdf",
+      "sha256": "287a2cdd47bff4edc4f553ec5b83c18b176a53f38ed3f53c1b07eb03ce78ea8a",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8216729.1/PMC8216729.1.pdf",
+      "provenance": "NCBI PMC Open Data PDF",
+      "access_note": "Article states CC BY-NC."
+    },
+    {
+      "paper_id": "amancherla2025_spatial_transcriptomics",
+      "filename": "amancherla2025_spatial_transcriptomics.pdf",
+      "sha256": "496a0d8cb641afae5d524a2735813b1013f190c2986ff6bdd081cd6898223e2e",
+      "source_url": "https://www.biorxiv.org/content/10.1101/2025.02.28.640852v1.full.pdf",
+      "provenance": "bioRxiv author preprint v1",
+      "access_note": "Downloaded version states all rights reserved and no reuse without permission; do not redistribute."
+    },
+    {
+      "paper_id": "lu2021_clam",
+      "filename": "lu2021_clam.pdf",
+      "sha256": "e97d04ed466156a19f9dd3386c2c3541e08b029221a711e94693f8beb80d08c9",
+      "source_url": "https://arxiv.org/pdf/2004.09666",
+      "provenance": "arXiv author preprint",
+      "access_note": "Use the DOI record for the final published citation."
+    },
+    {
+      "paper_id": "chen2024_uni",
+      "filename": "chen2024_uni.pdf",
+      "sha256": "9b48ad134802da9fc8d8252999c41e088a244fc83d2ec91f2744a50132cd7934",
+      "source_url": "https://arxiv.org/pdf/2308.15474",
+      "provenance": "arXiv author preprint",
+      "access_note": "Downloaded preprint predates the 2024 Nature Medicine version; cite the published DOI while preserving version scope."
+    },
+    {
+      "paper_id": "ilse2018_abmil",
+      "filename": "ilse2018_abmil.pdf",
+      "sha256": "ec7645cd55e48d692817f0f6994648b4bd2c4e8b9a76b159cd06779541177e4a",
+      "source_url": "https://proceedings.mlr.press/v80/ilse18a/ilse18a.pdf",
+      "provenance": "PMLR official proceedings PDF",
+      "access_note": "Public proceedings copy."
+    },
+    {
+      "paper_id": "shao2021_transmil",
+      "filename": "shao2021_transmil.pdf",
+      "sha256": "20e7ac7a919d4abdaa448c59c8ee7adeb71259ae3e0d00a7201d1785a2e2da87",
+      "source_url": "https://proceedings.neurips.cc/paper/2021/file/10c272d06794d3e5785d5e7c5356e9ff-Paper.pdf",
+      "provenance": "NeurIPS official proceedings PDF",
+      "access_note": "Public proceedings copy."
+    },
+    {
+      "paper_id": "tellez2019_stain",
+      "filename": "tellez2019_stain.pdf",
+      "sha256": "6b41040a0840b2ee6a91c8b09d24fa985caf623f917bc712e1775627067799af",
+      "source_url": "https://geertlitjens.nl/publication/tell-19-a/tell-19-a.pdf",
+      "provenance": "Author-hosted manuscript PDF",
+      "access_note": "Research-reference copy; consult publisher terms before redistribution."
+    },
+    {
+      "paper_id": "collins2024_tripod_ai",
+      "filename": "collins2024_tripod_ai.pdf",
+      "sha256": "1dd924a79816a0643bffe2166379564c9fd7da3e0255ee4b9061d067ee9b8e30",
+      "source_url": "https://pure-oai.bham.ac.uk/ws/portalfiles/portal/280668502/CollinsG2024TRIPOD_AI.pdf",
+      "provenance": "University of Birmingham institutional repository, publisher PDF",
+      "access_note": "Repository record identifies CC BY."
+    },
+    {
+      "paper_id": "moons2025_probast_ai",
+      "filename": "moons2025_probast_ai.pdf",
+      "sha256": "88660c59c2e80394b7bc7b47c59dd4199e7dbeb9648df075bb433e7d159fa86f",
+      "source_url": "https://ora.ox.ac.uk/objects/uuid%3A8b15c087-459b-43fa-ad03-1f66ed6ba370/files/s1g05fd94g",
+      "provenance": "Oxford University Research Archive copy",
+      "access_note": "Research-reference copy; follow the article and repository reuse terms."
+    },
+    {
+      "paper_id": "li2021_dsmil",
+      "filename": "li2021_dsmil.pdf",
+      "sha256": "1025d54781bebf6778f64c732ecadec471d7778dcbd393111387219819034012",
+      "source_url": "https://openaccess.thecvf.com/content/CVPR2021/papers/Li_Dual-Stream_Multiple_Instance_Learning_Network_for_Whole_Slide_Image_Classification_CVPR_2021_paper.pdf",
+      "accessed_on": "2026-09-30",
+      "provenance": "Public proceedings or PMC Open Data PDF",
+      "access_note": "Local research reference under source terms; PDF is not versioned or redistributed."
+    },
+    {
+      "paper_id": "chen2022_hipt",
+      "filename": "chen2022_hipt.pdf",
+      "sha256": "8d90b78b40bc762829150630f7c96b74b8134b728296e6b37efd7bac78f6526b",
+      "source_url": "https://openaccess.thecvf.com/content/CVPR2022/papers/Chen_Scaling_Vision_Transformers_to_Gigapixel_Images_via_Hierarchical_Self-Supervised_Learning_CVPR_2022_paper.pdf",
+      "accessed_on": "2026-09-30",
+      "provenance": "Public proceedings or PMC Open Data PDF",
+      "access_note": "Local research reference under source terms; PDF is not versioned or redistributed."
+    },
+    {
+      "paper_id": "zhang2022_dtfd",
+      "filename": "zhang2022_dtfd.pdf",
+      "sha256": "3b6332e1b3681fd77a4dbef2fb8d6fdda8c392e5d7324978c722a37bde5141eb",
+      "source_url": "https://openaccess.thecvf.com/content/CVPR2022/papers/Zhang_DTFD-MIL_Double-Tier_Feature_Distillation_Multiple_Instance_Learning_for_Histopathology_Whole_CVPR_2022_paper.pdf",
+      "accessed_on": "2026-09-30",
+      "provenance": "Public proceedings or PMC Open Data PDF",
+      "access_note": "Local research reference under source terms; PDF is not versioned or redistributed."
+    },
+    {
+      "paper_id": "howard2021_site_signatures",
+      "filename": "howard2021_site_signatures.pdf",
+      "sha256": "750db81e6d4f4b9358f9cc8ac27db348c4128f38eae63f1d23c87922efeacf24",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8292530.1/PMC8292530.1.pdf",
+      "accessed_on": "2026-09-30",
+      "provenance": "Public proceedings or PMC Open Data PDF",
+      "access_note": "Local research reference under source terms; PDF is not versioned or redistributed."
+    },
+    {
+      "paper_id": "vorontsov2024_virchow",
+      "filename": "vorontsov2024_virchow.pdf",
+      "sha256": "0d621d396df3dae8437b87f694a0cd2477ea0c880d89a2e5181f341ee2a1fb9d",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11485232.1/PMC11485232.1.pdf",
+      "accessed_on": "2026-09-30",
+      "provenance": "Public proceedings or PMC Open Data PDF",
+      "access_note": "Local research reference under source terms; PDF is not versioned or redistributed."
+    },
+    {
+      "paper_id": "guo2017_calibration",
+      "filename": "guo2017_calibration.pdf",
+      "sha256": "df7c93f97204f8a3c2b10f6d5bf5265baac25f00c1ae3b473a3e1dbc102dacb2",
+      "source_url": "https://proceedings.mlr.press/v70/guo17a/guo17a.pdf",
+      "accessed_on": "2026-09-30",
+      "provenance": "Public proceedings or PMC Open Data PDF",
+      "access_note": "Local research reference under source terms; PDF is not versioned or redistributed."
+    },
+    {
+      "paper_id": "jaume2024_madeleine",
+      "filename": "jaume2024_madeleine.pdf",
+      "sha256": "2177b98f1302f948b5c4adabb2ee2b50eca82cfdf70f60b2b8f020d793ab28bf",
+      "source_url": "https://arxiv.org/pdf/2408.02859",
+      "accessed_on": "2026-09-30",
+      "provenance": "arXiv author preprint v1",
+      "access_note": "Local research reference under source terms; PDF is not versioned or redistributed."
+    },
+    {
+      "paper_id": "dwivedi2022_multistain_graph",
+      "filename": "dwivedi2022_multistain_graph.pdf",
+      "sha256": "e3c63dbd6e6e372722d60fa8713c4cdb9b95b5258865cf26ec192b1fc16e6eaf",
+      "source_url": "https://openaccess.thecvf.com/content/CVPR2022W/CVMI/papers/Dwivedi_Multi_Stain_Graph_Fusion_for_Multimodal_Integration_in_Pathology_CVPRW_2022_paper.pdf",
+      "accessed_on": "2026-09-30",
+      "provenance": "Public proceedings or PMC Open Data PDF",
+      "access_note": "Local research reference under source terms; PDF is not versioned or redistributed."
+    },
+    {
+      "paper_id": "peyster2024_clinical_trajectory",
+      "filename": "peyster2024_clinical_trajectory.pdf",
+      "sha256": "10a9b4990c97f8b9020265bd0fafb8420e19ead7718f67db96bc1550e643dc82",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10940208/",
+      "accessed_on": "2026-09-30",
+      "provenance": "Existing PMC webpage print, re-reviewed",
+      "access_note": "Local research reference under source terms; PDF is not versioned or redistributed."
+    },
+    {
+      "paper_id": "agniel2018_healthcare_process",
+      "filename": "agniel2018_healthcare_process.pdf",
+      "sha256": "58641464f0bcfcbb309c32e61e60908fcd50c8212bef7b853d791dcef2c412ca",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/29712648/",
+      "provenance": "PubMed abstract via Europe PMC core API, locally typeset source snapshot; NOT publisher full-text PDF. Raw JSON: reference/derived/agniel2018_pubmed_record.json",
+      "access_note": "Research reference under original source terms. Review restricted to cited page; abstract snapshot explicitly labeled.",
+      "accessed_on": "2026-10-04"
+    },
+    {
+      "paper_id": "che2018_grud",
+      "filename": "che2018_grud.pdf",
+      "sha256": "c56c612a56770caaa97a7b20056009d6a84c227df641652d1ae0fad40fdefc7d",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC5904216.1/PMC5904216.1.pdf",
+      "provenance": "NCBI PMC Open Data published article PDF; version 1",
+      "access_note": "Research reference under original source terms. Review restricted to cited page; abstract snapshot explicitly labeled.",
+      "accessed_on": "2026-10-04"
+    },
+    {
+      "paper_id": "saito2015_precision_recall",
+      "filename": "saito2015_precision_recall.pdf",
+      "sha256": "8ae56333b46ffae705ec463b6a3dd1d81bc4fe5934e5e13a635e4bbf401d1a97",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4349800.1/PMC4349800.1.pdf",
+      "provenance": "NCBI PMC Open Data published article PDF; version 1",
+      "access_note": "Research reference under original source terms. Review restricted to cited page; abstract snapshot explicitly labeled.",
+      "accessed_on": "2026-10-04"
+    },
+    {
+      "paper_id": "goorbergh2022_imbalance",
+      "filename": "goorbergh2022_imbalance.pdf",
+      "sha256": "b62c10462fa1afcb59cd59e066024a2a3e1ebbc5a28f9907b03927f6e92f7722",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9382395.1/PMC9382395.1.pdf",
+      "provenance": "Published article; PMC open-access copy, CC BY 4.0.",
+      "access_note": "Lawful public research copy retained locally; PDF and full extracted text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "carriero2025_imbalance_ml",
+      "filename": "carriero2025_imbalance_ml.pdf",
+      "sha256": "3dcc44adb17e372f88b69367efe11c50d6668f1c2c3a995ea28646a69a865e33",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11771573.1/PMC11771573.1.pdf",
+      "provenance": "Published article; PMC open-access copy, CC BY-NC-ND 4.0.",
+      "access_note": "Lawful public research copy retained locally; PDF and full extracted text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "chicco2020_mcc",
+      "filename": "chicco2020_mcc.pdf",
+      "sha256": "029dab8f480180ef7c0f92dbe2432858c50618a82d0406fa36e9fdfded61ec12",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC6941312.1/PMC6941312.1.pdf",
+      "provenance": "Published article; PMC open-access copy, CC BY 4.0.",
+      "access_note": "Lawful public research copy retained locally; PDF and full extracted text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "lipton2014_f1_threshold",
+      "filename": "lipton2014_f1_threshold.pdf",
+      "sha256": "b2d051c0a063dccd953bd71d345cb0b64e7f93b587736fcc732e6cac0ed778fc",
+      "source_url": "https://arxiv.org/pdf/1402.1892",
+      "provenance": "Author arXiv version v2, 2014-05-14; title follows this acquired version.",
+      "access_note": "Lawful public research copy retained locally; PDF and full extracted text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "cawley2010_selection_bias",
+      "filename": "cawley2010_selection_bias.pdf",
+      "sha256": "db01ac8fabef3064a0297bfcf64fb9791bf35c4d03be7a51f5862260adfca206",
+      "source_url": "https://www.jmlr.org/papers/volume11/cawley10a/cawley10a.pdf",
+      "provenance": "Published JMLR article, volume 11, pages 2079-2107.",
+      "access_note": "Lawful public research copy retained locally; PDF and full extracted text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "varoquaux2018_small_sample_cv",
+      "filename": "varoquaux2018_small_sample_cv.pdf",
+      "sha256": "762e6014325d48e4e9b622db87f7c08d207d3001552cf22258f7137bc96c9d12",
+      "source_url": "https://arxiv.org/pdf/1706.07581",
+      "provenance": "Acquired 2017 arXiv v1 author preprint; bibliographic year 2018 is the published NeuroImage article.",
+      "access_note": "Lawful public research copy retained locally; PDF and full extracted text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "riley2020_sample_size",
+      "filename": "riley2020_sample_size.pdf",
+      "sha256": "22a0f94c7b423c1f1466f278d6dd7b7c68023e86026d328ffe9528f78b28ad2b",
+      "source_url": "https://pure.manchester.ac.uk/ws/portalfiles/portal/161373531/bmj.m441.full.pdf",
+      "provenance": "Published BMJ article deposited at the University of Manchester; PDF page 1 is repository cover, article starts on PDF page 2.",
+      "access_note": "Lawful public research copy retained locally; PDF and full extracted text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    }
+  ],
+  "updated_on": "2026-10-07"
+}

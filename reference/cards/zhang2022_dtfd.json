@@ -1,0 +1,43 @@
+{
+  "paper_id": "zhang2022_dtfd",
+  "title": "DTFD-MIL: Double-Tier Feature Distillation Multiple Instance Learning for Histopathology Whole Slide Image Classification",
+  "authors": [
+    "Hongrun Zhang",
+    "Yanda Meng",
+    "Yitian Zhao",
+    "et al."
+  ],
+  "year": 2022,
+  "venue": "CVPR",
+  "doi_or_identifier": "arXiv:2203.12081",
+  "source_pdf": "../paper_origin/zhang2022_dtfd.pdf",
+  "source_text": "../extracted_text/zhang2022_dtfd.md",
+  "study_context": "MIL with few slides and many patches.",
+  "population_or_data": "CAMELYON16 and TCGA lung cancer.",
+  "task": "MIL with few slides and many patches.",
+  "method": "Pseudo-bags with double-tier feature distillation.",
+  "main_findings": [
+    "DTFD-MIL partitions slide instances into pseudo-bags for two-tier learning."
+  ],
+  "limitations": [
+    "Pseudo-bags do not create independent patients or positive clinical events.",
+    "Review covers the cited pages; quantitative tables require further source verification."
+  ],
+  "does_not_establish": [
+    "No increased independent clinical sample size or SMC validation."
+  ],
+  "relevance_to_project": "Small-cohort MIL comparator while retaining patient grouping.",
+  "tags": [
+    "mil",
+    "evaluation"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract; Fig. 1",
+      "extracted_text_lines": "9-77"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-30"
+}

@@ -1,0 +1,29 @@
+{
+  "paper_id": "stewart2005_ishlt_acr",
+  "citation_key": "Stewart2005ISHLT",
+  "title": "Revision of the 1990 Working Formulation for the Standardization of Nomenclature in the Diagnosis of Heart Rejection",
+  "authors": ["Susan Stewart", "Gayle L. Winters", "Michael C. Fishbein", "et al."],
+  "venue": "Journal of Heart and Lung Transplantation",
+  "year": 2005,
+  "doi_or_identifier": "10.1016/j.healun.2005.03.019",
+  "source_pdf": "../paper_origin/stewart2005_ishlt_acr.pdf",
+  "source_text": "../extracted_text/stewart2005_ishlt_acr.md",
+  "study_context": "ISHLT consensus revision of cardiac allograft biopsy rejection nomenclature.",
+  "population_or_data": "Consensus grading criteria and illustrative endomyocardial biopsy histology.",
+  "task": "Define standardized acute cellular rejection grades and non-rejection mimics.",
+  "method": "Multidisciplinary consensus review approved by the ISHLT Board.",
+  "main_findings": [
+    "The revised acute cellular rejection scale uses grades 0R, 1R, 2R, and 3R.",
+    "The criteria distinguish mild, moderate, and severe rejection by infiltrate distribution and myocyte damage."
+  ],
+  "limitations": ["A consensus nomenclature is not a validation study of a machine-learning endpoint or threshold."],
+  "does_not_establish": ["It does not establish that a binary rejection target is clinically optimal for this project."],
+  "relevance_to_project": "Canonical source for mapping labels and auditing grade collapsing in cardiac allograft WSI experiments.",
+  "tags": ["cardiac-allograft", "ACR", "ISHLT", "grading", "clinical-guideline"],
+  "source_locators": [
+    {"page": "PDF p.2", "section": "Table 1: ISHLT Standardized Cardiac Biopsy Grading", "extracted_text_lines": "89-105"},
+    {"page": "PDF p.5", "section": "Grade 0R through Grade 3R definitions", "extracted_text_lines": "242-267"}
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-26"
+}

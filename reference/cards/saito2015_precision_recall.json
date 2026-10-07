@@ -1,0 +1,42 @@
+{
+  "paper_id": "saito2015_precision_recall",
+  "title": "The Precision-Recall Plot Is More Informative than the ROC Plot When Evaluating Binary Classifiers on Imbalanced Datasets",
+  "authors": [
+    "Takaya Saito",
+    "Marc Rehmsmeier"
+  ],
+  "year": 2015,
+  "venue": "PLOS ONE",
+  "doi_or_identifier": "10.1371/journal.pone.0118432",
+  "source_pdf": "../paper_origin/saito2015_precision_recall.pdf",
+  "source_text": "../extracted_text/saito2015_precision_recall.md",
+  "study_context": "Methodological evaluation of binary classifiers under class imbalance.",
+  "population_or_data": "Methodological evaluation of binary classifiers under class imbalance.",
+  "task": "Methodological evaluation of binary classifiers under class imbalance.",
+  "method": "Evaluation methodology for ROC and precision-recall interpretation.",
+  "main_findings": [
+    "Precision-recall complements ROC by examining true positives among positive predictions in imbalanced classification."
+  ],
+  "limitations": [
+    "Selected abstract page only; does not establish significance of an AP difference, invalidate AUROC, or validate a clinical threshold in SMC."
+  ],
+  "does_not_establish": [
+    "Selected abstract page only; does not establish significance of an AP difference, invalidate AUROC, or validate a clinical threshold in SMC."
+  ],
+  "relevance_to_project": "Interpret presence-mask ablations and rare-positive ranking metrics without claiming a local causal mechanism.",
+  "tags": [
+    "evaluation",
+    "AUPRC",
+    "AUROC",
+    "rare_positive"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract",
+      "extracted_text_lines": "9-73"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-04"
+}

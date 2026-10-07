@@ -1,0 +1,43 @@
+{
+  "paper_id": "guo2017_calibration",
+  "title": "On Calibration of Modern Neural Networks",
+  "authors": [
+    "Chuan Guo",
+    "Geoff Pleiss",
+    "Yu Sun",
+    "Kilian Q. Weinberger"
+  ],
+  "year": 2017,
+  "venue": "ICML / PMLR",
+  "doi_or_identifier": "PMLR 70:1321-1330",
+  "source_pdf": "../paper_origin/guo2017_calibration.pdf",
+  "source_text": "../extracted_text/guo2017_calibration.md",
+  "study_context": "Calibration of classification networks.",
+  "population_or_data": "Image and document classification datasets.",
+  "task": "Calibration of classification networks.",
+  "method": "Comparison of post-hoc probability calibration methods.",
+  "main_findings": [
+    "Temperature scaling improved calibration on many evaluated datasets."
+  ],
+  "limitations": [
+    "Nonclinical datasets; no guarantee under prevalence or domain shift.",
+    "Review covers the cited pages; quantitative tables require further source verification."
+  ],
+  "does_not_establish": [
+    "No evidence that SMC ensemble probabilities are calibrated or clinically useful."
+  ],
+  "relevance_to_project": "Separate ranking performance from probability and threshold validity.",
+  "tags": [
+    "calibration",
+    "evaluation"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract; Fig. 1",
+      "extracted_text_lines": "9-60"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-30"
+}

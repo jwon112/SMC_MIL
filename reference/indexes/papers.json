@@ -1,0 +1,252 @@
+{
+  "schema_version": "1.0",
+  "papers": [
+    {
+      "paper_id": "stewart2005_ishlt_acr",
+      "title": "Revision of the 1990 Working Formulation for the Standardization of Nomenclature in the Diagnosis of Heart Rejection",
+      "card_path": "cards/stewart2005_ishlt_acr.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "colvin2015_aha_amr",
+      "title": "Antibody-Mediated Rejection in Cardiac Transplantation: Emerging Knowledge in Diagnosis and Management",
+      "card_path": "cards/colvin2015_aha_amr.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "lipkova2022_crane",
+      "title": "Deep learning-enabled assessment of cardiac allograft rejection from endomyocardial biopsies",
+      "card_path": "cards/lipkova2022_crane.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "seraphin2023_cardiac_ssl",
+      "title": "Prediction of heart transplant rejection from routine pathology slides with self-supervised deep learning",
+      "card_path": "cards/seraphin2023_cardiac_ssl.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "peyster2021_cache_grader",
+      "title": "An automated computational image analysis pipeline for histological grading of cardiac allograft rejection",
+      "card_path": "cards/peyster2021_cache_grader.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "amancherla2025_spatial_transcriptomics",
+      "title": "Dynamic responses to rejection in the transplanted human heart revealed through spatial transcriptomics",
+      "card_path": "cards/amancherla2025_spatial_transcriptomics.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "lu2021_clam",
+      "title": "Data-efficient and weakly supervised computational pathology on whole-slide images",
+      "card_path": "cards/lu2021_clam.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "chen2024_uni",
+      "title": "A general-purpose self-supervised model for computational pathology",
+      "card_path": "cards/chen2024_uni.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "ilse2018_abmil",
+      "title": "Attention-based Deep Multiple Instance Learning",
+      "card_path": "cards/ilse2018_abmil.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "shao2021_transmil",
+      "title": "TransMIL: Transformer based Correlated Multiple Instance Learning for Whole Slide Image Classification",
+      "card_path": "cards/shao2021_transmil.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "tellez2019_stain",
+      "title": "Quantifying the effects of data augmentation and stain color normalization in convolutional neural networks for computational pathology",
+      "card_path": "cards/tellez2019_stain.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "collins2024_tripod_ai",
+      "title": "TRIPOD+AI statement: updated guidance for reporting clinical prediction models that use regression or machine learning methods",
+      "card_path": "cards/collins2024_tripod_ai.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "moons2025_probast_ai",
+      "title": "PROBAST+AI: an updated quality, risk of bias, and applicability assessment tool for prediction models using regression or artificial intelligence methods",
+      "card_path": "cards/moons2025_probast_ai.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "li2021_dsmil",
+      "title": "Dual-Stream Multiple Instance Learning Network for Whole Slide Image Classification With Self-Supervised Contrastive Learning",
+      "year": 2021,
+      "doi_or_identifier": "arXiv:2011.08939",
+      "card_path": "cards/li2021_dsmil.json",
+      "review_status": "reviewed",
+      "tags": [
+        "mil",
+        "multiscale"
+      ]
+    },
+    {
+      "paper_id": "chen2022_hipt",
+      "title": "Scaling Vision Transformers to Gigapixel Images via Hierarchical Self-Supervised Learning",
+      "year": 2022,
+      "doi_or_identifier": "arXiv:2206.02647",
+      "card_path": "cards/chen2022_hipt.json",
+      "review_status": "reviewed",
+      "tags": [
+        "multiscale",
+        "encoder"
+      ]
+    },
+    {
+      "paper_id": "zhang2022_dtfd",
+      "title": "DTFD-MIL: Double-Tier Feature Distillation Multiple Instance Learning for Histopathology Whole Slide Image Classification",
+      "year": 2022,
+      "doi_or_identifier": "arXiv:2203.12081",
+      "card_path": "cards/zhang2022_dtfd.json",
+      "review_status": "reviewed",
+      "tags": [
+        "mil",
+        "evaluation"
+      ]
+    },
+    {
+      "paper_id": "howard2021_site_signatures",
+      "title": "The impact of site-specific digital histology signatures on deep learning model accuracy and bias",
+      "year": 2021,
+      "doi_or_identifier": "10.1038/s41467-021-24698-1",
+      "card_path": "cards/howard2021_site_signatures.json",
+      "review_status": "reviewed",
+      "tags": [
+        "shortcut",
+        "domain_shift",
+        "evaluation"
+      ]
+    },
+    {
+      "paper_id": "vorontsov2024_virchow",
+      "title": "A foundation model for clinical-grade computational pathology and rare cancers detection",
+      "year": 2024,
+      "doi_or_identifier": "10.1038/s41591-024-03141-0",
+      "card_path": "cards/vorontsov2024_virchow.json",
+      "review_status": "reviewed",
+      "tags": [
+        "encoder",
+        "multi_slide"
+      ]
+    },
+    {
+      "paper_id": "guo2017_calibration",
+      "title": "On Calibration of Modern Neural Networks",
+      "year": 2017,
+      "doi_or_identifier": "PMLR 70:1321-1330",
+      "card_path": "cards/guo2017_calibration.json",
+      "review_status": "reviewed",
+      "tags": [
+        "calibration",
+        "evaluation"
+      ]
+    },
+    {
+      "paper_id": "jaume2024_madeleine",
+      "title": "Multistain Pretraining for Slide Representation Learning in Pathology",
+      "year": 2024,
+      "doi_or_identifier": "10.1007/978-3-031-73414-4_2",
+      "card_path": "cards/jaume2024_madeleine.json",
+      "review_status": "reviewed",
+      "tags": [
+        "stain_fusion",
+        "encoder"
+      ]
+    },
+    {
+      "paper_id": "dwivedi2022_multistain_graph",
+      "title": "Multi Stain Graph Fusion for Multimodal Integration in Pathology",
+      "year": 2022,
+      "doi_or_identifier": "arXiv:2204.12541",
+      "card_path": "cards/dwivedi2022_multistain_graph.json",
+      "review_status": "reviewed",
+      "tags": [
+        "multi_slide",
+        "stain_fusion"
+      ]
+    },
+    {
+      "paper_id": "peyster2024_clinical_trajectory",
+      "title": "Failing to Make the Grade: Conventional Cardiac Allograft Rejection Grading Criteria Are Inadequate for Predicting Rejection Severity",
+      "year": 2024,
+      "doi_or_identifier": "10.1161/CIRCHEARTFAILURE.123.010950",
+      "card_path": "cards/peyster2024_clinical_trajectory.json",
+      "review_status": "reviewed",
+      "tags": [
+        "label_validity",
+        "cardiac"
+      ]
+    },
+    {
+      "paper_id": "agniel2018_healthcare_process",
+      "title": "Biases in electronic health record data due to processes within the healthcare system: retrospective observational study",
+      "card_path": "cards/agniel2018_healthcare_process.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "che2018_grud",
+      "title": "Recurrent Neural Networks for Multivariate Time Series with Missing Values",
+      "card_path": "cards/che2018_grud.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "saito2015_precision_recall",
+      "title": "The Precision-Recall Plot Is More Informative than the ROC Plot When Evaluating Binary Classifiers on Imbalanced Datasets",
+      "card_path": "cards/saito2015_precision_recall.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "goorbergh2022_imbalance",
+      "title": "The harm of class imbalance corrections for risk prediction models: illustration and simulation using logistic regression",
+      "card_path": "cards/goorbergh2022_imbalance.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "carriero2025_imbalance_ml",
+      "title": "The Harms of Class Imbalance Corrections for Machine Learning Based Prediction Models: A Simulation Study",
+      "card_path": "cards/carriero2025_imbalance_ml.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "chicco2020_mcc",
+      "title": "The advantages of the Matthews correlation coefficient (MCC) over F1 score and accuracy in binary classification evaluation",
+      "card_path": "cards/chicco2020_mcc.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "lipton2014_f1_threshold",
+      "title": "Thresholding Classifiers to Maximize F1 Score",
+      "card_path": "cards/lipton2014_f1_threshold.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "cawley2010_selection_bias",
+      "title": "On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation",
+      "card_path": "cards/cawley2010_selection_bias.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "varoquaux2018_small_sample_cv",
+      "title": "Cross-validation failure: small sample sizes lead to large error bars",
+      "card_path": "cards/varoquaux2018_small_sample_cv.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "riley2020_sample_size",
+      "title": "Calculating the sample size required for developing a clinical prediction model",
+      "card_path": "cards/riley2020_sample_size.json",
+      "review_status": "reviewed"
+    }
+  ]
+}

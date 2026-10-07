@@ -1,0 +1,44 @@
+{
+  "paper_id": "che2018_grud",
+  "title": "Recurrent Neural Networks for Multivariate Time Series with Missing Values",
+  "authors": [
+    "Zhengping Che",
+    "Sanjay Purushotham",
+    "Kyunghyun Cho",
+    "David Sontag",
+    "Yan Liu"
+  ],
+  "year": 2018,
+  "venue": "Scientific Reports",
+  "doi_or_identifier": "10.1038/s41598-018-24271-9",
+  "source_pdf": "../paper_origin/che2018_grud.pdf",
+  "source_text": "../extracted_text/che2018_grud.md",
+  "study_context": "Clinical time series from MIMIC-III and PhysioNet, plus synthetic data.",
+  "population_or_data": "Clinical time series from MIMIC-III and PhysioNet, plus synthetic data.",
+  "task": "Clinical time series from MIMIC-III and PhysioNet, plus synthetic data.",
+  "method": "Recurrent modeling with missingness masks and time intervals.",
+  "main_findings": [
+    "GRU-D incorporates observation masks and time intervals to exploit informative missingness in time-series prediction."
+  ],
+  "limitations": [
+    "Selected abstract page only; does not establish benefit of a static stain-presence vector or infer a causal missingness mechanism in SMC."
+  ],
+  "does_not_establish": [
+    "Selected abstract page only; does not establish benefit of a static stain-presence vector or infer a causal missingness mechanism in SMC."
+  ],
+  "relevance_to_project": "Interpret presence-mask ablations and rare-positive ranking metrics without claiming a local causal mechanism.",
+  "tags": [
+    "presence_mask",
+    "missingness",
+    "GRU-D"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract",
+      "extracted_text_lines": "9-71"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-04"
+}

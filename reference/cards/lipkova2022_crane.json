@@ -1,0 +1,28 @@
+{
+  "paper_id": "lipkova2022_crane",
+  "citation_key": "Lipkova2022CRANE",
+  "title": "Deep learning-enabled assessment of cardiac allograft rejection from endomyocardial biopsies",
+  "authors": ["Jana Lipkova", "Tiffany Y. Chen", "Ming Y. Lu", "et al."],
+  "venue": "Nature Medicine",
+  "year": 2022,
+  "doi_or_identifier": "10.1038/s41591-022-01709-2",
+  "source_pdf": "../paper_origin/lipkova2022_crane.pdf",
+  "source_text": "../extracted_text/lipkova2022_crane.md",
+  "study_context": "Multicenter deep-learning assessment of cardiac transplant endomyocardial biopsy WSIs.",
+  "population_or_data": "Development data from the United States and independent test cohorts from Turkey and Switzerland.",
+  "task": "Detect, subtype, and grade cardiac allograft rejection and detect Quilty B lesions.",
+  "method": "Gigapixel WSI deep learning with independent-cohort evaluation and a human reader study.",
+  "main_findings": [
+    "The reported system detected rejection, ACR, AMR, Quilty B lesions, and high-versus-low grade rejection with task-specific AUCs.",
+    "Independent international cohorts introduced variation in population, preparation, and scanning."
+  ],
+  "limitations": ["The accessible publisher PDF is a print of the web article; local source locators use its PDF pagination.", "Clinical efficacy still requires prospective clinical trials."],
+  "does_not_establish": ["The reported external validation does not establish transportability to the local SMC cohort, stains, scanners, or label definitions."],
+  "relevance_to_project": "Closest published benchmark for cardiac allograft rejection from routine pathology slides.",
+  "tags": ["cardiac-allograft", "WSI", "deep-learning", "external-validation", "CRANE"],
+  "source_locators": [
+    {"page": "PDF p.3", "section": "Abstract", "extracted_text_lines": "91-117"}
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-26"
+}

@@ -1,0 +1,29 @@
+{
+  "paper_id": "seraphin2023_cardiac_ssl",
+  "citation_key": "Seraphin2023CardiacSSL",
+  "title": "Prediction of heart transplant rejection from routine pathology slides with self-supervised deep learning",
+  "authors": ["Tobias Paul Seraphin", "Mark Luedde", "Christoph Roderburg", "et al."],
+  "venue": "European Heart Journal - Digital Health",
+  "year": 2023,
+  "doi_or_identifier": "10.1093/ehjdh/ztad016",
+  "source_pdf": "../paper_origin/seraphin2023_cardiac_ssl.pdf",
+  "source_text": "../extracted_text/seraphin2023_cardiac_ssl.md",
+  "study_context": "Weakly supervised cardiac rejection prediction from routine histopathology across German transplant centers.",
+  "population_or_data": "1,079 slides from 325 patients at three transplant centers, organized into four cohorts.",
+  "task": "Binary rejection detection and 0R/1R/2R-3R grade prediction.",
+  "method": "Self-supervised features, attention-based MIL, cross-validation in a primary cohort, and deployment to three validation cohorts.",
+  "main_findings": [
+    "Binary AUROC was 0.849 in cross-validation and 0.734, 0.729, and 0.716 in the three validation cohorts.",
+    "Performance varied by ISHLT grade and by cohort."
+  ],
+  "limitations": ["Retrospective cohorts were relatively small and the grade 1R task was difficult."],
+  "does_not_establish": ["It does not show that internal cross-validation performance will carry over unchanged to a new hospital."],
+  "relevance_to_project": "Direct evidence that patient/cohort transportability must be measured rather than inferred from internal results.",
+  "tags": ["cardiac-allograft", "self-supervised", "MIL", "external-validation", "patient-grouping"],
+  "source_locators": [
+    {"page": "PDF p.1", "section": "Methods and results", "extracted_text_lines": "50-60"},
+    {"page": "PDF p.6", "section": "Figure 2 and discussion", "extracted_text_lines": "312-342"}
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-26"
+}

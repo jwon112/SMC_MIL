@@ -1,0 +1,29 @@
+{
+  "paper_id": "chen2024_uni",
+  "citation_key": "Chen2024UNI",
+  "title": "A general-purpose self-supervised model for computational pathology",
+  "authors": ["Richard J. Chen", "Tong Ding", "Ming Y. Lu", "et al."],
+  "venue": "Nature Medicine",
+  "year": 2024,
+  "doi_or_identifier": "10.1038/s41591-024-02857-3; arXiv:2308.15474",
+  "source_pdf": "../paper_origin/chen2024_uni.pdf",
+  "source_text": "../extracted_text/chen2024_uni.md",
+  "study_context": "Large-scale self-supervised pathology representation learning; downloaded source is the author preprint.",
+  "population_or_data": "More than 100 million patches from more than 100,000 diagnostic H&E WSIs across 20 major tissue types.",
+  "task": "Transfer general pathology representations to ROI- and slide-level tasks.",
+  "method": "Self-supervised vision-transformer encoder followed by task-specific probing or MIL aggregation.",
+  "main_findings": [
+    "UNI was pretrained at substantially larger pathology scale than prior general-purpose encoders in the paper.",
+    "Slide-level use first extracts patch features and then trains an aggregation model such as ABMIL."
+  ],
+  "limitations": ["Pretraining is centered on diagnostic H&E and does not directly test this project's cardiac, stain, magnification, or scanner combinations."],
+  "does_not_establish": ["The publication does not establish that UNI or UNI2-h is the best encoder for local cardiac allograft images."],
+  "relevance_to_project": "Strong encoder candidate whose value must be established by local ablation and held-out evaluation.",
+  "tags": ["UNI", "foundation-model", "self-supervised", "encoder", "H&E"],
+  "source_locators": [
+    {"page": "PDF p.1", "section": "Abstract", "extracted_text_lines": "40-58"},
+    {"page": "PDF p.3", "section": "Pretraining data and downstream evaluation", "extracted_text_lines": "117-215"}
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-26"
+}

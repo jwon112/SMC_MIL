@@ -1,0 +1,26 @@
+{
+  "paper_id": "collins2024_tripod_ai",
+  "citation_key": "Collins2024TRIPODAI",
+  "title": "TRIPOD+AI statement: updated guidance for reporting clinical prediction models that use regression or machine learning methods",
+  "authors": ["Gary S. Collins", "Karel G. M. Moons", "Paula Dhiman", "et al."],
+  "venue": "BMJ",
+  "year": 2024,
+  "doi_or_identifier": "10.1136/bmj-2023-078378",
+  "source_pdf": "../paper_origin/collins2024_tripod_ai.pdf",
+  "source_text": "../extracted_text/collins2024_tripod_ai.md",
+  "study_context": "Reporting guideline for development and evaluation of clinical prediction models using regression or machine learning.",
+  "population_or_data": "Consensus-based guideline development; not a patient cohort.",
+  "task": "Specify minimum transparent reporting for prediction-model studies.",
+  "method": "International consensus process producing a 27-item checklist with 52 subitems.",
+  "main_findings": ["TRIPOD+AI covers data, model development, evaluation, fairness, open science, performance, limitations, and generalizability reporting."],
+  "limitations": ["A reporting guideline does not by itself establish low risk of bias or prescribe one correct study design."],
+  "does_not_establish": ["Checklist adherence is not evidence that a model is clinically useful, unbiased, or externally valid."],
+  "relevance_to_project": "Reporting contract for patient flow, clustered data, model specification, calibration, uncertainty, and code/data availability.",
+  "tags": ["TRIPOD-AI", "reporting-guideline", "clinical-prediction", "calibration", "clustering"],
+  "source_locators": [
+    {"page": "PDF p.2", "section": "Abstract and summary points", "extracted_text_lines": "76-115"},
+    {"page": "PDF p.8", "section": "Table 2 checklist, continued", "extracted_text_lines": "407-468"}
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-26"
+}

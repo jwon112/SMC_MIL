@@ -1,0 +1,28 @@
+{
+  "paper_id": "colvin2015_aha_amr",
+  "citation_key": "Colvin2015AMR",
+  "title": "Antibody-Mediated Rejection in Cardiac Transplantation: Emerging Knowledge in Diagnosis and Management",
+  "authors": ["Monica M. Colvin", "Patricia J. Cook", "Jignesh Chang", "et al."],
+  "venue": "Circulation",
+  "year": 2015,
+  "doi_or_identifier": "10.1161/CIR.0000000000000093",
+  "source_pdf": "../paper_origin/colvin2015_aha_amr.pdf",
+  "source_text": "../extracted_text/colvin2015_aha_amr.md",
+  "study_context": "AHA scientific statement endorsed by ISHLT on cardiac antibody-mediated rejection.",
+  "population_or_data": "Clinical and pathology evidence on AMR diagnosis, surveillance, and management.",
+  "task": "Summarize pathological AMR nomenclature and clinical interpretation.",
+  "method": "Expert scientific statement and evidence synthesis.",
+  "main_findings": [
+    "Pathological AMR categories combine histological and immunopathological findings from pAMR0 through pAMR3.",
+    "A histology-negative but immunopathology-positive category and the converse are explicitly recognized."
+  ],
+  "limitations": ["The statement spans diagnosis and treatment and is not an image-only model validation study."],
+  "does_not_establish": ["H&E morphology alone cannot be treated as equivalent to the full pAMR classification."],
+  "relevance_to_project": "Defines what an H&E-only or stain-limited AMR model can and cannot claim.",
+  "tags": ["cardiac-allograft", "AMR", "pAMR", "immunopathology", "clinical-guideline"],
+  "source_locators": [
+    {"page": "PDF p.5", "section": "Table 5: Proposed Nomenclature for Pathological AMR", "extracted_text_lines": "265-280"}
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-26"
+}

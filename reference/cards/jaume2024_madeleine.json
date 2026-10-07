@@ -1,0 +1,43 @@
+{
+  "paper_id": "jaume2024_madeleine",
+  "title": "Multistain Pretraining for Slide Representation Learning in Pathology",
+  "authors": [
+    "Guillaume Jaume",
+    "Anurag Vaidya",
+    "Andrew Zhang",
+    "et al."
+  ],
+  "year": 2024,
+  "venue": "ECCV 2024; local arXiv v1",
+  "doi_or_identifier": "10.1007/978-3-031-73414-4_2",
+  "source_pdf": "../paper_origin/jaume2024_madeleine.pdf",
+  "source_text": "../extracted_text/jaume2024_madeleine.md",
+  "study_context": "Multistain-guided slide representation learning.",
+  "population_or_data": "Breast cancer and kidney transplant WSIs.",
+  "task": "Multistain-guided slide representation learning.",
+  "method": "MADELEINE global/local cross-stain self-supervision.",
+  "main_findings": [
+    "Multiple stains serve as pretraining views for transferable slide embeddings."
+  ],
+  "limitations": [
+    "Local copy is arXiv v1; breast/kidney results are not cardiac clinical validation.",
+    "Review covers the cited pages; quantitative tables require further source verification."
+  ],
+  "does_not_establish": [
+    "No established gain from our stain presence mask or event classifier."
+  ],
+  "relevance_to_project": "Tests a different role for stains than explicit task-time branch fusion.",
+  "tags": [
+    "stain_fusion",
+    "encoder"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract",
+      "extracted_text_lines": "9-72"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-30"
+}

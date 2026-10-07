@@ -1,0 +1,25 @@
+{
+  "paper_id": "shao2021_transmil",
+  "citation_key": "Shao2021TransMIL",
+  "title": "TransMIL: Transformer based Correlated Multiple Instance Learning for Whole Slide Image Classification",
+  "authors": ["Zhuchen Shao", "Hao Bian", "Yang Chen", "et al."],
+  "venue": "NeurIPS",
+  "year": 2021,
+  "doi_or_identifier": "NeurIPS 2021 paper 10c272d06794d3e5785d5e7c5356e9ff",
+  "source_pdf": "../paper_origin/shao2021_transmil.pdf",
+  "source_text": "../extracted_text/shao2021_transmil.md",
+  "study_context": "Transformer-based correlated MIL for WSI classification.",
+  "population_or_data": "CAMELYON16, TCGA-NSCLC, and TCGA-RCC benchmark tasks.",
+  "task": "Weakly supervised binary and multiclass WSI classification.",
+  "method": "Transformer MIL that models correlations among instances and incorporates morphological and spatial information.",
+  "main_findings": ["TransMIL explicitly models relationships among WSI instances and reported strong results on three cancer benchmarks."],
+  "limitations": ["The experiments are cancer benchmarks rather than cardiac allograft biopsies."],
+  "does_not_establish": ["The architecture paper does not establish superiority over simpler MIL pooling for this project's data size and endpoints."],
+  "relevance_to_project": "Candidate comparator when testing whether inter-patch context adds value beyond attention pooling.",
+  "tags": ["TransMIL", "transformer", "MIL", "WSI", "spatial-context"],
+  "source_locators": [
+    {"page": "PDF p.1", "section": "Abstract", "extracted_text_lines": "13-48"}
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-26"
+}

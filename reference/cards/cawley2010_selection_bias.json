@@ -1,0 +1,45 @@
+{
+  "paper_id": "cawley2010_selection_bias",
+  "title": "On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation",
+  "authors": [
+    "Gavin C. Cawley",
+    "Nicola L. C. Talbot"
+  ],
+  "year": 2010,
+  "venue": "Journal of Machine Learning Research",
+  "doi_or_identifier": "jmlr:v11:cawley10a",
+  "source_pdf": "../paper_origin/cawley2010_selection_bias.pdf",
+  "source_text": "../extracted_text/cawley2010_selection_bias.md",
+  "study_context": "Methodological analysis of finite-sample model-selection criteria and performance evaluation.",
+  "population_or_data": "Methodological analysis of finite-sample model-selection criteria and performance evaluation.",
+  "task": "Prediction-model methodology and evaluation",
+  "method": "Selected-page methodological evidence review",
+  "main_findings": [
+    "Variance in a finite-sample model-selection criterion can lead to overfitting of that criterion and selection bias in subsequent performance evaluation."
+  ],
+  "limitations": [
+    "Selected-page review only: PDF p.1, Abstract. Text extracted and page visually checked on 2026-10-07.",
+    "Published JMLR article, volume 11, pages 2079-2107.",
+    "Transfer to cardiac WSI MIL requires qualification."
+  ],
+  "does_not_establish": [
+    "Does not quantify bias in SMC or prove that selection bias alone caused the difference between earlier checkpoint-selected and later independent-test results."
+  ],
+  "relevance_to_project": "Separate decisions about models, checkpoints and cutoffs from the observations used to evaluate those decisions.",
+  "tags": [
+    "model selection",
+    "cross validation",
+    "selection bias",
+    "evaluation",
+    "선택 편향"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract",
+      "extracted_text_lines": "9-64"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

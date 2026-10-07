@@ -1,0 +1,48 @@
+{
+  "paper_id": "carriero2025_imbalance_ml",
+  "title": "The Harms of Class Imbalance Corrections for Machine Learning Based Prediction Models: A Simulation Study",
+  "authors": [
+    "Alex Carriero",
+    "Kim Luijken",
+    "Anne de Hond",
+    "Karel G. M. Moons",
+    "Ben Van Calster",
+    "Maarten van Smeden"
+  ],
+  "year": 2025,
+  "venue": "Statistics in Medicine",
+  "doi_or_identifier": "10.1002/sim.10320",
+  "source_pdf": "../paper_origin/carriero2025_imbalance_ml.pdf",
+  "source_text": "../extracted_text/carriero2025_imbalance_ml.md",
+  "study_context": "Monte Carlo simulations of prediction models and a MIMIC-III case study.",
+  "population_or_data": "Monte Carlo simulations of prediction models and a MIMIC-III case study.",
+  "task": "Prediction-model methodology and evaluation",
+  "method": "Selected-page methodological evidence review",
+  "main_findings": [
+    "In the examined machine-learning prediction settings, class imbalance corrections often overestimated risk; uncorrected models had similar or better calibration, and recalibration did not invariably remove the problem."
+  ],
+  "limitations": [
+    "Selected-page review only: PDF p.1, Abstract. Text extracted and page visually checked on 2026-10-07.",
+    "Published article; PMC open-access copy, CC BY-NC-ND 4.0.",
+    "Transfer to cardiac WSI MIL requires qualification."
+  ],
+  "does_not_establish": [
+    "Abstract review does not establish per-algorithm effect sizes, universal harm, applicability to neural WSI, or miscalibration of the SMC models."
+  ],
+  "relevance_to_project": "Class correction should be evaluated rather than assumed beneficial, including its effect on calibration.",
+  "tags": [
+    "class imbalance",
+    "calibration",
+    "simulation",
+    "불균형"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract",
+      "extracted_text_lines": "9-82"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

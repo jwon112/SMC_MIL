@@ -1,0 +1,43 @@
+{
+  "paper_id": "agniel2018_healthcare_process",
+  "title": "Biases in electronic health record data due to processes within the healthcare system: retrospective observational study",
+  "authors": [
+    "Denis Agniel",
+    "Isaac S Kohane",
+    "Griffin M Weber"
+  ],
+  "year": 2018,
+  "venue": "BMJ",
+  "doi_or_identifier": "10.1136/bmj.k1479",
+  "source_pdf": "../paper_origin/agniel2018_healthcare_process.pdf",
+  "source_text": "../extracted_text/agniel2018_healthcare_process.md",
+  "study_context": "Retrospective EHR study of laboratory ordering and survival at two hospitals.",
+  "population_or_data": "Retrospective EHR study of laboratory ordering and survival at two hospitals.",
+  "task": "Retrospective EHR study of laboratory ordering and survival at two hospitals.",
+  "method": "Analysis of healthcare-process variables and laboratory measurements.",
+  "main_findings": [
+    "Laboratory ordering and timing carry survival-related information even without using test values."
+  ],
+  "limitations": [
+    "Abstract-only review; does not establish why a cardiac WSI presence mask helps or harms. Figure 3b has a published axis correction (10.1136/bmj.k4416); no figure-based claim indexed."
+  ],
+  "does_not_establish": [
+    "Abstract-only review; does not establish why a cardiac WSI presence mask helps or harms. Figure 3b has a published axis correction (10.1136/bmj.k4416); no figure-based claim indexed."
+  ],
+  "relevance_to_project": "Interpret presence-mask ablations and rare-positive ranking metrics without claiming a local causal mechanism.",
+  "tags": [
+    "presence_mask",
+    "missingness",
+    "healthcare_process",
+    "shortcut"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1 (abstract snapshot)",
+      "section": "Abstract",
+      "extracted_text_lines": "9-45"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-04"
+}

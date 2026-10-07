@@ -1,0 +1,45 @@
+{
+  "paper_id": "lipton2014_f1_threshold",
+  "title": "Thresholding Classifiers to Maximize F1 Score",
+  "authors": [
+    "Zachary C. Lipton",
+    "Charles Elkan",
+    "Balakrishnan Narayanaswamy"
+  ],
+  "year": 2014,
+  "venue": "Author manuscript on arXiv",
+  "doi_or_identifier": "arXiv:1402.1892v2",
+  "source_pdf": "../paper_origin/lipton2014_f1_threshold.pdf",
+  "source_text": "../extracted_text/lipton2014_f1_threshold.md",
+  "study_context": "Theoretical and experimental analysis of F1-maximizing classification thresholds.",
+  "population_or_data": "Theoretical and experimental analysis of F1-maximizing classification thresholds.",
+  "task": "Prediction-model methodology and evaluation",
+  "method": "Selected-page methodological evidence review",
+  "main_findings": [
+    "For well-calibrated conditional probabilities, the F1-optimal threshold is half the optimal F1; for an uninformative classifier, maximizing F1 can label every example positive."
+  ],
+  "limitations": [
+    "Selected-page review only: PDF p.1, Abstract. Text extracted and page visually checked on 2026-10-07.",
+    "Author arXiv version v2, 2014-05-14; title follows this acquired version.",
+    "Transfer to cardiac WSI MIL requires qualification."
+  ],
+  "does_not_establish": [
+    "The half-F1 rule cannot be applied directly to uncalibrated SMC scores; this reviewed abstract does not establish an F2 rule or a clinically optimal cutoff."
+  ],
+  "relevance_to_project": "F1 optimization depends on score properties and the evaluation objective rather than a universal cutoff of 0.5.",
+  "tags": [
+    "F1",
+    "threshold",
+    "calibration",
+    "임계값"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract",
+      "extracted_text_lines": "9-57"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

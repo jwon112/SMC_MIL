@@ -1,0 +1,43 @@
+{
+  "paper_id": "vorontsov2024_virchow",
+  "title": "A foundation model for clinical-grade computational pathology and rare cancers detection",
+  "authors": [
+    "Eugene Vorontsov",
+    "Alican Bozkurt",
+    "Adam Casson",
+    "et al."
+  ],
+  "year": 2024,
+  "venue": "Nature Medicine",
+  "doi_or_identifier": "10.1038/s41591-024-03141-0",
+  "source_pdf": "../paper_origin/vorontsov2024_virchow.pdf",
+  "source_text": "../extracted_text/vorontsov2024_virchow.md",
+  "study_context": "Pan-cancer foundation-model evaluation.",
+  "population_or_data": "H&E specimens across common and rare cancers.",
+  "task": "Pan-cancer foundation-model evaluation.",
+  "method": "Virchow patch encoder with downstream aggregation.",
+  "main_findings": [
+    "Virchow supports specimen-level pan-cancer detection."
+  ],
+  "limitations": [
+    "Cancer performance does not establish rejection or IHC validity.",
+    "Review covers the cited pages; quantitative tables require further source verification."
+  ],
+  "does_not_establish": [
+    "No validated performance for SMC ACR/AMR or non-H&E stains."
+  ],
+  "relevance_to_project": "Alternative pathology encoder and specimen aggregation example.",
+  "tags": [
+    "encoder",
+    "multi_slide"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract",
+      "extracted_text_lines": "9-66"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-30"
+}

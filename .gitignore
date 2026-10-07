@@ -71,10 +71,22 @@ Thumbs.db
 !splits/**/*.csv
 !heatmaps/process_lists/*.csv
 
-# Share curated Markdown research notes; literature and extraction assets stay local.
+# Share research notes and curated literature metadata; source copies stay local.
 /experiment_notes/*
 !/experiment_notes/*.md
-/reference/
+/reference/*
+!/reference/README.md
+!/reference/REVIEW_*.md
+!/reference/cards/
+!/reference/evidence/
+!/reference/indexes/
+!/reference/schema/
+!/reference/tools/
+!/reference/tests/
+!/reference/paper_origin/
+/reference/paper_origin/*
+!/reference/paper_origin/manifest.json
+/tmp/
 /.agents/skills/smc-literature-research/
 
 # Reproducible local SMC outputs. Canonical task CSVs are versioned above;

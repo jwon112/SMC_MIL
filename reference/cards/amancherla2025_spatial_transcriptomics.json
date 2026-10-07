@@ -1,0 +1,29 @@
+{
+  "paper_id": "amancherla2025_spatial_transcriptomics",
+  "citation_key": "Amancherla2025SpatialHT",
+  "title": "Dynamic responses to rejection in the transplanted human heart revealed through spatial transcriptomics",
+  "authors": ["Kaushik Amancherla", "Angela M. Taravella Oill", "Xavier Bledsoe", "et al."],
+  "venue": "bioRxiv preprint",
+  "year": 2025,
+  "doi_or_identifier": "10.1101/2025.02.28.640852; GEO GSE290577",
+  "source_pdf": "../paper_origin/amancherla2025_spatial_transcriptomics.pdf",
+  "source_text": "../extracted_text/amancherla2025_spatial_transcriptomics.md",
+  "study_context": "Longitudinal spatial transcriptomics of adult and pediatric cardiac allograft rejection.",
+  "population_or_data": "62 transplant recipients; tissue microarray design with 233 targeted cores, 195 analyzed cores, and a 477-gene Xenium panel.",
+  "task": "Characterize cellular and transcriptional states across rejection classes and treatment response.",
+  "method": "Targeted image-based spatial transcriptomics on selected 0.6 mm tissue cores with registered H&E images.",
+  "main_findings": [
+    "The dataset includes longitudinal rejection samples and molecular phenotypes across ACR, AMR, and mixed rejection.",
+    "Resolved and persistent rejection showed different transcriptomic profiles."
+  ],
+  "limitations": ["This is a preprint and was not peer reviewed in the downloaded version.", "The imaging data are selected tissue microarray cores, not an independent routine whole-slide screening cohort."],
+  "does_not_establish": ["GSE290577 should not be counted as external WSI validation for a slide-level classifier without an explicit independent evaluation design."],
+  "relevance_to_project": "Potential multimodal or biological-validation resource; unsuitable as a drop-in substitute for external routine WSI validation.",
+  "tags": ["cardiac-allograft", "spatial-transcriptomics", "longitudinal", "GSE290577", "preprint"],
+  "source_locators": [
+    {"page": "PDF p.2", "section": "Abstract", "extracted_text_lines": "93-115"},
+    {"page": "PDF pp.26-27", "section": "Tissue microarray construction and Xenium workflow", "extracted_text_lines": "1486-1592"}
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-26"
+}

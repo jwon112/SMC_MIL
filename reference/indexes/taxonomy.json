@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0",
+  "updated_on": "2026-10-04",
+  "dimensions": {
+    "organ_scope": {
+      "label": "Organ",
+      "values": [
+        "heart",
+        "kidney",
+        "other",
+        "general"
+      ]
+    },
+    "analysis_units": {
+      "label": "Analysis units",
+      "values": [
+        "patch",
+        "region",
+        "slide",
+        "core",
+        "specimen",
+        "event",
+        "patient",
+        "not_applicable"
+      ]
+    },
+    "stains": {
+      "label": "Stains / modality",
+      "values": [
+        "HE",
+        "IHC",
+        "special",
+        "molecular",
+        "not_applicable"
+      ]
+    },
+    "methods": {
+      "label": "Methods",
+      "values": [
+        "mil",
+        "self_supervised",
+        "transformer",
+        "hierarchical",
+        "multiscale_fusion",
+        "cross_stain_alignment",
+        "graph_fusion",
+        "feature_distillation",
+        "handcrafted",
+        "stain_augmentation",
+        "stain_normalization",
+        "calibration",
+        "audit",
+        "guideline",
+        "spatial_transcriptomics",
+        "missingness_modeling"
+      ]
+    },
+    "validation": {
+      "label": "Validation design",
+      "values": [
+        "benchmark",
+        "retrospective",
+        "external_cohort",
+        "site_separated",
+        "prospective",
+        "not_applicable"
+      ]
+    },
+    "research_focus": {
+      "label": "Research focus",
+      "values": [
+        "cardiac",
+        "mil",
+        "encoder",
+        "multiscale",
+        "multi_slide",
+        "stain_fusion",
+        "shortcut",
+        "domain_shift",
+        "evaluation",
+        "calibration",
+        "label_validity",
+        "interpretability"
+      ]
+    },
+    "endpoints": {
+      "label": "Endpoints",
+      "values": [
+        "cardiac_rejection",
+        "clinical_severity",
+        "tumor_classification",
+        "histology_scoring",
+        "survival",
+        "representation_learning",
+        "methodology"
+      ]
+    }
+  },
+  "research_gaps": [
+    {
+      "id": "heart-event-fusion",
+      "question": "Does multi-slide/multi-stain event aggregation improve cardiac rejection beyond slide-to-event averaging?",
+      "status": "Method analogues reviewed; direct cardiac comparative evidence still needed"
+    },
+    {
+      "id": "heart-scale-fusion",
+      "question": "Does physical-MPP or coordinate-linked scale fusion improve ACR/AMR under patient-grouped external validation?",
+      "status": "General method evidence only"
+    },
+    {
+      "id": "source-shortcuts",
+      "question": "How much performance remains after Exp3/MRXS, scanner, stain, and slide-count controls?",
+      "status": "Local audit question; literature cannot establish the local effect"
+    },
+    {
+      "id": "rare-positives",
+      "question": "What precision and calibration can be established with few independent positive patients?",
+      "status": "Selected-page methodological evidence reviewed 2026-10-07: imbalance, thresholds, MCC and small-sample validation; direct cardiac rare-positive calibration evidence remains absent from this index"
+    },
+    {
+      "id": "clinical-utility",
+      "question": "Does routine cardiac WSI improve clinically meaningful decisions in prospective settings?",
+      "status": "Prospective task-matched validation not yet indexed"
+    },
+    {
+      "id": "encoder-transfer",
+      "question": "Which encoder transfers to cardiac H&E and non-H&E under identical splits?",
+      "status": "Noncardiac encoder evidence reviewed; cardiac comparison pending"
+    }
+  ]
+}

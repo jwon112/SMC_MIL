@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "paper_card.schema.json",
+  "title": "Project literature paper card",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "paper_id",
+    "title",
+    "authors",
+    "year",
+    "source_pdf",
+    "source_text",
+    "study_context",
+    "main_findings",
+    "limitations",
+    "does_not_establish",
+    "relevance_to_project",
+    "tags",
+    "source_locators",
+    "review_status",
+    "last_reviewed"
+  ],
+  "properties": {
+    "paper_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "citation_key": {"type": "string"},
+    "title": {"type": "string", "minLength": 1},
+    "authors": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "minItems": 1
+    },
+    "venue": {"type": "string"},
+    "year": {"type": "integer", "minimum": 1800, "maximum": 2200},
+    "doi_or_identifier": {"type": "string"},
+    "source_pdf": {"type": "string"},
+    "source_text": {"type": "string"},
+    "study_context": {"type": "string"},
+    "population_or_data": {"type": "string"},
+    "task": {"type": "string"},
+    "method": {"type": "string"},
+    "main_findings": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "limitations": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "does_not_establish": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "relevance_to_project": {"type": "string"},
+    "tags": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "source_locators": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/source_locator"}
+    },
+    "review_status": {
+      "enum": ["draft", "reviewed", "needs_update"]
+    },
+    "last_reviewed": {
+      "type": ["string", "null"],
+      "format": "date"
+    }
+  },
+  "$defs": {
+    "source_locator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page", "section"],
+      "properties": {
+        "page": {"type": "string"},
+        "section": {"type": "string"},
+        "extracted_text_lines": {"type": "string"}
+      }
+    }
+  }
+}

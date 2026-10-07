@@ -1,0 +1,44 @@
+{
+  "paper_id": "varoquaux2018_small_sample_cv",
+  "title": "Cross-validation failure: small sample sizes lead to large error bars",
+  "authors": [
+    "Gaël Varoquaux"
+  ],
+  "year": 2018,
+  "venue": "NeuroImage; acquired author preprint",
+  "doi_or_identifier": "10.1016/j.neuroimage.2017.06.061; arXiv:1706.07581v1",
+  "source_pdf": "../paper_origin/varoquaux2018_small_sample_cv.pdf",
+  "source_text": "../extracted_text/varoquaux2018_small_sample_cv.md",
+  "study_context": "Methodological study of small-sample cross-validation, motivated by brain imaging.",
+  "population_or_data": "Methodological study of small-sample cross-validation, motivated by brain imaging.",
+  "task": "Prediction-model methodology and evaluation",
+  "method": "Selected-page methodological evidence review",
+  "main_findings": [
+    "Small-sample cross-validation can have substantial uncertainty, and standard errors calculated across folds can underestimate that uncertainty."
+  ],
+  "limitations": [
+    "Selected-page review only: PDF p.1, Abstract. Text extracted and page visually checked on 2026-10-07.",
+    "Acquired 2017 arXiv v1 author preprint; bibliographic year 2018 is the published NeuroImage article.",
+    "Transfer to cardiac WSI MIL requires qualification."
+  ],
+  "does_not_establish": [
+    "Does not provide an SMC-specific AP confidence interval, justify transplanting a reported neuroimaging error bar, or make 575 events independent patients."
+  ],
+  "relevance_to_project": "Fold or seed variability is not a substitute for uncertainty over independent patients.",
+  "tags": [
+    "small sample",
+    "cross validation",
+    "uncertainty",
+    "patient",
+    "소표본"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract",
+      "extracted_text_lines": "9-75"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

@@ -1,0 +1,649 @@
+{
+  "schema_version": "1.0",
+  "topics": [
+    {
+      "topic_id": "cardiac_allograft_pathology",
+      "description": "Cardiac allograft biopsy interpretation, ACR and AMR grading, histopathologic definitions, and clinically meaningful endpoints.",
+      "query_terms": [
+        "cardiac allograft",
+        "heart transplant biopsy",
+        "acute cellular rejection",
+        "antibody mediated rejection",
+        "ACR",
+        "AMR",
+        "ISHLT grading",
+        "심장이식",
+        "이식 거부반응"
+      ],
+      "preferred_evidence_types": [
+        "clinical_guideline",
+        "cohort_study",
+        "diagnostic_validation"
+      ],
+      "paper_ids": [
+        "amancherla2025_spatial_transcriptomics",
+        "colvin2015_aha_amr",
+        "lipkova2022_crane",
+        "peyster2021_cache_grader",
+        "peyster2024_clinical_trajectory",
+        "seraphin2023_cardiac_ssl",
+        "stewart2005_ishlt_acr"
+      ],
+      "claim_ids": [
+        "claim-acr-grading",
+        "claim-amr-multimodal",
+        "claim-cardiac-wsi-feasible",
+        "claim-external-performance-varies",
+        "claim-gse290577-role",
+        "claim-handcrafted-acr-comparator",
+        "claim-peyster2024_clinical_trajectory"
+      ],
+      "fallback_topics": [
+        "external_validation"
+      ]
+    },
+    {
+      "topic_id": "computational_pathology_mil",
+      "description": "Weakly supervised whole-slide learning, attention-based multiple-instance learning, CLAM, and slide-level classification.",
+      "query_terms": [
+        "computational pathology",
+        "whole slide image",
+        "WSI",
+        "multiple instance learning",
+        "MIL",
+        "CLAM",
+        "attention pooling",
+        "약지도 학습",
+        "병리 슬라이드"
+      ],
+      "preferred_evidence_types": [
+        "methodological",
+        "architecture_comparison",
+        "external_validation"
+      ],
+      "paper_ids": [
+        "ilse2018_abmil",
+        "li2021_dsmil",
+        "lipkova2022_crane",
+        "lu2021_clam",
+        "seraphin2023_cardiac_ssl",
+        "shao2021_transmil",
+        "zhang2022_dtfd"
+      ],
+      "claim_ids": [
+        "claim-abmil-pooling",
+        "claim-cardiac-wsi-feasible",
+        "claim-clam-scope",
+        "claim-li2021_dsmil",
+        "claim-transmil-context",
+        "claim-zhang2022_dtfd"
+      ],
+      "fallback_topics": [
+        "interpretability",
+        "foundation_encoders"
+      ]
+    },
+    {
+      "topic_id": "foundation_encoders",
+      "description": "Pretrained pathology and vision foundation encoders, feature transfer, representation quality, and encoder comparison.",
+      "query_terms": [
+        "pathology foundation model",
+        "foundation encoder",
+        "self supervised pathology",
+        "UNI",
+        "UNI2-h",
+        "CONCH",
+        "feature encoder",
+        "transfer learning",
+        "사전학습 모델",
+        "파운데이션 모델"
+      ],
+      "preferred_evidence_types": [
+        "architecture_comparison",
+        "benchmark",
+        "external_validation"
+      ],
+      "paper_ids": [
+        "chen2022_hipt",
+        "chen2024_uni",
+        "jaume2024_madeleine",
+        "seraphin2023_cardiac_ssl",
+        "vorontsov2024_virchow"
+      ],
+      "claim_ids": [
+        "claim-cardiac-wsi-feasible",
+        "claim-chen2022_hipt",
+        "claim-jaume2024_madeleine",
+        "claim-uni-scope",
+        "claim-vorontsov2024_virchow"
+      ],
+      "fallback_topics": [
+        "computational_pathology_mil"
+      ]
+    },
+    {
+      "topic_id": "multiscale_wsi_representation",
+      "description": "Magnification, physical resolution, multi-resolution sampling, feature fusion, and scale sensitivity in WSI analysis.",
+      "query_terms": [
+        "multiscale WSI",
+        "multi resolution pathology",
+        "magnification",
+        "microns per pixel",
+        "MPP",
+        "feature pyramid",
+        "scale fusion",
+        "다중 배율",
+        "다중 해상도"
+      ],
+      "preferred_evidence_types": [
+        "architecture_comparison",
+        "ablation",
+        "methodological"
+      ],
+      "paper_ids": [
+        "chen2022_hipt",
+        "chen2024_uni",
+        "li2021_dsmil",
+        "lu2021_clam",
+        "shao2021_transmil"
+      ],
+      "claim_ids": [
+        "claim-chen2022_hipt",
+        "claim-clam-scope",
+        "claim-dsmil-spatial-fusion",
+        "claim-li2021_dsmil",
+        "claim-transmil-context",
+        "claim-uni-scope"
+      ],
+      "fallback_topics": [
+        "computational_pathology_mil"
+      ]
+    },
+    {
+      "topic_id": "stain_and_domain_shift",
+      "description": "Histology stain variation, scanner or site shift, stain-aware modeling, normalization, and domain robustness.",
+      "query_terms": [
+        "stain variation",
+        "stain normalization",
+        "domain shift pathology",
+        "scanner shift",
+        "site generalization",
+        "H&E variation",
+        "염색 변이",
+        "도메인 이동"
+      ],
+      "preferred_evidence_types": [
+        "robustness",
+        "external_validation",
+        "methodological"
+      ],
+      "paper_ids": [
+        "howard2021_site_signatures",
+        "jaume2024_madeleine",
+        "lipkova2022_crane",
+        "seraphin2023_cardiac_ssl",
+        "tellez2019_stain"
+      ],
+      "claim_ids": [
+        "claim-cardiac-wsi-feasible",
+        "claim-external-performance-varies",
+        "claim-howard2021_site_signatures",
+        "claim-jaume2024_madeleine",
+        "claim-stain-robustness"
+      ],
+      "fallback_topics": [
+        "external_validation"
+      ]
+    },
+    {
+      "topic_id": "weak_and_longitudinal_labels",
+      "description": "Weak labels, temporal linkage, repeated biopsy outcomes, future-event prediction, and label uncertainty.",
+      "query_terms": [
+        "weak label pathology",
+        "longitudinal biopsy",
+        "future rejection prediction",
+        "temporal linkage",
+        "repeated measures",
+        "label noise",
+        "time to event",
+        "약한 라벨",
+        "종단 예측",
+        "반복 생검"
+      ],
+      "preferred_evidence_types": [
+        "cohort_study",
+        "prognostic_validation",
+        "methodological"
+      ],
+      "paper_ids": [
+        "amancherla2025_spatial_transcriptomics",
+        "collins2024_tripod_ai",
+        "moons2025_probast_ai",
+        "peyster2021_cache_grader",
+        "peyster2024_clinical_trajectory"
+      ],
+      "claim_ids": [
+        "claim-gse290577-role",
+        "claim-handcrafted-acr-comparator",
+        "claim-patient-cluster-reporting",
+        "claim-peyster2024_clinical_trajectory"
+      ],
+      "fallback_topics": [
+        "patient_grouped_evaluation"
+      ]
+    },
+    {
+      "topic_id": "patient_grouped_evaluation",
+      "description": "Patient-level grouping, leakage prevention, cross-validation design, nested evaluation, and estimand definition.",
+      "query_terms": [
+        "patient grouped split",
+        "patient level cross validation",
+        "data leakage",
+        "nested cross validation",
+        "repeated cross validation",
+        "evaluation bias",
+        "estimand",
+        "환자 단위 분할",
+        "데이터 누출"
+      ],
+      "preferred_evidence_types": [
+        "evaluation_methodology",
+        "reporting_guideline",
+        "statistical_method"
+      ],
+      "paper_ids": [
+        "collins2024_tripod_ai",
+        "moons2025_probast_ai",
+        "seraphin2023_cardiac_ssl",
+        "zhang2022_dtfd",
+        "saito2015_precision_recall"
+      ],
+      "claim_ids": [
+        "claim-external-performance-varies",
+        "claim-patient-cluster-reporting",
+        "claim-probast-appraisal",
+        "claim-tripod-reporting",
+        "claim-zhang2022_dtfd",
+        "claim-saito2015_precision_recall"
+      ],
+      "fallback_topics": [
+        "external_validation",
+        "calibration_and_ensembles"
+      ]
+    },
+    {
+      "topic_id": "external_validation",
+      "description": "Independent-cohort validation, transportability, dataset shift, reproducibility, and clinical generalization.",
+      "query_terms": [
+        "external validation",
+        "independent cohort",
+        "transportability",
+        "dataset shift",
+        "generalization",
+        "multi center",
+        "재현성",
+        "외부 검증"
+      ],
+      "preferred_evidence_types": [
+        "external_validation",
+        "reporting_guideline",
+        "robustness"
+      ],
+      "paper_ids": [
+        "collins2024_tripod_ai",
+        "howard2021_site_signatures",
+        "lipkova2022_crane",
+        "moons2025_probast_ai",
+        "peyster2021_cache_grader",
+        "seraphin2023_cardiac_ssl",
+        "tellez2019_stain"
+      ],
+      "claim_ids": [
+        "claim-cardiac-wsi-feasible",
+        "claim-external-performance-varies",
+        "claim-howard2021_site_signatures",
+        "claim-probast-appraisal",
+        "claim-stain-robustness",
+        "claim-tripod-reporting"
+      ],
+      "fallback_topics": [
+        "patient_grouped_evaluation"
+      ]
+    },
+    {
+      "topic_id": "calibration_and_ensembles",
+      "description": "Probability calibration, decision thresholds, repeated-seed ensembles, uncertainty, and imbalanced classification metrics.",
+      "query_terms": [
+        "probability calibration",
+        "threshold selection",
+        "model ensemble",
+        "repeated seed",
+        "class imbalance",
+        "Brier score",
+        "expected calibration error",
+        "앙상블",
+        "확률 보정"
+      ],
+      "preferred_evidence_types": [
+        "statistical_method",
+        "evaluation_methodology",
+        "benchmark"
+      ],
+      "paper_ids": [
+        "collins2024_tripod_ai",
+        "guo2017_calibration",
+        "moons2025_probast_ai"
+      ],
+      "claim_ids": [
+        "claim-guo2017_calibration",
+        "claim-patient-cluster-reporting",
+        "claim-probast-appraisal",
+        "claim-tripod-reporting"
+      ],
+      "fallback_topics": [
+        "patient_grouped_evaluation"
+      ],
+      "linked_local_artifacts": [
+        "../tools/calibrate_smc_ensemble_thresholds.py"
+      ]
+    },
+    {
+      "topic_id": "interpretability",
+      "description": "Attention maps, heatmaps, instance attribution, faithfulness, clinical plausibility, and explanation validation in pathology models.",
+      "query_terms": [
+        "attention interpretability",
+        "MIL heatmap",
+        "instance attribution",
+        "explanation faithfulness",
+        "saliency validation",
+        "counterfactual explanation",
+        "설명가능성",
+        "히트맵"
+      ],
+      "preferred_evidence_types": [
+        "interpretability_validation",
+        "methodological",
+        "clinical_evaluation"
+      ],
+      "paper_ids": [
+        "lu2021_clam",
+        "ilse2018_abmil",
+        "peyster2021_cache_grader",
+        "lipkova2022_crane"
+      ],
+      "claim_ids": [
+        "claim-clam-scope",
+        "claim-abmil-pooling",
+        "claim-handcrafted-acr-comparator"
+      ],
+      "fallback_topics": [
+        "computational_pathology_mil"
+      ]
+    },
+    {
+      "topic_id": "event_stain_fusion",
+      "description": "Combining several nonregistered slides or stains into a specimen or biopsy-event representation.",
+      "query_terms": [
+        "multi slide",
+        "event MIL",
+        "specimen aggregation",
+        "stain fusion",
+        "H&E IHC",
+        "MADELEINE",
+        "다중 슬라이드",
+        "염색 결합",
+        "생검 event"
+      ],
+      "preferred_evidence_types": [
+        "methodological",
+        "cohort_study"
+      ],
+      "paper_ids": [
+        "dwivedi2022_multistain_graph",
+        "jaume2024_madeleine",
+        "vorontsov2024_virchow"
+      ],
+      "claim_ids": [
+        "claim-dwivedi2022_multistain_graph",
+        "claim-jaume2024_madeleine",
+        "claim-vorontsov2024_virchow"
+      ],
+      "fallback_topics": [
+        "external_validation"
+      ],
+      "linked_local_artifacts": [
+        "../docs/smc_event_stain_mil.md",
+        "../results/smc_event_ablation_summary"
+      ]
+    },
+    {
+      "topic_id": "acquisition_shortcuts",
+      "description": "Source, scanner, site and acquisition shortcuts correlated with pathology labels.",
+      "query_terms": [
+        "shortcut",
+        "site signature",
+        "source confounding",
+        "Exp3",
+        "MRXS",
+        "acquisition bias",
+        "취득 편향",
+        "출처 편향",
+        "지름길 학습"
+      ],
+      "preferred_evidence_types": [
+        "methodological",
+        "cohort_study"
+      ],
+      "paper_ids": [
+        "howard2021_site_signatures",
+        "agniel2018_healthcare_process",
+        "che2018_grud"
+      ],
+      "claim_ids": [
+        "claim-howard2021_site_signatures",
+        "claim-agniel2018_healthcare_process",
+        "claim-che2018_grud"
+      ],
+      "fallback_topics": [
+        "external_validation"
+      ],
+      "linked_local_artifacts": [
+        "../docs/smc_gold_dataset_audit.md",
+        "../results/smc_dataset_audit"
+      ]
+    },
+    {
+      "topic_id": "biopsy_label_validity",
+      "description": "Biopsy pathology grades versus clinical severity and outcome labels.",
+      "query_terms": [
+        "CARE",
+        "clinical trajectory",
+        "grade severity",
+        "label validity",
+        "병리 등급",
+        "임상 중증도",
+        "라벨 타당성"
+      ],
+      "preferred_evidence_types": [
+        "methodological",
+        "cohort_study"
+      ],
+      "paper_ids": [
+        "peyster2024_clinical_trajectory"
+      ],
+      "claim_ids": [
+        "claim-peyster2024_clinical_trajectory"
+      ],
+      "fallback_topics": [
+        "external_validation"
+      ],
+      "linked_local_artifacts": [
+        "../dataset_csv/smc_acr_high_binary.csv"
+      ]
+    },
+    {
+      "topic_id": "presence_mask_and_missingness",
+      "description": "Observed stain presence, informative missingness, healthcare-process signals, and limitations of mask ablations.",
+      "query_terms": [
+        "presence mask",
+        "missingness",
+        "informative missingness",
+        "GRU-D",
+        "constant mask",
+        "zero mask",
+        "stain presence"
+      ],
+      "preferred_evidence_types": [
+        "methodological",
+        "observational"
+      ],
+      "paper_ids": [
+        "agniel2018_healthcare_process",
+        "che2018_grud",
+        "saito2015_precision_recall",
+        "howard2021_site_signatures",
+        "dwivedi2022_multistain_graph",
+        "jaume2024_madeleine"
+      ],
+      "claim_ids": [
+        "claim-agniel2018_healthcare_process",
+        "claim-che2018_grud",
+        "claim-saito2015_precision_recall",
+        "claim-howard2021_site_signatures",
+        "claim-dwivedi2022_multistain_graph",
+        "claim-jaume2024_madeleine"
+      ],
+      "fallback_topics": [
+        "acquisition_shortcuts",
+        "event_stain_fusion",
+        "patient_grouped_evaluation"
+      ],
+      "linked_local_artifacts": [
+        "../models/stain_aware_event_mil.py",
+        "../docs/smc_event_stain_mil.md"
+      ]
+    },
+    {
+      "topic_id": "imbalance_handling",
+      "description": "Class rebalancing, loss weighting, discrimination and calibration under severe class imbalance.",
+      "query_terms": [
+        "class imbalance",
+        "resampling",
+        "weighted CE",
+        "balanced sampler",
+        "불균형",
+        "양성 부족"
+      ],
+      "preferred_evidence_types": [
+        "methodological_study"
+      ],
+      "paper_ids": [
+        "goorbergh2022_imbalance",
+        "carriero2025_imbalance_ml"
+      ],
+      "claim_ids": [
+        "claim-goorbergh2022_imbalance",
+        "claim-carriero2025_imbalance_ml"
+      ],
+      "fallback_topics": [
+        "patient_grouped_evaluation"
+      ],
+      "linked_local_artifacts": [
+        "../docs/smc_wsi_research_synthesis_20261007.md",
+        "../experiment_notes/2026-10-07-literature-and-experiment-synthesis.md"
+      ]
+    },
+    {
+      "topic_id": "rare_positive_evaluation",
+      "description": "Complementary ranking and decision metrics for rare outcomes.",
+      "query_terms": [
+        "rare positive",
+        "F1",
+        "MCC",
+        "AP",
+        "precision recall",
+        "평가지표",
+        "희귀 양성"
+      ],
+      "preferred_evidence_types": [
+        "methodological_study"
+      ],
+      "paper_ids": [
+        "chicco2020_mcc",
+        "saito2015_precision_recall"
+      ],
+      "claim_ids": [
+        "claim-chicco2020_mcc",
+        "claim-saito2015_precision_recall"
+      ],
+      "fallback_topics": [
+        "patient_grouped_evaluation"
+      ],
+      "linked_local_artifacts": [
+        "../docs/smc_wsi_research_synthesis_20261007.md",
+        "../experiment_notes/2026-10-07-literature-and-experiment-synthesis.md"
+      ]
+    },
+    {
+      "topic_id": "threshold_selection",
+      "description": "Selection and independent evaluation of F1/F2 decision cutoffs.",
+      "query_terms": [
+        "threshold",
+        "cutoff",
+        "F1",
+        "F2",
+        "임계값",
+        "민감도"
+      ],
+      "preferred_evidence_types": [
+        "methodological_study"
+      ],
+      "paper_ids": [
+        "lipton2014_f1_threshold"
+      ],
+      "claim_ids": [
+        "claim-lipton2014_f1_threshold"
+      ],
+      "fallback_topics": [
+        "patient_grouped_evaluation"
+      ],
+      "linked_local_artifacts": [
+        "../docs/smc_wsi_research_synthesis_20261007.md",
+        "../experiment_notes/2026-10-07-literature-and-experiment-synthesis.md"
+      ]
+    },
+    {
+      "topic_id": "small_sample_validation",
+      "description": "Independent patients, sample adequacy and model-selection uncertainty.",
+      "query_terms": [
+        "small sample",
+        "cross validation",
+        "selection bias",
+        "sample size",
+        "소표본",
+        "환자 수",
+        "선택 편향"
+      ],
+      "preferred_evidence_types": [
+        "methodological_study"
+      ],
+      "paper_ids": [
+        "cawley2010_selection_bias",
+        "varoquaux2018_small_sample_cv",
+        "riley2020_sample_size"
+      ],
+      "claim_ids": [
+        "claim-cawley2010_selection_bias",
+        "claim-varoquaux2018_small_sample_cv",
+        "claim-riley2020_sample_size"
+      ],
+      "fallback_topics": [
+        "patient_grouped_evaluation"
+      ],
+      "linked_local_artifacts": [
+        "../docs/smc_wsi_research_synthesis_20261007.md",
+        "../experiment_notes/2026-10-07-literature-and-experiment-synthesis.md"
+      ]
+    }
+  ]
+}

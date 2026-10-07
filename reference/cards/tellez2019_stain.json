@@ -1,0 +1,26 @@
+{
+  "paper_id": "tellez2019_stain",
+  "citation_key": "Tellez2019Stain",
+  "title": "Quantifying the effects of data augmentation and stain color normalization in convolutional neural networks for computational pathology",
+  "authors": ["David Tellez", "Geert Litjens", "Peter Bandi", "et al."],
+  "venue": "Medical Image Analysis",
+  "year": 2019,
+  "doi_or_identifier": "10.1016/j.media.2019.101544",
+  "source_pdf": "../paper_origin/tellez2019_stain.pdf",
+  "source_text": "../extracted_text/tellez2019_stain.md",
+  "study_context": "Cross-laboratory study of stain variation mitigation in computational pathology.",
+  "population_or_data": "H&E images from four organs and nine pathology laboratories.",
+  "task": "Quantify how augmentation and stain normalization affect CNN generalization.",
+  "method": "Experimental comparison of stain color augmentation and normalization techniques.",
+  "main_findings": ["Stain variation across laboratories can degrade CNN transfer, and augmentation or normalization can reduce generalization error depending on the setup."],
+  "limitations": ["The experiments use H&E patch/CNN tasks and do not evaluate this project's event-level multi-stain branch design."],
+  "does_not_establish": ["The paper does not justify a single universally optimal stain-normalization pipeline for all stains and encoders."],
+  "relevance_to_project": "Evidence for treating stain/site shift as an empirical robustness question with explicit ablation.",
+  "tags": ["stain", "domain-shift", "augmentation", "normalization", "robustness"],
+  "source_locators": [
+    {"page": "PDF p.1", "section": "Abstract", "extracted_text_lines": "41-55"},
+    {"page": "PDF p.5", "section": "Stain normalization comparison", "extracted_text_lines": "297-356"}
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-26"
+}

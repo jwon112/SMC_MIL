@@ -1,0 +1,44 @@
+{
+  "paper_id": "howard2021_site_signatures",
+  "title": "The impact of site-specific digital histology signatures on deep learning model accuracy and bias",
+  "authors": [
+    "Frederick M. Howard",
+    "James Dolezal",
+    "Sara Kochanny",
+    "et al."
+  ],
+  "year": 2021,
+  "venue": "Nature Communications",
+  "doi_or_identifier": "10.1038/s41467-021-24698-1",
+  "source_pdf": "../paper_origin/howard2021_site_signatures.pdf",
+  "source_text": "../extracted_text/howard2021_site_signatures.md",
+  "study_context": "Institutional acquisition signatures in TCGA.",
+  "population_or_data": "Multiple TCGA cancer subtypes.",
+  "task": "Institutional acquisition signatures in TCGA.",
+  "method": "Site prediction and site-separated evaluation.",
+  "main_findings": [
+    "Models can identify submitting sites despite color normalization and augmentation."
+  ],
+  "limitations": [
+    "TCGA observations do not identify the mechanism of SMC source confounding.",
+    "Review covers the cited pages; quantitative tables require further source verification."
+  ],
+  "does_not_establish": [
+    "No proof of shortcut magnitude or causal mechanism in SMC."
+  ],
+  "relevance_to_project": "Motivates Exp3-only and acquisition metadata controls.",
+  "tags": [
+    "shortcut",
+    "domain_shift",
+    "evaluation"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract",
+      "extracted_text_lines": "9-53"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-30"
+}

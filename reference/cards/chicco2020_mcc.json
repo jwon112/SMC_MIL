@@ -1,0 +1,45 @@
+{
+  "paper_id": "chicco2020_mcc",
+  "title": "The advantages of the Matthews correlation coefficient (MCC) over F1 score and accuracy in binary classification evaluation",
+  "authors": [
+    "Davide Chicco",
+    "Giuseppe Jurman"
+  ],
+  "year": 2020,
+  "venue": "BMC Genomics",
+  "doi_or_identifier": "10.1186/s12864-019-6413-7",
+  "source_pdf": "../paper_origin/chicco2020_mcc.pdf",
+  "source_text": "../extracted_text/chicco2020_mcc.md",
+  "study_context": "Binary-classification evaluation using illustrative and genomics examples.",
+  "population_or_data": "Binary-classification evaluation using illustrative and genomics examples.",
+  "task": "Prediction-model methodology and evaluation",
+  "method": "Selected-page methodological evidence review",
+  "main_findings": [
+    "MCC incorporates all four confusion-matrix categories; the examined examples show how accuracy and F1 alone can give misleading impressions under imbalance."
+  ],
+  "limitations": [
+    "Selected-page review only: PDF p.1, Abstract. Text extracted and page visually checked on 2026-10-07.",
+    "Published article; PMC open-access copy, CC BY 4.0.",
+    "Transfer to cardiac WSI MIL requires qualification."
+  ],
+  "does_not_establish": [
+    "Does not establish MCC as a measure of clinical utility, a universally sufficient metric, or a winning SMC model."
+  ],
+  "relevance_to_project": "Report MCC alongside F1, class-specific errors and ranking metrics.",
+  "tags": [
+    "MCC",
+    "F1",
+    "confusion matrix",
+    "evaluation",
+    "평가지표"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract",
+      "extracted_text_lines": "9-71"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

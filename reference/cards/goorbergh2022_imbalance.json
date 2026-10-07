@@ -1,0 +1,47 @@
+{
+  "paper_id": "goorbergh2022_imbalance",
+  "title": "The harm of class imbalance corrections for risk prediction models: illustration and simulation using logistic regression",
+  "authors": [
+    "Ruben van den Goorbergh",
+    "Maarten van Smeden",
+    "Dirk Timmerman",
+    "Ben Van Calster"
+  ],
+  "year": 2022,
+  "venue": "JAMIA",
+  "doi_or_identifier": "10.1093/jamia/ocac093",
+  "source_pdf": "../paper_origin/goorbergh2022_imbalance.pdf",
+  "source_text": "../extracted_text/goorbergh2022_imbalance.md",
+  "study_context": "Logistic-regression simulations and an ovarian tumour diagnosis illustration.",
+  "population_or_data": "Logistic-regression simulations and an ovarian tumour diagnosis illustration.",
+  "task": "Prediction-model methodology and evaluation",
+  "method": "Selected-page methodological evidence review",
+  "main_findings": [
+    "In the examined logistic-regression settings, undersampling, oversampling and SMOTE did not improve discrimination and overestimated minority-class probabilities; sensitivity and specificity could also be changed by adjusting the decision threshold."
+  ],
+  "limitations": [
+    "Selected-page review only: PDF p.1, Abstract. Text extracted and page visually checked on 2026-10-07.",
+    "Published article; PMC open-access copy, CC BY 4.0.",
+    "Transfer to cardiac WSI MIL requires qualification."
+  ],
+  "does_not_establish": [
+    "Does not establish the effect of resampling on neural WSI MIL, diagnose calibration in SMC, or explain the cause of the observed SMC AP differences."
+  ],
+  "relevance_to_project": "Rebalancing need not improve discrimination, and decision thresholds must be distinguished from probability calibration.",
+  "tags": [
+    "class imbalance",
+    "resampling",
+    "calibration",
+    "threshold",
+    "불균형"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract",
+      "extracted_text_lines": "9-77"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

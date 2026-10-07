@@ -1,0 +1,42 @@
+{
+  "paper_id": "li2021_dsmil",
+  "title": "Dual-Stream Multiple Instance Learning Network for Whole Slide Image Classification With Self-Supervised Contrastive Learning",
+  "authors": [
+    "Bin Li",
+    "Yin Li",
+    "Kevin W. Eliceiri"
+  ],
+  "year": 2021,
+  "venue": "CVPR",
+  "doi_or_identifier": "arXiv:2011.08939",
+  "source_pdf": "../paper_origin/li2021_dsmil.pdf",
+  "source_text": "../extracted_text/li2021_dsmil.md",
+  "study_context": "Weakly supervised tumor WSI classification.",
+  "population_or_data": "CAMELYON16 and TCGA lung cancer.",
+  "task": "Weakly supervised tumor WSI classification.",
+  "method": "Dual-stream MIL with contrastive patch representations.",
+  "main_findings": [
+    "DSMIL combines instance scoring and relation-based bag aggregation."
+  ],
+  "limitations": [
+    "Tumor benchmarks; no cardiac rejection validation.",
+    "Review covers the cited pages; quantitative tables require further source verification."
+  ],
+  "does_not_establish": [
+    "No demonstrated advantage on SMC rejection."
+  ],
+  "relevance_to_project": "Controlled alternative to CLAM aggregation.",
+  "tags": [
+    "mil",
+    "multiscale"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1,3",
+      "section": "Abstract; Fig. 2",
+      "extracted_text_lines": "9-188"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-30"
+}

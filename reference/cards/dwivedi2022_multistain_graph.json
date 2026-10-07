@@ -1,0 +1,43 @@
+{
+  "paper_id": "dwivedi2022_multistain_graph",
+  "title": "Multi Stain Graph Fusion for Multimodal Integration in Pathology",
+  "authors": [
+    "Chaitanya Dwivedi",
+    "Shima Nofallah",
+    "Maryam Pouryahya",
+    "et al."
+  ],
+  "year": 2022,
+  "venue": "CVPR Workshops",
+  "doi_or_identifier": "arXiv:2204.12541",
+  "source_pdf": "../paper_origin/dwivedi2022_multistain_graph.pdf",
+  "source_text": "../extracted_text/dwivedi2022_multistain_graph.md",
+  "study_context": "Multistain scoring of liver biopsies.",
+  "population_or_data": "NASH H&E and trichrome WSIs.",
+  "task": "Multistain scoring of liver biopsies.",
+  "method": "CNN-GNN stain branches with graph fusion.",
+  "main_findings": [
+    "Stain-specific graph representations are combined without spatial slide registration."
+  ],
+  "limitations": [
+    "Workshop study of liver ordinal scores, not cardiac binary rejection.",
+    "Review covers the cited pages; quantitative tables require further source verification."
+  ],
+  "does_not_establish": [
+    "No gain established for cardiac H&E/IHC event-level MIL."
+  ],
+  "relevance_to_project": "Comparator for combining nonregistered event slides.",
+  "tags": [
+    "multi_slide",
+    "stain_fusion"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1,4",
+      "section": "Abstract; Fig. 1; Section 3.4",
+      "extracted_text_lines": "9-302"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-30"
+}

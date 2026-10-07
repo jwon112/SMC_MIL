@@ -1,0 +1,487 @@
+{
+  "schema_version": "1.0",
+  "claims": [
+    {
+      "claim_id": "claim-acr-grading",
+      "statement": "The 2005 ISHLT scheme defines cardiac acute cellular rejection as 0R, 1R, 2R, and 3R using infiltrate and myocyte-damage criteria.",
+      "evidence_ids": [
+        "atom-stewart-acr-grading"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "ACR",
+        "ISHLT",
+        "labels"
+      ],
+      "last_reviewed": "2026-09-26"
+    },
+    {
+      "claim_id": "claim-amr-multimodal",
+      "statement": "Full pathological AMR categorization combines histological and immunopathological findings, so H&E-only morphology is not equivalent to complete pAMR classification.",
+      "evidence_ids": [
+        "atom-colvin-pamr"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "AMR",
+        "pAMR",
+        "label-boundary"
+      ],
+      "last_reviewed": "2026-09-26"
+    },
+    {
+      "claim_id": "claim-cardiac-wsi-feasible",
+      "statement": "Multicenter studies show that WSI models can detect cardiac allograft rejection, but each study's validation scope must remain explicit.",
+      "evidence_ids": [
+        "atom-lipkova-cardiac-wsi",
+        "atom-seraphin-cardiac-wsi"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "cardiac-allograft",
+        "WSI",
+        "external-validation"
+      ],
+      "last_reviewed": "2026-09-26"
+    },
+    {
+      "claim_id": "claim-external-performance-varies",
+      "statement": "Internal cross-validation can overstate transportability: cardiac rejection performance varied materially across independent cohorts.",
+      "evidence_ids": [
+        "atom-seraphin-external-gap"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "external-validation",
+        "transportability",
+        "evaluation"
+      ],
+      "last_reviewed": "2026-09-26"
+    },
+    {
+      "claim_id": "claim-handcrafted-acr-comparator",
+      "statement": "Handcrafted morphologic features are a credible ACR grading comparator, but that evidence does not extend to AMR or future rejection prediction.",
+      "evidence_ids": [
+        "atom-peyster-cache-boundary"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "ACR",
+        "handcrafted-features",
+        "endpoint-boundary"
+      ],
+      "last_reviewed": "2026-09-26"
+    },
+    {
+      "claim_id": "claim-gse290577-role",
+      "statement": "GSE290577 is a longitudinal spatial-transcriptomic tissue-core resource, not an independent routine-WSI screening cohort.",
+      "evidence_ids": [
+        "atom-amancherla-gse-role"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "GSE290577",
+        "spatial-transcriptomics",
+        "external-validation"
+      ],
+      "last_reviewed": "2026-09-26"
+    },
+    {
+      "claim_id": "claim-clam-scope",
+      "statement": "CLAM supports slide-label-only WSI classification and attention heatmaps, but its original evidence is not cardiac-specific and does not make attention causal explanation.",
+      "evidence_ids": [
+        "atom-lu-clam-scope"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "CLAM",
+        "MIL",
+        "interpretability"
+      ],
+      "last_reviewed": "2026-09-26"
+    },
+    {
+      "claim_id": "claim-uni-scope",
+      "statement": "UNI is a large-scale pathology patch encoder whose local cardiac and stain-specific value still requires task-specific aggregation and ablation.",
+      "evidence_ids": [
+        "atom-chen-uni-scope"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "UNI",
+        "encoder",
+        "foundation-model"
+      ],
+      "last_reviewed": "2026-09-26"
+    },
+    {
+      "claim_id": "claim-abmil-pooling",
+      "statement": "Attention-based MIL provides learnable permutation-invariant bag pooling and instance weights, not automatically validated causal explanations.",
+      "evidence_ids": [
+        "atom-ilse-abmil-pooling"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "ABMIL",
+        "attention",
+        "pooling"
+      ],
+      "last_reviewed": "2026-09-26"
+    },
+    {
+      "claim_id": "claim-transmil-context",
+      "statement": "TransMIL is a reasonable contextual-MIL comparator because it models inter-instance correlations, but superiority is task dependent.",
+      "evidence_ids": [
+        "atom-shao-transmil-context"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "TransMIL",
+        "transformer",
+        "MIL"
+      ],
+      "last_reviewed": "2026-09-26"
+    },
+    {
+      "claim_id": "claim-stain-robustness",
+      "statement": "Cross-laboratory stain variation can harm transfer, so stain augmentation and normalization should be evaluated as robustness interventions rather than assumptions.",
+      "evidence_ids": [
+        "atom-tellez-stain-shift"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "stain",
+        "domain-shift",
+        "robustness"
+      ],
+      "last_reviewed": "2026-09-26"
+    },
+    {
+      "claim_id": "claim-tripod-reporting",
+      "statement": "TRIPOD+AI is the reporting framework for transparent clinical prediction-model studies, including clustered performance, calibration, uncertainty, fairness, and open science.",
+      "evidence_ids": [
+        "atom-collins-tripod-reporting"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "TRIPOD-AI",
+        "reporting",
+        "evaluation"
+      ],
+      "last_reviewed": "2026-09-26"
+    },
+    {
+      "claim_id": "claim-probast-appraisal",
+      "statement": "PROBAST+AI appraises development quality and evaluation risk of bias and applicability across participants/data, predictors, outcomes, and analysis.",
+      "evidence_ids": [
+        "atom-moons-probast-appraisal"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "PROBAST-AI",
+        "risk-of-bias",
+        "applicability"
+      ],
+      "last_reviewed": "2026-09-26"
+    },
+    {
+      "claim_id": "claim-patient-cluster-reporting",
+      "statement": "Repeated biopsies and center clusters must be made explicit in the evaluation and reporting plan to avoid ambiguous independence and leakage claims.",
+      "evidence_ids": [
+        "atom-collins-cluster-reporting",
+        "atom-moons-leakage-appraisal"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "patient-grouping",
+        "clustering",
+        "leakage"
+      ],
+      "last_reviewed": "2026-09-26"
+    },
+    {
+      "claim_id": "claim-li2021_dsmil",
+      "statement": "A distinct MIL aggregation comparator.",
+      "evidence_ids": [
+        "atom-li2021_dsmil"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "mil",
+        "multiscale"
+      ],
+      "last_reviewed": "2026-09-30"
+    },
+    {
+      "claim_id": "claim-chen2022_hipt",
+      "statement": "A concrete hierarchical representation comparator.",
+      "evidence_ids": [
+        "atom-chen2022_hipt"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "multiscale",
+        "encoder"
+      ],
+      "last_reviewed": "2026-09-30"
+    },
+    {
+      "claim_id": "claim-zhang2022_dtfd",
+      "statement": "A bag-learning strategy to test under identical splits.",
+      "evidence_ids": [
+        "atom-zhang2022_dtfd"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "mil",
+        "evaluation"
+      ],
+      "last_reviewed": "2026-09-30"
+    },
+    {
+      "claim_id": "claim-howard2021_site_signatures",
+      "statement": "Acquisition source can carry target-correlated shortcuts.",
+      "evidence_ids": [
+        "atom-howard2021_site_signatures"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "shortcut",
+        "domain_shift",
+        "evaluation"
+      ],
+      "last_reviewed": "2026-09-30"
+    },
+    {
+      "claim_id": "claim-vorontsov2024_virchow",
+      "statement": "An encoder comparator beyond UNI.",
+      "evidence_ids": [
+        "atom-vorontsov2024_virchow"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "encoder",
+        "multi_slide"
+      ],
+      "last_reviewed": "2026-09-30"
+    },
+    {
+      "claim_id": "claim-guo2017_calibration",
+      "statement": "Calibration needs its own assessment.",
+      "evidence_ids": [
+        "atom-guo2017_calibration"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "calibration",
+        "evaluation"
+      ],
+      "last_reviewed": "2026-09-30"
+    },
+    {
+      "claim_id": "claim-jaume2024_madeleine",
+      "statement": "Stains can supply representation-learning supervision.",
+      "evidence_ids": [
+        "atom-jaume2024_madeleine"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "stain_fusion",
+        "encoder"
+      ],
+      "last_reviewed": "2026-09-30"
+    },
+    {
+      "claim_id": "claim-dwivedi2022_multistain_graph",
+      "statement": "A concrete multistain fusion design without pixel correspondence.",
+      "evidence_ids": [
+        "atom-dwivedi2022_multistain_graph"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "multi_slide",
+        "stain_fusion"
+      ],
+      "last_reviewed": "2026-09-30"
+    },
+    {
+      "claim_id": "claim-peyster2024_clinical_trajectory",
+      "statement": "Histologic grade and clinical severity are distinct prediction targets.",
+      "evidence_ids": [
+        "atom-peyster2024_clinical_trajectory"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "label_validity",
+        "cardiac"
+      ],
+      "last_reviewed": "2026-09-30"
+    },
+    {
+      "claim_id": "claim-dsmil-spatial-fusion",
+      "statement": "Spatial multiscale feature fusion differs from probability late fusion.",
+      "evidence_ids": [
+        "atom-dsmil-spatial-fusion"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "multiscale"
+      ],
+      "last_reviewed": "2026-09-30"
+    },
+    {
+      "claim_id": "claim-agniel2018_healthcare_process",
+      "statement": "Laboratory ordering and timing carry survival-related information even without using test values.",
+      "evidence_ids": [
+        "atom-agniel2018_healthcare_process"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "presence_mask",
+        "missingness",
+        "healthcare_process",
+        "shortcut"
+      ],
+      "last_reviewed": "2026-10-04"
+    },
+    {
+      "claim_id": "claim-che2018_grud",
+      "statement": "GRU-D incorporates observation masks and time intervals to exploit informative missingness in time-series prediction.",
+      "evidence_ids": [
+        "atom-che2018_grud"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "presence_mask",
+        "missingness",
+        "GRU-D"
+      ],
+      "last_reviewed": "2026-10-04"
+    },
+    {
+      "claim_id": "claim-saito2015_precision_recall",
+      "statement": "Precision-recall complements ROC by examining true positives among positive predictions in imbalanced classification.",
+      "evidence_ids": [
+        "atom-saito2015_precision_recall"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "evaluation",
+        "AUPRC",
+        "AUROC",
+        "rare_positive"
+      ],
+      "last_reviewed": "2026-10-04"
+    },
+    {
+      "claim_id": "claim-goorbergh2022_imbalance",
+      "statement": "In the examined logistic-regression settings, undersampling, oversampling and SMOTE did not improve discrimination and overestimated minority-class probabilities; sensitivity and specificity could also be changed by adjusting the decision threshold.",
+      "evidence_ids": [
+        "atom-goorbergh2022_imbalance"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "class imbalance",
+        "resampling",
+        "calibration",
+        "threshold",
+        "불균형"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-carriero2025_imbalance_ml",
+      "statement": "In the examined machine-learning prediction settings, class imbalance corrections often overestimated risk; uncorrected models had similar or better calibration, and recalibration did not invariably remove the problem.",
+      "evidence_ids": [
+        "atom-carriero2025_imbalance_ml"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "class imbalance",
+        "calibration",
+        "simulation",
+        "불균형"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-chicco2020_mcc",
+      "statement": "MCC incorporates all four confusion-matrix categories; the examined examples show how accuracy and F1 alone can give misleading impressions under imbalance.",
+      "evidence_ids": [
+        "atom-chicco2020_mcc"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "MCC",
+        "F1",
+        "confusion matrix",
+        "evaluation",
+        "평가지표"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-lipton2014_f1_threshold",
+      "statement": "For well-calibrated conditional probabilities, the F1-optimal threshold is half the optimal F1; for an uninformative classifier, maximizing F1 can label every example positive.",
+      "evidence_ids": [
+        "atom-lipton2014_f1_threshold"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "F1",
+        "threshold",
+        "calibration",
+        "임계값"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-cawley2010_selection_bias",
+      "statement": "Variance in a finite-sample model-selection criterion can lead to overfitting of that criterion and selection bias in subsequent performance evaluation.",
+      "evidence_ids": [
+        "atom-cawley2010_selection_bias"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "model selection",
+        "cross validation",
+        "selection bias",
+        "evaluation",
+        "선택 편향"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-varoquaux2018_small_sample_cv",
+      "statement": "Small-sample cross-validation can have substantial uncertainty, and standard errors calculated across folds can underestimate that uncertainty.",
+      "evidence_ids": [
+        "atom-varoquaux2018_small_sample_cv"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "small sample",
+        "cross validation",
+        "uncertainty",
+        "patient",
+        "소표본"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-riley2020_sample_size",
+      "statement": "Required sample size depends on participants, outcome frequency, anticipated predictive performance and candidate parameters; a fixed events-per-variable rule is not a universal adequacy criterion.",
+      "evidence_ids": [
+        "atom-riley2020_sample_size"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "sample size",
+        "rare positive",
+        "patient",
+        "model complexity",
+        "양성 환자"
+      ],
+      "last_reviewed": "2026-10-07"
+    }
+  ]
+}

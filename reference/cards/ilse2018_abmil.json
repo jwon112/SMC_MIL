@@ -1,0 +1,26 @@
+{
+  "paper_id": "ilse2018_abmil",
+  "citation_key": "Ilse2018ABMIL",
+  "title": "Attention-based Deep Multiple Instance Learning",
+  "authors": ["Maximilian Ilse", "Jakub M. Tomczak", "Max Welling"],
+  "venue": "Proceedings of the 35th International Conference on Machine Learning",
+  "year": 2018,
+  "doi_or_identifier": "PMLR 80:2127-2136; arXiv:1802.04712",
+  "source_pdf": "../paper_origin/ilse2018_abmil.pdf",
+  "source_text": "../extracted_text/ilse2018_abmil.md",
+  "study_context": "Foundational attention-based MIL method.",
+  "population_or_data": "Benchmark MIL datasets, an MNIST-derived task, and two histopathology datasets.",
+  "task": "Predict a bag label from an unordered set of instances.",
+  "method": "Trainable neural attention pooling constrained to be permutation invariant.",
+  "main_findings": ["The attention operator provides learnable permutation-invariant bag aggregation and per-instance contribution weights."],
+  "limitations": ["The evaluation predates modern WSI foundation encoders and is not specific to cardiac biopsy events."],
+  "does_not_establish": ["High attention weight is not, by itself, validated causal evidence or a calibrated clinical explanation."],
+  "relevance_to_project": "Mathematical basis for the project's attention pooling baseline and bag semantics.",
+  "tags": ["MIL", "attention", "permutation-invariant", "pooling", "weak-supervision"],
+  "source_locators": [
+    {"page": "PDF p.1", "section": "Abstract", "extracted_text_lines": "13-56"},
+    {"page": "PDF pp.2-3", "section": "MIL formulation", "extracted_text_lines": "85-170"}
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-26"
+}

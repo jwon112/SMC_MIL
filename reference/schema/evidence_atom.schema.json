@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence_atom.schema.json",
+  "title": "Project literature evidence atom",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "atom_id",
+    "claim_id",
+    "paper_id",
+    "statement",
+    "evidence_type",
+    "supports",
+    "does_not_establish",
+    "method_or_result",
+    "source_locator",
+    "confidence",
+    "review_status",
+    "tags"
+  ],
+  "properties": {
+    "atom_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "claim_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "paper_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "statement": {"type": "string", "minLength": 1},
+    "evidence_type": {"type": "string", "minLength": 1},
+    "supports": {"type": "string", "minLength": 1},
+    "does_not_establish": {"type": "string", "minLength": 1},
+    "method_or_result": {"type": "string", "minLength": 1},
+    "source_locator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page", "section"],
+      "properties": {
+        "page": {"type": "string"},
+        "section": {"type": "string"},
+        "extracted_text_lines": {"type": "string"}
+      }
+    },
+    "confidence": {
+      "enum": ["direct", "qualified", "unresolved"]
+    },
+    "review_status": {
+      "enum": ["draft", "reviewed", "needs_update"]
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    }
+  }
+}

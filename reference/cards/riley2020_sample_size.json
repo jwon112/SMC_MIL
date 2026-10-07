@@ -1,0 +1,52 @@
+{
+  "paper_id": "riley2020_sample_size",
+  "title": "Calculating the sample size required for developing a clinical prediction model",
+  "authors": [
+    "Richard D. Riley",
+    "Joie Ensor",
+    "Kym I. E. Snell",
+    "Frank E. Harrell",
+    "Glen P. Martin",
+    "Johannes B. Reitsma",
+    "Karel G. M. Moons",
+    "Gary Collins",
+    "Maarten van Smeden"
+  ],
+  "year": 2020,
+  "venue": "BMJ",
+  "doi_or_identifier": "10.1136/bmj.m441",
+  "source_pdf": "../paper_origin/riley2020_sample_size.pdf",
+  "source_text": "../extracted_text/riley2020_sample_size.md",
+  "study_context": "Sample-size planning for clinical prediction-model development, primarily regression models.",
+  "population_or_data": "Sample-size planning for clinical prediction-model development, primarily regression models.",
+  "task": "Prediction-model methodology and evaluation",
+  "method": "Selected-page methodological evidence review",
+  "main_findings": [
+    "Required sample size depends on participants, outcome frequency, anticipated predictive performance and candidate parameters; a fixed events-per-variable rule is not a universal adequacy criterion."
+  ],
+  "limitations": [
+    "Selected-page review only: PDF p.2, Summary points and introductory text. Text extracted and page visually checked on 2026-10-07.",
+    "Published BMJ article deposited at the University of Manchester; PDF page 1 is repository cover, article starts on PDF page 2.",
+    "Transfer to cardiac WSI MIL requires qualification."
+  ],
+  "does_not_establish": [
+    "Regression sample-size formulas do not establish a neural MIL parameter limit; embedding dimensions or neural weights cannot be inserted into an events-per-variable rule to certify SMC adequacy."
+  ],
+  "relevance_to_project": "Discuss sample adequacy in relation to independent participants, outcome events and model complexity.",
+  "tags": [
+    "sample size",
+    "rare positive",
+    "patient",
+    "model complexity",
+    "양성 환자"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.2",
+      "section": "Summary points and introductory text",
+      "extracted_text_lines": "55-123"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

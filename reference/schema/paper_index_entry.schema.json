@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "paper_index_entry.schema.json",
+  "title": "Project literature paper index entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["paper_id", "title", "card_path", "review_status"],
+  "properties": {
+    "paper_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "title": {"type": "string", "minLength": 1},
+    "year": {"type": "integer", "minimum": 1800, "maximum": 2200},
+    "doi_or_identifier": {"type": "string"},
+    "card_path": {"type": "string", "pattern": "^cards/.+\\.json$"},
+    "review_status": {
+      "enum": ["draft", "reviewed", "needs_update"]
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "paper_id": "moons2025_probast_ai",
+  "citation_key": "Moons2025PROBASTAI",
+  "title": "PROBAST+AI: an updated quality, risk of bias, and applicability assessment tool for prediction models using regression or artificial intelligence methods",
+  "authors": ["Karel G. M. Moons", "Johanna A. A. Damen", "Tabea Kaul", "et al."],
+  "venue": "BMJ",
+  "year": 2025,
+  "doi_or_identifier": "10.1136/bmj-2024-082505",
+  "source_pdf": "../paper_origin/moons2025_probast_ai.pdf",
+  "source_text": "../extracted_text/moons2025_probast_ai.md",
+  "study_context": "Quality, risk-of-bias, and applicability framework for healthcare prediction models.",
+  "population_or_data": "Methodological tool-development process; not a patient cohort.",
+  "task": "Appraise model development quality and model evaluation risk of bias and applicability.",
+  "method": "Updated assessment framework with separate development and evaluation parts across four domains.",
+  "main_findings": ["The tool uses 16 signaling questions for development and 18 for evaluation across participants/data, predictors, outcomes, and analysis."],
+  "limitations": ["PROBAST+AI is an appraisal tool, not a reporting checklist or proof that a particular architecture is valid."],
+  "does_not_establish": ["A favorable appraisal cannot substitute for independent performance data in the intended-use population."],
+  "relevance_to_project": "Risk-of-bias lens for leakage, outcome definition, imbalance handling, calibration, and applicability.",
+  "tags": ["PROBAST-AI", "risk-of-bias", "applicability", "evaluation", "clinical-prediction"],
+  "source_locators": [
+    {"page": "PDF p.1", "section": "Abstract", "extracted_text_lines": "25-42"},
+    {"page": "PDF p.8", "section": "Table 2: assessment summary", "extracted_text_lines": "386-451"}
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-26"
+}

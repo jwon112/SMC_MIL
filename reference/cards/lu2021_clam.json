@@ -1,0 +1,29 @@
+{
+  "paper_id": "lu2021_clam",
+  "citation_key": "Lu2021CLAM",
+  "title": "Data-efficient and weakly supervised computational pathology on whole-slide images",
+  "authors": ["Ming Y. Lu", "Drew F. K. Williamson", "Tiffany Y. Chen", "et al."],
+  "venue": "Nature Biomedical Engineering",
+  "year": 2021,
+  "doi_or_identifier": "10.1038/s41551-020-00682-w; arXiv:2004.09666",
+  "source_pdf": "../paper_origin/lu2021_clam.pdf",
+  "source_text": "../extracted_text/lu2021_clam.md",
+  "study_context": "General weakly supervised whole-slide computational pathology method.",
+  "population_or_data": "Cancer WSI tasks with independent cohorts and other image-domain variations; not cardiac allograft biopsies.",
+  "task": "Classify WSIs from slide-level labels and localize diagnostically relevant regions.",
+  "method": "Clustering-constrained attention multiple-instance learning with instance-level clustering.",
+  "main_findings": [
+    "CLAM learns slide-level classifiers using slide labels and trainable attention pooling.",
+    "It produces class-specific attention heatmaps and was evaluated across several computational pathology tasks."
+  ],
+  "limitations": ["The benchmark tasks are not cardiac transplant rejection and do not establish local-domain performance."],
+  "does_not_establish": ["Attention heatmaps alone do not prove causal or faithful explanations of a prediction."],
+  "relevance_to_project": "Defines the baseline architecture and its evidence boundary for this repository.",
+  "tags": ["CLAM", "MIL", "WSI", "weak-supervision", "attention"],
+  "source_locators": [
+    {"page": "PDF p.2", "section": "Abstract", "extracted_text_lines": "65-105"},
+    {"page": "PDF p.18", "section": "Online Methods: CLAM", "extracted_text_lines": "905-973"}
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-26"
+}

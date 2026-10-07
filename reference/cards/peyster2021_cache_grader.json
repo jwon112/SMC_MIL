@@ -1,0 +1,29 @@
+{
+  "paper_id": "peyster2021_cache_grader",
+  "citation_key": "Peyster2021CACHE",
+  "title": "An automated computational image analysis pipeline for histological grading of cardiac allograft rejection",
+  "authors": ["Eliot G. Peyster", "Sara Arabyarmohammadi", "Andrew Janowczyk", "et al."],
+  "venue": "European Heart Journal",
+  "year": 2021,
+  "doi_or_identifier": "10.1093/eurheartj/ehab241",
+  "source_pdf": "../paper_origin/peyster2021_cache_grader.pdf",
+  "source_text": "../extracted_text/peyster2021_cache_grader.md",
+  "study_context": "Multicenter computational grading of cellular rejection in cardiac allograft biopsies.",
+  "population_or_data": "2,472 endomyocardial biopsy slides from three US transplant centers.",
+  "task": "Reproduce the four-grade cellular rejection standard.",
+  "method": "Interpretable handcrafted lymphocyte, myocyte, and stroma features with internal and external validation.",
+  "main_findings": [
+    "CACHE-Grader achieved agreement within the range of inter-pathologist variability and similar internal versus external performance.",
+    "The study demonstrates a non-end-to-end alternative based on biologically motivated features."
+  ],
+  "limitations": ["The model relies on grade of record as diagnostic truth and is not designed for AMR-related features."],
+  "does_not_establish": ["It does not validate prediction of future rejection or broader patient-level outcomes."],
+  "relevance_to_project": "Useful cardiac-specific comparator and reminder to separate ACR grading from AMR and prognostic endpoints.",
+  "tags": ["cardiac-allograft", "ACR", "handcrafted-features", "external-validation", "interpretability"],
+  "source_locators": [
+    {"page": "PDF p.1", "section": "Methods and results", "extracted_text_lines": "37-60"},
+    {"page": "PDF p.11", "section": "Limitations", "extracted_text_lines": "568-586"}
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-09-26"
+}
