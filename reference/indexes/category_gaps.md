@@ -2,7 +2,7 @@
 
 Generated from indexes; rerun `python reference/tools/coverage.py`.
 
-Registered papers: 32; reviewed atoms: 36; pending candidates: 7.
+Registered papers: 37; reviewed atoms: 42; pending candidates: 7.
 
 Counts describe this curated library, not completeness of the published literature.
 A reviewed atom supports its bounded statement; a relevant method paper is not direct heart-transplant clinical validation.
@@ -11,33 +11,33 @@ A reviewed atom supports its bounded statement; a relevant method paper is not d
 
 | Facet | Papers | Reviewed atoms |
 |---|---:|---:|
-| heart | 7 | 8 |
-| kidney | 1 | 1 |
-| other | 11 | 12 |
+| heart | 10 | 11 |
+| kidney | 2 | 3 |
+| other | 13 | 15 |
 | general | 14 | 16 |
 
 ## Analysis units
 
 | Facet | Papers | Reviewed atoms |
 |---|---:|---:|
-| patch | 12 | 14 |
+| patch | 14 | 17 |
 | region | 1 | 1 |
-| slide | 17 | 19 |
+| slide | 18 | 21 |
 | core | 1 | 1 |
-| specimen | 1 | 1 |
+| specimen | 5 | 5 |
 | event | 2 | 2 |
-| patient | 4 | 4 |
+| patient | 8 | 8 |
 | not_applicable | 11 | 13 |
 
 ## Stains / modality
 
 | Facet | Papers | Reviewed atoms |
 |---|---:|---:|
-| HE | 19 | 21 |
-| IHC | 2 | 2 |
-| special | 2 | 2 |
+| HE | 21 | 24 |
+| IHC | 3 | 3 |
+| special | 4 | 5 |
 | molecular | 1 | 1 |
-| not_applicable | 14 | 16 |
+| not_applicable | 16 | 18 |
 
 ## Methods
 
@@ -55,17 +55,18 @@ A reviewed atom supports its bounded statement; a relevant method paper is not d
 | stain_augmentation | 1 | 1 |
 | stain_normalization | 1 | 1 |
 | calibration | 4 | 4 |
-| audit | 7 | 7 |
+| audit | 10 | 10 |
 | guideline | 4 | 6 |
 | spatial_transcriptomics | 1 | 1 |
 | missingness_modeling | 1 | 1 |
+| transfer_learning | 2 | 3 |
 
 ## Validation design
 
 | Facet | Papers | Reviewed atoms |
 |---|---:|---:|
 | benchmark | 20 | 21 |
-| retrospective | 3 | 3 |
+| retrospective | 8 | 9 |
 | external_cohort | 4 | 5 |
 | site_separated | 1 | 1 |
 | prospective | 0 | 0 |
@@ -75,38 +76,41 @@ A reviewed atom supports its bounded statement; a relevant method paper is not d
 
 | Facet | Papers | Reviewed atoms |
 |---|---:|---:|
-| cardiac | 7 | 8 |
+| cardiac | 10 | 11 |
 | mil | 7 | 9 |
-| encoder | 5 | 6 |
+| encoder | 6 | 8 |
 | multiscale | 2 | 3 |
 | multi_slide | 2 | 2 |
 | stain_fusion | 2 | 2 |
 | shortcut | 4 | 5 |
-| domain_shift | 2 | 2 |
+| domain_shift | 4 | 5 |
 | evaluation | 15 | 18 |
 | calibration | 5 | 6 |
-| label_validity | 4 | 4 |
+| label_validity | 8 | 8 |
 | interpretability | 3 | 3 |
 
 ## Endpoints
 
 | Facet | Papers | Reviewed atoms |
 |---|---:|---:|
-| cardiac_rejection | 7 | 8 |
-| clinical_severity | 1 | 1 |
+| cardiac_rejection | 9 | 10 |
+| clinical_severity | 2 | 2 |
 | tumor_classification | 10 | 11 |
 | histology_scoring | 1 | 1 |
-| survival | 4 | 4 |
-| representation_learning | 4 | 4 |
+| survival | 5 | 5 |
+| representation_learning | 5 | 6 |
 | methodology | 13 | 15 |
+| tissue_segmentation | 1 | 2 |
+| pathogen_detection | 1 | 1 |
+| myocardial_injury | 1 | 1 |
 
 ## Topic coverage
 
 | Topic | Routed papers | Reviewed routed atoms |
 |---|---:|---:|
-| cardiac_allograft_pathology | 7 | 8 |
+| cardiac_allograft_pathology | 10 | 11 |
 | computational_pathology_mil | 7 | 7 |
-| foundation_encoders | 5 | 6 |
+| foundation_encoders | 6 | 7 |
 | multiscale_wsi_representation | 5 | 6 |
 | stain_and_domain_shift | 5 | 6 |
 | weak_and_longitudinal_labels | 5 | 5 |
@@ -122,6 +126,7 @@ A reviewed atom supports its bounded statement; a relevant method paper is not d
 | rare_positive_evaluation | 2 | 2 |
 | threshold_selection | 1 | 1 |
 | small_sample_validation | 3 | 3 |
+| autopsy_biopsy_transfer | 5 | 6 |
 
 ## Registered paper comparison
 
@@ -150,15 +155,20 @@ A reviewed atom supports its bounded statement; a relevant method paper is not d
 | [stewart2005_ishlt_acr](../cards/stewart2005_ishlt_acr.json) |  | heart | slide | guideline | not_applicable |
 | [tellez2019_stain](../cards/tellez2019_stain.json) |  | other | patch | stain_augmentation, stain_normalization | benchmark |
 | [varoquaux2018_small_sample_cv](../cards/varoquaux2018_small_sample_cv.json) |  | general | not_applicable | audit | benchmark |
+| [nakhleh1992_biopsy_autopsy](../cards/nakhleh1992_biopsy_autopsy.json) | 1992 | heart | specimen, patient | audit | retrospective |
 | [guo2017_calibration](../cards/guo2017_calibration.json) | 2017 | general | not_applicable | calibration | benchmark |
 | [howard2021_site_signatures](../cards/howard2021_site_signatures.json) | 2021 | other | slide, patient | audit | site_separated |
 | [li2021_dsmil](../cards/li2021_dsmil.json) | 2021 | other | patch, slide | mil, self_supervised, multiscale_fusion | benchmark |
 | [chen2022_hipt](../cards/chen2022_hipt.json) | 2022 | other | patch, region, slide | self_supervised, transformer, hierarchical | benchmark |
 | [dwivedi2022_multistain_graph](../cards/dwivedi2022_multistain_graph.json) | 2022 | other | slide, patient | graph_fusion, mil | benchmark |
+| [lutnick2022_histocloud](../cards/lutnick2022_histocloud.json) | 2022 | kidney, other | patch, slide | transfer_learning | retrospective |
+| [mcdonald2022_biopsy_autopsy](../cards/mcdonald2022_biopsy_autopsy.json) | 2022 | heart | specimen, patient | audit | retrospective |
+| [zaizen2022_autopsy_biopsy_ai](../cards/zaizen2022_autopsy_biopsy_ai.json) | 2022 | other | patch, specimen, patient | transfer_learning | retrospective |
 | [zhang2022_dtfd](../cards/zhang2022_dtfd.json) | 2022 | other | patch, slide | mil, hierarchical, feature_distillation | benchmark |
 | [jaume2024_madeleine](../cards/jaume2024_madeleine.json) | 2024 | kidney, other | patch, slide | self_supervised, mil, cross_stain_alignment | benchmark |
 | [peyster2024_clinical_trajectory](../cards/peyster2024_clinical_trajectory.json) | 2024 | heart | slide, event | handcrafted | retrospective |
 | [vorontsov2024_virchow](../cards/vorontsov2024_virchow.json) | 2024 | other | patch, slide, specimen | self_supervised, transformer, mil | benchmark |
+| [burk2025_transplant_autopsy](../cards/burk2025_transplant_autopsy.json) | 2025 | heart | specimen, patient | audit | retrospective |
 
 ## Open research questions
 
@@ -168,6 +178,7 @@ A reviewed atom supports its bounded statement; a relevant method paper is not d
 - **rare-positives**: What precision and calibration can be established with few independent positive patients? (Selected-page methodological evidence reviewed 2026-10-07: imbalance, thresholds, MCC and small-sample validation; direct cardiac rare-positive calibration evidence remains absent from this index)
 - **clinical-utility**: Does routine cardiac WSI improve clinically meaningful decisions in prospective settings? (Prospective task-matched validation not yet indexed)
 - **encoder-transfer**: Which encoder transfers to cardiac H&E and non-H&E under identical splits? (Noncardiac encoder evidence reviewed; cardiac comparison pending)
+- **heart-autopsy-biopsy-transfer**: Does pathology-confirmed autopsy tissue improve rejection detection on independent biopsy patients, compared with biopsy-only training on identical splits? (Cardiac sampling/clinicopathological and noncardiac AI precedents reviewed; direct matched cardiac AI improvement not established by indexed sources. SMC autopsy dataset availability reported by user; inventory and labels not yet audited.)
 
 ## Review queue
 

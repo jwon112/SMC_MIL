@@ -1,0 +1,49 @@
+{
+  "paper_id": "nakhleh1992_biopsy_autopsy",
+  "title": "Correlation of endomyocardial biopsy findings with autopsy findings in human cardiac allografts",
+  "authors": [
+    "Nakhleh RE",
+    "Jones J",
+    "Goswitz JJ",
+    "Anderson EA",
+    "Titus J"
+  ],
+  "year": 1992,
+  "venue": "The Journal of heart and lung transplantation : the official publication of the International Society for Heart Transplantation",
+  "doi_or_identifier": "PMID:1610856",
+  "source_pdf": "../paper_origin/nakhleh1992_biopsy_autopsy.pdf",
+  "source_text": "../extracted_text/nakhleh1992_biopsy_autopsy.md",
+  "study_context": "Biopsy-sized samples obtained directly from 22 autopsied human cardiac allografts and compared with large tissue sections; historical rejection grading.",
+  "population_or_data": "Biopsy-sized samples obtained directly from 22 autopsied human cardiac allografts and compared with large tissue sections; historical rejection grading.",
+  "task": "Biopsy-sized samples obtained directly from 22 autopsied human cardiac allografts and compared with large tissue sections; historical rejection grading.",
+  "method": "Source-grounded selected-page review",
+  "main_findings": [
+    "Biopsy-sized samples from autopsied cardiac allografts were compared with larger sections of the same hearts; the authors concluded that routine biopsies may underestimate middle grades of rejection."
+  ],
+  "limitations": [
+    "Abstract-only snapshot review; not full text. Text and rendered pages 1 checked on 2026-10-07.",
+    "Not longitudinal comparison of living-patient biopsy with subsequent autopsy, not an AI training study, and historical grades must not be equated with modern 0R-3R. Abstract-only review."
+  ],
+  "does_not_establish": [
+    "Not longitudinal comparison of living-patient biopsy with subsequent autopsy, not an AI training study, and historical grades must not be equated with modern 0R-3R. Abstract-only review."
+  ],
+  "relevance_to_project": "A direct cardiac precedent for using autopsy tissue to study spatial sampling limitations of small biopsies.",
+  "tags": [
+    "autopsy",
+    "biopsy",
+    "부검",
+    "생검",
+    "specimen domain shift",
+    "cardiac",
+    "label_validity"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract (locally generated snapshot; not original article pagination)",
+      "extracted_text_lines": "9-43"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

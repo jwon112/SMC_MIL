@@ -2,11 +2,23 @@
 
 ## Current snapshot: 2026-10-07
 
-The WSI library now contains **32 registered papers, 34 claims, 18 topic routes,
-and 36 reviewed evidence atoms**, with **7 additional candidates** in a separate
+The WSI library now contains **37 registered papers, 40 claims, 19 topic routes,
+and 42 reviewed evidence atoms**, with **7 additional candidates** in a separate
 review queue. Reviewed means the pages supporting the indexed statements were
 checked, including visual PDF review. It does not mean every table, supplement,
 or quantitative subgroup in every paper has been audited.
+
+The autopsy/biopsy additions are Nakhleh 1992, McDonald 2022, Zaizen 2022,
+Lutnick 2022 and Burk 2025. The `autopsy_biopsy_transfer` route distinguishes
+cardiac sampling and clinicopathological studies from noncardiac AI transfer
+examples. Three sources have public article PDFs with selected pages reviewed;
+Nakhleh and Burk use explicitly labeled Europe PMC abstract snapshots only.
+Burk's journal issue is 2025 (online 2024). Zaizen's Methods mentions 14 validation
+cases whereas its abstract reports 42; no efficacy or validation-size claim is
+indexed. These sources do not establish improved cardiac rejection prediction
+from combined biopsy/autopsy training. The user confirmed that an SMC autopsy
+dataset exists; its inventory and labels have not been audited here.
+See the [registration and dataset follow-up note](../experiment_notes/2026-10-07-autopsy-biopsy-literature-registration.md).
 
 The 2026-10-07 additions connect imbalance handling, decision thresholds,
 complementary metrics, model-selection bias and small-sample validation:

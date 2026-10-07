@@ -1,0 +1,48 @@
+{
+  "paper_id": "burk2025_transplant_autopsy",
+  "title": "Cause of death for heart transplant patients, an autopsy study",
+  "authors": [
+    "Burk J",
+    "Bernadt CT",
+    "Ritter J",
+    "Lin CY"
+  ],
+  "year": 2025,
+  "venue": "Cardiovascular pathology : the official journal of the Society for Cardiovascular Pathology",
+  "doi_or_identifier": "10.1016/j.carpath.2024.107701",
+  "source_pdf": "../paper_origin/burk2025_transplant_autopsy.pdf",
+  "source_text": "../extracted_text/burk2025_transplant_autopsy.md",
+  "study_context": "Retrospective 1990-2023 heart-transplant autopsy review: 88 identified cases, with 15 excluded from cause-of-death evaluation because slides were unavailable.",
+  "population_or_data": "Retrospective 1990-2023 heart-transplant autopsy review: 88 identified cases, with 15 excluded from cause-of-death evaluation because slides were unavailable.",
+  "task": "Retrospective 1990-2023 heart-transplant autopsy review: 88 identified cases, with 15 excluded from cause-of-death evaluation because slides were unavailable.",
+  "method": "Source-grounded selected-page review",
+  "main_findings": [
+    "Heart-transplant autopsies included both graft-related and non-graft-related deaths; infection was the most frequent cause of death. The abstract also reports moderate/severe ACR in a patient with a recently negative biopsy."
+  ],
+  "limitations": [
+    "Abstract-only snapshot review; not full text. Text and rendered pages 1 checked on 2026-10-07.",
+    "A recent negative biopsy followed by rejection at autopsy does not distinguish biopsy sampling error from interval progression or treatment effects. Does not justify retrospectively changing the earlier biopsy label or demonstrate an AI training benefit. Abstract-only review."
+  ],
+  "does_not_establish": [
+    "A recent negative biopsy followed by rejection at autopsy does not distinguish biopsy sampling error from interval progression or treatment effects. Does not justify retrospectively changing the earlier biopsy label or demonstrate an AI training benefit. Abstract-only review."
+  ],
+  "relevance_to_project": "Autopsy availability or death alone cannot define a rejection-positive label; specimen-level diagnosis and biopsy-to-death chronology require review.",
+  "tags": [
+    "autopsy",
+    "biopsy",
+    "부검",
+    "생검",
+    "specimen domain shift",
+    "cardiac",
+    "label_validity"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract (locally generated snapshot; not original article pagination)",
+      "extracted_text_lines": "9-49"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

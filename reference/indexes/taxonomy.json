@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_on": "2026-10-04",
+  "updated_on": "2026-10-07",
   "dimensions": {
     "organ_scope": {
       "label": "Organ",
@@ -52,7 +52,8 @@
         "audit",
         "guideline",
         "spatial_transcriptomics",
-        "missingness_modeling"
+        "missingness_modeling",
+        "transfer_learning"
       ]
     },
     "validation": {
@@ -92,7 +93,10 @@
         "histology_scoring",
         "survival",
         "representation_learning",
-        "methodology"
+        "methodology",
+        "tissue_segmentation",
+        "pathogen_detection",
+        "myocardial_injury"
       ]
     }
   },
@@ -126,6 +130,11 @@
       "id": "encoder-transfer",
       "question": "Which encoder transfers to cardiac H&E and non-H&E under identical splits?",
       "status": "Noncardiac encoder evidence reviewed; cardiac comparison pending"
+    },
+    {
+      "id": "heart-autopsy-biopsy-transfer",
+      "question": "Does pathology-confirmed autopsy tissue improve rejection detection on independent biopsy patients, compared with biopsy-only training on identical splits?",
+      "status": "Cardiac sampling/clinicopathological and noncardiac AI precedents reviewed; direct matched cardiac AI improvement not established by indexed sources. SMC autopsy dataset availability reported by user; inventory and labels not yet audited."
     }
   ]
 }

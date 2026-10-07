@@ -1,0 +1,56 @@
+{
+  "paper_id": "zaizen2022_autopsy_biopsy_ai",
+  "title": "Deep-Learning-Aided Detection of Mycobacteria in Pathology Specimens Increases the Sensitivity in Early Diagnosis of Pulmonary Tuberculosis Compared with Bacteriology Tests",
+  "authors": [
+    "Zaizen Y",
+    "Kanahori Y",
+    "Ishijima S",
+    "Kitamura Y",
+    "Yoon HS",
+    "Ozasa M",
+    "Mukae H",
+    "Bychkov A",
+    "Hoshino T",
+    "Fukuoka J"
+  ],
+  "year": 2022,
+  "venue": "Diagnostics (Basel, Switzerland)",
+  "doi_or_identifier": "10.3390/diagnostics12030709",
+  "source_pdf": "../paper_origin/zaizen2022_autopsy_biopsy_ai.pdf",
+  "source_text": "../extracted_text/zaizen2022_autopsy_biopsy_ai.md",
+  "study_context": "Ziehl-Neelsen acid-fast-bacillus detection using CNN training with two pulmonary tuberculosis autopsy cases and forty AFB-negative biopsy cases.",
+  "population_or_data": "Ziehl-Neelsen acid-fast-bacillus detection using CNN training with two pulmonary tuberculosis autopsy cases and forty AFB-negative biopsy cases.",
+  "task": "Ziehl-Neelsen acid-fast-bacillus detection using CNN training with two pulmonary tuberculosis autopsy cases and forty AFB-negative biopsy cases.",
+  "method": "Source-grounded selected-page review",
+  "main_findings": [
+    "Two tuberculosis autopsy cases supplied annotated positive acid-fast bacilli, and forty AFB-negative biopsy cases supplied background/artifact examples for CNN training, followed by application to bronchoscopy specimens."
+  ],
+  "limitations": [
+    "Selected-page review only; not a full-paper audit. Text and rendered pages 1, 2 checked on 2026-10-07.",
+    "Bacillus detection is not cardiac rejection grading. The source ties positive training material to autopsy and negative material to biopsy; it does not eliminate specimen-source confounding or establish the benefit of adding autopsy data over a matched biopsy-only baseline. Methods 2.1 mentions 14 validation cases whereas the abstract reports 42; no validation sample-size or efficacy claim is indexed."
+  ],
+  "does_not_establish": [
+    "Bacillus detection is not cardiac rejection grading. The source ties positive training material to autopsy and negative material to biopsy; it does not eliminate specimen-source confounding or establish the benefit of adding autopsy data over a matched biopsy-only baseline. Methods 2.1 mentions 14 validation cases whereas the abstract reports 42; no validation sample-size or efficacy claim is indexed."
+  ],
+  "relevance_to_project": "A concrete noncardiac precedent for transferring lesion-level information from autopsy tissue to biopsy analysis.",
+  "tags": [
+    "autopsy",
+    "biopsy",
+    "부검",
+    "생검",
+    "specimen domain shift",
+    "domain_shift",
+    "label_validity",
+    "transfer learning",
+    "전이학습"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF pp.1, 2",
+      "section": "Abstract; Methods 2.1 Study Subjects and 2.2 Annotation",
+      "extracted_text_lines": "9-92; 93-154"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

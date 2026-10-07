@@ -276,6 +276,51 @@
       "provenance": "Published BMJ article deposited at the University of Manchester; PDF page 1 is repository cover, article starts on PDF page 2.",
       "access_note": "Lawful public research copy retained locally; PDF and full extracted text are not redistributed through Git.",
       "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "nakhleh1992_biopsy_autopsy",
+      "filename": "nakhleh1992_biopsy_autopsy.pdf",
+      "sha256": "f97d01a6863c0cc2a4649ee0532d99d46dae923eb176207dfd2bef1b5a5007a8",
+      "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A1610856+AND+SRC%3AMED&format=json&resultType=core",
+      "provenance": "Locally generated PDF snapshot of the Europe PMC MED abstract; not a publisher article PDF. Raw API record retained locally.",
+      "access_note": "Lawful public source retained locally; PDFs, raw API responses and full extracted text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "mcdonald2022_biopsy_autopsy",
+      "filename": "mcdonald2022_biopsy_autopsy.pdf",
+      "sha256": "98ae446ed1244511c607a6cbe67ac8a19c8f3b1149cea1043d6c7398bc8dc782",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9669710.1/PMC9669710.1.pdf",
+      "provenance": "Published article; lawful PMC open-access PDF copy, CC BY 4.0.",
+      "access_note": "Lawful public source retained locally; PDFs, raw API responses and full extracted text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "zaizen2022_autopsy_biopsy_ai",
+      "filename": "zaizen2022_autopsy_biopsy_ai.pdf",
+      "sha256": "ec92482732d87dcedf7f661c0edc86d68cd13e3e9565a6e7c0f843ec8114889f",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC8946921.1/PMC8946921.1.pdf",
+      "provenance": "Published article; lawful PMC open-access PDF copy, CC BY 4.0.",
+      "access_note": "Lawful public source retained locally; PDFs, raw API responses and full extracted text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "lutnick2022_histocloud",
+      "filename": "lutnick2022_histocloud.pdf",
+      "sha256": "aeba4bbd32db03150b07ac24e9bb99ce632f1107358a5d62280c4630bc29c37f",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC9391340.1/PMC9391340.1.pdf",
+      "provenance": "Published article; lawful PMC open-access PDF copy, CC BY 4.0.",
+      "access_note": "Lawful public source retained locally; PDFs, raw API responses and full extracted text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "burk2025_transplant_autopsy",
+      "filename": "burk2025_transplant_autopsy.pdf",
+      "sha256": "b60bc2feb00496b5df1939204b3f8c0fb59c4f1f59c89c5a067ade3fc946f980",
+      "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A39424017+AND+SRC%3AMED&format=json&resultType=core",
+      "provenance": "Locally generated PDF snapshot of the Europe PMC MED abstract; not a publisher article PDF. Raw API record retained locally. Journal issue year 2025; online publication 2024-10-17.",
+      "access_note": "Lawful public source retained locally; PDFs, raw API responses and full extracted text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
     }
   ],
   "updated_on": "2026-10-07"

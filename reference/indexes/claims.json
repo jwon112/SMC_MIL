@@ -482,6 +482,121 @@
         "양성 환자"
       ],
       "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-nakhleh1992_biopsy_autopsy",
+      "statement": "Biopsy-sized samples from autopsied cardiac allografts were compared with larger sections of the same hearts; the authors concluded that routine biopsies may underestimate middle grades of rejection.",
+      "evidence_ids": [
+        "atom-nakhleh1992_biopsy_autopsy"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "autopsy",
+        "biopsy",
+        "부검",
+        "생검",
+        "specimen domain shift",
+        "cardiac",
+        "label_validity"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-mcdonald2022_biopsy_autopsy",
+      "statement": "The study re-examined available post-transplant endomyocardial biopsies and transplanted-heart autopsy tissue, with two cardiac pathologists blinded to prior reports, to relate pathology including acute myocardial injury to clinical outcomes.",
+      "evidence_ids": [
+        "atom-mcdonald2022_biopsy_autopsy"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "autopsy",
+        "biopsy",
+        "부검",
+        "생검",
+        "specimen domain shift",
+        "cardiac",
+        "label_validity"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-zaizen2022_autopsy_biopsy_ai",
+      "statement": "Two tuberculosis autopsy cases supplied annotated positive acid-fast bacilli, and forty AFB-negative biopsy cases supplied background/artifact examples for CNN training, followed by application to bronchoscopy specimens.",
+      "evidence_ids": [
+        "atom-zaizen2022_autopsy_biopsy_ai"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "autopsy",
+        "biopsy",
+        "부검",
+        "생검",
+        "specimen domain shift",
+        "domain_shift",
+        "label_validity",
+        "transfer learning",
+        "전이학습"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-lutnick2022_histocloud",
+      "statement": "A model pretrained on GTEx tissue-type recognition was transferred to renal glomerulus, arteriole and artery segmentation; the paper identifies GTEx WSIs as autopsy tissue.",
+      "evidence_ids": [
+        "atom-lutnick2022_histocloud"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "autopsy",
+        "biopsy",
+        "부검",
+        "생검",
+        "specimen domain shift",
+        "encoder",
+        "domain_shift",
+        "transfer learning",
+        "전이학습"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-burk2025_transplant_autopsy",
+      "statement": "Heart-transplant autopsies included both graft-related and non-graft-related deaths; infection was the most frequent cause of death. The abstract also reports moderate/severe ACR in a patient with a recently negative biopsy.",
+      "evidence_ids": [
+        "atom-burk2025_transplant_autopsy"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "autopsy",
+        "biopsy",
+        "부검",
+        "생검",
+        "specimen domain shift",
+        "cardiac",
+        "label_validity"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-autopsy-pretraining-not-necessarily-best",
+      "statement": "In the renal vessel-segmentation comparison, GTEx pretraining outperformed random initialization but ImageNet pretraining achieved higher MCC than GTEx for glomeruli, arterioles and arteries.",
+      "evidence_ids": [
+        "atom-autopsy-pretraining-comparator"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "autopsy",
+        "biopsy",
+        "부검",
+        "생검",
+        "specimen domain shift",
+        "encoder",
+        "domain_shift",
+        "transfer learning",
+        "전이학습"
+      ],
+      "last_reviewed": "2026-10-07"
     }
-  ]
+  ],
+  "updated_on": "2026-10-07"
 }

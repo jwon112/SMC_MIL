@@ -1,0 +1,55 @@
+{
+  "paper_id": "mcdonald2022_biopsy_autopsy",
+  "title": "Clinicopathological correlations in heart transplantation recipients complicated by death or re-transplantation",
+  "authors": [
+    "McDonald MM",
+    "Mihalj M",
+    "Zhao B",
+    "Nathan S",
+    "Matejin S",
+    "Ottaviani G",
+    "Jezovnik MK",
+    "Radovancevic R",
+    "Kar B",
+    "Gregoric ID",
+    "Buja LM"
+  ],
+  "year": 2022,
+  "venue": "Frontiers in cardiovascular medicine",
+  "doi_or_identifier": "10.3389/fcvm.2022.1014796",
+  "source_pdf": "../paper_origin/mcdonald2022_biopsy_autopsy.pdf",
+  "source_text": "../extracted_text/mcdonald2022_biopsy_autopsy.md",
+  "study_context": "Single-center retrospective study of 47 heart-transplant recipients who died or underwent retransplantation; review of available endomyocardial biopsies and transplanted hearts at autopsy.",
+  "population_or_data": "Single-center retrospective study of 47 heart-transplant recipients who died or underwent retransplantation; review of available endomyocardial biopsies and transplanted hearts at autopsy.",
+  "task": "Single-center retrospective study of 47 heart-transplant recipients who died or underwent retransplantation; review of available endomyocardial biopsies and transplanted hearts at autopsy.",
+  "method": "Source-grounded selected-page review",
+  "main_findings": [
+    "The study re-examined available post-transplant endomyocardial biopsies and transplanted-heart autopsy tissue, with two cardiac pathologists blinded to prior reports, to relate pathology including acute myocardial injury to clinical outcomes."
+  ],
+  "limitations": [
+    "Selected-page review only; not a full-paper audit. Text and rendered pages 1, 3 checked on 2026-10-07.",
+    "Not a combined biopsy/autopsy AI training study or proof that autopsy supervision improves rejection prediction. Does not imply every one of the 47 patients had paired autopsy tissue or that acute myocardial injury equals rejection."
+  ],
+  "does_not_establish": [
+    "Not a combined biopsy/autopsy AI training study or proof that autopsy supervision improves rejection prediction. Does not imply every one of the 47 patients had paired autopsy tissue or that acute myocardial injury equals rejection."
+  ],
+  "relevance_to_project": "A clinical-pathological precedent for connecting biopsy and autopsy records in a heart-transplant cohort.",
+  "tags": [
+    "autopsy",
+    "biopsy",
+    "부검",
+    "생검",
+    "specimen domain shift",
+    "cardiac",
+    "label_validity"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF pp.1, 3",
+      "section": "Abstract; Pathology evaluation",
+      "extracted_text_lines": "9-92; 166-220"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

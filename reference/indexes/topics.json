@@ -27,7 +27,10 @@
         "peyster2021_cache_grader",
         "peyster2024_clinical_trajectory",
         "seraphin2023_cardiac_ssl",
-        "stewart2005_ishlt_acr"
+        "stewart2005_ishlt_acr",
+        "nakhleh1992_biopsy_autopsy",
+        "mcdonald2022_biopsy_autopsy",
+        "burk2025_transplant_autopsy"
       ],
       "claim_ids": [
         "claim-acr-grading",
@@ -36,7 +39,10 @@
         "claim-external-performance-varies",
         "claim-gse290577-role",
         "claim-handcrafted-acr-comparator",
-        "claim-peyster2024_clinical_trajectory"
+        "claim-peyster2024_clinical_trajectory",
+        "claim-nakhleh1992_biopsy_autopsy",
+        "claim-mcdonald2022_biopsy_autopsy",
+        "claim-burk2025_transplant_autopsy"
       ],
       "fallback_topics": [
         "external_validation"
@@ -108,14 +114,16 @@
         "chen2024_uni",
         "jaume2024_madeleine",
         "seraphin2023_cardiac_ssl",
-        "vorontsov2024_virchow"
+        "vorontsov2024_virchow",
+        "lutnick2022_histocloud"
       ],
       "claim_ids": [
         "claim-cardiac-wsi-feasible",
         "claim-chen2022_hipt",
         "claim-jaume2024_madeleine",
         "claim-uni-scope",
-        "claim-vorontsov2024_virchow"
+        "claim-vorontsov2024_virchow",
+        "claim-lutnick2022_histocloud"
       ],
       "fallback_topics": [
         "computational_pathology_mil"
@@ -644,6 +652,52 @@
         "../docs/smc_wsi_research_synthesis_20261007.md",
         "../experiment_notes/2026-10-07-literature-and-experiment-synthesis.md"
       ]
+    },
+    {
+      "topic_id": "autopsy_biopsy_transfer",
+      "description": "Connecting biopsy and autopsy tissue: cardiac sampling/clinicopathological evidence, noncardiac AI transfer precedents, and specimen-source/temporal label limits.",
+      "query_terms": [
+        "autopsy",
+        "postmortem",
+        "post-mortem",
+        "biopsy autopsy",
+        "부검",
+        "생검 부검",
+        "부검 생검",
+        "전이학습",
+        "autopsy pretraining",
+        "GTEx",
+        "공동 학습"
+      ],
+      "preferred_evidence_types": [
+        "cohort_study",
+        "methodological_study",
+        "architecture_comparison"
+      ],
+      "paper_ids": [
+        "nakhleh1992_biopsy_autopsy",
+        "mcdonald2022_biopsy_autopsy",
+        "zaizen2022_autopsy_biopsy_ai",
+        "lutnick2022_histocloud",
+        "burk2025_transplant_autopsy"
+      ],
+      "claim_ids": [
+        "claim-nakhleh1992_biopsy_autopsy",
+        "claim-mcdonald2022_biopsy_autopsy",
+        "claim-zaizen2022_autopsy_biopsy_ai",
+        "claim-lutnick2022_histocloud",
+        "claim-burk2025_transplant_autopsy",
+        "claim-autopsy-pretraining-not-necessarily-best"
+      ],
+      "fallback_topics": [
+        "cardiac_allograft_pathology",
+        "patient_grouped_evaluation"
+      ],
+      "linked_local_artifacts": [
+        "../experiment_notes/2026-10-07-autopsy-biopsy-literature-registration.md",
+        "../docs/smc_wsi_research_synthesis_20261007.md"
+      ]
     }
-  ]
+  ],
+  "updated_on": "2026-10-07"
 }

@@ -1,0 +1,70 @@
+{
+  "paper_id": "lutnick2022_histocloud",
+  "title": "A user-friendly tool for cloud-based whole slide image segmentation with examples from renal histopathology",
+  "authors": [
+    "Lutnick B",
+    "Manthey D",
+    "Becker JU",
+    "Ginley B",
+    "Moos K",
+    "Zuckerman JE",
+    "Rodrigues L",
+    "Gallan AJ",
+    "Barisoni L",
+    "Alpers CE",
+    "Wang XX",
+    "Myakala K",
+    "Jones BA",
+    "Levi M",
+    "Kopp JB",
+    "Yoshida T",
+    "Zee J",
+    "Han SS",
+    "Jain S",
+    "Rosenberg AZ",
+    "Jen KY",
+    "Sarder P",
+    "Kidney Precision Medicine Project"
+  ],
+  "year": 2022,
+  "venue": "Communications medicine",
+  "doi_or_identifier": "10.1038/s43856-022-00138-z",
+  "source_pdf": "../paper_origin/lutnick2022_histocloud.pdf",
+  "source_text": "../extracted_text/lutnick2022_histocloud.md",
+  "study_context": "Renal histological structure segmentation with transfer learning, comparing random initialization, a glomerulus model, GTEx tissue-type pretraining and ImageNet pretraining.",
+  "population_or_data": "Renal histological structure segmentation with transfer learning, comparing random initialization, a glomerulus model, GTEx tissue-type pretraining and ImageNet pretraining.",
+  "task": "Renal histological structure segmentation with transfer learning, comparing random initialization, a glomerulus model, GTEx tissue-type pretraining and ImageNet pretraining.",
+  "method": "Source-grounded selected-page review",
+  "main_findings": [
+    "A model pretrained on GTEx tissue-type recognition was transferred to renal glomerulus, arteriole and artery segmentation; the paper identifies GTEx WSIs as autopsy tissue.",
+    "In the renal vessel-segmentation comparison, GTEx pretraining outperformed random initialization but ImageNet pretraining achieved higher MCC than GTEx for glomeruli, arterioles and arteries."
+  ],
+  "limitations": [
+    "Selected-page review only; not a full-paper audit. Text and rendered pages 1, 2, 8, 9 checked on 2026-10-07.",
+    "Does not establish benefit for heart-transplant rejection, equivalence between biopsy and autopsy, or an advantage over an already pretrained UNI encoder. GTEx pretraining used multiple organs, not a rejection cohort."
+  ],
+  "does_not_establish": [
+    "Does not establish benefit for heart-transplant rejection, equivalence between biopsy and autopsy, or an advantage over an already pretrained UNI encoder. GTEx pretraining used multiple organs, not a rejection cohort."
+  ],
+  "relevance_to_project": "A noncardiac example of autopsy-derived representation pretraining transferred to biopsy histology analysis.",
+  "tags": [
+    "autopsy",
+    "biopsy",
+    "부검",
+    "생검",
+    "specimen domain shift",
+    "encoder",
+    "domain_shift",
+    "transfer learning",
+    "전이학습"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF pp.1, 2, 8, 9",
+      "section": "Methods data sources; Results vessel segmentation adaptability; Figure 3 and caption",
+      "extracted_text_lines": "9-68; 69-150; 548-663; 664-750"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

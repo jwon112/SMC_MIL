@@ -247,6 +247,42 @@
       "title": "Calculating the sample size required for developing a clinical prediction model",
       "card_path": "cards/riley2020_sample_size.json",
       "review_status": "reviewed"
+    },
+    {
+      "paper_id": "nakhleh1992_biopsy_autopsy",
+      "title": "Correlation of endomyocardial biopsy findings with autopsy findings in human cardiac allografts",
+      "year": 1992,
+      "card_path": "cards/nakhleh1992_biopsy_autopsy.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "mcdonald2022_biopsy_autopsy",
+      "title": "Clinicopathological correlations in heart transplantation recipients complicated by death or re-transplantation",
+      "year": 2022,
+      "card_path": "cards/mcdonald2022_biopsy_autopsy.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "zaizen2022_autopsy_biopsy_ai",
+      "title": "Deep-Learning-Aided Detection of Mycobacteria in Pathology Specimens Increases the Sensitivity in Early Diagnosis of Pulmonary Tuberculosis Compared with Bacteriology Tests",
+      "year": 2022,
+      "card_path": "cards/zaizen2022_autopsy_biopsy_ai.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "lutnick2022_histocloud",
+      "title": "A user-friendly tool for cloud-based whole slide image segmentation with examples from renal histopathology",
+      "year": 2022,
+      "card_path": "cards/lutnick2022_histocloud.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "burk2025_transplant_autopsy",
+      "title": "Cause of death for heart transplant patients, an autopsy study",
+      "year": 2025,
+      "card_path": "cards/burk2025_transplant_autopsy.json",
+      "review_status": "reviewed"
     }
-  ]
+  ],
+  "updated_on": "2026-10-07"
 }
