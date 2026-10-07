@@ -282,6 +282,54 @@
       "year": 2025,
       "card_path": "cards/burk2025_transplant_autopsy.json",
       "review_status": "reviewed"
+    },
+    {
+      "paper_id": "zerbe1988_rejection_sampling",
+      "title": "Diagnostic reliability of endomyocardial biopsy for assessment of cardiac allograft rejection",
+      "year": 1988,
+      "doi_or_identifier": "10.1016/s0046-8177(88)80286-7",
+      "card_path": "cards/zerbe1988_rejection_sampling.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "hauck1989_myocarditis_sampling",
+      "title": "Evaluation of postmortem endomyocardial biopsy specimens from 38 patients with lymphocytic myocarditis: implications for role of sampling error",
+      "year": 1989,
+      "doi_or_identifier": "10.1016/s0025-6196(12)61286-5",
+      "card_path": "cards/hauck1989_myocarditis_sampling.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "husain2017_c4d_autopsy",
+      "title": "Routine C4d immunohistochemistry in cardiac allografts: Long-term outcomes",
+      "year": 2017,
+      "doi_or_identifier": "10.1016/j.healun.2017.09.004",
+      "card_path": "cards/husain2017_c4d_autopsy.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "amemiya2024_biopsy_wholeheart",
+      "title": "Can right ventricular endomyocardial biopsy predict left ventricular fibrosis beforehand in dilated cardiomyopathy?",
+      "year": 2024,
+      "doi_or_identifier": "10.1002/ehf2.14642",
+      "card_path": "cards/amemiya2024_biopsy_wholeheart.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "shen2025_songci",
+      "title": "Large-vocabulary forensic pathological analyses via prototypical cross-modal contrastive learning",
+      "year": 2025,
+      "doi_or_identifier": "10.1038/s41467-025-62060-x",
+      "card_path": "cards/shen2025_songci.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "mori2025_cardiomyopathy_small_sample",
+      "title": "Cardiomyopathy diagnosis model from endomyocardial biopsy specimens: Appropriate feature space and class boundary in small sample size data",
+      "year": 2025,
+      "doi_or_identifier": "10.3934/bioeng.2025014",
+      "card_path": "cards/mori2025_cardiomyopathy_small_sample.json",
+      "review_status": "reviewed"
     }
   ],
   "updated_on": "2026-10-07"

@@ -1,0 +1,62 @@
+{
+  "paper_id": "shen2025_songci",
+  "title": "Large-vocabulary forensic pathological analyses via prototypical cross-modal contrastive learning",
+  "authors": [
+    "Shen C",
+    "Lian C",
+    "Zhang W",
+    "Wang F",
+    "Zhang J",
+    "Fan S",
+    "Wei X",
+    "Wang G",
+    "Li K",
+    "Mu H",
+    "Wu H",
+    "Liang X",
+    "Ma J",
+    "Wang Z"
+  ],
+  "year": 2025,
+  "venue": "Nature communications",
+  "doi_or_identifier": "10.1038/s41467-025-62060-x",
+  "source_pdf": "../paper_origin/shen2025_songci.pdf",
+  "source_text": "../extracted_text/shen2025_songci.md",
+  "study_context": "SongCi: forensic vision-language model pretrained on multicenter postmortem WSI, gross descriptions and diagnostic outcomes.",
+  "population_or_data": "SongCi: forensic vision-language model pretrained on multicenter postmortem WSI, gross descriptions and diagnostic outcomes.",
+  "task": "SongCi: forensic vision-language model pretrained on multicenter postmortem WSI, gross descriptions and diagnostic outcomes.",
+  "method": "Prototypical and cross-modal contrastive representation learning; forensic validation and reported clinical-pathology transfer benchmarks.",
+  "main_findings": [
+    "SongCi learned representations from postmortem WSI and text; the main article also reports transfer evaluation on three clinical WSI datasets and five patch datasets, beyond forensic tasks."
+  ],
+  "limitations": [
+    "Selected-page review, not full-paper audit. PDF pages 1, 10, 17 and extracted text visually checked on 2026-10-07.",
+    "Clinical transfer benchmarks concern tumor/clinical pathology, not heart-transplant biopsy rejection. Main-text report only: Supplementary Tables 9-10, overlap controls, tuning details and quantitative transfer results were not audited. Does not show benefit over current UNI v2 or justify training on held-out SMC patients."
+  ],
+  "does_not_establish": [
+    "Clinical transfer benchmarks concern tumor/clinical pathology, not heart-transplant biopsy rejection. Main-text report only: Supplementary Tables 9-10, overlap controls, tuning details and quantitative transfer results were not audited. Does not show benefit over current UNI v2 or justify training on held-out SMC patients."
+  ],
+  "relevance_to_project": "A more direct precedent that autopsy-derived representations can be evaluated on clinical pathology tasks, motivating a controlled source-to-target comparison.",
+  "tags": [
+    "autopsy",
+    "biopsy",
+    "부검",
+    "생검",
+    "encoder",
+    "domain_shift",
+    "transfer learning",
+    "전이학습",
+    "SongCi",
+    "clinical pathology",
+    "contrastive learning"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF pp.1, 10, 17",
+      "section": "Abstract; Discussion clinical CPath transfer paragraph; Data availability",
+      "extracted_text_lines": "9-72; 606-669; 1122-1198"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

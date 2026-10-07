@@ -1,0 +1,55 @@
+{
+  "paper_id": "amemiya2024_biopsy_wholeheart",
+  "title": "Can right ventricular endomyocardial biopsy predict left ventricular fibrosis beforehand in dilated cardiomyopathy?",
+  "authors": [
+    "Amemiya K",
+    "Matsuyama TA",
+    "Ishibashi-Ueda H",
+    "Morita Y",
+    "Matsumoto M",
+    "Ohta-Ogo K",
+    "Ikeda Y",
+    "Tsukamoto Y",
+    "Fukushima N",
+    "Fukushima S",
+    "Fujita T",
+    "Hatakeyama K"
+  ],
+  "year": 2024,
+  "venue": "ESC heart failure",
+  "doi_or_identifier": "10.1002/ehf2.14642",
+  "source_pdf": "../paper_origin/amemiya2024_biopsy_wholeheart.pdf",
+  "source_text": "../extracted_text/amemiya2024_biopsy_wholeheart.md",
+  "study_context": "Paired DCM pathology study of 70 patients: earlier RV biopsies and subsequent whole-heart material, including 52 explanted native hearts and 18 autopsy hearts.",
+  "population_or_data": "Paired DCM pathology study of 70 patients: earlier RV biopsies and subsequent whole-heart material, including 52 explanted native hearts and 18 autopsy hearts.",
+  "task": "Paired DCM pathology study of 70 patients: earlier RV biopsies and subsequent whole-heart material, including 52 explanted native hearts and 18 autopsy hearts.",
+  "method": "Image-based fibrosis-area measurement in biopsy and larger-heart sections, with analysis accounting for biopsy-to-excision interval.",
+  "main_findings": [
+    "The study compared earlier right-ventricular biopsy fibrosis with later whole-heart fibrosis in the same patients, combining 52 explant and 18 autopsy cases; biopsy-to-excision time was explicitly considered."
+  ],
+  "limitations": [
+    "Selected-page review, not full-paper audit. PDF pages 1, 2 and extracted text visually checked on 2026-10-07.",
+    "DCM native-heart fibrosis is not rejection in a transplanted heart. Explant and autopsy are different specimen origins. Not AI transfer, not proof of stable pathology across the intervening years, and no rejection-performance benefit follows."
+  ],
+  "does_not_establish": [
+    "DCM native-heart fibrosis is not rejection in a transplanted heart. Explant and autopsy are different specimen origins. Not AI transfer, not proof of stable pathology across the intervening years, and no rejection-performance benefit follows."
+  ],
+  "relevance_to_project": "A concrete matched-patient design for connecting small biopsies to larger cardiac specimens while retaining chronology.",
+  "tags": [
+    "autopsy",
+    "biopsy",
+    "부검",
+    "생검",
+    "cardiac",
+    "label_validity"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF pp.1, 2",
+      "section": "Abstract; Methods Study design and Pathological analysis",
+      "extracted_text_lines": "9-72; 73-129"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

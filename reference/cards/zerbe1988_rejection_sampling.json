@@ -1,0 +1,45 @@
+{
+  "paper_id": "zerbe1988_rejection_sampling",
+  "title": "Diagnostic reliability of endomyocardial biopsy for assessment of cardiac allograft rejection",
+  "authors": [
+    "Zerbe TR",
+    "Arena V"
+  ],
+  "year": 1988,
+  "venue": "Human pathology",
+  "doi_or_identifier": "10.1016/s0046-8177(88)80286-7",
+  "source_pdf": "../paper_origin/zerbe1988_rejection_sampling.pdf",
+  "source_text": "../extracted_text/zerbe1988_rejection_sampling.md",
+  "study_context": "Historical cardiac-allograft study using autopsy-acquired specimens to assess endomyocardial biopsy rejection grading.",
+  "population_or_data": "Historical cardiac-allograft study using autopsy-acquired specimens to assess endomyocardial biopsy rejection grading.",
+  "task": "Historical cardiac-allograft study using autopsy-acquired specimens to assess endomyocardial biopsy rejection grading.",
+  "method": "Comparison of inflammation-pattern and myocyte-necrosis criteria with attention to biopsy fragment number.",
+  "main_findings": [
+    "Autopsy-acquired cardiac allografts were used to examine biopsy grading reliability as a function of the morphological diagnostic criterion and the number of fragments."
+  ],
+  "limitations": [
+    "Abstract-only review. PDF pages 1 and extracted text visually checked on 2026-10-07.",
+    "Abstract-only review; no numerical error rate indexed. Historical criteria are not modern 0R-3R labels. Not a biopsy/autopsy AI training experiment."
+  ],
+  "does_not_establish": [
+    "Abstract-only review; no numerical error rate indexed. Historical criteria are not modern 0R-3R labels. Not a biopsy/autopsy AI training experiment."
+  ],
+  "relevance_to_project": "A direct rejection-specific precedent for studying small-biopsy sampling using larger autopsy material.",
+  "tags": [
+    "autopsy",
+    "biopsy",
+    "부검",
+    "생검",
+    "cardiac",
+    "label_validity"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract snapshot",
+      "extracted_text_lines": "9-35"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

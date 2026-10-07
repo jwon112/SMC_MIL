@@ -596,6 +596,117 @@
         "전이학습"
       ],
       "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-zerbe1988_rejection_sampling",
+      "statement": "Autopsy-acquired cardiac allografts were used to examine biopsy grading reliability as a function of the morphological diagnostic criterion and the number of fragments.",
+      "evidence_ids": [
+        "atom-zerbe1988_rejection_sampling"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "autopsy",
+        "biopsy",
+        "부검",
+        "생검",
+        "cardiac",
+        "label_validity"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-hauck1989_myocarditis_sampling",
+      "statement": "In hearts known to have lymphocytic myocarditis at autopsy, biopsy-sized specimens frequently missed diagnostic inflammation, illustrating spatial sampling error even when multiple specimens were examined.",
+      "evidence_ids": [
+        "atom-hauck1989_myocarditis_sampling"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "autopsy",
+        "biopsy",
+        "부검",
+        "생검",
+        "cardiac",
+        "label_validity"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-husain2017_c4d_autopsy",
+      "statement": "Biopsy C4d immunoreactivity was associated with subsequent cardiac allograft vasculopathy and death; autopsy findings were used in the outcome assessment of a deceased subset.",
+      "evidence_ids": [
+        "atom-husain2017_c4d_autopsy"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "autopsy",
+        "biopsy",
+        "부검",
+        "생검",
+        "cardiac",
+        "label_validity",
+        "C4d",
+        "AMR",
+        "CAV"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-amemiya2024_biopsy_wholeheart",
+      "statement": "The study compared earlier right-ventricular biopsy fibrosis with later whole-heart fibrosis in the same patients, combining 52 explant and 18 autopsy cases; biopsy-to-excision time was explicitly considered.",
+      "evidence_ids": [
+        "atom-amemiya2024_biopsy_wholeheart"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "autopsy",
+        "biopsy",
+        "부검",
+        "생검",
+        "cardiac",
+        "label_validity"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-shen2025_songci",
+      "statement": "SongCi learned representations from postmortem WSI and text; the main article also reports transfer evaluation on three clinical WSI datasets and five patch datasets, beyond forensic tasks.",
+      "evidence_ids": [
+        "atom-shen2025_songci"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "autopsy",
+        "biopsy",
+        "부검",
+        "생검",
+        "encoder",
+        "domain_shift",
+        "transfer learning",
+        "전이학습",
+        "SongCi",
+        "clinical pathology",
+        "contrastive learning"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-mori2025_cardiomyopathy_small_sample",
+      "statement": "Despite biopsy-oriented framing, the reported experiment used 60 microscopic images from six autopsy subjects; it did not test transfer to living-patient endomyocardial biopsies.",
+      "evidence_ids": [
+        "atom-mori2025_cardiomyopathy_small_sample"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "autopsy",
+        "biopsy",
+        "부검",
+        "생검",
+        "cardiac",
+        "evaluation",
+        "label_validity"
+      ],
+      "last_reviewed": "2026-10-07"
     }
   ],
   "updated_on": "2026-10-07"

@@ -1,0 +1,51 @@
+{
+  "paper_id": "mori2025_cardiomyopathy_small_sample",
+  "title": "Cardiomyopathy diagnosis model from endomyocardial biopsy specimens: Appropriate feature space and class boundary in small sample size data",
+  "authors": [
+    "Masaya Mori",
+    "Yuto Omae",
+    "Yutaka Koyama",
+    "Kazuyuki Hara",
+    "Jun Toyotani",
+    "Yasuo Okumura",
+    "Hiroyuki Hao"
+  ],
+  "year": 2025,
+  "venue": "AIMS Bioengineering",
+  "doi_or_identifier": "10.3934/bioeng.2025014",
+  "source_pdf": "../paper_origin/mori2025_cardiomyopathy_small_sample.pdf",
+  "source_text": "../extracted_text/mori2025_cardiomyopathy_small_sample.md",
+  "study_context": "Texture-feature classification of 60 myocardial microscopic images from six autopsy subjects: two HCM/disarray, two borderline and two noncardiac-death controls.",
+  "population_or_data": "Texture-feature classification of 60 myocardial microscopic images from six autopsy subjects: two HCM/disarray, two borderline and two noncardiac-death controls.",
+  "task": "Texture-feature classification of 60 myocardial microscopic images from six autopsy subjects: two HCM/disarray, two borderline and two noncardiac-death controls.",
+  "method": "Texture features, feature selection/dimensional compression, and classical classifiers including linear SVM.",
+  "main_findings": [
+    "Despite biopsy-oriented framing, the reported experiment used 60 microscopic images from six autopsy subjects; it did not test transfer to living-patient endomyocardial biopsies."
+  ],
+  "limitations": [
+    "Selected-page review, not full-paper audit. PDF pages 1, 16, 26 and extracted text visually checked on 2026-10-07.",
+    "Six patients and microscopic fields are not an independent clinical biopsy cohort. No biopsy/autopsy joint-learning benefit, rejection discrimination, WSI generalization, or fully audited patient-separated validation is established. High reported image-level performance must not be transferred to SMC."
+  ],
+  "does_not_establish": [
+    "Six patients and microscopic fields are not an independent clinical biopsy cohort. No biopsy/autopsy joint-learning benefit, rejection discrimination, WSI generalization, or fully audited patient-separated validation is established. High reported image-level performance must not be transferred to SMC."
+  ],
+  "relevance_to_project": "A small-model cardiac autopsy example whose actual specimen origin and number of independent patients must remain explicit.",
+  "tags": [
+    "autopsy",
+    "biopsy",
+    "부검",
+    "생검",
+    "cardiac",
+    "evaluation",
+    "label_validity"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF pp.1, 16, 26",
+      "section": "Abstract; 3.2 Subjects and data description; 5 Conclusions and limitations",
+      "extracted_text_lines": "9-63; 836-889; 1393-1446"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

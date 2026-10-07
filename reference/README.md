@@ -2,8 +2,8 @@
 
 ## Current snapshot: 2026-10-07
 
-The WSI library now contains **37 registered papers, 40 claims, 19 topic routes,
-and 42 reviewed evidence atoms**, with **7 additional candidates** in a separate
+The WSI library now contains **43 registered papers, 46 claims, 19 topic routes,
+and 48 reviewed evidence atoms**, with **8 additional candidates** in a separate
 review queue. Reviewed means the pages supporting the indexed statements were
 checked, including visual PDF review. It does not mean every table, supplement,
 or quantitative subgroup in every paper has been audited.
@@ -19,6 +19,19 @@ indexed. These sources do not establish improved cardiac rejection prediction
 from combined biopsy/autopsy training. The user confirmed that an SMC autopsy
 dataset exists; its inventory and labels have not been audited here.
 See the [registration and dataset follow-up note](../experiment_notes/2026-10-07-autopsy-biopsy-literature-registration.md).
+
+Further autopsy/biopsy review adds Zerbe 1988, Hauck 1989, Husain 2017,
+Amemiya 2024, Shen 2025 (SongCi), and Mori 2025. The same route now covers
+11 papers and 12 evidence atoms. SongCi reports transfer to clinical pathology
+benchmarks in its main text, but Supplementary Tables 9-10 and their tuning,
+overlap and quantitative results were not audited. Amemiya provides paired
+biopsy/whole-heart evidence in native-heart DCM, not allograft rejection.
+Mori's experiment uses six autopsy subjects despite its biopsy-oriented title.
+Zerbe, Hauck and Husain were reviewed from labeled abstract snapshots; the
+other three from selected public PDF pages. Lutnick's USCAP 2020 autopsy
+artifact-translation abstract remains in the candidate queue because the
+official PDF was not acquired; it is excluded from default evidence search.
+See the [expanded review and research implications](../experiment_notes/2026-10-07-autopsy-biopsy-expanded-review.md).
 
 The 2026-10-07 additions connect imbalance handling, decision thresholds,
 complementary metrics, model-selection bias and small-sample validation:

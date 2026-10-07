@@ -30,7 +30,9 @@
         "stewart2005_ishlt_acr",
         "nakhleh1992_biopsy_autopsy",
         "mcdonald2022_biopsy_autopsy",
-        "burk2025_transplant_autopsy"
+        "burk2025_transplant_autopsy",
+        "zerbe1988_rejection_sampling",
+        "husain2017_c4d_autopsy"
       ],
       "claim_ids": [
         "claim-acr-grading",
@@ -42,7 +44,9 @@
         "claim-peyster2024_clinical_trajectory",
         "claim-nakhleh1992_biopsy_autopsy",
         "claim-mcdonald2022_biopsy_autopsy",
-        "claim-burk2025_transplant_autopsy"
+        "claim-burk2025_transplant_autopsy",
+        "claim-zerbe1988_rejection_sampling",
+        "claim-husain2017_c4d_autopsy"
       ],
       "fallback_topics": [
         "external_validation"
@@ -115,7 +119,8 @@
         "jaume2024_madeleine",
         "seraphin2023_cardiac_ssl",
         "vorontsov2024_virchow",
-        "lutnick2022_histocloud"
+        "lutnick2022_histocloud",
+        "shen2025_songci"
       ],
       "claim_ids": [
         "claim-cardiac-wsi-feasible",
@@ -123,7 +128,8 @@
         "claim-jaume2024_madeleine",
         "claim-uni-scope",
         "claim-vorontsov2024_virchow",
-        "claim-lutnick2022_histocloud"
+        "claim-lutnick2022_histocloud",
+        "claim-shen2025_songci"
       ],
       "fallback_topics": [
         "computational_pathology_mil"
@@ -667,7 +673,14 @@
         "전이학습",
         "autopsy pretraining",
         "GTEx",
-        "공동 학습"
+        "공동 학습",
+        "SongCi",
+        "virtual biopsy",
+        "simulated biopsy",
+        "가상 생검",
+        "C4d",
+        "적출심장",
+        "paired biopsy autopsy"
       ],
       "preferred_evidence_types": [
         "cohort_study",
@@ -679,7 +692,13 @@
         "mcdonald2022_biopsy_autopsy",
         "zaizen2022_autopsy_biopsy_ai",
         "lutnick2022_histocloud",
-        "burk2025_transplant_autopsy"
+        "burk2025_transplant_autopsy",
+        "zerbe1988_rejection_sampling",
+        "hauck1989_myocarditis_sampling",
+        "husain2017_c4d_autopsy",
+        "amemiya2024_biopsy_wholeheart",
+        "shen2025_songci",
+        "mori2025_cardiomyopathy_small_sample"
       ],
       "claim_ids": [
         "claim-nakhleh1992_biopsy_autopsy",
@@ -687,15 +706,22 @@
         "claim-zaizen2022_autopsy_biopsy_ai",
         "claim-lutnick2022_histocloud",
         "claim-burk2025_transplant_autopsy",
-        "claim-autopsy-pretraining-not-necessarily-best"
+        "claim-autopsy-pretraining-not-necessarily-best",
+        "claim-zerbe1988_rejection_sampling",
+        "claim-hauck1989_myocarditis_sampling",
+        "claim-husain2017_c4d_autopsy",
+        "claim-amemiya2024_biopsy_wholeheart",
+        "claim-shen2025_songci",
+        "claim-mori2025_cardiomyopathy_small_sample"
       ],
       "fallback_topics": [
         "cardiac_allograft_pathology",
         "patient_grouped_evaluation"
       ],
       "linked_local_artifacts": [
-        "../experiment_notes/2026-10-07-autopsy-biopsy-literature-registration.md",
-        "../docs/smc_wsi_research_synthesis_20261007.md"
+        "../docs/smc_wsi_research_synthesis_20261007.md",
+        "../experiment_notes/2026-10-07-autopsy-biopsy-expanded-review.md",
+        "../experiment_notes/2026-10-07-autopsy-biopsy-literature-registration.md"
       ]
     }
   ],

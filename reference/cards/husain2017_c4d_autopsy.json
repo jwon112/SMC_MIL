@@ -1,0 +1,49 @@
+{
+  "paper_id": "husain2017_c4d_autopsy",
+  "title": "Routine C4d immunohistochemistry in cardiac allografts: Long-term outcomes",
+  "authors": [
+    "Husain AN",
+    "Mirza KM",
+    "Fedson SE"
+  ],
+  "year": 2017,
+  "venue": "The Journal of heart and lung transplantation : the official publication of the International Society for Heart Transplantation",
+  "doi_or_identifier": "10.1016/j.healun.2017.09.004",
+  "source_pdf": "../paper_origin/husain2017_c4d_autopsy.pdf",
+  "source_text": "../extracted_text/husain2017_c4d_autopsy.md",
+  "study_context": "Prospective C4d staining of 5840 endomyocardial biopsies from 296 heart-transplant recipients, with clinical follow-up and autopsy evaluation in a deceased subset.",
+  "population_or_data": "Prospective C4d staining of 5840 endomyocardial biopsies from 296 heart-transplant recipients, with clinical follow-up and autopsy evaluation in a deceased subset.",
+  "task": "Prospective C4d staining of 5840 endomyocardial biopsies from 296 heart-transplant recipients, with clinical follow-up and autopsy evaluation in a deceased subset.",
+  "method": "Correlation of biopsy C4d immunoreactivity with cardiac dysfunction, HLA status, CAV and death.",
+  "main_findings": [
+    "Biopsy C4d immunoreactivity was associated with subsequent cardiac allograft vasculopathy and death; autopsy findings were used in the outcome assessment of a deceased subset."
+  ],
+  "limitations": [
+    "Abstract-only review. PDF pages 1 and extracted text visually checked on 2026-10-07.",
+    "Association is not causation. C4d/CAV, AMR and ACR are distinct targets; no biopsy/autopsy AI benefit or retrospective correction of an earlier ACR label is established. Abstract-only review; no current guideline recommendation is inferred."
+  ],
+  "does_not_establish": [
+    "Association is not causation. C4d/CAV, AMR and ACR are distinct targets; no biopsy/autopsy AI benefit or retrospective correction of an earlier ACR label is established. Abstract-only review; no current guideline recommendation is inferred."
+  ],
+  "relevance_to_project": "A heart-transplant precedent for linking biopsy marker information to later autopsy pathology rather than treating the two specimen types as interchangeable.",
+  "tags": [
+    "autopsy",
+    "biopsy",
+    "부검",
+    "생검",
+    "cardiac",
+    "label_validity",
+    "C4d",
+    "AMR",
+    "CAV"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract snapshot",
+      "extracted_text_lines": "9-49"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

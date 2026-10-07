@@ -321,6 +321,60 @@
       "provenance": "Locally generated PDF snapshot of the Europe PMC MED abstract; not a publisher article PDF. Raw API record retained locally. Journal issue year 2025; online publication 2024-10-17.",
       "access_note": "Lawful public source retained locally; PDFs, raw API responses and full extracted text are not redistributed through Git.",
       "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "zerbe1988_rejection_sampling",
+      "filename": "zerbe1988_rejection_sampling.pdf",
+      "sha256": "b17e5af50af9147e21e07542d24461eb266ab20ea7b92f3bce4acdf30d002ab8",
+      "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A3053405+AND+SRC%3AMED&format=json&resultType=core",
+      "provenance": "Locally generated Europe PMC MED abstract snapshot, not publisher PDF; raw API record retained locally.",
+      "access_note": "Lawful public source retained locally; PDF, raw API and extracted full text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "hauck1989_myocarditis_sampling",
+      "filename": "hauck1989_myocarditis_sampling.pdf",
+      "sha256": "8a665a9829e8ae9a1ea1aaa3b530c38e9d99a1aeac3e75a35121685d7f6dba09",
+      "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A2593714+AND+SRC%3AMED&format=json&resultType=core",
+      "provenance": "Locally generated Europe PMC MED abstract snapshot, not publisher PDF; raw API record retained locally.",
+      "access_note": "Lawful public source retained locally; PDF, raw API and extracted full text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "husain2017_c4d_autopsy",
+      "filename": "husain2017_c4d_autopsy.pdf",
+      "sha256": "7ecc298d95ed2ddfd334782efac8126160a462c78239b438b53eb9b52b1ab89f",
+      "source_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A28988608+AND+SRC%3AMED&format=json&resultType=core",
+      "provenance": "Locally generated Europe PMC MED abstract snapshot, not publisher PDF; raw API record retained locally.",
+      "access_note": "Lawful public source retained locally; PDF, raw API and extracted full text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "amemiya2024_biopsy_wholeheart",
+      "filename": "amemiya2024_biopsy_wholeheart.pdf",
+      "sha256": "91240a26ae9e5199879c75f02701fd2eb54997b208aee13e9812bdeb01d9149b",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC10966220.1/PMC10966220.1.pdf",
+      "provenance": "Published article, lawful public PDF; selected pages reviewed only.",
+      "access_note": "Lawful public source retained locally; PDF, raw API and extracted full text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "shen2025_songci",
+      "filename": "shen2025_songci.pdf",
+      "sha256": "f51c121c4ff12122a158a42fcf5de61d42fe97d90f1c81bd56e12426cc384bdb",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12287307.1/PMC12287307.1.pdf",
+      "provenance": "Published article, lawful public PDF; selected pages reviewed only.",
+      "access_note": "Lawful public source retained locally; PDF, raw API and extracted full text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "mori2025_cardiomyopathy_small_sample",
+      "filename": "mori2025_cardiomyopathy_small_sample.pdf",
+      "sha256": "76f63dc5d5c9d76aa2337bcb2a8174956c54fa07faec87994e23b39788d05bd2",
+      "source_url": "https://www.aimspress.com/aimspress-data/aimsboa/2025/2/PDF/bioeng-12-02-014.pdf",
+      "provenance": "Published article, lawful public PDF; selected pages reviewed only. Publisher version, not arXiv preprint. PyMuPDF emitted nonfatal syntax warnings; cited rendered pages and text were checked.",
+      "access_note": "Lawful public source retained locally; PDF, raw API and extracted full text are not redistributed through Git.",
+      "downloaded_on": "2026-10-07"
     }
   ],
   "updated_on": "2026-10-07"

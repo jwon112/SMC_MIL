@@ -1,0 +1,46 @@
+{
+  "paper_id": "hauck1989_myocarditis_sampling",
+  "title": "Evaluation of postmortem endomyocardial biopsy specimens from 38 patients with lymphocytic myocarditis: implications for role of sampling error",
+  "authors": [
+    "Hauck AJ",
+    "Kearney DL",
+    "Edwards WD"
+  ],
+  "year": 1989,
+  "venue": "Mayo Clinic proceedings",
+  "doi_or_identifier": "10.1016/s0025-6196(12)61286-5",
+  "source_pdf": "../paper_origin/hauck1989_myocarditis_sampling.pdf",
+  "source_text": "../extracted_text/hauck1989_myocarditis_sampling.md",
+  "study_context": "Postmortem simulated endomyocardial sampling of 38 hearts with lymphocytic myocarditis contributing to death.",
+  "population_or_data": "Postmortem simulated endomyocardial sampling of 38 hearts with lymphocytic myocarditis contributing to death.",
+  "task": "Postmortem simulated endomyocardial sampling of 38 hearts with lymphocytic myocarditis contributing to death.",
+  "method": "Comparison of ten biopsy-sized samples per ventricle with larger ventricular myocardial slices using Dallas criteria.",
+  "main_findings": [
+    "In hearts known to have lymphocytic myocarditis at autopsy, biopsy-sized specimens frequently missed diagnostic inflammation, illustrating spatial sampling error even when multiple specimens were examined."
+  ],
+  "limitations": [
+    "Abstract-only review. PDF pages 1 and extracted text visually checked on 2026-10-07.",
+    "Myocarditis is not transplant rejection; no modern ACR sensitivity estimate follows. Postmortem simulated biopsies are not independent clinical biopsy validation and a whole-heart diagnosis cannot label every crop as positive."
+  ],
+  "does_not_establish": [
+    "Myocarditis is not transplant rejection; no modern ACR sensitivity estimate follows. Postmortem simulated biopsies are not independent clinical biopsy validation and a whole-heart diagnosis cannot label every crop as positive."
+  ],
+  "relevance_to_project": "A rationale for distinguishing disease in the whole heart from visible diagnostic lesions in a sampled biopsy or cropped region.",
+  "tags": [
+    "autopsy",
+    "biopsy",
+    "부검",
+    "생검",
+    "cardiac",
+    "label_validity"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF p.1",
+      "section": "Abstract snapshot",
+      "extracted_text_lines": "9-43"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

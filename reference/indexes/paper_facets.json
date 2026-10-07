@@ -1121,6 +1121,187 @@
         "survival",
         "cardiac_rejection"
       ]
+    },
+    {
+      "paper_id": "zerbe1988_rejection_sampling",
+      "review_scope": "Abstract-only review. PDF pages 1 and extracted text visually checked on 2026-10-07.",
+      "source_version": "Locally generated Europe PMC MED abstract snapshot, not publisher PDF; raw API record retained locally.",
+      "reviewed_on": "2026-10-07",
+      "organ_scope": [
+        "heart"
+      ],
+      "analysis_units": [
+        "specimen"
+      ],
+      "stains": [
+        "not_applicable"
+      ],
+      "methods": [
+        "audit"
+      ],
+      "validation": [
+        "retrospective"
+      ],
+      "research_focus": [
+        "cardiac",
+        "label_validity"
+      ],
+      "endpoints": [
+        "cardiac_rejection"
+      ]
+    },
+    {
+      "paper_id": "hauck1989_myocarditis_sampling",
+      "review_scope": "Abstract-only review. PDF pages 1 and extracted text visually checked on 2026-10-07.",
+      "source_version": "Locally generated Europe PMC MED abstract snapshot, not publisher PDF; raw API record retained locally.",
+      "reviewed_on": "2026-10-07",
+      "organ_scope": [
+        "heart"
+      ],
+      "analysis_units": [
+        "specimen",
+        "patient"
+      ],
+      "stains": [
+        "not_applicable"
+      ],
+      "methods": [
+        "audit"
+      ],
+      "validation": [
+        "retrospective"
+      ],
+      "research_focus": [
+        "cardiac",
+        "label_validity"
+      ],
+      "endpoints": [
+        "myocarditis"
+      ]
+    },
+    {
+      "paper_id": "husain2017_c4d_autopsy",
+      "review_scope": "Abstract-only review. PDF pages 1 and extracted text visually checked on 2026-10-07.",
+      "source_version": "Locally generated Europe PMC MED abstract snapshot, not publisher PDF; raw API record retained locally.",
+      "reviewed_on": "2026-10-07",
+      "organ_scope": [
+        "heart"
+      ],
+      "analysis_units": [
+        "specimen",
+        "patient"
+      ],
+      "stains": [
+        "IHC"
+      ],
+      "methods": [
+        "audit"
+      ],
+      "validation": [
+        "prospective",
+        "retrospective"
+      ],
+      "research_focus": [
+        "cardiac",
+        "label_validity"
+      ],
+      "endpoints": [
+        "survival",
+        "clinical_severity"
+      ]
+    },
+    {
+      "paper_id": "amemiya2024_biopsy_wholeheart",
+      "review_scope": "Selected-page review, not full-paper audit. PDF pages 1, 2 and extracted text visually checked on 2026-10-07.",
+      "source_version": "Published article, lawful public PDF; selected pages reviewed only.",
+      "reviewed_on": "2026-10-07",
+      "organ_scope": [
+        "heart"
+      ],
+      "analysis_units": [
+        "specimen",
+        "patient"
+      ],
+      "stains": [
+        "special"
+      ],
+      "methods": [
+        "handcrafted",
+        "audit"
+      ],
+      "validation": [
+        "retrospective"
+      ],
+      "research_focus": [
+        "cardiac",
+        "label_validity"
+      ],
+      "endpoints": [
+        "fibrosis_quantification"
+      ]
+    },
+    {
+      "paper_id": "shen2025_songci",
+      "review_scope": "Selected-page review, not full-paper audit. PDF pages 1, 10, 17 and extracted text visually checked on 2026-10-07.",
+      "source_version": "Published article, lawful public PDF; selected pages reviewed only.",
+      "reviewed_on": "2026-10-07",
+      "organ_scope": [
+        "general",
+        "other"
+      ],
+      "analysis_units": [
+        "patch",
+        "slide",
+        "specimen"
+      ],
+      "stains": [
+        "not_applicable"
+      ],
+      "methods": [
+        "self_supervised",
+        "transfer_learning"
+      ],
+      "validation": [
+        "retrospective",
+        "external_cohort"
+      ],
+      "research_focus": [
+        "encoder",
+        "domain_shift"
+      ],
+      "endpoints": [
+        "representation_learning"
+      ]
+    },
+    {
+      "paper_id": "mori2025_cardiomyopathy_small_sample",
+      "review_scope": "Selected-page review, not full-paper audit. PDF pages 1, 16, 26 and extracted text visually checked on 2026-10-07.",
+      "source_version": "Published article, lawful public PDF; selected pages reviewed only. Publisher version, not arXiv preprint. PyMuPDF emitted nonfatal syntax warnings; cited rendered pages and text were checked.",
+      "reviewed_on": "2026-10-07",
+      "organ_scope": [
+        "heart"
+      ],
+      "analysis_units": [
+        "region",
+        "patient"
+      ],
+      "stains": [
+        "HE"
+      ],
+      "methods": [
+        "handcrafted"
+      ],
+      "validation": [
+        "retrospective"
+      ],
+      "research_focus": [
+        "cardiac",
+        "evaluation",
+        "label_validity"
+      ],
+      "endpoints": [
+        "cardiomyopathy_classification"
+      ]
     }
   ]
 }

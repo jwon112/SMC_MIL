@@ -96,7 +96,10 @@
         "methodology",
         "tissue_segmentation",
         "pathogen_detection",
-        "myocardial_injury"
+        "myocardial_injury",
+        "myocarditis",
+        "fibrosis_quantification",
+        "cardiomyopathy_classification"
       ]
     }
   },
@@ -134,7 +137,7 @@
     {
       "id": "heart-autopsy-biopsy-transfer",
       "question": "Does pathology-confirmed autopsy tissue improve rejection detection on independent biopsy patients, compared with biopsy-only training on identical splits?",
-      "status": "Cardiac sampling/clinicopathological and noncardiac AI precedents reviewed; direct matched cardiac AI improvement not established by indexed sources. SMC autopsy dataset availability reported by user; inventory and labels not yet audited."
+      "status": "Cardiac sampling/paired pathology and noncardiac AI precedents reviewed, including SongCi reported clinical-pathology transfer (supplement details unaudited). Direct matched cardiac rejection AI improvement remains unestablished by indexed sources. SMC autopsy dataset availability reported; inventory and labels not audited."
     }
   ]
 }

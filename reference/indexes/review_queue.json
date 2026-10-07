@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_on": "2026-10-04",
+  "updated_on": "2026-10-07",
   "candidates": [
     {
       "paper_id": "wang2022_ctranspath",
@@ -78,6 +78,17 @@
       "source_status": "abstract_verified",
       "review_status": "pending",
       "added_on": "2026-09-30"
+    },
+    {
+      "paper_id": "lutnick2020_autopsy_artifacts",
+      "title": "Removal of Autopsy Artifacts from Whole Slide Images Using Unpaired Adversarial Training",
+      "source_url": "https://www.nature.com/articles/s41379-020-0462-y.pdf",
+      "priority": 1,
+      "review_question": "Does unpaired autopsy-to-biopsy appearance translation preserve diagnostically relevant lesions and improve downstream biopsy tasks?",
+      "next_action": "Acquire official USCAP 2020 abstract 19 pages and inspect results/figures; locate any full follow-up publication. Source PDF retrieval failed in current environment; do not treat search snippet as reviewed evidence.",
+      "source_status": "official_proceedings_candidate_pdf_not_acquired",
+      "review_status": "pending",
+      "added_on": "2026-10-07"
     }
   ]
 }
