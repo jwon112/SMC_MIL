@@ -707,6 +707,96 @@
         "label_validity"
       ],
       "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-peyster2024_stromal_remodeling-longitudinal-stroma",
+      "statement": "The study excluded currently high-grade ACR, pAMR >=1 and treated rejection from study biopsies, then analyzed stromal morphology over time against prior inflammatory histories and subsequent allograft-loss/CAV outcomes.",
+      "evidence_ids": [
+        "atom-peyster2024_stromal_remodeling-longitudinal-stroma"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "cardiac",
+        "label_validity",
+        "evaluation",
+        "peyster2024_stromal_remodeling"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-peyster2024_stromal_remodeling-label-boundaries",
+      "statement": "The authors report limited routine AMR immunostaining and historical diagnostic-label variability; the cohort is single-center and the analysis links repeated biopsies to patient-level outcomes.",
+      "evidence_ids": [
+        "atom-peyster2024_stromal_remodeling-label-boundaries"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "cardiac",
+        "label_validity",
+        "evaluation",
+        "peyster2024_stromal_remodeling"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-lu2024_conch-frozen-representation",
+      "statement": "CONCH pretraining aligns histopathology images and captions; downstream supervised WSI classification uses pretrained tile features with ABMIL, whereas ROI classification uses logistic regression.",
+      "evidence_ids": [
+        "atom-lu2024_conch-frozen-representation"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "encoder",
+        "evaluation",
+        "domain_shift",
+        "lu2024_conch"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-lu2024_conch-benchmark-selection",
+      "statement": "The CONCH preprint omits CTransPath from TCGA slide-level comparisons due to possible pretraining/test overlap, and its zero-shot WSI method reports the best pooling K among several choices.",
+      "evidence_ids": [
+        "atom-lu2024_conch-benchmark-selection"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "encoder",
+        "evaluation",
+        "domain_shift",
+        "lu2024_conch"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-chen2025_titan-slide-representation",
+      "statement": "TITAN pretraining includes GTEx alongside clinical pathology and multiple stains, uses CONCHv1.5 patch features, and evaluates fixed slide embeddings with logistic regression and few-shot class prototypes against mean-pooling and ABMIL baselines.",
+      "evidence_ids": [
+        "atom-chen2025_titan-slide-representation"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "encoder",
+        "evaluation",
+        "domain_shift",
+        "chen2025_titan"
+      ],
+      "last_reviewed": "2026-10-07"
+    },
+    {
+      "claim_id": "claim-chen2025_titan-validation-boundaries",
+      "statement": "TITAN includes renal allograft rejection (4847 H&E WSIs from 1118 patients). Its renal dataset paragraph describes label-stratified slide counts, while its survival protocol selects a penalty using the best average test metric across folds.",
+      "evidence_ids": [
+        "atom-chen2025_titan-validation-boundaries"
+      ],
+      "review_status": "reviewed",
+      "tags": [
+        "encoder",
+        "evaluation",
+        "domain_shift",
+        "chen2025_titan"
+      ],
+      "last_reviewed": "2026-10-07"
     }
   ],
   "updated_on": "2026-10-07"

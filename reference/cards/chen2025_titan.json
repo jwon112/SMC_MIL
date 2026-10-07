@@ -1,0 +1,59 @@
+{
+  "paper_id": "chen2025_titan",
+  "title": "A multimodal whole-slide foundation model for pathology",
+  "authors": [
+    "Tong Ding",
+    "Sophia J. Wagner",
+    "Andrew H. Song",
+    "Richard J. Chen",
+    "Ming Y. Lu",
+    "Andrew Zhang",
+    "Anurag J. Vaidya",
+    "Guillaume Jaume",
+    "et al."
+  ],
+  "year": 2025,
+  "venue": "Nature Medicine 31:3749-3761",
+  "doi_or_identifier": "10.1038/s41591-025-03982-3",
+  "source_pdf": "../paper_origin/chen2025_titan.pdf",
+  "source_text": "../extracted_text/chen2025_titan.md",
+  "study_context": "Mass-340K pretraining combines institutional/consult pathology slides and GTEx, with H&E, IHC and special stains; clinical slide-level downstream benchmarks include renal allograft rejection.",
+  "population_or_data": "Mass-340K pretraining combines institutional/consult pathology slides and GTEx, with H&E, IHC and special stains; clinical slide-level downstream benchmarks include renal allograft rejection.",
+  "task": "Mass-340K pretraining combines institutional/consult pathology slides and GTEx, with H&E, IHC and special stains; clinical slide-level downstream benchmarks include renal allograft rejection.",
+  "method": "CONCHv1.5 patch features and spatial slide encoder, followed by vision-language alignment. Frozen slide embeddings evaluated with logistic regression, prototypes and other heads.",
+  "main_findings": [
+    "TITAN pretraining includes GTEx alongside clinical pathology and multiple stains, uses CONCHv1.5 patch features, and evaluates fixed slide embeddings with logistic regression and few-shot class prototypes against mean-pooling and ABMIL baselines.",
+    "TITAN includes renal allograft rejection (4847 H&E WSIs from 1118 patients). Its renal dataset paragraph describes label-stratified slide counts, while its survival protocol selects a penalty using the best average test metric across folds."
+  ],
+  "limitations": [
+    "Selected-page methods/results/limitations review; text and rendered PDF pages 1, 14, 16, 17, 19 checked on 2026-10-07. Not a complete paper/supplement audit.",
+    "Published article, November 2025; Tong Ding first author. Stable candidate ID chen2025_titan retained for retrieval compatibility.",
+    "Does not isolate the contribution of GTEx/autopsy material or demonstrate heart rejection benefit. It is not a drop-in pooling layer for current UNI v2 features; patch encoder, physical scale and coordinates must match.",
+    "The renal paragraph alone does not demonstrate patient-disjoint partitions. Renal AMR/cellular rejection is not cardiac ACR/AMR. Survival penalty selection raises model-selection optimism concerns for that analysis, not every TITAN task; no quantitative superiority or independent survival validation claim is indexed."
+  ],
+  "does_not_establish": [
+    "Does not isolate the contribution of GTEx/autopsy material or demonstrate heart rejection benefit. It is not a drop-in pooling layer for current UNI v2 features; patch encoder, physical scale and coordinates must match.",
+    "The renal paragraph alone does not demonstrate patient-disjoint partitions. Renal AMR/cellular rejection is not cardiac ACR/AMR. Survival penalty selection raises model-selection optimism concerns for that analysis, not every TITAN task; no quantitative superiority or independent survival validation claim is indexed."
+  ],
+  "relevance_to_project": "Supports a pretrained slide-representation comparator and an additional mixed clinical/GTEx pretraining precedent relevant to autopsy transfer planning. Provides a noncardiac transplant representation benchmark and concrete validation details to audit before transferring a protocol.",
+  "tags": [
+    "encoder",
+    "evaluation",
+    "domain_shift",
+    "chen2025_titan"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF pp. 14, 16",
+      "section": "Methods, results and limitations; see bounded statement",
+      "extracted_text_lines": "942-1015; 1090-1163"
+    },
+    {
+      "page": "PDF pp. 16, 17, 19",
+      "section": "Methods, results and limitations; see bounded statement",
+      "extracted_text_lines": "1090-1163; 1164-1237; 1312-1385"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

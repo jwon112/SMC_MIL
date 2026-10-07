@@ -2,11 +2,23 @@
 
 ## Current snapshot: 2026-10-07
 
-The WSI library now contains **43 registered papers, 46 claims, 19 topic routes,
-and 48 reviewed evidence atoms**, with **8 additional candidates** in a separate
+The WSI library now contains **46 registered papers, 52 claims, 19 topic routes,
+and 54 reviewed evidence atoms**, with **5 additional candidates** in a separate
 review queue. Reviewed means the pages supporting the indexed statements were
 checked, including visual PDF review. It does not mean every table, supplement,
 or quantitative subgroup in every paper has been audited.
+
+The [review-status audit](REVIEW_STATUS_2026-10-07.md) distinguishes pending
+candidates from registered sources with limited review: 15 registered papers
+remain at abstract/summary scope, and no complete paper-plus-supplement audit
+is documented. Three candidates were reviewed on selected methods/results
+pages: cardiac stromal remodeling (Peyster, online 2024 / issue 2025), CONCH
+(2023 arXiv v2 precursor, not the final 2024 paper), and TITAN (Ding et al.,
+2025; stable candidate ID retained). TITAN includes renal transplant evaluation
+and mixed clinical/GTEx pretraining, but its renal patient partition and source
+contribution were not established by the reviewed pages. Its survival penalty
+selection uses average test performance, which is recorded as a validation
+limitation for that analysis. No numerical superiority claim is indexed.
 
 The autopsy/biopsy additions are Nakhleh 1992, McDonald 2022, Zaizen 2022,
 Lutnick 2022 and Burk 2025. The `autopsy_biopsy_transfer` route distinguishes
@@ -22,7 +34,8 @@ See the [registration and dataset follow-up note](../experiment_notes/2026-10-07
 
 Further autopsy/biopsy review adds Zerbe 1988, Hauck 1989, Husain 2017,
 Amemiya 2024, Shen 2025 (SongCi), and Mori 2025. The same route now covers
-11 papers and 12 evidence atoms. SongCi reports transfer to clinical pathology
+11 papers and 12 evidence atoms at that registration stage (now 12 papers and
+14 atoms with TITAN's qualified mixed clinical/GTEx precedent). SongCi reports transfer to clinical pathology
 benchmarks in its main text, but Supplementary Tables 9-10 and their tuning,
 overlap and quantitative results were not audited. Amemiya provides paired
 biopsy/whole-heart evidence in native-heart DCM, not allograft rejection.
@@ -63,10 +76,9 @@ record organ, analysis unit, stains, methods, validation, endpoint, review scope
 and source version. These descriptors aid retrieval; they do not establish
 clinical validity. Noncardiac method evidence is explicitly qualified.
 
-Priority candidates include AMR-H image classification, CSCL cross-stain
-alignment, cardiac stromal remodeling, EHR-plus-morphology risk prediction,
-and rare-positive PR evaluation. CONCH, CTransPath, and TITAN broaden the
-encoder/slide-representation comparison. Candidates are not default evidence.
+Remaining candidates include AMR-H image classification, CSCL cross-stain
+alignment, EHR-plus-morphology risk prediction, CTransPath, and the USCAP 2020
+autopsy artifact abstract. Candidates are not default evidence.
 
 Curated cards, evidence, indexes, schemas, tools and the provenance manifest
 are now Git-managed. Source PDFs, full extracted text, page images and browser

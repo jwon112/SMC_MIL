@@ -375,6 +375,33 @@
       "provenance": "Published article, lawful public PDF; selected pages reviewed only. Publisher version, not arXiv preprint. PyMuPDF emitted nonfatal syntax warnings; cited rendered pages and text were checked.",
       "access_note": "Lawful public source retained locally; PDF, raw API and extracted full text are not redistributed through Git.",
       "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "peyster2024_stromal_remodeling",
+      "filename": "peyster2024_stromal_remodeling.pdf",
+      "sha256": "a0f9ce3e570303921a8299a0cbc9cf59aa1969a110baf162e87b5db3a7d6cec5",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11935495.1/PMC11935495.1.pdf",
+      "provenance": "Published article; stable ID retains online year 2024, bibliographic issue year 2025.",
+      "access_note": "Lawful public copy for local verification; full text and PDFs not redistributed in Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "lu2024_conch",
+      "filename": "lu2024_conch.pdf",
+      "sha256": "4902c0972e7b3a9ce33ed8023b20826f281630a208f665d496f271ac4aba8671",
+      "source_url": "https://arxiv.org/pdf/2307.12914v2",
+      "provenance": "Public author preprint arXiv v2, July 2023, 57 PDF pages; not the 2024 published article. Stable candidate ID retained. Preprint has 13 benchmarks; published abstract reports 14.",
+      "access_note": "Lawful public copy for local verification; full text and PDFs not redistributed in Git.",
+      "downloaded_on": "2026-10-07"
+    },
+    {
+      "paper_id": "chen2025_titan",
+      "filename": "chen2025_titan.pdf",
+      "sha256": "394ea2407761acda5bb6a016468a3496b684c06ad7cb74ae159ccab23960469f",
+      "source_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC12618242.1/PMC12618242.1.pdf",
+      "provenance": "Published article, November 2025; Tong Ding first author. Stable candidate ID chen2025_titan retained for retrieval compatibility.",
+      "access_note": "Lawful public copy for local verification; full text and PDFs not redistributed in Git.",
+      "downloaded_on": "2026-10-07"
     }
   ],
   "updated_on": "2026-10-07"

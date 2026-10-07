@@ -1302,6 +1302,112 @@
       "endpoints": [
         "cardiomyopathy_classification"
       ]
+    },
+    {
+      "paper_id": "peyster2024_stromal_remodeling",
+      "review_scope": "Selected-page methods/results/limitations review; text and rendered PDF pages 1, 2, 3, 6, 10 checked on 2026-10-07. Not a complete paper/supplement audit.",
+      "source_version": "Published article; stable ID retains online year 2024, bibliographic issue year 2025.",
+      "reviewed_on": "2026-10-07",
+      "organ_scope": [
+        "heart"
+      ],
+      "analysis_units": [
+        "slide",
+        "patient"
+      ],
+      "stains": [
+        "HE"
+      ],
+      "methods": [
+        "handcrafted",
+        "audit"
+      ],
+      "validation": [
+        "retrospective"
+      ],
+      "research_focus": [
+        "cardiac",
+        "label_validity",
+        "evaluation"
+      ],
+      "endpoints": [
+        "survival",
+        "clinical_severity"
+      ]
+    },
+    {
+      "paper_id": "lu2024_conch",
+      "review_scope": "Selected-page methods/results/limitations review; text and rendered PDF pages 1, 5, 16, 21, 22 checked on 2026-10-07. Not a complete paper/supplement audit.",
+      "source_version": "Public author preprint arXiv v2, July 2023, 57 PDF pages; not the 2024 published article. Stable candidate ID retained. Preprint has 13 benchmarks; published abstract reports 14.",
+      "reviewed_on": "2026-10-07",
+      "organ_scope": [
+        "other",
+        "general"
+      ],
+      "analysis_units": [
+        "patch",
+        "region",
+        "slide"
+      ],
+      "stains": [
+        "HE"
+      ],
+      "methods": [
+        "self_supervised",
+        "transfer_learning",
+        "mil"
+      ],
+      "validation": [
+        "benchmark"
+      ],
+      "research_focus": [
+        "encoder",
+        "evaluation",
+        "domain_shift"
+      ],
+      "endpoints": [
+        "representation_learning",
+        "tumor_classification"
+      ]
+    },
+    {
+      "paper_id": "chen2025_titan",
+      "review_scope": "Selected-page methods/results/limitations review; text and rendered PDF pages 1, 14, 16, 17, 19 checked on 2026-10-07. Not a complete paper/supplement audit.",
+      "source_version": "Published article, November 2025; Tong Ding first author. Stable candidate ID chen2025_titan retained for retrieval compatibility.",
+      "reviewed_on": "2026-10-07",
+      "organ_scope": [
+        "general",
+        "other",
+        "kidney"
+      ],
+      "analysis_units": [
+        "patch",
+        "slide",
+        "patient"
+      ],
+      "stains": [
+        "HE",
+        "IHC",
+        "special"
+      ],
+      "methods": [
+        "self_supervised",
+        "transformer",
+        "transfer_learning"
+      ],
+      "validation": [
+        "benchmark"
+      ],
+      "research_focus": [
+        "encoder",
+        "evaluation",
+        "domain_shift"
+      ],
+      "endpoints": [
+        "representation_learning",
+        "tumor_classification",
+        "histology_scoring"
+      ]
     }
   ]
 }

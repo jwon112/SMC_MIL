@@ -14,28 +14,6 @@
       "added_on": "2026-09-30"
     },
     {
-      "paper_id": "lu2024_conch",
-      "title": "A visual-language foundation model for computational pathology",
-      "source_url": "https://www.nature.com/articles/s41591-024-02856-4",
-      "priority": 2,
-      "review_question": "Does image-text pretraining help cardiac/non-H&E representations?",
-      "next_action": "Acquire source and review slide-level benchmark scope.",
-      "source_status": "abstract_verified",
-      "review_status": "pending",
-      "added_on": "2026-09-30"
-    },
-    {
-      "paper_id": "chen2025_titan",
-      "title": "A multimodal whole-slide foundation model for pathology",
-      "source_url": "https://www.nature.com/articles/s41591-025-03982-3",
-      "priority": 2,
-      "review_question": "Slide encoder versus current task-trained MIL.",
-      "next_action": "Review source, train/test overlap and slide/report availability.",
-      "source_status": "abstract_verified",
-      "review_status": "pending",
-      "added_on": "2026-09-30"
-    },
-    {
       "paper_id": "zhang2025_cscl",
       "title": "Cross-Stain Contrastive Learning for Paired Immunohistochemistry and Histopathology Slide Representation Learning",
       "source_url": "https://arxiv.org/abs/2512.03577",
@@ -53,17 +31,6 @@
       "priority": 1,
       "review_question": "AMR-H region classification versus complete pAMR event diagnosis.",
       "next_action": "Acquire full text; verify patient split and annotation-level leakage.",
-      "source_status": "abstract_verified",
-      "review_status": "pending",
-      "added_on": "2026-09-30"
-    },
-    {
-      "paper_id": "peyster2024_stromal_remodeling",
-      "title": "Computational pathology assessments of cardiac stromal remodeling: Clinical correlates and prognostic implications in heart transplantation",
-      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11935495/",
-      "priority": 1,
-      "review_question": "Repeated-biopsy morphology and prognosis; distinguish CAV/death from rejection.",
-      "next_action": "Acquire source; inspect endpoint timing, cohort reuse and validation.",
       "source_status": "abstract_verified",
       "review_status": "pending",
       "added_on": "2026-09-30"

@@ -32,7 +32,8 @@
         "mcdonald2022_biopsy_autopsy",
         "burk2025_transplant_autopsy",
         "zerbe1988_rejection_sampling",
-        "husain2017_c4d_autopsy"
+        "husain2017_c4d_autopsy",
+        "peyster2024_stromal_remodeling"
       ],
       "claim_ids": [
         "claim-acr-grading",
@@ -46,7 +47,9 @@
         "claim-mcdonald2022_biopsy_autopsy",
         "claim-burk2025_transplant_autopsy",
         "claim-zerbe1988_rejection_sampling",
-        "claim-husain2017_c4d_autopsy"
+        "claim-husain2017_c4d_autopsy",
+        "claim-peyster2024_stromal_remodeling-longitudinal-stroma",
+        "claim-peyster2024_stromal_remodeling-label-boundaries"
       ],
       "fallback_topics": [
         "external_validation"
@@ -78,7 +81,9 @@
         "lu2021_clam",
         "seraphin2023_cardiac_ssl",
         "shao2021_transmil",
-        "zhang2022_dtfd"
+        "zhang2022_dtfd",
+        "lu2024_conch",
+        "chen2025_titan"
       ],
       "claim_ids": [
         "claim-abmil-pooling",
@@ -86,7 +91,11 @@
         "claim-clam-scope",
         "claim-li2021_dsmil",
         "claim-transmil-context",
-        "claim-zhang2022_dtfd"
+        "claim-zhang2022_dtfd",
+        "claim-lu2024_conch-frozen-representation",
+        "claim-lu2024_conch-benchmark-selection",
+        "claim-chen2025_titan-slide-representation",
+        "claim-chen2025_titan-validation-boundaries"
       ],
       "fallback_topics": [
         "interpretability",
@@ -106,7 +115,10 @@
         "feature encoder",
         "transfer learning",
         "사전학습 모델",
-        "파운데이션 모델"
+        "파운데이션 모델",
+        "TITAN",
+        "renal allograft representation",
+        "CONCH frozen representation"
       ],
       "preferred_evidence_types": [
         "architecture_comparison",
@@ -120,7 +132,9 @@
         "seraphin2023_cardiac_ssl",
         "vorontsov2024_virchow",
         "lutnick2022_histocloud",
-        "shen2025_songci"
+        "shen2025_songci",
+        "lu2024_conch",
+        "chen2025_titan"
       ],
       "claim_ids": [
         "claim-cardiac-wsi-feasible",
@@ -129,7 +143,11 @@
         "claim-uni-scope",
         "claim-vorontsov2024_virchow",
         "claim-lutnick2022_histocloud",
-        "claim-shen2025_songci"
+        "claim-shen2025_songci",
+        "claim-lu2024_conch-frozen-representation",
+        "claim-lu2024_conch-benchmark-selection",
+        "claim-chen2025_titan-slide-representation",
+        "claim-chen2025_titan-validation-boundaries"
       ],
       "fallback_topics": [
         "computational_pathology_mil"
@@ -222,7 +240,10 @@
         "time to event",
         "약한 라벨",
         "종단 예측",
-        "반복 생검"
+        "반복 생검",
+        "longitudinal stroma",
+        "stromal remodeling",
+        "간질 변화"
       ],
       "preferred_evidence_types": [
         "cohort_study",
@@ -234,13 +255,16 @@
         "collins2024_tripod_ai",
         "moons2025_probast_ai",
         "peyster2021_cache_grader",
-        "peyster2024_clinical_trajectory"
+        "peyster2024_clinical_trajectory",
+        "peyster2024_stromal_remodeling"
       ],
       "claim_ids": [
         "claim-gse290577-role",
         "claim-handcrafted-acr-comparator",
         "claim-patient-cluster-reporting",
-        "claim-peyster2024_clinical_trajectory"
+        "claim-peyster2024_clinical_trajectory",
+        "claim-peyster2024_stromal_remodeling-longitudinal-stroma",
+        "claim-peyster2024_stromal_remodeling-label-boundaries"
       ],
       "fallback_topics": [
         "patient_grouped_evaluation"
@@ -698,7 +722,8 @@
         "husain2017_c4d_autopsy",
         "amemiya2024_biopsy_wholeheart",
         "shen2025_songci",
-        "mori2025_cardiomyopathy_small_sample"
+        "mori2025_cardiomyopathy_small_sample",
+        "chen2025_titan"
       ],
       "claim_ids": [
         "claim-nakhleh1992_biopsy_autopsy",
@@ -712,7 +737,9 @@
         "claim-husain2017_c4d_autopsy",
         "claim-amemiya2024_biopsy_wholeheart",
         "claim-shen2025_songci",
-        "claim-mori2025_cardiomyopathy_small_sample"
+        "claim-mori2025_cardiomyopathy_small_sample",
+        "claim-chen2025_titan-slide-representation",
+        "claim-chen2025_titan-validation-boundaries"
       ],
       "fallback_topics": [
         "cardiac_allograft_pathology",

@@ -1,0 +1,63 @@
+{
+  "paper_id": "lu2024_conch",
+  "title": "Towards a Visual-Language Foundation Model for Computational Pathology",
+  "authors": [
+    "Ming Y. Lu",
+    "Bowen Chen",
+    "Drew F. K. Williamson",
+    "Richard J. Chen",
+    "Ivy Liang",
+    "Tong Ding",
+    "Guillaume Jaume",
+    "Igor Odintsov",
+    "Andrew Zhang",
+    "Long Phi Le",
+    "Georg Gerber",
+    "Anil V. Parwani",
+    "Faisal Mahmood"
+  ],
+  "year": 2023,
+  "venue": "arXiv v2 (25 July 2023); precursor to Nature Medicine 2024 CONCH article",
+  "doi_or_identifier": "arXiv:2307.12914v2; related published DOI 10.1038/s41591-024-02856-4",
+  "source_pdf": "../paper_origin/lu2024_conch.pdf",
+  "source_text": "../extracted_text/lu2024_conch.md",
+  "study_context": "Histopathology image-caption pretraining with 1.17 million human image-text pairs; predominantly tumor downstream classification/retrieval/segmentation tasks.",
+  "population_or_data": "Histopathology image-caption pretraining with 1.17 million human image-text pairs; predominantly tumor downstream classification/retrieval/segmentation tasks.",
+  "task": "Histopathology image-caption pretraining with 1.17 million human image-text pairs; predominantly tumor downstream classification/retrieval/segmentation tasks.",
+  "method": "Contrastive image-text alignment and captioning; frozen features with ABMIL for WSI supervised classification and logistic regression for ROI classification; text similarity and top-K pooling for zero-shot WSI.",
+  "main_findings": [
+    "CONCH pretraining aligns histopathology images and captions; downstream supervised WSI classification uses pretrained tile features with ABMIL, whereas ROI classification uses logistic regression.",
+    "The CONCH preprint omits CTransPath from TCGA slide-level comparisons due to possible pretraining/test overlap, and its zero-shot WSI method reports the best pooling K among several choices."
+  ],
+  "limitations": [
+    "Selected-page methods/results/limitations review; text and rendered PDF pages 1, 5, 16, 21, 22 checked on 2026-10-07. Not a complete paper/supplement audit.",
+    "Public author preprint arXiv v2, July 2023, 57 PDF pages; not the 2024 published article. Stable candidate ID retained. Preprint has 13 benchmarks; published abstract reports 14.",
+    "No cardiac rejection, cardiac IHC or SMC improvement established. ROI logistic regression is not a tested mean-pooled cardiac event model. Reviewed source is 2023 v2, not final 2024 paper or CONCHv1.5.",
+    "This is not proof that all CTransPath evaluations leak or that CONCH has no overlap. The cited top-K paragraph does not establish an independent selection set; no zero-shot numerical superiority claim is indexed."
+  ],
+  "does_not_establish": [
+    "No cardiac rejection, cardiac IHC or SMC improvement established. ROI logistic regression is not a tested mean-pooled cardiac event model. Reviewed source is 2023 v2, not final 2024 paper or CONCHv1.5.",
+    "This is not proof that all CTransPath evaluations leak or that CONCH has no overlap. The cited top-K paragraph does not establish an independent selection set; no zero-shot numerical superiority claim is indexed."
+  ],
+  "relevance_to_project": "Supports testing a frozen representation with a small task-specific classifier, while distinguishing patch representation changes from slide aggregation changes. Supports auditing pretraining overlap and fixing pooling/prompt choices using development data before independent evaluation.",
+  "tags": [
+    "encoder",
+    "evaluation",
+    "domain_shift",
+    "lu2024_conch"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF pp. 1, 5, 21, 22",
+      "section": "Methods, results and limitations; see bounded statement",
+      "extracted_text_lines": "9-65; 216-285; 1144-1216; 1217-1289"
+    },
+    {
+      "page": "PDF pp. 21, 22",
+      "section": "Methods, results and limitations; see bounded statement",
+      "extracted_text_lines": "1144-1216; 1217-1289"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

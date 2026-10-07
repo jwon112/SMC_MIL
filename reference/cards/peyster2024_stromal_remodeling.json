@@ -1,0 +1,58 @@
+{
+  "paper_id": "peyster2024_stromal_remodeling",
+  "title": "Computational pathology assessments of cardiac stromal remodeling: Clinical correlates and prognostic implications in heart transplantation",
+  "authors": [
+    "Eliot G. Peyster",
+    "Cai Yuan",
+    "Sara Arabyarmohammadi",
+    "Priti Lal",
+    "Michael D. Feldman",
+    "Pingfu Fu",
+    "Kenneth B. Margulies",
+    "Anant Madabhushi"
+  ],
+  "year": 2025,
+  "venue": "JHLT Open 7:100202; online December 2024, issue February 2025",
+  "doi_or_identifier": "10.1016/j.jhlto.2024.100202",
+  "source_pdf": "../paper_origin/peyster2024_stromal_remodeling.pdf",
+  "source_text": "../extracted_text/peyster2024_stromal_remodeling.md",
+  "study_context": "Single-center retrospective cohort described as 2167 H&E transplant EMB slides from 650 patients (1999-2016); 265 quality exclusions are additionally reported without a reconciled analyzed-slide count in this review.",
+  "population_or_data": "Single-center retrospective cohort described as 2167 H&E transplant EMB slides from 650 patients (1999-2016); 265 quality exclusions are additionally reported without a reconciled analyzed-slide count in this review.",
+  "task": "Single-center retrospective cohort described as 2167 H&E transplant EMB slides from 650 patients (1999-2016); 265 quality exclusions are additionally reported without a reconciled analyzed-slide count in this review.",
+  "method": "210 stromal features, with mixed-effects analysis of patient/time trajectories and outcome-associated selection of five features.",
+  "main_findings": [
+    "The study excluded currently high-grade ACR, pAMR >=1 and treated rejection from study biopsies, then analyzed stromal morphology over time against prior inflammatory histories and subsequent allograft-loss/CAV outcomes.",
+    "The authors report limited routine AMR immunostaining and historical diagnostic-label variability; the cohort is single-center and the analysis links repeated biopsies to patient-level outcomes."
+  ],
+  "limitations": [
+    "Selected-page methods/results/limitations review; text and rendered PDF pages 1, 2, 3, 6, 10 checked on 2026-10-07. Not a complete paper/supplement audit.",
+    "Published article; stable ID retains online year 2024, bibliographic issue year 2025.",
+    "Not a validated predictor of current ACR or proof that local negative biopsies contain rejection. Outcome-selected features and associations are not independent held-out predictive performance.",
+    "No causal effect of immunosuppression changes or external clinical validation. Composite CAV severity is written as >=2 in cohort methods but >2 elsewhere; no exact event-rate or threshold claim is indexed."
+  ],
+  "does_not_establish": [
+    "Not a validated predictor of current ACR or proof that local negative biopsies contain rejection. Outcome-selected features and associations are not independent held-out predictive performance.",
+    "No causal effect of immunosuppression changes or external clinical validation. Composite CAV severity is written as >=2 in cohort methods but >2 elsewhere; no exact event-rate or threshold claim is indexed."
+  ],
+  "relevance_to_project": "Supports a separate longitudinal tissue-remodeling question using biopsies without current serious rejection, conditional on dated clinical outcomes. Supports explicit separation of complete pAMR confirmation, histologic findings, historical rejection labels and clinical outcomes in SMC.",
+  "tags": [
+    "cardiac",
+    "label_validity",
+    "evaluation",
+    "peyster2024_stromal_remodeling"
+  ],
+  "source_locators": [
+    {
+      "page": "PDF pp. 2, 3, 6",
+      "section": "Methods, results and limitations; see bounded statement",
+      "extracted_text_lines": "70-136; 137-202; 296-343"
+    },
+    {
+      "page": "PDF pp. 2, 3, 10",
+      "section": "Methods, results and limitations; see bounded statement",
+      "extracted_text_lines": "70-136; 137-202; 470-535"
+    }
+  ],
+  "review_status": "reviewed",
+  "last_reviewed": "2026-10-07"
+}

@@ -2,7 +2,7 @@
 
 Generated from indexes; rerun `python reference/tools/coverage.py`.
 
-Registered papers: 43; reviewed atoms: 48; pending candidates: 8.
+Registered papers: 46; reviewed atoms: 54; pending candidates: 5.
 
 Counts describe this curated library, not completeness of the published literature.
 A reviewed atom supports its bounded statement; a relevant method paper is not direct heart-transplant clinical validation.
@@ -11,31 +11,31 @@ A reviewed atom supports its bounded statement; a relevant method paper is not d
 
 | Facet | Papers | Reviewed atoms |
 |---|---:|---:|
-| heart | 15 | 16 |
-| kidney | 2 | 3 |
-| other | 14 | 16 |
-| general | 15 | 17 |
+| heart | 16 | 18 |
+| kidney | 3 | 5 |
+| other | 16 | 20 |
+| general | 17 | 21 |
 
 ## Analysis units
 
 | Facet | Papers | Reviewed atoms |
 |---|---:|---:|
-| patch | 15 | 18 |
-| region | 2 | 2 |
-| slide | 19 | 22 |
+| patch | 17 | 22 |
+| region | 3 | 4 |
+| slide | 22 | 28 |
 | core | 1 | 1 |
 | specimen | 10 | 10 |
 | event | 2 | 2 |
-| patient | 12 | 12 |
+| patient | 14 | 16 |
 | not_applicable | 11 | 13 |
 
 ## Stains / modality
 
 | Facet | Papers | Reviewed atoms |
 |---|---:|---:|
-| HE | 22 | 25 |
-| IHC | 4 | 4 |
-| special | 5 | 6 |
+| HE | 25 | 31 |
+| IHC | 5 | 6 |
+| special | 6 | 8 |
 | molecular | 1 | 1 |
 | not_applicable | 19 | 21 |
 
@@ -43,30 +43,30 @@ A reviewed atom supports its bounded statement; a relevant method paper is not d
 
 | Facet | Papers | Reviewed atoms |
 |---|---:|---:|
-| mil | 10 | 12 |
-| self_supervised | 7 | 9 |
-| transformer | 4 | 4 |
+| mil | 11 | 14 |
+| self_supervised | 9 | 13 |
+| transformer | 5 | 6 |
 | hierarchical | 2 | 2 |
 | multiscale_fusion | 1 | 2 |
 | cross_stain_alignment | 1 | 1 |
 | graph_fusion | 1 | 1 |
 | feature_distillation | 1 | 1 |
-| handcrafted | 4 | 4 |
+| handcrafted | 5 | 6 |
 | stain_augmentation | 1 | 1 |
 | stain_normalization | 1 | 1 |
 | calibration | 4 | 4 |
-| audit | 14 | 14 |
+| audit | 15 | 16 |
 | guideline | 4 | 6 |
 | spatial_transcriptomics | 1 | 1 |
 | missingness_modeling | 1 | 1 |
-| transfer_learning | 3 | 4 |
+| transfer_learning | 5 | 8 |
 
 ## Validation design
 
 | Facet | Papers | Reviewed atoms |
 |---|---:|---:|
-| benchmark | 20 | 21 |
-| retrospective | 14 | 15 |
+| benchmark | 22 | 25 |
+| retrospective | 15 | 17 |
 | external_cohort | 5 | 6 |
 | site_separated | 1 | 1 |
 | prospective | 1 | 1 |
@@ -76,17 +76,17 @@ A reviewed atom supports its bounded statement; a relevant method paper is not d
 
 | Facet | Papers | Reviewed atoms |
 |---|---:|---:|
-| cardiac | 15 | 16 |
+| cardiac | 16 | 18 |
 | mil | 7 | 9 |
-| encoder | 7 | 9 |
+| encoder | 9 | 13 |
 | multiscale | 2 | 3 |
 | multi_slide | 2 | 2 |
 | stain_fusion | 2 | 2 |
 | shortcut | 4 | 5 |
-| domain_shift | 5 | 6 |
-| evaluation | 16 | 19 |
+| domain_shift | 7 | 10 |
+| evaluation | 19 | 25 |
 | calibration | 5 | 6 |
-| label_validity | 13 | 13 |
+| label_validity | 14 | 15 |
 | interpretability | 3 | 3 |
 
 ## Endpoints
@@ -94,11 +94,11 @@ A reviewed atom supports its bounded statement; a relevant method paper is not d
 | Facet | Papers | Reviewed atoms |
 |---|---:|---:|
 | cardiac_rejection | 10 | 11 |
-| clinical_severity | 3 | 3 |
-| tumor_classification | 10 | 11 |
-| histology_scoring | 1 | 1 |
-| survival | 6 | 6 |
-| representation_learning | 6 | 7 |
+| clinical_severity | 4 | 5 |
+| tumor_classification | 12 | 15 |
+| histology_scoring | 2 | 3 |
+| survival | 7 | 8 |
+| representation_learning | 8 | 11 |
 | methodology | 13 | 15 |
 | tissue_segmentation | 1 | 2 |
 | pathogen_detection | 1 | 1 |
@@ -111,12 +111,12 @@ A reviewed atom supports its bounded statement; a relevant method paper is not d
 
 | Topic | Routed papers | Reviewed routed atoms |
 |---|---:|---:|
-| cardiac_allograft_pathology | 12 | 13 |
-| computational_pathology_mil | 7 | 7 |
-| foundation_encoders | 7 | 8 |
+| cardiac_allograft_pathology | 13 | 15 |
+| computational_pathology_mil | 9 | 11 |
+| foundation_encoders | 9 | 12 |
 | multiscale_wsi_representation | 5 | 6 |
 | stain_and_domain_shift | 5 | 6 |
-| weak_and_longitudinal_labels | 5 | 5 |
+| weak_and_longitudinal_labels | 6 | 7 |
 | patient_grouped_evaluation | 5 | 7 |
 | external_validation | 7 | 7 |
 | calibration_and_ensembles | 3 | 5 |
@@ -129,7 +129,7 @@ A reviewed atom supports its bounded statement; a relevant method paper is not d
 | rare_positive_evaluation | 2 | 2 |
 | threshold_selection | 1 | 1 |
 | small_sample_validation | 3 | 3 |
-| autopsy_biopsy_transfer | 11 | 12 |
+| autopsy_biopsy_transfer | 12 | 14 |
 
 ## Registered paper comparison
 
@@ -171,12 +171,15 @@ A reviewed atom supports its bounded statement; a relevant method paper is not d
 | [mcdonald2022_biopsy_autopsy](../cards/mcdonald2022_biopsy_autopsy.json) | 2022 | heart | specimen, patient | audit | retrospective |
 | [zaizen2022_autopsy_biopsy_ai](../cards/zaizen2022_autopsy_biopsy_ai.json) | 2022 | other | patch, specimen, patient | transfer_learning | retrospective |
 | [zhang2022_dtfd](../cards/zhang2022_dtfd.json) | 2022 | other | patch, slide | mil, hierarchical, feature_distillation | benchmark |
+| [lu2024_conch](../cards/lu2024_conch.json) | 2023 | other, general | patch, region, slide | self_supervised, transfer_learning, mil | benchmark |
 | [amemiya2024_biopsy_wholeheart](../cards/amemiya2024_biopsy_wholeheart.json) | 2024 | heart | specimen, patient | handcrafted, audit | retrospective |
 | [jaume2024_madeleine](../cards/jaume2024_madeleine.json) | 2024 | kidney, other | patch, slide | self_supervised, mil, cross_stain_alignment | benchmark |
 | [peyster2024_clinical_trajectory](../cards/peyster2024_clinical_trajectory.json) | 2024 | heart | slide, event | handcrafted | retrospective |
 | [vorontsov2024_virchow](../cards/vorontsov2024_virchow.json) | 2024 | other | patch, slide, specimen | self_supervised, transformer, mil | benchmark |
 | [burk2025_transplant_autopsy](../cards/burk2025_transplant_autopsy.json) | 2025 | heart | specimen, patient | audit | retrospective |
+| [chen2025_titan](../cards/chen2025_titan.json) | 2025 | general, other, kidney | patch, slide, patient | self_supervised, transformer, transfer_learning | benchmark |
 | [mori2025_cardiomyopathy_small_sample](../cards/mori2025_cardiomyopathy_small_sample.json) | 2025 | heart | region, patient | handcrafted | retrospective |
+| [peyster2024_stromal_remodeling](../cards/peyster2024_stromal_remodeling.json) | 2025 | heart | slide, patient | handcrafted, audit | retrospective |
 | [shen2025_songci](../cards/shen2025_songci.json) | 2025 | general, other | patch, slide, specimen | self_supervised, transfer_learning | retrospective, external_cohort |
 
 ## Open research questions
@@ -196,8 +199,5 @@ A reviewed atom supports its bounded statement; a relevant method paper is not d
 | 1 | [A machine learning algorithm improves the diagnostic accuracy of the histologic component of antibody mediated rejection (AMR-H) in cardiac transplant endomyocardial biopsies.](https://pubmed.ncbi.nlm.nih.gov/38677634/) | AMR-H region classification versus complete pAMR event diagnosis. / Acquire full text; verify patient split and annotation-level leakage. |
 | 1 | [An integrated clinical-histopathologic prediction model for cardiac allograft rejection: Translating machine learning into clinical risk frameworks.](https://pubmed.ncbi.nlm.nih.gov/42070726/) | EHR+morphology incremental value and prospective feature availability. / Local PubMed print exists; acquire full text and verify time windows/splits. |
 | 1 | [Removal of Autopsy Artifacts from Whole Slide Images Using Unpaired Adversarial Training](https://www.nature.com/articles/s41379-020-0462-y.pdf) | Does unpaired autopsy-to-biopsy appearance translation preserve diagnostically relevant lesions and improve downstream biopsy tasks? / Acquire official USCAP 2020 abstract 19 pages and inspect results/figures; locate any full follow-up publication. Source PDF retrieval failed in current environment; do not treat search snippet as reviewed evidence. |
-| 1 | [Computational pathology assessments of cardiac stromal remodeling: Clinical correlates and prognostic implications in heart transplantation](https://pmc.ncbi.nlm.nih.gov/articles/PMC11935495/) | Repeated-biopsy morphology and prognosis; distinguish CAV/death from rejection. / Acquire source; inspect endpoint timing, cohort reuse and validation. |
 | 1 | [Cross-Stain Contrastive Learning for Paired Immunohistochemistry and Histopathology Slide Representation Learning](https://arxiv.org/abs/2512.03577) | Is pairing/alignment required, and how are missing stains handled? / Review camera-ready source, pairing rules and fusion ablations. |
-| 2 | [A multimodal whole-slide foundation model for pathology](https://www.nature.com/articles/s41591-025-03982-3) | Slide encoder versus current task-trained MIL. / Review source, train/test overlap and slide/report availability. |
-| 2 | [A visual-language foundation model for computational pathology](https://www.nature.com/articles/s41591-024-02856-4) | Does image-text pretraining help cardiac/non-H&E representations? / Acquire source and review slide-level benchmark scope. |
 | 2 | [Transformer-based unsupervised contrastive learning for histopathological image classification](https://www.sciencedirect.com/science/article/pii/S1361841522002043) | Encoder transfer and training-domain overlap. / Acquire lawful author manuscript; inspect methods and benchmark splits. |

@@ -29,6 +29,7 @@ literature store.
 
 ## Recent records
 
+- [2026-10-07: 문헌 검토 현황과 대기 문헌 추가 검토](2026-10-07-literature-review-backlog.md)
 - [2026-10-07 생검·부검 추가 조사와 연구 방향](2026-10-07-autopsy-biopsy-expanded-review.md)
 - [2026-10-07 생검·부검 연계 문헌 등록 및 보유 데이터 확인 사항](2026-10-07-autopsy-biopsy-literature-registration.md)
 - [2026-10-07: mean-pooling logistic baseline control plan](2026-10-07-meanpool-baseline-control-plan.md)

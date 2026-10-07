@@ -330,6 +330,30 @@
       "doi_or_identifier": "10.3934/bioeng.2025014",
       "card_path": "cards/mori2025_cardiomyopathy_small_sample.json",
       "review_status": "reviewed"
+    },
+    {
+      "paper_id": "peyster2024_stromal_remodeling",
+      "title": "Computational pathology assessments of cardiac stromal remodeling: Clinical correlates and prognostic implications in heart transplantation",
+      "year": 2025,
+      "doi_or_identifier": "10.1016/j.jhlto.2024.100202",
+      "card_path": "cards/peyster2024_stromal_remodeling.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "lu2024_conch",
+      "title": "Towards a Visual-Language Foundation Model for Computational Pathology",
+      "year": 2023,
+      "doi_or_identifier": "arXiv:2307.12914v2; related published DOI 10.1038/s41591-024-02856-4",
+      "card_path": "cards/lu2024_conch.json",
+      "review_status": "reviewed"
+    },
+    {
+      "paper_id": "chen2025_titan",
+      "title": "A multimodal whole-slide foundation model for pathology",
+      "year": 2025,
+      "doi_or_identifier": "10.1038/s41591-025-03982-3",
+      "card_path": "cards/chen2025_titan.json",
+      "review_status": "reviewed"
     }
   ],
   "updated_on": "2026-10-07"
