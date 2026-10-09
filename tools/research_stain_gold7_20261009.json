@@ -1,0 +1,14 @@
+{
+  "version": "research_provisional_20261009",
+  "status": "Research-team provisional labels; not pathologist-confirmed",
+  "scope": "Only held slides that occur in the existing ACR gold label input",
+  "decisions": [
+    {"slide_number": 28, "stain_group": "other", "confidence": "low", "basis": "Cyan/dark tissue in preview and returned special-stain suspicion; institutional code unverified; AI predicts IHC", "alternative": "IHC"},
+    {"slide_number": 74, "stain_group": "other", "confidence": "low", "basis": "Blue monochrome small angular section and E-series context; returned semithin-section suspicion; method unverified; AI predicts IHC", "alternative": "IHC"},
+    {"slide_number": 81, "stain_group": "other", "confidence": "medium", "basis": "Returned BP1B11 other label; all 24 returned BP1B11 labels are other and 21/24 ensemble top1 are other; single model other; ensemble IHC remains a conflict", "alternative": "IHC"},
+    {"slide_number": 143, "stain_group": "other", "confidence": "medium", "basis": "Returned label and single/ensemble top1 agree on other; ensemble decision other; exact BP1B11 subtype unverified", "alternative": "HE"},
+    {"slide_number": 228, "stain_group": "HE", "confidence": "high", "basis": "Existing HE label, returned HE suspicion, both model decisions HE, and selected original WSI regions compatible with HE", "alternative": ""},
+    {"slide_number": 230, "stain_group": "HE", "confidence": "high", "basis": "Existing HE label, returned HE suspicion and selected original WSI regions compatible with HE; ensemble decision unknown", "alternative": ""},
+    {"slide_number": 231, "stain_group": "HE", "confidence": "high", "basis": "Existing HE label, returned HE suspicion and selected original WSI regions compatible with HE; ensemble decision unknown", "alternative": ""}
+  ]
+}
